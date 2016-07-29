@@ -64,7 +64,10 @@ FILES= \
 #       get_from_coupler.o \
 #       send_to_coupler.o \
 
-.SUFFIXES: .f .o
+.SUFFIXES: .f .f90 .o
+
+.f90.o:
+	$(COMPILE) $(COMCONV) $(COMOTT1) -c $<
 
 .f.o:
 	$(COMPILE) $(COMCONV) $(COMOTT1) -c $<
@@ -73,7 +76,7 @@ imp.exe: $(FILES)  at_gcm.o
 	$(COMPILE) $(COMCONV) $(COMOTT1) $(FILES) at_gcm.o -o imp.exe $(COMLIB1) 
 
 
-at_gcm.o               : at_gcm.f
+at_gcm.o               : at_gcm.f90
 #addflx.o               : addflx.f
 #atm2land.o             : atm2land.f
 #atm2sea.o              : atm2sea.f
