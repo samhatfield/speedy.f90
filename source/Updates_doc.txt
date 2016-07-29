@@ -1,0 +1,927 @@
+------------------------------------- 
+File :  cpl_main_interface.f  < old, > new 
+12c12
+<       include "com_forcing.h"
+---
+>       include "com_surfcon.h"
+------------------------------------- 
+File :  cpl_sea.f  < old, > new 
+127,128c127,130
+<         VSEA_INPUT(:,4) = hflux_s(:)*fmasks(:)
+<         VSEA_INPUT(:,5) = hflux_i(:)*fmasks(:)
+---
+> c        VSEA_INPUT(:,4) = hflux_s(:)*fmasks(:)
+> c        VSEA_INPUT(:,5) = hflux_i(:)*fmasks(:)
+>         VSEA_INPUT(:,4) = hflux_s(:)
+>         VSEA_INPUT(:,5) = hflux_i(:)
+131c133,134
+<         VSEA_INPUT(:,8) = hfyearm(:)*fmasks(:)
+---
+> c        VSEA_INPUT(:,8) = hfyearm(:)*fmasks(:)
+>         VSEA_INPUT(:,8) = hfyearm(:)
+------------------------------------- 
+File :  ini_fordate.f  < old, > new 
+7d6
+< C--   Modified common blocks: DATE1, FORDAY, HDIFC4, ANOM
+19d17
+<       include "com_forcon.h"
+22d19
+<       include "com_radcon.h"
+23a21
+>       include "com_radcon.h"
+25c23,24
+<       include "com_forcing.h"
+---
+> 
+>       include "com_surfcon.h"
+38a38,40
+>       REAL FLAND(NGP), ALB_0(NGP)
+>       EQUIVALENCE (FLAND,FMASK_L), (ALB_0,ALB0)
+> 
+43,63c45
+< C--   1. Surface albedo:
+< C        defined as a weighed average of land/snow and ocean/sea-ice albedos
+< 
+<       ij = 0
+<       DO J=1,NLAT
+<         DO I=1,NLON
+<           ij = ij+1
+<           snowc = min(1.,SNOWD_AM(ij)/sdalb)
+<           alb_l = ALB0(i,j)+snowc*(albsn-ALB0(i,j))
+<           alb_s = albsea+SICE_AM(ij)*(albice-albsea)
+<           if (iitest.gt.0) then
+<             if (i.eq.24) print *, 'snowc ', snowc
+<             if (i.eq.24) print *, 's_ice ', SICE_AM(ij)
+<             if (i.eq.24) print *, 'alb_l ', alb_l
+<             if (i.eq.24) print *, 'alb_s ', alb_s
+<           endif
+<           ALB1(I,J)=FMASK_L(i,j)*alb_l+FMASK_S(i,j)*alb_s
+<         ENDDO
+<       ENDDO
+< 
+< C--   2. Flow-independent parts of physical parametrizations
+---
+> C--   1. Time-independent parts of physical parametrizations
+70a53,54
+>         ABLCO2_ref = ABLCO2
+> 
+72a57,58
+> C--   2. Daily-mean radiative forcing 
+> 
+74d59
+<       CALL SOL_OZ (SOLC,TYEAR)
+76c61
+< C     Linear trend of CO2 absorptivity (Del_CO2 : rate of change per year)
+---
+>       CALL SOL_OZ (TYEAR)
+78,80c63
+<       IYEAR_ref = 1950
+<       xkappa    = 0.005
+< C     xkappa    = 0.0033
+---
+> C     Total surface albedo
+82c65,76
+<       IF (IMODE.EQ.0) ABLCO2_ref = ABLCO2
+---
+>       do j=1,ngp
+>          SNOWC(j)  = min(1.,SNOWD_AM(j)/sd2sc)
+>          ALB_L(j)  = ALB_0(j)+SNOWC(j)*(albsn-ALB_0(j))
+>          ALB_S(j)  = albsea+SICE_AM(j)*(albice-albsea)
+>          ALBSFC(j) = ALB_S(j)+FLAND(j)*(ALB_L(j)-ALB_S(j))
+>       enddo
+> 
+> C     Linear trend of CO2 absorptivity (Del_CO2: rate of change per year)
+> 
+>       IYEAR_ref = 1950
+>       Del_CO2   = 0.005
+> C     Del_CO2   = 0.0033
+85c79
+<           ABLCO2 = ABLCO2_ref*EXP(xkappa*(IYEAR+TYEAR-IYEAR_ref))
+---
+>          ABLCO2 = ABLCO2_ref*EXP(Del_CO2*(IYEAR+TYEAR-IYEAR_ref))
+------------------------------------- 
+File :  ini_inbcon.f  < old, > new 
+17,18c17
+<       include "com_forcon.h" 
+<       include "com_forcing.h"    
+---
+>       include "com_surfcon.h"    
+73a73,74
+>          fmask1(i,j) = fmask_l(i,j)
+> 
+------------------------------------- 
+File :  ini_inphys.f  < old, > new 
+21a22,25
+> 
+> C     Surface properties
+> 
+>       include "com_surfcon.h"
+25d28
+<       include "com_forcon.h"
+------------------------------------- 
+File :  ini_invars.f  < old, > new 
+18a19,20
+>       include "com_surfcon.h"
+> 
+23d24
+<       include "com_forcing.h"
+------------------------------------- 
+File :  phy_phypar.f  < old, > new 
+35,36c35,36
+< C     Surface forcing fields (time-inv. or functions of seasonal cycle)
+<       include "com_forcing.h"
+---
+> C     Surface properties (time-inv.)
+>       include "com_surfcon.h"
+37a38
+> C     Surface fields (daily averages)
+55c56
+<       REAL    RPS(NGP), ST4S(NGP), SLRU(NGP,3), SLR_D(NGP), SLRU_3(NGP)
+---
+>       REAL    RPS(NGP), GSE(NGP)
+112d112
+< cfk#if !defined(KNMI)
+115,118d114
+< cfk#else
+< cfk      CALL CONVMF (PSG,SE,QG1,QSAT,TS,
+< cfk     &             IPTOP,CBMF,PRECNV,SNOWCV,TT_CNV,QT_CNV)
+< cfk#endif
+159,160c155,161
+<         CALL CLOUD (QG1,RH,PRECNV,PRECLS,IPTOP,
+<      &              ICLTOP,CLOUDC)
+---
+>         DO J=1,NGP
+>           GSE(J) = (SE(J,NLEV-1)-SE(J,NLEV))/
+>      &             (PHIG1(J,NLEV-1)-PHIG1(J,NLEV))
+>         ENDDO
+> 
+>         CALL CLOUD (QG1,RH,PRECNV,PRECLS,IPTOP,GSE,FMASK1,
+>      &              ICLTOP,CLOUDC,CLSTR)
+167,168c168,169
+<         CALL RADSW (PSG,QG1,ALB1,ICLTOP,CLOUDC,
+<      &              TSR,SSR,TT_RSW)
+---
+>         CALL RADSW (PSG,QG1,ICLTOP,CLOUDC,CLSTR,
+>      &              SSRD,SSR,TSR,TT_RSW)
+180,181c181,183
+<       CALL RADLW (-1,TG1,TS,ST4S,
+<      &            OLR,SLR,TT_RLW)
+---
+>       CALL RADLW (-1,TG1,TS,
+>      &            SLRD,SLRU(1,3),
+>      &            SLR,OLR,TT_RLW)
+187,188d188
+<          print *, 'mean(PHIS0) =', sum(PHIS0(:,:))/ngp
+<          print *, 'mean(FMASK_L) =', sum(FMASK_L(:,:))/ngp
+194c194
+<      &             PHIS0,FMASK_L,STL_AM,SST_AM,SOILW_AM,SSR,SLR,
+---
+>      &             PHIS0,FMASK1,STL_AM,SST_AM,SOILW_AM,SSRD,SLRD,
+196a197,198
+>      
+> C--  3.3.1. Recompute sea fluxes in case of anomaly coupling
+198c200
+< C     3.3.1 save some surface fluxes for later
+---
+>       IF (ICSEA .GT. 0) THEN 
+200,213c202,207
+<       DO J=1,NGP
+<         SLR_D(J)=SLR(J)
+<         SLRU_3(J)=SLRU(J,3)
+<       ENDDO     
+<  
+< cfk#if !defined(KNMI)
+< cfk      CALL ADDFLX (HFLUXN,USTR,VSTR,U0,V0,SHF, 
+< cfk     &              EVAP,SSR,SLR,SLRU, 
+< cfk     &              PRECNV,PRECLS,T0)
+< cfk#else
+< cfk      CALL ADDFLX (HFLUXN,USTR,VSTR,U0,V0,SHF, 
+< cfk     &              EVAP,SSR,SLR,SLRU, 
+< cfk     &              PRECNV,PRECLS,SNOWCV,SNOWLS,T0)
+< cfk#endif
+---
+>          CALL SUFLUX (PSG,UG1,VG1,TG1,QG1,RH,PHIG1,
+>      &             PHIS0,FMASK1,STL_AM,SSTI_OM,SOILW_AM,SSRD,SLRD,
+>      &             USTR,VSTR,SHF,EVAP,SLRU,HFLUXN,
+>      &             TS,TSKIN,U0,V0,T0,Q0,.false.)
+> 
+>       ENDIF   
+220,221c214,216
+<       CALL RADLW (1,TG1,TS,SLRU(1,3),
+<      &            OLR,SLR,TT_RLW)
+---
+>       CALL RADLW (1,TG1,TS,
+>      &            SLRD,SLRU(1,3),
+>      &            SLR,OLR,TT_RLW)
+255,269c250
+< C--  6. Recomputing Sea fluxes in case of flux-correction
+< 
+<       IF (ICSEA .GT. 0) THEN 
+< 
+<          CALL SUFLUX (PSG,UG1,VG1,TG1,QG1,RH,PHIG1,
+<      &             PHIS0,FMASK_L,STL_AM,SSTI_OM,SOILW_AM,SSR,SLR_D,
+<      &             USTR,VSTR,SHF,EVAP,SLRU,HFLUXN,
+<      &             TS,TSKIN,U0,V0,T0,Q0,.false.)
+< 
+<       ENDIF   
+< 
+<       DO J=1,NGP
+<         SLRU(J,3)=SLRU_3(J)
+<       ENDDO     
+< 
+---
+> C--   5. Store all fluxes for coupling and daily-mean output
+273,284c254
+< cfk#if !defined(KNMI)
+< c      CALL ADDFLX (HFLUXN,USTR,VSTR,U0,V0,SHF, 
+< c     &              EVAP,SSR,SLR,SLRU, 
+< c     &              PRECNV,PRECLS,T0)
+< cfk#else
+< cfk      CALL ADDFLX (HFLUXN,USTR,VSTR,U0,V0,SHF, 
+< cfk     &              EVAP,SSR,SLR,SLRU, 
+< cfk     &              PRECNV,PRECLS,SNOWCV,SNOWLS,T0)
+< cfk#endif
+< 
+< 
+< C--   5. Random diabatic forcing 
+---
+> C--   6. Random diabatic forcing 
+288c258
+< C       5.1 Compute zonal-mean cross sections of diabatic forcing
+---
+> C       6.1 Compute zonal-mean cross sections of diabatic forcing
+295c265
+< C--     5.2 Compute and store 3-D pattern of random diabatic forcing
+---
+> C--     6.2 Compute and store 3-D pattern of random diabatic forcing
+------------------------------------- 
+File :  phy_radiat.f  < old, > new 
+2c2
+<       SUBROUTINE SOL_OZ (SOLC,TYEAR)
+---
+>       SUBROUTINE SOL_OZ (TYEAR)
+5c5
+< C--   SUBROUTINE SOL_OZ (SOLC,TYEAR)
+---
+> C--   SUBROUTINE SOL_OZ (TYEAR)
+13,14c13
+< C--   Input:   SOLC   = solar constant (area averaged)
+< C--            TYEAR  = time as fraction of year (0-1, 0 = 1jan.h00)
+---
+> C--   Input:   TYEAR  = time as fraction of year (0-1, 0 = 1jan.h00)
+137,138c136,137
+<       SUBROUTINE CLOUD (QA,RH,PRECNV,PRECLS,IPTOP,
+<      &                  ICLTOP,CLOUDC)
+---
+>       SUBROUTINE CLOUD (QA,RH,PRECNV,PRECLS,IPTOP,GSE,FMASK,
+>      &                  ICLTOP,CLOUDC,CLSTR)
+140,141c139,140
+< C--   SUBROUTINE CLOUD (QA,RH,PRECNV,PRECLS,IPTOP,
+< C--  &                  ICLTOP,CLOUDC)
+---
+> C--   SUBROUTINE CLOUD (QA,RH,PRECNV,PRECLS,IPTOP,GSE,FMASK,
+> C--  &                  ICLTOP,CLOUDC,CLSTR)
+148a148,149
+> C--            GSE    = gradient of dry st. energy (dSE/dPHI)   (2-dim)
+> C--            FMASK  = fractional land-sea mask                (2-dim)
+150a152
+> C--            CLSTR  = stratiform cloud cover                  (2-dim)
+168c170,171
+<       REAL QA(NGP,NLEV), RH(NGP,NLEV), PRECNV(NGP), PRECLS(NGP)
+---
+>       REAL QA(NGP,NLEV), RH(NGP,NLEV),  
+>      &     PRECNV(NGP),  PRECLS(NGP), GSE(NGP), FMASK(NGP)
+171c174
+<       REAL CLOUDC(NGP)
+---
+>       REAL CLOUDC(NGP), CLSTR(NGP)
+219a223,262
+> C--   3. Stratiform clouds at the top of PBL
+> 
+>       inew = 1
+> 
+>       if (inew.gt.0) then
+> 
+> c        CLSMAX  = 0.6
+> c        CLSMINL = 0.15
+> c        GSE_S0  = 0.25
+> c        GSE_S1  = 0.40
+> 
+>         CLFACT = 1.2
+>         RGSE   = 1./(GSE_S1-GSE_S0)
+> 
+>         DO J=1,NGP
+> c         Stratocumulus clouds over sea
+>           FSTAB    = MAX(0.,MIN(1.,RGSE*(GSE(J)-GSE_S0)))
+>           CLSTR(J) = FSTAB*MAX(CLSMAX-CLFACT*CLOUDC(J),0.)
+> c         Stratocumulus clouds over land
+>           CLSTRL   = MAX(CLSTR(J),CLSMINL)*RH(J,NLEV)
+>           CLSTR(J) = CLSTR(J)+FMASK(J)*(CLSTRL-CLSTR(J))
+>         ENDDO
+> 
+>       else
+> 
+>         CLSMAX  = 0.3
+>         CLSMINL = 0.1
+>         ALBCOR  = ALBCL/0.5
+>  
+>         DO J=1,NGP
+> c         Stratocumulus clouds over sea
+>           CLSTR(J) = MAX(CLSMAX-CLOUDC(J),0.)
+> c         Rescale for consistency with previous albedo values
+>           CLSTR(J) = CLSTR(J)*ALBCOR
+> c         Correction for aerosols over land
+>           CLSTR(J) = CLSTR(J)+FMASK(J)*(CLSMINL-CLSTR(J))
+>         ENDDO
+> 
+>       endif
+> 
+224,225c267,268
+<       SUBROUTINE RADSW (PSA,QA,ALB,ICLTOP,CLOUDC,
+<      &                  FTOP,FSFC,DFABS)
+---
+>       SUBROUTINE RADSW (PSA,QA,ICLTOP,CLOUDC,CLSTR,
+>      &                  FSFCD,FSFC,FTOP,DFABS)
+227,228c270,271
+< C--   SUBROUTINE RADSW (PSA,QA,ALB,ICLTOP,CLOUDC,
+< C--  &                  FTOP,FSFC,DFABS)
+---
+> C--   SUBROUTINE RADSW (PSA,QA,ICLTOP,CLOUDC,CLSTR,
+> C--  &                  FSFCD,FSFC,FTOP,DFABS)
+234d276
+< C--            ALB    = surface albedo                          (2-dim)
+237,239c279,283
+< C--   Output:  FTOP   = net downw. flux of sw rad. at the atm. top  (2-dim)
+< C--            FSFC   = net downw. flux of sw rad. at the surface   (2-dim)
+< C--            DFABS  = flux of sw rad. absorbed by each atm. layer (3-dim)
+---
+> C--            CLSTR  = stratiform cloud cover                  (2-dim)
+> C--   Output:  FSFCD  = downward-only flux of sw rad. at the surface (2-dim)
+> C--            FSFC   = net (downw.) flux of sw rad. at the surface  (2-dim)
+> C--            FTOP   = net (downw.) flux of sw rad. at the atm. top (2-dim)
+> C--            DFABS  = flux of sw rad. absorbed by each atm. layer  (3-dim)
+257c301
+<       REAL PSA(NGP), QA(NGP,NLEV), ALB(NGP), CLOUDC(NGP)
+---
+>       REAL PSA(NGP), QA(NGP,NLEV), CLOUDC(NGP), CLSTR(NGP)
+259c303
+<       REAL FTOP(NGP), FSFC(NGP), DFABS(NGP,NLEV)
+---
+>       REAL FTOP(NGP), FSFC(NGP), FSFCD(NGP), DFABS(NGP,NLEV)
+266c310
+<       NL1=NLEV-1
+---
+>       NL1 = NLEV-1
+268,269c312,313
+<       FBAND2=0.05
+<       FBAND1=1.-FBAND2
+---
+>       FBAND2 = 0.05
+>       FBAND1 = 1.-FBAND2
+271,272c315,316
+< C      ALBMINL=0.1
+<       ALBMINL=0.05
+---
+> c      ALBMINL=0.05
+> c      ALBCLS = 0.5
+283,290c327,328
+<         ALBCL2=ALBCL*CLOUDC(J)
+<         FREFL(J,ICLTOP(J))=ALBCL2
+< C       Correction for stratocumulus clouds over sea
+<         IF (ALBCL2.LT.ALBMIN.AND.ALB(J).LT.0.1) 
+<      &      FREFL(J,NLEV)=ALBMIN-ALBCL2
+< C       Correction for aerosols over land
+<         IF (ALB(J).GT.0.1)
+<      &      FREFL(J,NLEV)=ALBMINL
+---
+>         FREFL(J,ICLTOP(J))= ALBCL*CLOUDC(J)
+>         FREFL(J,NLEV)     = ALBCLS*CLSTR(J)
+387,389c425,427
+<         FSFC(J)  =FLUX(J,1)+FLUX(J,2)
+<         FLUX(J,1)=FLUX(J,1)*ALB(J)
+<         FSFC(J)  =FSFC(J)-FLUX(J,1)
+---
+>         FSFCD(J)  = FLUX(J,1)+FLUX(J,2)
+>         FLUX(J,1) = FLUX(J,1)*ALBSFC(J)
+>         FSFC(J)   = FSFCD(J)-FLUX(J,1)
+469,470c507,510
+<       SUBROUTINE RADLW (IMODE,TA,TS,ST4S,
+<      &                  FTOP,FSFC,DFABS)
+---
+>       SUBROUTINE RADLW (IMODE,TA,TS,
+>      &                  FSFCD,FSFCU,
+>      &                  FSFC,FTOP,DFABS)
+> 
+472,473c512,514
+< C--   SUBROUTINE RADLW (IMODE,TA,TS,ST4S,
+< C--  &                  FTOP,FSFC,DFABS)
+---
+> C--   SUBROUTINE RADLW (IMODE,TA,TS,
+> C--  &                  FSFCD,FSFCU,
+> C--  &                  FSFC,FTOP,DFABS)
+481,483c522,524
+< C--            TS     = surface temperature                  [if IMODE=0,1]
+< C--            ST4S   = surface blackbody emission             [if IMODE=1]
+< C--            FSFC   = FSFC  output from RADLW(-1,... )       [if IMODE=1]
+---
+> C--            TS     = surface temperature                    [if IMODE=0]
+> C--            FSFCD  = downward flux of lw rad. at the sfc.   [if IMODE=1]
+> C--            FSFCU  = surface blackbody emission (upward)    [if IMODE=1]
+485c526,528
+< C--   Output:  ST4S   = surface blackbody emission             [if IMODE=0]
+---
+> C--   Output:  FSFCD  = downward flux of lw rad. at the sfc.[if IMODE=-1,0]
+> C--            FSFCU  = surface blackbody emission (upward)  [if IMODE=  0]
+> C--            FSFC   = net upw. flux of lw rad. at the sfc. [if IMODE=0,1]
+487,488d529
+< C--            FSFC   = downward flux of lw rad. at the sfc. [if IMODE= -1] 
+< C--                     net upw. flux of lw rad. at the sfc. [if IMODE=0,1]
+509c550,552
+<       REAL TA(NGP,NLEV), TS(NGP), ST4S(NGP)
+---
+>       REAL TA(NGP,NLEV), TS(NGP)
+> 
+>       REAL FSFCD(NGP), FSFCU(NGP)
+575c618
+<         FSFC(J)=0.
+---
+>         FSFCD(J)=0.
+620a664,665
+> C     3.3 Surface downward flux
+> 
+623c668
+<          FSFC(J)=FSFC(J)+EMISFC*FLUX(J,JB)
+---
+>          FSFCD(J)=FSFCD(J)+EMISFC*FLUX(J,JB)
+627c672
+< C     Correction for "black" band (incl. surface reflection)
+---
+> C     3.4 Correction for "black" band (incl. surface reflection)
+633c678
+<         FSFC(J)      =FSFC(J)      +CORLW
+---
+>         FSFCD(J)     =FSFCD(J)     +CORLW
+649c694
+<         ST4S(J)=ESBC*TSQ*TSQ
+---
+>         FSFCU(J)=ESBC*TSQ*TSQ
+656c701
+<         FSFC(J)=ST4S(J)-FSFC(J)
+---
+>         FSFC(J)=FSFCU(J)-FSFCD(J)
+661c706
+<          FLUX(J,JB)=FBAND(NINT(TS(J)),JB)*ST4S(J)
+---
+>          FLUX(J,JB)=FBAND(NINT(TS(J)),JB)*FSFCU(J)
+669d713
+< 
+671c715
+<         DFABS(J,NLEV)=DFABS(J,NLEV)+EPSLW*ST4S(J)
+---
+>         DFABS(J,NLEV)=DFABS(J,NLEV)+EPSLW*FSFCU(J)
+------------------------------------- 
+File :  phy_suflux.f  < old, > new 
+3c3
+<      &                   PHI0,FMASK,TLAND,TSEA,SWAV,SSR,SLRD,
+---
+>      &                   PHI0,FMASK,TLAND,TSEA,SWAV,SSRD,SLRD,
+8c8
+< C--  &                   PHI0,FMASK,TLAND,TSEA,SWAV,SSR,SLRD,
+---
+> C--  &                   PHI0,FMASK,TLAND,TSEA,SWAV,SSRD,SLRD,
+26,27c26,27
+< C--            SSR    = sfc sw radiation (net flux)     (2-dim)
+< C--            SLRD   = sfc lw radiation (downward flux)(2-dim)
+---
+> C--            SSRD   = sfc sw radiation (downw. flux)  (2-dim)
+> C--            SLRD   = sfc lw radiation (downw. flux)  (2-dim)
+62c62
+<      &     SSR(NGP), SLRD(NGP)
+---
+>      &     SSRD(NGP), SLRD(NGP)
+68,69c68,69
+<       REAL T1(NGP,2), T2(NGP,2), QSAT0(NGP,2), 
+<      &     DENVVS(NGP,0:2), DSLR(NGP), DTSKIN(NGP)
+---
+>       REAL T1(NGP,2), T2(NGP,2), Q1(NGP,2), QSAT0(NGP,2), 
+>      &     DENVVS(NGP,0:2), DSLR(NGP), DTSKIN(NGP), CLAMB(NGP)
+75c75
+<       SAVE DENVVS
+---
+>       SAVE T1, Q1, DENVVS
+80a81,82
+> c      CLAMBDA = 7.       ! Heat conductivity in skin layer
+> c      CLAMBSN = 7.       ! Heat conductivity for snow cover = 1
+82c84,87
+<       CLAMBDA = 7.        ! Heat conductivity in skin layer
+---
+>       ESBC  = EMISFC*SBC
+>       ESBC4 = 4.*ESBC
+> 
+>       GHUM0 = 1.-FHUM0
+83a89,90
+>       DLAMBDA = CLAMBSN-CLAMBDA
+> 
+101c108
+< C
+---
+> 
+105c112
+< c       Extrapolated temperature using actual lapse rate
+---
+> c       Extrapolated temperature using actual lapse rate (1:land, 2:sea)
+108c115
+< c       Extrapolated temperature using dry-adiab. lapse rate
+---
+> c       Extrapolated temperature using dry-adiab. lapse rate (1:land, 2:sea)
+114a122
+> C         Use extrapolated temp. if dT/dz < 0
+117a126
+> C         Use temp. at lowest level if dT/dz > 0
+126c135
+<       GHUM0 = 1.-FHUM0
+---
+> C      GHUM0 = 1.-FHUM0
+128c137
+<       CALL SHTORH (-1,NGP,T0,PSA,1.,Q0,RH(1,NLEV),QSAT0)
+---
+> c      CALL SHTORH (-1,NGP,T0,PSA,1.,Q0,RH(1,NLEV),QSAT0)
+130,132c139,141
+<       DO J=1,NGP
+<         Q0(J)=FHUM0*Q0(J)+GHUM0*QA(J,NLEV)
+<       ENDDO
+---
+> c      DO J=1,NGP
+> c        Q0(J)=FHUM0*Q0(J)+GHUM0*QA(J,NLEV)
+> c      ENDDO
+134c143
+< C     1.4 Density * wind speed (including gustiness factor)
+---
+> C     1.3 Density * wind speed (including gustiness factor)
+144c153
+< C     A) LAND FLUXES
+---
+> C     2. Compute land-sfc. fluxes using prescribed skin temperature
+146c155
+< C     1.5 Define effective skin temperature to compensate for
+---
+> C     2.1 Define effective skin temperature to compensate for
+153c162
+<           TSKIN(J)=TLAND(J)+CTDAY*SQCLAT*SSR(J)*PSA(J)
+---
+>           TSKIN(J)=TLAND(J)+CTDAY*SQCLAT*SSRD(J)*(1.-ALB_L(J))*PSA(J)
+157c166
+< C     1.6 Stability correction
+---
+> C     2.2 Stability correction = f[pot.temp.(sfc)-pot.temp.(air)]  
+164,165c173,179
+<         IF (TSKIN(J).GT.T2(J,1)) THEN
+<            DTHL=MIN(DTHETA,TSKIN(J)-T2(J,1))
+---
+> 
+> C       potential temp. difference (land+sea average)
+>         DTH0 = TSEA(J)-T2(J,2)
+>         DTH0 = DTH0+FMASK(J)*((TSKIN(J)-T2(J,1))-DTH0)
+> 
+>         IF (DTH0.GT.0.0) THEN
+>            DTHL=MIN(DTHETA,DTH0)
+167c181
+<            DTHL=MAX(-DTHETA,ASTAB*(TSKIN(J)-T2(J,1)))
+---
+>            DTHL=MAX(-DTHETA,ASTAB*DTH0)
+168a183
+> 
+170d184
+<       ENDDO
+172c186
+< C--   2. Computation of fluxes over land and sea
+---
+>       ENDDO
+174c188
+< C     2.1 Wind stress
+---
+> C     2.3 Wind stress 
+177,179c191
+< 
+<         CDLDV = CDL*DENVVS(J,0)*FOROG(J)
+< 
+---
+>         CDLDV     =  CDL*DENVVS(J,0)*FOROG(J)
+182d193
+< 
+185c196
+< C     2.2 Sensible heat flux 
+---
+> C     2.4 Sensible heat flux 
+193c204
+< C     2.3 Evaporation
+---
+> C     2.5 Evaporation
+195c206
+<       CALL SHTORH (0,NGP,TSKIN,PSA,1.,QDUMMY,RDUMMY,QSAT0(1,1))
+---
+>       IF (FHUM0.GT.0.) THEN
+197,200c208
+<       DO J=1,NGP
+< C       EVAP(J,1) = CHL*DENVVS(J,1)*SWAV(J)*MAX(0.,QSAT0(J,1)-Q0(J))
+<         EVAP(J,1) = CHL*DENVVS(J,1)*MAX(0.,SWAV(J)*QSAT0(J,1)-Q0(J))
+<       ENDDO
+---
+>         CALL SHTORH(-1,NGP,T1(1,1),PSA,1.,Q1(1,1),RH(1,NLEV),QSAT0(1,1))
+202c210,212
+< C--   3. Surface energy balance
+---
+>         DO J=1,NGP
+>           Q1(J,1) = FHUM0*Q1(J,1)+GHUM0*QA(J,NLEV)
+>         ENDDO
+204,205c214
+< C     3.1. Emission of lw radiation from the surface
+< C          and net heat fluxes into land and sea surface
+---
+>       ELSE
+207,208c216,222
+<       ESBC  = EMISFC*SBC
+<       ESBC4 = 4.*ESBC
+---
+>         DO J=1,NGP
+>           Q1(J,1) = QA(J,NLEV)
+>         ENDDO
+> 
+>       ENDIF
+> 
+>       CALL SHTORH (0,NGP,TSKIN,PSA,1.,QDUMMY,RDUMMY,QSAT0(1,1))
+210a225,227
+> C       EVAP(J,1) = CHL*DENVVS(J,1)*SWAV(J)*MAX(0.,QSAT0(J,1)-Q1(J,1))
+>         EVAP(J,1) = CHL*DENVVS(J,1)*MAX(0.,SWAV(J)*QSAT0(J,1)-Q1(J,1))
+>       ENDDO
+212,216c229,230
+<         TSK3     = TSKIN(J)**3
+<         DSLR(J)  = ESBC4*TSK3
+<         SLRU(J,1)     = ESBC *TSK3*TSKIN(J)
+<         SLRU(J,2)     = ESBC*TSEA(J)**4
+<         SLRU(J,3)  = SLRU(J,2)+FMASK(J)*(SLRU(J,1)-SLRU(J,2))
+---
+> C--   3. Compute land-surface energy balance;
+> C--      adjust skin temperature and heat fluxes
+218c232,233
+<         HFLUXN(J,1) = SSR(J)+SLRD(J)-(SLRU(J,1)+SHF(J,1)+ALHC*EVAP(J,1))
+---
+> C     3.1. Emission of lw radiation from the surface
+> C          and net heat fluxes into land surface
+219a235,240
+>       DO J=1,NGP
+>         TSK3        = TSKIN(J)**3
+>         DSLR(J)     = ESBC4*TSK3
+>         SLRU(J,1)   = ESBC *TSK3*TSKIN(J)
+>         HFLUXN(J,1) = SSRD(J)*(1.-ALB_L(J))+SLRD(J)-
+>      &                (SLRU(J,1)+SHF(J,1)+ALHC*EVAP(J,1))
+228c249,250
+<           HFLUXN(J,1) = HFLUXN(J,1)-CLAMBDA*(TSKIN(J)-TLAND(J))
+---
+>           CLAMB(J)    = CLAMBDA+SNOWC(J)*DLAMBDA
+>           HFLUXN(J,1) = HFLUXN(J,1)-CLAMB(J)*(TSKIN(J)-TLAND(J))
+246c268
+<           DHFDT     = CLAMBDA+DSLR(J)+
+---
+>           DHFDT     = CLAMB(J)+DSLR(J)+
+256,258c278,279
+<           SLRU(J,1)     = SLRU(J,1)  + DSLR(J)*DTSKIN(J)
+< cfk          SLRU(J,1)   = SLRU(J,1)  +FMASK(J)*DSLR(J)*DTSKIN(J)
+<           HFLUXN(J,1) = CLAMBDA*(TSKIN(J)-TLAND(J))
+---
+>           SLRU(J,1)   = SLRU(J,1)+DSLR(J)*DTSKIN(J)
+>           HFLUXN(J,1) = CLAMB(J)*(TSKIN(J)-TLAND(J))
+263,265c284
+<       ENDIF
+< 
+< C     B)   SEA FLUXES 
+---
+> c      ENDIF
+267,271c286,288
+< C     1.6 Stability correction
+< 
+<       RDTH  = FSTAB/DTHETA
+<       ASTAB = 1.
+<       IF (LSCASYM) ASTAB = 0.5   ! to get smaller dS/dT in stable conditions
+---
+> C--   4. Compute sea surface fluxes:
+> C--      Note: stability terms and wind stress are NOT re-defined
+> C--            if LFLUXLAND = .false.
+272a290,292
+> C     4.1 Correct near-sfc. air temperature over coastal sea points
+> C         and compute near-sfc. humidity
+>  
+274,279c294,301
+<         IF (TSEA(J).GT.T2(J,2)) THEN
+<            DTHS=MIN(DTHETA,TSEA(J)-T2(J,2))
+<         ELSE
+<            DTHS=MAX(-DTHETA,ASTAB*(TSEA(J)-T2(J,2)))
+<         ENDIF
+<         DENVVS(J,2)=DENVVS(J,0)*(1.+DTHS*RDTH)
+---
+>          if (FMASK(j).gt.0.) then
+>             dtsea  = TSEA(J) -T1(J,2)
+>             dtland = TSKIN(J)-T1(J,1)
+>             if (dtsea.gt.0.0.and.dtland.lt.0.0) then
+>                dtsea   = dtsea*(1.-FMASK(j)**2)
+>                T1(J,2) = TSEA(J)-dtsea
+>             endif
+>          endif
+282c304
+< C--   2. Computation of fluxes over sea
+---
+>       IF (FHUM0.GT.0.) THEN
+284c306
+< C     2.1 Wind stress
+---
+>         CALL SHTORH(-1,NGP,T1(1,2),PSA,1.,Q1(1,2),RH(1,NLEV),QSAT0(1,2))
+286,287c308,310
+<       K2 = 0
+<       IF (LSCDRAG) K2 = 2
+---
+>         DO J=1,NGP
+>           Q1(J,2) = FHUM0*Q1(J,2)+GHUM0*QA(J,NLEV)
+>         ENDDO
+289c312
+<       DO J=1,NGP
+---
+>       ELSE
+291c314,316
+<         CDSDV = CDS*DENVVS(J,K2)
+---
+>         DO J=1,NGP
+>           Q1(J,2) = QA(J,NLEV)
+>         ENDDO
+292a318,326
+>       ENDIF
+> 
+> C     4.2 Wind stress
+> 
+>       KS = 0
+>       IF (LSCDRAG) KS = 1
+> 
+>       DO J=1,NGP
+>         CDSDV     =  CDS*DENVVS(J,KS)
+295d328
+< 
+298c331,336
+< C     2.2 Sensible heat flux 
+---
+> C     End of 'land-mode' computation
+>       ENDIF
+> 
+> C     Start of sea-sfc. heat fluxes computation
+> 
+> C     4.3 Sensible heat flux 
+299a338
+>       KS = 1
+303c342
+<         SHF(J,2) = CHSCP*DENVVS(J,2)*(TSEA(J) -T1(J,2))
+---
+>         SHF(J,2) = CHSCP*DENVVS(J,KS)*(TSEA(J)-T1(J,2))
+306c345
+< C     2.3 Evaporation
+---
+> C     4.4 Evaporation
+308c347
+<       CALL SHTORH (0,NGP,TSEA ,PSA,1.,QDUMMY,RDUMMY,QSAT0(1,2))
+---
+>       CALL SHTORH (0,NGP,TSEA,PSA,1.,QDUMMY,RDUMMY,QSAT0(1,2))
+311c350
+<         EVAP(J,2) = CHS*DENVVS(J,2)*              (QSAT0(J,2)-Q0(J))
+---
+>         EVAP(J,2) = CHS*DENVVS(J,KS)*(QSAT0(J,2)-Q1(J,2))
+314,321c353,354
+< 
+< C--   3. Surface energy balance
+< 
+< C     3.1. Emission of lw radiation from the surface
+< C          and net heat fluxes into land and sea surface
+< 
+<       ESBC  = EMISFC*SBC
+<       ESBC4 = 4.*ESBC
+---
+> C     4.5 Emission of lw radiation from the surface
+> C         and net heat fluxes into sea surface
+324d356
+< 
+326,327c358,359
+<         HFLUXN(J,2) = SSR(J)+SLRD(J)-(SLRU(J,2)+SHF(J,2)+ALHC*EVAP(J,2))
+< 
+---
+>         HFLUXN(J,2) = SSRD(J)*(1.-ALB_S(J))+SLRD(J)-
+>      &                (SLRU(J,2)+SHF(J,2)+ALHC*EVAP(J,2))
+330c362
+<       IF ( LFLUXLAND )  THEN
+---
+> C     End of sea-sfc. heat fluxes computation
+335,341c367
+<       DO J=1,NGP
+<         USTR(J,3) = USTR(J,2)+FMASK(J)*(USTR(J,1)-USTR(J,2))
+<         VSTR(J,3) = VSTR(J,2)+FMASK(J)*(VSTR(J,1)-VSTR(J,2))
+<          SHF(J,3) =  SHF(J,2)+FMASK(J)*( SHF(J,1)- SHF(J,2))
+<         EVAP(J,3) = EVAP(J,2)+FMASK(J)*(EVAP(J,1)-EVAP(J,2))
+<         SLRU(J,3)  = SLRU(J,2)+FMASK(J)*(SLRU(J,1)-SLRU(J,2))
+<       ENDDO
+---
+>       IF ( LFLUXLAND )  THEN
+343,346c369,382
+<       DO J=1,NGP
+<         TSFC(J)  = TSEA(J)+FMASK(J)*(TLAND(J)-TSEA(J))
+<         TSKIN(J) = TSEA(J)+FMASK(J)*(TSKIN(J)-TSEA(J))
+<       ENDDO
+---
+>         DO J=1,NGP
+>           USTR(J,3) = USTR(J,2)+FMASK(J)*(USTR(J,1)-USTR(J,2))
+>           VSTR(J,3) = VSTR(J,2)+FMASK(J)*(VSTR(J,1)-VSTR(J,2))
+>            SHF(J,3) =  SHF(J,2)+FMASK(J)*( SHF(J,1)- SHF(J,2))
+>           EVAP(J,3) = EVAP(J,2)+FMASK(J)*(EVAP(J,1)-EVAP(J,2))
+>           SLRU(J,3) = SLRU(J,2)+FMASK(J)*(SLRU(J,1)-SLRU(J,2))
+>         ENDDO
+> 
+>         DO J=1,NGP
+>           TSFC(J)  = TSEA(J)+FMASK(J)*(TLAND(J)-TSEA(J))
+>           TSKIN(J) = TSEA(J)+FMASK(J)*(TSKIN(J)-TSEA(J))
+>           T0(J)    = T1(J,2)+FMASK(J)*(T1(J,1)- T1(J,2))
+>           Q0(J)    = Q1(J,2)+FMASK(J)*(Q1(J,1)- Q1(J,2))
+>         ENDDO
+------------------------------------- 
+File :  ppo_dmflux.f  < old, > new 
+21,22c21
+<       include "com_forcon.h"
+<       include "com_forcing.h"
+---
+>       include "com_surfcon.h"
+36,37c35
+<       real prec(ngp), difrad(ngp), albsfc(ngp)
+<       equivalence (albsfc,alb1)
+---
+>       real prec(ngp), difice(ngp)
+40c38
+<       equivalence (fland,fmask)
+---
+>       equivalence (fland,fmask1)
+84,87d81
+< c     difference in net sw+lw radiation between sea and ice surface
+< c      difrad(:) = (albice-albsea)*ssr(:)/(1.-albsfc(:))
+< c     &            - esbc*(sstfr4-tice_am(:)**4)
+< 
+107,111d100
+< c
+< c      hflux_s(:) = hflux_s(:) + rsteps*
+< c     &             (hfluxn(:,2)+difrad(:)*sice_am(:))
+< c      hflux_i(:) = hflux_i(:) + rsteps*
+< c     &             (hfluxn(:,2)-difrad(:)*(1.-sice_am(:)))
+113c102,103
+<       difrad(:) = (albsea-albice)*ssr(:)/(1.-albsfc(:))
+---
+> c     difference in net (downw.) heat flux between ice and sea surface
+>       difice(:) = (albsea-albice)*ssrd(:)
+119,121c109
+<      &                                  +difrad(:)*(1.-sice_am(:)))
+< c     &             ( ssr(:)-slr(:)-difrad(:)*(1.-sice_am(:))
+< c     &              -sice_am(:)*(shf(:,2)+evap(:,2)*alhc) )
+---
+>      &                                 +difice(:)*(1.-sice_am(:)))
+157,159c145
+< c      save2d_2(:,6) = save2d_2(:,6) + tsr(:)
+<       save2d_2(:,6) = save2d_2(:,6) + difrad(:)*(1.-sice_am(:))*
+<      &                              min(1.,100*sice_am(:))*(1.-fland(:))
+---
+>       save2d_2(:,6) = save2d_2(:,6) + tsr(:)
+------------------------------------- 
+File :  ppo_setctl.f  < old, > new 
+56c56,57
+<      &     'CLC        0  99  cloud cover (total)               [%]',
+---
+>      &     'CLC        0  99  cloud cover (deep clouds)         [%]',
+>      &     'CLSTR      0  99  cloud cover (strat. clouds)       [%]',
+63c64
+<      &      3*' '/
+---
+>      &      2*' '/
+------------------------------------- 
+File :  ppo_tminc.f  < old, > new 
+22d21
+< c      include "com_tmean_daily.h"
+30c29
+< C     Surface anomaly variables on gaussian grid
+---
+> C     Surface variables on gaussian grid
+36,37c35,36
+< C     Forcing fields
+<       include "com_forcing.h"
+---
+> C     Surface properties (time-inv.)
+>       include "com_surfcon.h"
+95a95
+>       call ADD1F (SAVE2D_1,CLSTR,     ngp,n0,100)
+99,106d98
+<       if (iitest.eq.1) then 
+<          print *, 'store sfc temp. in TMINC'
+<          print *, 'mean(PHIS0) =', sum(PHIS0(:,:))/ngp
+<          print *, 'mean(BMASK_L) =', sum(BMASK_L(:,:))/ngp
+<          print *, 'mean(STL_AM) =', sum(STL_AM(:))/ngp
+<          print *, 'mean(SST_AM) =', sum(SST_AM(:))/ngp
+<       endif
+< 

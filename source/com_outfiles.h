@@ -1,0 +1,10 @@
+C--
+C--   /CFILES/: Output file names (init./updated in SETGRD)
+
+      COMMON /CFILES/ NORUN, OFILE11, OFILE13, OFILE15,
+     &       OFILE17
+
+      CHARACTER*3  NORUN
+      CHARACTER*16 OFILE11, OFILE13, OFILE15
+      CHARACTER*17 OFILE17
+

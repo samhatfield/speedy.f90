@@ -1,0 +1,42 @@
+
+C--:   NMONTS = Integration length: no. of (complete) months
+C--:   NDAYSL = No. of additional days in the last month of int.
+C--:   NSTEPS = No. of time steps in one day
+C--:   NSTDIA = Frequency (no. of steps) of diagnostic print-out
+C--:   NSTPPR = Frequency (no. of steps) of post-processing 
+C--:   NSTOUT = Frequency of time-mean output:
+C--:             < 0 : monthly means, > 0 : no. of steps
+C--:   IDOUT  = daily output flag: 
+C--:            0 = no, 1 = basic (mslp, temp0, gh500, prec), 
+C--:            2 = as 1 + U/V/Q_850 and U/V_200 hPa,
+C--:            3 = as 2 + evap, ustr, vstr, olr, lshf, sshf
+C--:   NMONRS = Frequency (no. of months) of restart file update
+C--:   ISEASC = Seasonal cycle flag (0=no, 1=yes)
+C--:   IYEAR0 = Year of initial date (4-digit, eg 1900)
+C--:   IMONT0 = Month of initial date (1 to 12)
+
+C--:   NSTRAD = Frequency (no. of steps) of shortwave radiation comp. 
+C--:   NSTRDF = Duration of random diabatic forcing ( 0 : no forcing, 
+C--:            > 0 : no. of initial steps, < 0 : whole integration)		
+C--:   INDRDF = Initialization index for random diabatic forcing
+
+C--:   ICLAND = coupling flag for land-surface temp. (0=no, 1=land-model)
+C--:   ICSEA  = coupling flag for sea-surface temp.  
+C--:            0 = precribed SST, no coupling
+C--:            1 = precribed SST, ocean model forced by atm.
+C--:            2 = full (uncorrected) SST from coupled ocean model
+C--:            3 = SST anomaly from coupled ocean model + obs. SST clim.
+C--:            4 = as 3 with prescribed SST anomaly in ElNino region
+C--:   ICICE  = coupling flag for sea-ice temp. (0=no, 1=ice-model)
+
+C--:   ISSTAN = SST anomaly flag: 0 = no (clim. SST), 1 = observed anomaly
+C--:            (active if ICSEA = 0, 1; set to 1 if ICSEA = 4) 
+C--:   ISSTY0 = initial year of observed SST anomaly file
+C--:   ISST0  = record in SST anomaly file corr. to the initial month
+C--:            (computed from ISSTY0 or reset by user)
+
+C--:   LPPRES = Flag to post-process upper-air fields
+C--:            on pressure levels (.false. for model level p.p.)
+C--:   LCO2   = Flag to include exponential CO2 absorbtivity increase 
+C--:            (.false.= no CO2 increase,
+C--:              .true.= exponential CO2 absorbtivity increase)

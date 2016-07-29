@@ -1,0 +1,86 @@
+
+C--:  /SOILMP/: Soil moisture parameters
+C--:   SWCAP  = Soil wetness at field capacity (volume fraction)
+C--:   SWWIL  = Soil wetness at wilting point  (volume fraction)
+C--:   SD2SC  = Snow depth (mm water) corresponding to snow cover = 1
+
+C--:  /CNVCON/: Convection constants
+C--:   PSMIN  = minimum (norm.) sfc. pressure for the occurrence of convection
+C--:   TRCNV  = time of relaxation (in hours) towards reference state
+C--:   RHBL   = relative hum. threshold in the boundary layer
+C--:   RHIL   = rel.hum. threshold in intermed. layers for secondary mass flux
+C--:   ENTMAX = max. entrainment as a fraction of cloud-base mass flux	
+C--:   SMF    = ratio between secondary and primary mass flux at cloud-base
+ 
+C--:  /LSCCON/: Constants for large-scale condensation
+C--:   TRLSC  = Relaxation time (in hours) for specific humidity 
+C--:   RHLSC  = Maximum relative humidity threshold (at sigma=1)
+C--:   DRHLSC = Vertical range of relative humidity threshold
+C--:   RHBLSC = Relative humidity threshold for boundary layer
+
+C--:  /RADCON/: Radiation and cloud constants 
+C--:   SOLC   = Solar constant (area averaged) in W/m^2
+C--:   ALBSEA = Albedo over sea 
+C--:   ALBICE = Albedo over sea ice (for ice fraction = 1)
+C--:   ALBSN  = Albedo over snow (for snow cover = 1)
+
+C--:   RHCL1  = relative hum. threshold corr. to cloud cover = 0
+C--:   RHCL2  = relative hum. corr. to cloud cover = 1
+C--:   QACL   = specific hum. threshold for cloud cover
+C--:   WPCL   = cloud c. weight for the sq. root of precip. (for p = 1 mm/day)
+C--:   PMAXCL = max. value of precip. (mm/day) contributing to cloud cover  
+C--:   CLSMAX = maximum stratiform cloud cover
+C--:   CLSMINL= minimum stratiform cloud cover over land (for RH = 1)
+C--:   GSE_S0 = gradient of dry static energy corresp. to strat.c.c. = 0
+C--:   GSE_S1 = gradient of dry static energy corresp. to strat.c.c. = 1
+
+C--:   ALBCL  = cloud albedo (for cloud cover = 1)
+C--:   ALBCLS = stratiform cloud albedo (for st. cloud cover = 1)
+C--:   EPSSW  = fraction of incoming solar radiation absorbed by ozone
+C--:   EPSLW  = fraction of blackbody spectrum excluded from LW radiation bands
+C--:   EMISFC = longwave surface emissivity
+
+C--:            shortwave absorptivities (for dp = 10^5 Pa) :
+C--:   ABSDRY = abs. of dry air      (visible band)
+C--:   ABSAER = abs. of aerosols     (visible band)
+C--:   ABSWV1 = abs. of water vapour (visible band, for dq = 1 g/kg)
+C--:   ABSWV2 = abs. of water vapour (near IR band, for dq = 1 g/kg)
+C--:   ABSCL2 = abs. of clouds       (visible band, for dq_base = 1 g/kg)
+C--:   ABSCL1 = abs. of clouds       (visible band, maximum value)
+
+C--:            longwave absorptivities (per dp = 10^5 Pa) :
+C--:   ABLWIN = abs. of air in "window" band
+C--:   ABLCO2 = abs. of air in CO2 band
+C--:   ABLWV1 = abs. of water vapour in H2O band 1 (weak),   for dq = 1 g/kg
+C--:   ABLWV2 = abs. of water vapour in H2O band 2 (strong), for dq = 1 g/kg
+C--:   ABLCL1 = abs. of "thick" clouds in window band (below cloud top) 
+C--:   ABLCL2 = abs. of "thin" upper clouds in window and H2O bands
+
+C--:  /SFLCON/: Constants for surface fluxes
+C--:   FWIND0 = ratio of near-sfc wind to lowest-level wind
+C--:   FTEMP0 = weight for near-sfc temperature extrapolation (0-1) :
+C--:            1 : linear extrapolation from two lowest levels
+C--:            0 : constant potential temperature ( = lowest level)
+C--:   FHUM0  = weight for near-sfc specific humidity extrapolation (0-1) :
+C--:            1 : extrap. with constant relative hum. ( = lowest level)
+C--:            0 : constant specific hum. ( = lowest level)
+C--:   CDL    = drag coefficient for momentum over land
+C--:   CDS    = drag coefficient for momentum over sea
+C--:   CHL    = heat exchange coefficient over land
+C--:   CHS    = heat exchange coefficient over sea
+C--:   VGUST  = wind speed for sub-grid-scale gusts
+C--:   CTDAY  = daily-cycle correction (dTskin/dSSRad)
+C--:   DTHETA = Potential temp. gradient for stability correction
+C--:   FSTAB  = Amplitude of stability correction (fraction)
+C--:   HDRAG  = Height scale for orographic correction
+C--:   FHDRAG = Amplitude of orographic correction (fraction)
+C--:   CLAMBDA = Heat conductivity in skin-to-root soil layer
+C--:   CLAMBSN = Heat conductivity in soil for snow cover = 1
+
+C--:  /VDICON/: Constants for vertical diffusion and shallow convection 
+C--:   TRSHC  = relaxation time (in hours) for shallow convection
+C--:   TRVDI  = relaxation time (in hours) for moisture diffusion
+C--:   TRVDS  = relaxation time (in hours) for super-adiab. conditions
+C--:   REDSHC = reduction factor of shallow conv. in areas of deep conv.
+C--:   RHGRAD = maximum gradient of relative humidity (d_RH/d_sigma)
+C--:   SEGRAD = minimum gradient of dry static energy (d_DSE/d_phi)
