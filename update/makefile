@@ -94,11 +94,11 @@ dyn_sptend.o           : dyn_sptend.f
 dyn_step.o             : dyn_step.f
 dyn_stloop.o           : dyn_stloop.f
 #ini_coupler.o          : ini_coupler.f
-ini_agcm_init.o        : ini_agcm_init.f
+ini_agcm_init.o        : ini_agcm_init.f90
 ini_impint.o           : ini_impint.f
 ini_indyns.o           : ini_indyns.f
 ini_inbcon.o           : ini_inbcon.f
-ini_iniatm.o           : ini_iniatm.f
+ini_iniatm.o           : ini_iniatm.f90
 ini_inphys.o           : ini_inphys.f
 ini_inirdf.o           : ini_inirdf.f
 ini_invars.o           : ini_invars.f

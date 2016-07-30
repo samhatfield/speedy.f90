@@ -1,5 +1,4 @@
-C--
-C--   Length of the integration and time stepping constants (common ISTEPS)
+!   Length of the integration and time stepping constants (common ISTEPS)
 
       NMONTS = 3
       NDAYSL = 0
@@ -27,8 +26,8 @@ C--   Length of the integration and time stepping constants (common ISTEPS)
       ISSTY0 = 1854
       ISST0  = (IYEAR0-ISSTY0)*12+IMONT0
 
-C--
-C--   Logical flags (common LFLAG1)
+!
+!   Logical flags (common LFLAG1)
 
       LPPRES = .true.
       LCO2 = .false.

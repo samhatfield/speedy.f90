@@ -9,14 +9,12 @@ program agcm_main
 
     ! 1. initialization
     ! ndays = no. of integration days, set by agcm_init
- 
-    call agcm_init (cexp, 0, 0, 0, ndays)
+    call agcm_init(cexp, 0, 0, 0, ndays)
 
     print *, 'integration length in days: ', ndays
 
     ! 2. do loop over total no. of integration days
     do jday = 1, ndays
-
         ! 2.2 run atmospheric model for 1 day
         call agcm_1day(jday, cexp)
 
