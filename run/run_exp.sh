@@ -75,6 +75,7 @@ rm -f $CA/*
 
 cp $SA/makefile $CA/
 cp $SA/*.f      $CA/
+cp $SA/*.f90      $CA/
 cp $SA/*.h      $CA/
 cp $SA/*.s      $CA/
 
@@ -99,6 +100,7 @@ ls $UT/update
 
 echo "copying modified model files from $UT/update"
 cp $UT/update/*.f   $CA/
+cp $UT/update/*.f90   $CA/
 cp $UT/update/*.h   $CA/
 cp $UT/update/make* $CA/	
 cp $UT/update/*.f   $UT/input/exp_$2
