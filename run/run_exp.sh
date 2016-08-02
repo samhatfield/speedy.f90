@@ -27,7 +27,7 @@ CD=$UT/output/exp_$3
 echo "Do you want to modify the time-stepping parameters (y/n)?"
 read MODIFY
 if [ $MODIFY = 'y' ] ; then
-  vim $UT/ver41.input/cls_instep.h $SA/doc_instep.txt
+  vim $UT/ver41.input/tsteps.f90 $SA/doc_instep.txt
 fi
 
 echo "Do you want to modify the dynamics parameters (y/n)?"
@@ -89,6 +89,7 @@ ls $UT/ver41.input
 
 echo "copying parameter and namelist files from $UT/ver41.input "
 cp $UT/ver41.input/cls_*.h     $CA/
+cp $UT/ver41.input/*.f90       $CA/
 cp $UT/ver41.input/inpfiles.s  $CA/
 cp $UT/ver41.input/cls_*.h     $UT/input/exp_$2
 cp $UT/ver41.input/inpfiles.s  $UT/input/exp_$2

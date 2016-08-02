@@ -8,11 +8,13 @@ C--   Input :   JDAY  = 0 : read model variables from a restart file
 C--                   > 0 : write model variables  to a restart file
 C--                         at selected dates and at the end of run 
 C--
+    
+      USE tsteps, only: nmonrs, iyear0, imont0
+
       include "atparam.h"
       include "atparam1.h"
 
       include "com_date.h"
-      include "com_tsteps.h"
 
       include "com_dynvar.h"
 

@@ -34,12 +34,13 @@ subroutine agcm_1day(jday, cexp)
     ! perform atm. model integration for 1 day, 
     ! post-proc. and i/o at selected times 
 
+    use tsteps, only: nsteps, idout, nstout
+
     implicit none
 
     include "atparam.h"
     include "atparam1.h"
 
-    include "com_tsteps.h"
     include "com_date.h"
 
     integer, intent(in) :: jday

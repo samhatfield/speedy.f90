@@ -8,13 +8,12 @@ C--   Input :   grav0  = gravity accel.
 C--             radlat = grid latitudes in radiants
 
       USE cpl_flags, only: icsea, isstan
+      USE tsteps, only: isst0
  									
       include "atparam.h"
 
       PARAMETER ( NLON=IX, NLAT=IL )
 
-      include "com_tsteps.h" 
- 
       include "com_surfcon.h"    
 
       include "com_cli_land.h" 

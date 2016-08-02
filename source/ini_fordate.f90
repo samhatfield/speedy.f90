@@ -7,6 +7,8 @@ subroutine fordate(imode)
     !
     !   input : imode : 0 = initialization step, 1 = daily update
 
+    use lflags, only: lco2
+
     implicit none
 
     include "atparam.h"
@@ -14,7 +16,6 @@ subroutine fordate(imode)
 
     integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon * nlat
 
-    include "com_tsteps.h"
     include "com_date.h"
 
     include "com_dyncon0.h"
@@ -30,8 +31,6 @@ subroutine fordate(imode)
 
     include "com_var_sea.h"
     include "com_var_land.h"
-
-    include "com_lflags.h"
 
     integer, intent(in) :: imode
     real, dimension(nlon, nlat) :: corh, tsfc, tref, psfc, qsfc, qref

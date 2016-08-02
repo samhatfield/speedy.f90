@@ -10,11 +10,13 @@ C--                    = 1 : restart file
 C--   Initialized common blocks : DATE1, DYNSP1, DYNSP2 (PHIS only),
 C--                               SFCANOM, SFCFLUX
 C--
+
+      USE tsteps, only: iyear0, imont0
+
       include "atparam.h"
       include "atparam1.h"
 
       include "com_date.h"
-      include "com_tsteps.h"
 
       include "com_surfcon.h"
 

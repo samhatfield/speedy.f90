@@ -7,6 +7,8 @@ C--             and increment time-mean arrays
 C--   Modified common blocks : TMSAVE
 C--
 
+      USE lflags, only: lppres
+
 C     Resolution parameters
 
       include "atparam.h"
@@ -36,9 +38,6 @@ C     Surface variables on gaussian grid
 
 C     Surface properties (time-inv.)
       include "com_surfcon.h"
-
-C     Logical flags
-      include "com_lflags.h"
 
       real ADSAVE(ngp,6), PHISG(ngp), PMSL(ngp), QSATPL(ngp), ST0(ngp)
       equivalence (PHISG,PHIS0)

@@ -20,6 +20,7 @@ C--   Modified common blocks:  PHYGR1, PHYGR2, PHYGR3, PHYTEN, FLUXES
 C--
 
       USE cpl_flags, only: icsea
+      USE lflags, only: lradsw, lrandf
 
 C     Resolution parameters
 
@@ -42,9 +43,6 @@ C     Surface fields (daily averages)
       include "com_cli_land.h"
       include "com_var_sea.h"
       include "com_var_land.h"
-
-C     Logical and coupling flags
-      include "com_lflags.h"
 
       COMPLEX VOR1(MX,NX,NLEV), DIV1(MX,NX,NLEV), T1(MX,NX,NLEV),
      &          Q1(MX,NX,NLEV), PHI1(MX,NX,NLEV), PSL1(MX,NX),

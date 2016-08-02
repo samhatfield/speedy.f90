@@ -9,6 +9,8 @@ C--   Modified common blocks : TMSAVE
 C--
 C     Resolution parameters
 
+      USE tsteps, only: nstppr
+
       include "atparam.h"
       include "atparam1.h"
 C
@@ -20,9 +22,6 @@ C     Parameters for post-processing arrays
 C     Post-processing arrays (time means)
       include "com_tmean.h"
 c      include "com_tmean_daily.h"
-
-C     Time stepping constants
-      include "com_tsteps.h"
 
 C     Physical constants
       include "com_physcon.h"

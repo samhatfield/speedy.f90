@@ -23,6 +23,7 @@ C--   WIL  = Williams filter coefficient
 C-- 
 C--   Modified common blocks : DYNSP1, DYNSP2
 C--
+
       include "atparam.h"
       include "atparam1.h"
 
@@ -153,6 +154,9 @@ C--   Purpose : Add horizontal diffusion tendency of FIELD
 C--             to spectral tendency FDT at NLEV levels
 C--             using damping coefficients DMP and DMP1
 C--
+
+      USE tsteps, only: wil
+
       include "atparam.h"
 
       COMPLEX FIELD(MXNX,NLEV), FDT(MXNX,NLEV)

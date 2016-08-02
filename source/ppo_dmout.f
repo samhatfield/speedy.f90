@@ -7,6 +7,9 @@ C--   Input :   IMODE = 0 initialize daily-mean arrays to 0
 C--             IMODE > 0 write daily-means and reset arrays to 0
 C--   Modified common blocks : TMSAVE 
 C--
+
+      USE tsteps, only: nsteps, nstppr, idout
+
 C     Resolution parameters
 
       include "atparam.h"
@@ -19,9 +22,6 @@ C     Parameters for post-processing arrays
 
 C     Post-processing arrays (time means)
       include "com_tmean.h"
-
-C     Time stepping constants
-      include "com_tsteps.h"
 
       real*4  R4OUT(ngp)
 

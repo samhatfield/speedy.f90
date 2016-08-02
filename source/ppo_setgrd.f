@@ -8,8 +8,9 @@ C--   Input : ind = 0 for initialization, 1 otherwise
 C--         : norun = run identifier
 C--
 
+      USE tsteps, only: idout
+
       include "com_date.h"
-      include "com_tsteps.h"
 
       character*3  norun
       character*16 ofile11, ofile13, ofile15

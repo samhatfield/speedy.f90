@@ -10,13 +10,11 @@ subroutine agcm_init(cexp, inidate, ntimes, irstart, ndays)
     !c      parameter ( ngp = ix*il )
 
     use cpl_flags, only: icsea, isstan
+    use tsteps
 
     implicit none
 
-    include "com_tsteps.h"
     include "com_date.h"
-
-    include "com_lflags.h"
 
     ! input (reset by input/include files if inidate = 0):
     character(len=3), intent(inout) :: cexp        ! experiment identifier
@@ -39,13 +37,9 @@ subroutine agcm_init(cexp, inidate, ntimes, irstart, ndays)
 
     if (istart /= 0) istart = 1
 
-    include "cls_instep.h"
-
     if (inidate > 0) then
        iyear0 = inidate/100
        imont0 = mod(inidate,100)
-
-       isst0 = (iyear0 - issty0) * 12 + imont0
 
        if (ntimes < 0) then
           nmonts = -ntimes
@@ -55,6 +49,8 @@ subroutine agcm_init(cexp, inidate, ntimes, irstart, ndays)
           ndaysl = ntimes
        endif
     endif
+
+    isst0 = (iyear0 - issty0) * 12 + imont0
 
     call newdate(0)
 
@@ -81,6 +77,8 @@ subroutine newdate(imode)
     !--   purpose:   initilialize and update date variables 
     !--   input :    imode = 0 for initialization, > 0 for update  
 
+    use tsteps
+
     implicit none
 
     integer, intent(in) :: imode
@@ -88,7 +86,6 @@ subroutine newdate(imode)
     integer :: jm, im
       
     include "com_date.h"
-    include "com_tsteps.h"
 
     ! 365-day calendar
     integer :: ncal365(12) = (/ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 /)

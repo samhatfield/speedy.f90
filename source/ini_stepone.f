@@ -7,17 +7,14 @@ C--             and perform initial time step
 C--   Initialized common block : LFLAG2
 C--
 
-      include "com_tsteps.h"
-      include "com_lflags.h"
-  
+      USE tsteps, only: delt, delt2, alph, rob, wil
+
       iitest=1
       if (iitest.eq.1) print*, ' instep: initial time step'
 
       IF (ISTART.EQ.0) THEN
 
         DELTH = 0.5*DELT
-        LRADSW = .TRUE.
-        LRANDF = .FALSE.
 
         if (iitest.eq.1) print*, ' semi-impl. initialization'
         CALL IMPINT (DELTH,ALPH)

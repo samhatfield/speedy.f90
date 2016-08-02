@@ -7,10 +7,9 @@ C--            post-processing/output routines at selected steps
 C--   Input/output : ISTEP = time step index
 C--   Updated common block : LFLAG2
 C-- 
+      USE lflags, only: lradsw, lrandf
+      USE tsteps
 
-      include "com_tsteps.h"
-      include "com_lflags.h"
- 
       iitest=0
 
       DO J=1,NSTEPS

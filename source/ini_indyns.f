@@ -10,11 +10,11 @@ C--                              HDIFC1, HDIFC3,
 C--                              common blocks for spectral transforms 
 C--                              (through routine PARMTR) 
 C--
+
+      USE tsteps, only: nsteps, alph
+
       include "atparam.h"
       include "atparam1.h"
-
-      include "com_tsteps.h"
-      include "com_lflags.h"
 
       include "com_dyncon0.h"
       include "com_dyncon1.h"
@@ -24,15 +24,6 @@ C--
 C--   1. Definition of constants
  
       IF (MOD(NSTEPS,2).NE.0) STOP ' Invalid no. of time steps'
-      DELT=86400./NSTEPS
-      DELT2=2.*DELT
-
-c     ROB = Robert filter parameter
-      ROB  = 0.05
-
-c     WIL = Williams filter parameter
-c      WIL = 1.0
-      WIL = 0.53
 
 c     ALPH = 0 ---- forward step for gravity wave terms
 c     ALPH = 1 ---- backward implicit -----------------
