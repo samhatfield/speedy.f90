@@ -106,7 +106,7 @@ ini_iniatm.o           : ini_iniatm.f90 tsteps.o
 ini_inphys.o           : ini_inphys.f
 ini_inirdf.o           : ini_inirdf.f
 ini_invars.o           : ini_invars.f tsteps.o
-ini_stepone.o          : ini_stepone.f tsteps.o
+ini_stepone.o          : ini_stepone.f90 tsteps.o
 ini_fordate.o          : ini_fordate.f90
 #land2atm.o             : land2atm.f
 #land_init.o            : land_init.f
