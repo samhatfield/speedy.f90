@@ -6,13 +6,14 @@ C--
 C--   Purpose : Read topography and climatological boundary conditions 
 C--   Input :   grav0  = gravity accel.
 C--             radlat = grid latitudes in radiants
+
+      USE cpl_flags, only: icsea, isstan
  									
       include "atparam.h"
 
       PARAMETER ( NLON=IX, NLAT=IL )
 
       include "com_tsteps.h" 
-      include "com_cpl_flags.h"
  
       include "com_surfcon.h"    
 

@@ -9,13 +9,14 @@ subroutine agcm_init(cexp, inidate, ntimes, irstart, ndays)
     
     !c      parameter ( ngp = ix*il )
 
+    use cpl_flags, only: icsea, isstan
+
     implicit none
 
     include "com_tsteps.h"
     include "com_date.h"
 
     include "com_lflags.h"
-    include "com_cpl_flags.h"
 
     ! input (reset by input/include files if inidate = 0):
     character(len=3), intent(inout) :: cexp        ! experiment identifier

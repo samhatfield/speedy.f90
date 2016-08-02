@@ -18,11 +18,6 @@
       NSTRDF = 0
       INDRDF = 1
 
-      ICLAND = 1
-      ICSEA  = 0
-      ICICE  = 1
-      ISSTAN = 1
-
       ISSTY0 = 1854
       ISST0  = (IYEAR0-ISSTY0)*12+IMONT0
 

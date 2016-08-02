@@ -1,5 +1,6 @@
 
       SUBROUTINE INI_LAND (istart)
+
 C--
 C--   SUBROUTINE INI_LAND (istart)
 C-- 
@@ -8,8 +9,6 @@ C--   Input : istart = restart flag ( 0 = no, 1 = yes)
       include "atparam.h"
 
       PARAMETER ( NLON=IX, NLAT=IL, NGP=NLON*NLAT )
-
-      include "com_cpl_flags.h"
 
       include "com_cli_land.h"
       include "com_var_land.h"
@@ -36,6 +35,8 @@ C--   3. Compute additional land variables
 
 
       SUBROUTINE ATM2LAND (jday)
+
+      USE cpl_flags, only: icland
 C--
 C--   SUBROUTINE ATM2LAND (jday)
 C-- 
@@ -44,7 +45,6 @@ C--
       PARAMETER ( NLON=IX, NLAT=IL, NGP=NLON*NLAT )
 
       include "com_date.h"
-      include "com_cpl_flags.h"
 
       include "com_cli_land.h" 
       include "com_var_land.h"
@@ -83,14 +83,14 @@ C--   3. Call message-passing routines to send data (if needed)
 
 
       SUBROUTINE LAND2ATM (jday)
+
+      USE cpl_flags, only: icland
 C--
 C--   SUBROUTINE LAND2ATM (jday)
 C-- 
       include "atparam.h"
 
       PARAMETER ( NLON=IX, NLAT=IL, NGP=NLON*NLAT )
-
-      include "com_cpl_flags.h"
 
       include "com_var_land.h"
 
@@ -137,6 +137,8 @@ C     3.2 Snow depth and soil water availability
 
 
       SUBROUTINE REST_LAND (imode)
+
+      USE cpl_flags, only: icland
 C--
 C--   SUBROUTINE REST_LAND (imode)
 C--
@@ -148,8 +150,6 @@ C--
       include "atparam.h"
 
       PARAMETER ( NLON=IX, NLAT=IL, NGP=NLON*NLAT )
-
-      include "com_cpl_flags.h"
 
       include "com_var_land.h"
 

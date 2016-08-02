@@ -17,6 +17,7 @@ COMPILE=gfortran
 
 FILES= \
        cpl_bcinterp.o \
+	   cpl_flags.o \
        cpl_land.o \
        cpl_land_model.o \
        cpl_main_interface.o \
@@ -82,10 +83,11 @@ at_gcm.o               : at_gcm.f90
 #atm2sea.o              : atm2sea.f
 #get_from_coupler.o     : get_from_coupler.f
 cpl_bcinterp.o         : cpl_bcinterp.f
-cpl_land.o             : cpl_land.f
+cpl_flags.o            : cpl_flags.f90
+cpl_land.o             : cpl_land.f cpl_flags.o
 cpl_land_model.o       : cpl_land_model.f
-cpl_main_interface.o   : cpl_main_interface.f
-cpl_sea.o              : cpl_sea.f
+cpl_main_interface.o   : cpl_main_interface.f90
+cpl_sea.o              : cpl_sea.f cpl_flags.o
 cpl_sea_model.o        : cpl_sea_model.f
 dyn_geop.o             : dyn_geop.f
 dyn_grtend.o           : dyn_grtend.f
@@ -94,21 +96,21 @@ dyn_sptend.o           : dyn_sptend.f
 dyn_step.o             : dyn_step.f
 dyn_stloop.o           : dyn_stloop.f
 #ini_coupler.o          : ini_coupler.f
-ini_agcm_init.o        : ini_agcm_init.f90
+ini_agcm_init.o        : ini_agcm_init.f90 cpl_flags.o
 ini_impint.o           : ini_impint.f
 ini_indyns.o           : ini_indyns.f
-ini_inbcon.o           : ini_inbcon.f
+ini_inbcon.o           : ini_inbcon.f cpl_flags.o
 ini_iniatm.o           : ini_iniatm.f90
 ini_inphys.o           : ini_inphys.f
 ini_inirdf.o           : ini_inirdf.f
 ini_invars.o           : ini_invars.f
 ini_stepone.o          : ini_stepone.f
-ini_fordate.o          : ini_fordate.f
+ini_fordate.o          : ini_fordate.f90
 #land2atm.o             : land2atm.f
 #land_init.o            : land_init.f
 phy_convmf.o           : phy_convmf.f
 phy_lscond.o           : phy_lscond.f
-phy_phypar.o           : phy_phypar.f
+phy_phypar.o           : phy_phypar.f cpl_flags.o
 phy_radiat.o           : phy_radiat.f
 phy_shtorh.o           : phy_shtorh.f
 phy_suflux.o           : phy_suflux.f

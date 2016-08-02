@@ -19,6 +19,8 @@ C--                            QTEND  : spec. hum. tendency (gp)
 C--   Modified common blocks:  PHYGR1, PHYGR2, PHYGR3, PHYTEN, FLUXES
 C--
 
+      USE cpl_flags, only: icsea
+
 C     Resolution parameters
 
       include "atparam.h"
@@ -43,7 +45,6 @@ C     Surface fields (daily averages)
 
 C     Logical and coupling flags
       include "com_lflags.h"
-      include "com_cpl_flags.h"
 
       COMPLEX VOR1(MX,NX,NLEV), DIV1(MX,NX,NLEV), T1(MX,NX,NLEV),
      &          Q1(MX,NX,NLEV), PHI1(MX,NX,NLEV), PSL1(MX,NX),
