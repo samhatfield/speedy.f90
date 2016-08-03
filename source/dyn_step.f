@@ -24,7 +24,7 @@ C--
 C--   Modified common blocks : DYNSP1, DYNSP2
 C--
 
-      USE dyncon0, only: tdrs
+      USE mod_dyncon0, only: tdrs
 
       include "atparam.h"
       include "atparam1.h"
@@ -156,7 +156,7 @@ C--             to spectral tendency FDT at NLEV levels
 C--             using damping coefficients DMP and DMP1
 C--
 
-      USE tsteps, only: wil
+      USE mod_tsteps, only: wil
 
       include "atparam.h"
 

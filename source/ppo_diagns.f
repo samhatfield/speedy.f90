@@ -7,7 +7,7 @@ C--   Input : JJ    = time level index (1 or 2)
 C--           ISTEP = time step index
 C--
 
-      USE tsteps, only: nstdia, nstppr, nstout
+      USE mod_tsteps, only: nstdia, nstppr, nstout
 
       include "atparam.h"
       include "atparam1.h"

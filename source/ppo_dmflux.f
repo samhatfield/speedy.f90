@@ -8,7 +8,7 @@ C--            used in sea/land models and daily/time-mean output
 C--   Input: IADD = 0 to initialize storage arrays to 0
 C--               > 0 to increment arrays with current flux values  
 
-      USE tsteps, only: nsteps
+      USE mod_tsteps, only: nsteps
 
       include "atparam.h"
       include "atparam1.h"

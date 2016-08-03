@@ -22,6 +22,8 @@ C--            DFSE   = net flux of d.s.en. into each atm. layer (3-dim)
 C--            DFQA   = net flux of sp.hum. into each atm. layer (3-dim)
 C--
 
+      USE mod_cnvcon
+
 C     Resolution parameters
 
       include "atparam.h"
@@ -32,10 +34,6 @@ C     Resolution parameters
 C     Physical constants + functions of sigma and latitude
 
       include "com_physcon.h"
-
-C     Convection constants
-
-      include "com_cnvcon.h"
 
       REAL PSA(NGP), SE(NGP,NLEV), QA(NGP,NLEV), QSAT(NGP,NLEV)
 

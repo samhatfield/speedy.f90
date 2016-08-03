@@ -9,7 +9,7 @@ C--                   > 0 : write model variables  to a restart file
 C--                         at selected dates and at the end of run 
 C--
     
-      USE tsteps, only: nmonrs, iyear0, imont0
+      USE mod_tsteps, only: nmonrs, iyear0, imont0
 
       include "atparam.h"
       include "atparam1.h"

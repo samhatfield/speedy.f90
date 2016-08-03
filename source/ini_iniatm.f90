@@ -3,7 +3,7 @@ subroutine ini_atm (cexp)
     !
     !   purpose : call initialization routines for all model common blocks 
 
-    use tsteps, only: nmonts, nsteps, nstout, idout, iyear0, imont0, indrdf
+    use mod_tsteps, only: nmonts, nsteps, nstout, idout, iyear0, imont0, indrdf
 
     implicit none
 

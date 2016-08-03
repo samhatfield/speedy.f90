@@ -1,6 +1,6 @@
 !> @brief
 !> Constants for initialization of dynamics.
-module dyncon0
+module mod_dyncon0
     implicit none
 
     private

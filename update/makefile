@@ -17,13 +17,11 @@ COMPILE=gfortran
 
 FILES= \
        cpl_bcinterp.o \
-	   cpl_flags.o \
        cpl_land.o \
        cpl_land_model.o \
        cpl_main_interface.o \
        cpl_sea.o \
        cpl_sea_model.o \
-	   dyncon0.o \
        dyn_geop.o \
        dyn_grtend.o \
        dyn_implic.o \
@@ -40,7 +38,11 @@ FILES= \
        ini_invars.o \
        ini_stepone.o \
        ini_fordate.o \
-	   lflags.o \
+	   mod_cnvcon.o \
+	   mod_cpl_flags.o \
+	   mod_dyncon0.o \
+	   mod_lflags.o \
+	   mod_tsteps.o \
        phy_convmf.o \
        phy_lscond.o \
        phy_phypar.o \
@@ -58,8 +60,7 @@ FILES= \
        ppo_dmout.o \
        spe_matinv.o \
        spe_spectral.o \
-       spe_subfft_fftpack.o \
-	   tsteps.o
+       spe_subfft_fftpack.o
 
 #       land2atm.o \
 #       land_init.o \
@@ -80,58 +81,59 @@ imp.exe: $(FILES)  at_gcm.o
 	$(COMPILE) $(COMCONV) $(COMOTT1) $(FILES) at_gcm.o -o imp.exe $(COMLIB1) 
 
 
-at_gcm.o               : at_gcm.f90 tsteps.o
+at_gcm.o               : at_gcm.f90 mod_tsteps.o
 #addflx.o               : addflx.f
 #atm2land.o             : atm2land.f
 #atm2sea.o              : atm2sea.f
 #get_from_coupler.o     : get_from_coupler.f
 cpl_bcinterp.o         : cpl_bcinterp.f
-cpl_flags.o            : cpl_flags.f90
-cpl_land.o             : cpl_land.f cpl_flags.o
+cpl_land.o             : cpl_land.f mod_cpl_flags.o
 cpl_land_model.o       : cpl_land_model.f
 cpl_main_interface.o   : cpl_main_interface.f90
-cpl_sea.o              : cpl_sea.f cpl_flags.o
+cpl_sea.o              : cpl_sea.f mod_cpl_flags.o
 cpl_sea_model.o        : cpl_sea_model.f
-dyncon0.o              : dyncon0.f90
 dyn_geop.o             : dyn_geop.f
 dyn_grtend.o           : dyn_grtend.f
 dyn_implic.o           : dyn_implic.f
 dyn_sptend.o           : dyn_sptend.f
-dyn_step.o             : dyn_step.f tsteps.o dyncon0.o
-dyn_stloop.o           : dyn_stloop.f lflags.o tsteps.o
+dyn_step.o             : dyn_step.f mod_tsteps.o mod_dyncon0.o
+dyn_stloop.o           : dyn_stloop.f90 mod_lflags.o mod_tsteps.o
 #ini_coupler.o          : ini_coupler.f
-ini_agcm_init.o        : ini_agcm_init.f90 cpl_flags.o tsteps.o
-ini_impint.o           : ini_impint.f dyncon0.o
-ini_indyns.o           : ini_indyns.f90 tsteps.o dyncon0.o
-ini_inbcon.o           : ini_inbcon.f cpl_flags.o tsteps.o dyncon0.o
-ini_iniatm.o           : ini_iniatm.f90 tsteps.o
+ini_agcm_init.o        : ini_agcm_init.f90 mod_cpl_flags.o mod_tsteps.o
+ini_impint.o           : ini_impint.f mod_dyncon0.o
+ini_indyns.o           : ini_indyns.f90 mod_tsteps.o mod_dyncon0.o
+ini_inbcon.o           : ini_inbcon.f mod_cpl_flags.o mod_tsteps.o mod_dyncon0.o
+ini_iniatm.o           : ini_iniatm.f90 mod_tsteps.o
 ini_inphys.o           : ini_inphys.f
 ini_inirdf.o           : ini_inirdf.f
-ini_invars.o           : ini_invars.f tsteps.o dyncon0.o
-ini_stepone.o          : ini_stepone.f90 tsteps.o
-ini_fordate.o          : ini_fordate.f90 dyncon0.o lflags.o
+ini_invars.o           : ini_invars.f mod_tsteps.o mod_dyncon0.o
+ini_stepone.o          : ini_stepone.f90 mod_tsteps.o
+ini_fordate.o          : ini_fordate.f90 mod_dyncon0.o mod_lflags.o
 #land2atm.o             : land2atm.f
 #land_init.o            : land_init.f
-lflags.o               : lflags.f90
-phy_convmf.o           : phy_convmf.f
+mod_cnvcon.o           : mod_cnvcon.f90
+mod_cpl_flags.o        : mod_cpl_flags.f90
+mod_dyncon0.o          : mod_dyncon0.f90
+mod_lflags.o           : mod_lflags.f90
+mod_tsteps.o           : mod_tsteps.f90
+phy_convmf.o           : phy_convmf.f mod_cnvcon.o
 phy_lscond.o           : phy_lscond.f
-phy_phypar.o           : phy_phypar.f cpl_flags.o lflags.o
+phy_phypar.o           : phy_phypar.f mod_cpl_flags.o mod_lflags.o
 phy_radiat.o           : phy_radiat.f
 phy_shtorh.o           : phy_shtorh.f
 phy_suflux.o           : phy_suflux.f
 phy_vdifsc.o           : phy_vdifsc.f
-ppo_diagns.o           : ppo_diagns.f tsteps.o
-ppo_restart.o          : ppo_restart.f tsteps.o
+ppo_diagns.o           : ppo_diagns.f mod_tsteps.o
+ppo_restart.o          : ppo_restart.f mod_tsteps.o
 ppo_setctl.o           : ppo_setctl.f
-ppo_setgrd.o           : ppo_setgrd.f tsteps.o
-ppo_tminc.o            : ppo_tminc.f lflags.o
-ppo_dmflux.o           : ppo_dmflux.f tsteps.o
-ppo_tmout.o            : ppo_tmout.f tsteps.o
-ppo_dmout.o            : ppo_dmout.f tsteps.o
+ppo_setgrd.o           : ppo_setgrd.f mod_tsteps.o
+ppo_tminc.o            : ppo_tminc.f mod_lflags.o
+ppo_dmflux.o           : ppo_dmflux.f mod_tsteps.o
+ppo_tmout.o            : ppo_tmout.f mod_tsteps.o
+ppo_dmout.o            : ppo_dmout.f mod_tsteps.o
 #sea2atm.o              : sea2atm.f
 #sea_init.o             : sea_init.f 
 #send_to_coupler.o      : send_to_coupler.f
 spe_matinv.o           : spe_matinv.f
 spe_spectral.o         : spe_spectral.f
 spe_subfft_fftpack.o   : spe_subfft_fftpack.f 
-tsteps.o               : tsteps.f90

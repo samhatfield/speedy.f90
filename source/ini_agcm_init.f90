@@ -9,8 +9,8 @@ subroutine agcm_init(cexp, inidate, ntimes, irstart, ndays)
     
     !c      parameter ( ngp = ix*il )
 
-    use cpl_flags, only: icsea, isstan
-    use tsteps
+    use mod_cpl_flags, only: icsea, isstan
+    use mod_tsteps
 
     implicit none
 
@@ -77,7 +77,7 @@ subroutine newdate(imode)
     !--   purpose:   initilialize and update date variables 
     !--   input :    imode = 0 for initialization, > 0 for update  
 
-    use tsteps
+    use mod_tsteps
 
     implicit none
 

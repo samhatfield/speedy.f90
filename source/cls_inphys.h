@@ -7,15 +7,6 @@ C--   Soil moisture and snow parameters (common SOILMP):
       SWWIL = 0.17
       SD2SC = 60.
 
-C--   Constants for convection (common CNVCON):
-
-      PSMIN  =  0.8
-      TRCNV  =  6.
-      RHBL   =  0.9
-      RHIL   =  0.7
-      ENTMAX =  0.5
-      SMF    =  0.8
-
 C--   Constants for large-scale condensation (common LSCCON):
 
       TRLSC  = 4.

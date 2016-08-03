@@ -7,8 +7,8 @@ subroutine fordate(imode)
     !
     !   input : imode : 0 = initialization step, 1 = daily update
 
-    use lflags, only: lco2
-    use dyncon0, only: refrh1
+    use mod_lflags, only: lco2
+    use mod_dyncon0, only: refrh1
 
     implicit none
 
@@ -123,7 +123,7 @@ subroutine setgam(tyear,gamlat)
     ! aux. routine gamlat : compute reference lapse rate 
     !                       as a function of latitude and date
 
-    use dyncon0, only: gamma
+    use mod_dyncon0, only: gamma
 
     implicit none
 

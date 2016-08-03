@@ -11,8 +11,8 @@ C--   Initialized common blocks : DATE1, DYNSP1, DYNSP2 (PHIS only),
 C--                               SFCANOM, SFCFLUX
 C--
 
-      USE tsteps, only: iyear0, imont0
-      use dyncon0, only: gamma, hscale, hshum, refrh1
+      USE mod_tsteps, only: iyear0, imont0
+      use mod_dyncon0, only: gamma, hscale, hshum, refrh1
 
       include "atparam.h"
       include "atparam1.h"

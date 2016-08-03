@@ -20,7 +20,7 @@ c     terms anyway to reduce roundoff error; also the constants needed for
 c     the biharmonic diffusion, which is assumed always to be backwards 
 c     implicit, are defined in IMPINT)
 
-      USE dyncon0, only: gamma
+      USE mod_dyncon0, only: gamma
 										
       include "atparam.h"
       include "atparam1.h"

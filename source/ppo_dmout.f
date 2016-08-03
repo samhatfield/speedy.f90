@@ -8,7 +8,7 @@ C--             IMODE > 0 write daily-means and reset arrays to 0
 C--   Modified common blocks : TMSAVE 
 C--
 
-      USE tsteps, only: nsteps, nstppr, idout
+      USE mod_tsteps, only: nsteps, nstppr, idout
 
 C     Resolution parameters
 

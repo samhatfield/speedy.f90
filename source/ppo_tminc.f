@@ -7,7 +7,7 @@ C--             and increment time-mean arrays
 C--   Modified common blocks : TMSAVE
 C--
 
-      USE lflags, only: lppres
+      USE mod_lflags, only: lppres
 
 C     Resolution parameters
 

@@ -19,8 +19,8 @@ C--                            QTEND  : spec. hum. tendency (gp)
 C--   Modified common blocks:  PHYGR1, PHYGR2, PHYGR3, PHYTEN, FLUXES
 C--
 
-      USE cpl_flags, only: icsea
-      USE lflags, only: lradsw, lrandf
+      USE mod_cpl_flags, only: icsea
+      USE mod_lflags, only: lradsw, lrandf
 
 C     Resolution parameters
 

@@ -1,6 +1,6 @@
 !> @brief
 !> Length of the integration and time stepping constants.
-module tsteps
+module mod_tsteps
     implicit none
 
     private

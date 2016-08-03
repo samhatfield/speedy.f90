@@ -1,6 +1,6 @@
 !> @brief
 !> Flags to set coupling options (see doc_instep.txt).
-module cpl_flags
+module mod_cpl_flags
     implicit none
 
     private

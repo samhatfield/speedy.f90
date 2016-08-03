@@ -34,7 +34,7 @@ subroutine agcm_1day(jday, cexp)
     ! perform atm. model integration for 1 day, 
     ! post-proc. and i/o at selected times 
 
-    use tsteps, only: nsteps, idout, nstout
+    use mod_tsteps, only: nsteps, idout, nstout
 
     implicit none
 

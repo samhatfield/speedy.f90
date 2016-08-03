@@ -9,8 +9,8 @@ subroutine indyns
     !                            (through routine parmtr) 
     !
 
-    use tsteps, only: nsteps, alph
-    use dyncon0
+    use mod_tsteps, only: nsteps, alph
+    use mod_dyncon0
 
     implicit none
 

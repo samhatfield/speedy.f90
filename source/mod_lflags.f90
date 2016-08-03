@@ -1,6 +1,6 @@
 !> @brief
 !> Logical flags to control certain behaviour.
-module lflags
+module mod_lflags
     implicit none
 
     private

@@ -8,7 +8,7 @@ C--   Input : ind = 0 for initialization, 1 otherwise
 C--         : norun = run identifier
 C--
 
-      USE tsteps, only: idout
+      USE mod_tsteps, only: idout
 
       include "com_date.h"
 

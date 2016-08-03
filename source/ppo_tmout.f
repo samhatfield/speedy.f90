@@ -9,7 +9,7 @@ C--   Modified common blocks : TMSAVE
 C--
 C     Resolution parameters
 
-      USE tsteps, only: nstppr
+      USE mod_tsteps, only: nstppr
 
       include "atparam.h"
       include "atparam1.h"

@@ -7,8 +7,8 @@ C--   Purpose : Read topography and climatological boundary conditions
 C--   Input :   grav0  = gravity accel.
 C--             radlat = grid latitudes in radiants
 
-      USE cpl_flags, only: icsea, isstan
-      USE tsteps, only: isst0
+      USE mod_cpl_flags, only: icsea, isstan
+      USE mod_tsteps, only: isst0
  									
       include "atparam.h"
 
@@ -383,7 +383,7 @@ C--   and set undefined values to a constant (to avoid over/underflow)
 
       SUBROUTINE FTLAND (STL,PHI0,PHIS0,FMASKL)
 
-      USE dyncon0, only: gamma
+      USE mod_dyncon0, only: gamma
 
       include "atparam.h"
       include "atparam1.h"

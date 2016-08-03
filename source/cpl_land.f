@@ -36,7 +36,7 @@ C--   3. Compute additional land variables
 
       SUBROUTINE ATM2LAND (jday)
 
-      USE cpl_flags, only: icland
+      USE mod_cpl_flags, only: icland
 C--
 C--   SUBROUTINE ATM2LAND (jday)
 C-- 
@@ -84,7 +84,7 @@ C--   3. Call message-passing routines to send data (if needed)
 
       SUBROUTINE LAND2ATM (jday)
 
-      USE cpl_flags, only: icland
+      USE mod_cpl_flags, only: icland
 C--
 C--   SUBROUTINE LAND2ATM (jday)
 C-- 
@@ -138,7 +138,7 @@ C     3.2 Snow depth and soil water availability
 
       SUBROUTINE REST_LAND (imode)
 
-      USE cpl_flags, only: icland
+      USE mod_cpl_flags, only: icland
 C--
 C--   SUBROUTINE REST_LAND (imode)
 C--

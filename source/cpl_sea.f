@@ -5,7 +5,7 @@ C--   SUBROUTINE INI_SEA (istart)
 C-- 
 C--   Input : istart = restart flag ( 0 = no, 1 = yes)
 
-      USE cpl_flags, only: icsea
+      USE mod_cpl_flags, only: icsea
 
       include "atparam.h"
 
@@ -46,7 +46,7 @@ C--   3. Compute additional sea/ice variables
 C--
 C--   SUBROUTINE ATM2SEA (jday)
 C-- 
-      USE cpl_flags, only: icsea, icice, isstan
+      USE mod_cpl_flags, only: icsea, icice, isstan
 
       include "atparam.h"
 
@@ -146,7 +146,7 @@ C--   3. Call message-passing routines to send data (if needed)
 C--
 C--   SUBROUTINE SEA2ATM (jday)
 C-- 
-      USE cpl_flags, only: icsea, icice, isstan
+      USE mod_cpl_flags, only: icsea, icice, isstan
 
       include "atparam.h"
 
@@ -238,7 +238,7 @@ C--   Input :   IMODE = 0 : read model variables from a restart file
 C--                   = 1 : write model variables  to a restart file
 
 C-- 
-      USE cpl_flags, only: icsea, icice
+      USE mod_cpl_flags, only: icsea, icice
 
       include "atparam.h"
 
