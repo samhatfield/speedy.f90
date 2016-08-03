@@ -9,10 +9,10 @@ subroutine fordate(imode)
 
     use mod_lflags, only: lco2
     use mod_dyncon0, only: refrh1
+    use mod_atparam
 
     implicit none
 
-    include "atparam.h"
     include "atparam1.h"
 
     integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon * nlat
@@ -124,10 +124,10 @@ subroutine setgam(tyear,gamlat)
     !                       as a function of latitude and date
 
     use mod_dyncon0, only: gamma
+    use mod_atparam
 
     implicit none
 
-    include "atparam.h"
     include "atparam1.h"
 
     integer, intent(in) :: tyear
@@ -147,9 +147,9 @@ end
 subroutine outest(iunit,fout)
     ! aux. routine outest : write one field on a test output file 
 
-    implicit none
+    use mod_atparam
 
-    include "atparam.h"
+    implicit none
 
     integer, intent(in) :: iunit
     real, intent(in) :: fout(ix, il)

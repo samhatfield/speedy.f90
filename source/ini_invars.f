@@ -12,9 +12,9 @@ C--                               SFCANOM, SFCFLUX
 C--
 
       USE mod_tsteps, only: iyear0, imont0
-      use mod_dyncon0, only: gamma, hscale, hshum, refrh1
+      USE mod_dyncon0, only: gamma, hscale, hshum, refrh1
+      USE mod_atparam
 
-      include "atparam.h"
       include "atparam1.h"
 
       include "com_date.h"

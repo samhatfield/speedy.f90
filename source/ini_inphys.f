@@ -9,9 +9,11 @@ C--            RLAT : gaussian-grid latitudes
 C--   Initialized common blocks: PHYCON, FSIGLT, FORCON, 
 C--                              CNVCON, LSCCON, RADCON, SFLCON, VDICON
 C--
+
+      USE mod_atparam
+
 C     Resolution parameters
 C
-      include "atparam.h"
       include "atparam1.h"
 C
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )

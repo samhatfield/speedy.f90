@@ -6,8 +6,7 @@ C--
 C--   Input : istart = restart flag ( 0 = no, 1 = yes)
 
       USE mod_cpl_flags, only: icsea
-
-      include "atparam.h"
+      USE mod_atparam
 
       PARAMETER ( NLON=IX, NLAT=IL, NGP=NLON*NLAT )
 
@@ -47,8 +46,7 @@ C--
 C--   SUBROUTINE ATM2SEA (jday)
 C-- 
       USE mod_cpl_flags, only: icsea, icice, isstan
-
-      include "atparam.h"
+      USE mod_atparam
 
       PARAMETER ( NLON=IX, NLAT=IL, NGP=NLON*NLAT )
 
@@ -147,8 +145,7 @@ C--
 C--   SUBROUTINE SEA2ATM (jday)
 C-- 
       USE mod_cpl_flags, only: icsea, icice, isstan
-
-      include "atparam.h"
+      USE mod_atparam
 
       PARAMETER ( NLON=IX, NLAT=IL, NGP=NLON*NLAT )
 
@@ -239,8 +236,7 @@ C--                   = 1 : write model variables  to a restart file
 
 C-- 
       USE mod_cpl_flags, only: icsea, icice
-
-      include "atparam.h"
+      USE mod_atparam
 
       PARAMETER ( NLON=IX, NLAT=IL, NGP=NLON*NLAT )
 
@@ -287,9 +283,9 @@ C--
 C--   SUBROUTINE OBS_SSTA 
 C--
 C--   Purpose : update observed SST anomaly array
- 
-      include "atparam.h"
 
+      USE mod_atparam
+ 
       include "com_cli_sea.h"
 
       real*4 r4inp(ix,il)

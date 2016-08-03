@@ -39,9 +39,11 @@ C--            V0     = near-surface v-wind             (2-dim)
 C--            T0     = near-surface air temperature    (2-dim)
 C--            Q0     = near-surface sp. humidity [g/kg](2-dim)
 C--
+
+      USE mod_atparam
+
 C     Resolution parameters
 
-      include "atparam.h"
       include "atparam1.h"
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
@@ -420,9 +422,10 @@ C--   Purpose: compute orographic factor for land surface drag
 C--   Input:   PHI0   = surface geopotential            (2-dim)
 C--            Initialized common blocks: SFLFIX
 
+      USE mod_atparam
+
 C     Resolution parameters
 C
-      include "atparam.h"
       include "atparam1.h"
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )

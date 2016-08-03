@@ -27,7 +27,7 @@ module mod_tsteps
     integer :: nstout = -1
 
     ! Daily output flag (0=no, 1=basic (Z500,PREC,MSLP,TEMP0), 2=full)
-    integer, parameter :: idout  = 0
+    integer, parameter :: idout  = 1
 
     ! Period (no. of months) for restart file update
     integer, parameter :: nmonrs = 3

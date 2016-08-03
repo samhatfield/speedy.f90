@@ -7,9 +7,9 @@ C--
 C--   Purpose : Initialization of sea model
 C--   Initialized common blocks: SEA_MC
 C--	
-							
-      include "atparam.h"
 
+      USE mod_atparam
+							
       PARAMETER ( NLON=IX, NLAT=IL, NGP=NLON*NLAT )
 
 C     Input variables
@@ -125,8 +125,8 @@ C--
 C--   SUBROUTINE SEA_MODEL
 C--
 C--   Purpose : Integrate slab ocean and sea-ice models for one day
-							
-      include "atparam.h"
+
+      USE mod_atparam
 
       PARAMETER ( NLON=IX, NLAT=IL, NGP=NLON*NLAT )
 
@@ -225,8 +225,8 @@ C--   SUBROUTINE SEA_DOMAIN (cdomain,rlat,dmask)
 C--
 C--   Purpose : Definition of ocean domains
 C--	
-							
-      include "atparam.h"
+
+      USE mod_atparam
 
       PARAMETER ( NLON=IX, NLAT=IL )
 

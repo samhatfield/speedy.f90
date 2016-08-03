@@ -10,8 +10,8 @@ C--
 C     Resolution parameters
 
       USE mod_tsteps, only: nstppr
+      USE mod_atparam
 
-      include "atparam.h"
       include "atparam1.h"
 C
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )

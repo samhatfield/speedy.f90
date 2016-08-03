@@ -13,9 +13,11 @@ C--            ZENIT  = function of solar zenith angle
 C--   Input:   TYEAR  = time as fraction of year (0-1, 0 = 1jan.h00)
 C--   Updated common blocks: RADZON
 C--
+
+      USE mod_atparam
+
 C     Resolution parameters
 C
-      include "atparam.h"
       include "atparam1.h"
 C
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
@@ -151,9 +153,10 @@ C--   Output:  ICLTOP = cloud top level (all clouds)            (2-dim)
 C--            CLOUDC = total cloud cover                       (2-dim)
 C--            CLSTR  = stratiform cloud cover                  (2-dim)
 
+      USE mod_atparam
+
 C     Resolution parameters
 C
-      include "atparam.h"
       include "atparam1.h"
 C
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
@@ -282,9 +285,11 @@ C--            FSFC   = net (downw.) flux of sw rad. at the surface  (2-dim)
 C--            FTOP   = net (downw.) flux of sw rad. at the atm. top (2-dim)
 C--            DFABS  = flux of sw rad. absorbed by each atm. layer  (3-dim)
 C--
+
+      USE mod_atparam
+
 C     Resolution parameters
 C
-      include "atparam.h"
       include "atparam1.h"
 C
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
@@ -533,9 +538,11 @@ C--            FSFC   = net upw. flux of lw rad. at the sfc. [if IMODE=0,1]
 C--            FTOP   = outgoing flux of lw rad. at the top  [if IMODE=0,1]
 C--            DFABS  = flux of lw rad. absorbed by each atm. layer (3-dim)
 C--
+
+      USE mod_atparam
+
 C     Resolution parameters
 C
-      include "atparam.h"
       include "atparam1.h"
 C
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
@@ -775,9 +782,10 @@ C--   Purpose: compute energy fractions in LW bands
 C--            as a function of temperature
 C--   Initialized common blocks: RADFIX
 
+      USE mod_atparam
+
 C     Resolution parameters
 
-      include "atparam.h"
       include "atparam1.h"
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )

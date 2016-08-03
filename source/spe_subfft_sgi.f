@@ -1,9 +1,9 @@
 
       SUBROUTINE INIFFT
 
-C     Initialize FFTs
+      USE mod_atparam
 
-      include "atparam.h"
+C     Initialize FFTs
 
       COMMON /FFTCOM/ COEFFT(IX+15)
 
@@ -16,9 +16,9 @@ C     Initialize FFTs
 
       SUBROUTINE GRIDX(VARM,VORG,KCOS)
 
-C     From Fourier coefficients to grid-point data
+      USE mod_atparam
 
-      include "atparam.h"
+C     From Fourier coefficients to grid-point data
 
       PARAMETER (IMAX=IX+2 )
 
@@ -72,9 +72,9 @@ C     Copy output into grid-point field, scaling by cos(lat) if needed
 
       SUBROUTINE SPECX(VORG,VARM)
 
-C     From grid-point data to Fourier coefficients
+      USE mod_atparam
 
-      include "atparam.h"
+C     From grid-point data to Fourier coefficients
 
       PARAMETER (IMAX=IX+2 )
 

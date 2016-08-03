@@ -4,10 +4,10 @@ subroutine ini_atm (cexp)
     !   purpose : call initialization routines for all model common blocks 
 
     use mod_tsteps, only: nmonts, nsteps, nstout, idout, iyear0, imont0, indrdf
+    use mod_atparam
 
     implicit none
 
-    include "atparam.h"
     include "atparam1.h"
 
     include "com_date.h"
@@ -35,14 +35,14 @@ subroutine ini_atm (cexp)
 
     ! 4. initialize constants for physical parametrization
     if (iitest == 1) print *, 'calling inphys'
-    call inphys (hsg, ppl, radang)
+    call inphys(hsg, ppl, radang)
 
     ! 5. initialize forcing fields (boundary cond. + random forcing)
     if (iitest == 1) print *, 'calling inbcon'
-    call inbcon (grav,radang)
+    call inbcon(grav,radang)
 
     if (iitest == 1) print *, 'calling inirdf'
-    call inirdf (indrdf)
+    call inirdf(indrdf)
 
     ! 6. initialize model variables
     if (iitest == 1) print *, 'calling invars'

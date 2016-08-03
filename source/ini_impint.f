@@ -21,8 +21,8 @@ c     the biharmonic diffusion, which is assumed always to be backwards
 c     implicit, are defined in IMPINT)
 
       USE mod_dyncon0, only: gamma
+      USE mod_atparam
 										
-      include "atparam.h"
       include "atparam1.h"
 
       include "com_dyncon1.h"

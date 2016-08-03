@@ -4,10 +4,6 @@ subroutine agcm_init(cexp, inidate, ntimes, irstart, ndays)
     !
     !   purpose: initialization of atmos. model and coupling interface 
     !
-    !c      include "atparam.h"
-    !c      include "atparam1.h"
-    
-    !c      parameter ( ngp = ix*il )
 
     use mod_cpl_flags, only: icsea, isstan
     use mod_tsteps

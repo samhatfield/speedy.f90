@@ -7,9 +7,9 @@ C--
 C--   Purpose : Initialization of land model
 C--   Initialized common blocks: LAND_MC
 C--	
-							
-      include "atparam.h"
 
+      USE mod_atparam
+							
       PARAMETER ( NLON=IX, NLAT=IL, NGP=NLON*NLAT )
 
 C     Input variables
@@ -85,7 +85,7 @@ C--   SUBROUTINE LAND_MODEL
 C--
 C--   Purpose : Integrate slab land-surface model for one day
 							
-      include "atparam.h"
+      USE mod_atparam
 
       PARAMETER ( NLON=IX, NLAT=IL, NGP=NLON*NLAT )
 

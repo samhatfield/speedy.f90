@@ -8,7 +8,9 @@ C--   Input: TT1, TT2 = diabatic heating fields
 C--          IVM      = index of vertical mode (1 or 2)
 C--   Modified common block: RANDF
 C--
-      include "atparam.h"
+
+      USE mod_atparam
+
       include "atparam1.h"
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
@@ -72,7 +74,9 @@ C--
 C--   Purpose: compute 3-D pattern of random diabatic forcing
 C--   Output: TT_RDF = random diabatic forcing
 C--
-      include "atparam.h"
+
+      USE mod_atparam
+
       include "atparam1.h"
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )

@@ -6,7 +6,9 @@ C--   Purpose : Initialize random diabatic forcing
 C--   Input :   INIRDF = index of forcing perturbation
 C--   Initialized common blocks: RANDF
 C--
-      include "atparam.h"
+
+      USE mod_atparam
+
       include "atparam1.h"
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )

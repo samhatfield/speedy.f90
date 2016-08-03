@@ -9,9 +9,8 @@ C--             radlat = grid latitudes in radiants
 
       USE mod_cpl_flags, only: icsea, isstan
       USE mod_tsteps, only: isst0
+      USE mod_atparam
  									
-      include "atparam.h"
-
       PARAMETER ( NLON=IX, NLAT=IL )
 
       include "com_surfcon.h"    
@@ -384,8 +383,8 @@ C--   and set undefined values to a constant (to avoid over/underflow)
       SUBROUTINE FTLAND (STL,PHI0,PHIS0,FMASKL)
 
       USE mod_dyncon0, only: gamma
+      USE mod_atparam
 
-      include "atparam.h"
       include "atparam1.h"
 
       PARAMETER ( NLON=IX, NLAT=IL)
@@ -465,7 +464,7 @@ C--   Input   : ITR : spectral truncation (triangular)
 C--           : FG1 : original grid-point field
 C--   Output  : FG2 : filtered grid-point field
 
-      include "atparam.h"
+      USE mod_atparam
 
       REAL FG1 (IX,IL), FG2(IX,IL)
       COMPLEX FSP(MX,NX), ZERO 

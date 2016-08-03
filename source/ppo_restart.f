@@ -10,8 +10,8 @@ C--                         at selected dates and at the end of run
 C--
     
       USE mod_tsteps, only: nmonrs, iyear0, imont0
+      USE mod_atparam
 
-      include "atparam.h"
       include "atparam1.h"
 
       include "com_date.h"

@@ -21,10 +21,10 @@ C--
 
       USE mod_cpl_flags, only: icsea
       USE mod_lflags, only: lradsw, lrandf
+      USE mod_atparam
 
 C     Resolution parameters
 
-      include "atparam.h"
       include "atparam1.h"
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )

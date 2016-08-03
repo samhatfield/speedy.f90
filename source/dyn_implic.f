@@ -7,7 +7,9 @@ C--   Input/output : DIVDT = divergence tendency
 C--                  TDT   = temperature tendency
 C--                  PSDT  = tendency of log(surf.pressure)
 C--
-      include "atparam.h"
+
+      USE mod_atparam
+
       include "atparam1.h"
       PARAMETER (MXNXKX=MX*NX*KX)
 

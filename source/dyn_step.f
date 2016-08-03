@@ -25,8 +25,8 @@ C--   Modified common blocks : DYNSP1, DYNSP2
 C--
 
       USE mod_dyncon0, only: tdrs
+      USE mod_atparam
 
-      include "atparam.h"
       include "atparam1.h"
 
       include "com_hdifcon.h"
@@ -157,8 +157,7 @@ C--             using damping coefficients DMP and DMP1
 C--
 
       USE mod_tsteps, only: wil
-
-      include "atparam.h"
+      USE mod_atparam
 
       COMPLEX FIELD(MXNX,NLEV), FDT(MXNX,NLEV)
       REAL    DMP(MXNX), DMP1(MXNX)
@@ -178,7 +177,8 @@ C--   Aux. subr. TIMINT (J1,DT,EPS,WIL,NLEV,FIELD,FDT)
 C--   Purpose : Perform time integration of FIELD at NLEV levels
 C--             using tendency FDT
 C--
-      include "atparam.h"
+
+      USE mod_atparam
 
       COMPLEX FIELD(MXNX,NLEV,2), FDT(MXNX,NLEV), FNEW(MXNX)
 
@@ -218,7 +218,8 @@ C--            DIV    = divergence
 C--            VORDT  = time derivative of VOR
 C--            DIVDT  = time derivative of DIV
 C--
-      include "atparam.h"
+      USE mod_atparam
+
       include "atparam1.h"
 
       COMPLEX VOR(MX,NX,KX), VORDT(MX,NX,KX), 

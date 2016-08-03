@@ -38,7 +38,6 @@ subroutine agcm_1day(jday, cexp)
 
     implicit none
 
-    include "atparam.h"
     include "atparam1.h"
 
     include "com_date.h"
@@ -75,5 +74,4 @@ subroutine agcm_1day(jday, cexp)
         ! open new output files at the beginning of each year
         if (imonth == 1 .and. jday < ndaytot) call setgrd(1, cexp)
     endif
-    return
 end

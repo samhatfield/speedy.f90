@@ -8,10 +8,10 @@ C--   Modified common blocks : TMSAVE
 C--
 
       USE mod_lflags, only: lppres
+      USE mod_atparam
 
 C     Resolution parameters
 
-      include "atparam.h"
       include "atparam1.h"
 C
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )

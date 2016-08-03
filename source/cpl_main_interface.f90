@@ -3,11 +3,12 @@ subroutine ini_coupler(istart)
     !   subroutine ini_coupler (istart)
     !
 
+    use mod_atparam
+    
     implicit none
 
     integer, intent(in) :: istart
 
-    include "atparam.h"
     include "atparam1.h"
 
     include "com_cli_land.h"

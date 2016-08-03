@@ -22,10 +22,10 @@ C--            DQLSC  = hum. tendency [g/(kg s)] from l.s. cond (3-dim)
 C--
 
       USE mod_lsccon
+      USE mod_atparam
 
 C     Resolution parameters
 C
-      include "atparam.h"
       include "atparam1.h"
 C
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )

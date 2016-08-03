@@ -23,10 +23,10 @@ C--            DFQA   = net flux of sp.hum. into each atm. layer (3-dim)
 C--
 
       USE mod_cnvcon
+      USE mod_atparam
 
 C     Resolution parameters
 
-      include "atparam.h"
       include "atparam1.h"
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )

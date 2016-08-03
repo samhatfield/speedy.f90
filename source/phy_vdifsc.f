@@ -20,9 +20,11 @@ C--            VTENVD = v-wind tendency                  (3-dim)
 C--            TTENVD = temperature tendency             (3-dim)
 C--            QTENVD = sp. humidity tendency [g/(kg s)] (3-dim)
 C--
+
+      USE mod_atparam
+
 C     Resolution parameters
 
-      include "atparam.h"
       include "atparam1.h"
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )

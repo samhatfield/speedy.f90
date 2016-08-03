@@ -6,7 +6,7 @@ C--   SUBROUTINE INI_LAND (istart)
 C-- 
 C--   Input : istart = restart flag ( 0 = no, 1 = yes)
 
-      include "atparam.h"
+      USE mod_atparam
 
       PARAMETER ( NLON=IX, NLAT=IL, NGP=NLON*NLAT )
 
@@ -40,7 +40,8 @@ C--   3. Compute additional land variables
 C--
 C--   SUBROUTINE ATM2LAND (jday)
 C-- 
-      include "atparam.h"
+
+      USE mod_atparam
 
       PARAMETER ( NLON=IX, NLAT=IL, NGP=NLON*NLAT )
 
@@ -88,7 +89,8 @@ C--   3. Call message-passing routines to send data (if needed)
 C--
 C--   SUBROUTINE LAND2ATM (jday)
 C-- 
-      include "atparam.h"
+
+      USE mod_atparam
 
       PARAMETER ( NLON=IX, NLAT=IL, NGP=NLON*NLAT )
 
@@ -147,7 +149,7 @@ C--   Input :   IMODE = 0 : read model variables from a restart file
 C--                   = 1 : write model variables  to a restart file
 
 C-- 
-      include "atparam.h"
+      USE mod_atparam
 
       PARAMETER ( NLON=IX, NLAT=IL, NGP=NLON*NLAT )
 

@@ -8,8 +8,8 @@ C--           ISTEP = time step index
 C--
 
       USE mod_tsteps, only: nstdia, nstppr, nstout
+      USE mod_atparam
 
-      include "atparam.h"
       include "atparam1.h"
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )

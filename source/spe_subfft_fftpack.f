@@ -3,7 +3,7 @@
 
 C     Initialize FFTs
 
-      include "atparam.h"
+      USE mod_atparam
 
       COMMON /FFTCOM/ WSAVE(2*IX+15)
 
@@ -19,7 +19,7 @@ C      CALL DFFTI (IX,WSAVE)
 
 C     From Fourier coefficients to grid-point data
 
-      include "atparam.h"
+      USE mod_atparam
 
       include "com_spectral.h"
 
@@ -74,7 +74,7 @@ C     Copy output into grid-point field, scaling by cos(lat) if needed
 
 C     From grid-point data to Fourier coefficients
 
-      include "atparam.h"
+      USE mod_atparam
 
       COMMON /FFTCOM/ WSAVE(2*IX+15)
 

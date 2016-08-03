@@ -18,7 +18,8 @@ C--           PSDT  = spectral tendency of log(p_s)
 C--           TRDT  = spectral tendency of tracers
 C--
 
-      include "atparam.h"
+      USE mod_atparam
+
       include "atparam1.h"
 
       include "com_dyncon1.h"

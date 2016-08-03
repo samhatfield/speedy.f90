@@ -11,10 +11,10 @@ subroutine indyns
 
     use mod_tsteps, only: nsteps, alph
     use mod_dyncon0
+    use mod_atparam
 
     implicit none
 
-    include "atparam.h"
     include "atparam1.h"
 
     include "com_dyncon1.h"
