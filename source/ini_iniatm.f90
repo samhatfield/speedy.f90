@@ -1,4 +1,4 @@
-subroutine ini_atm (cexp)
+subroutine ini_atm(cexp)
     !   subroutine ini_atm (cexp)
     !
     !   purpose : call initialization routines for all model common blocks 

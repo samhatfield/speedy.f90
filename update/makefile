@@ -106,7 +106,7 @@ ini_impint.o           : ini_impint.f mod_dyncon0.o mod_atparam.o
 ini_indyns.o           : ini_indyns.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o
 ini_inbcon.o           : ini_inbcon.f mod_cpl_flags.o mod_tsteps.o mod_dyncon0.o mod_atparam.o
 ini_iniatm.o           : ini_iniatm.f90 mod_tsteps.o mod_atparam.o
-ini_inphys.o           : ini_inphys.f mod_atparam.o
+ini_inphys.o           : ini_inphys.f90 mod_atparam.o
 ini_inirdf.o           : ini_inirdf.f mod_atparam.o
 ini_invars.o           : ini_invars.f mod_tsteps.o mod_dyncon0.o mod_atparam.o
 ini_stepone.o          : ini_stepone.f90 mod_tsteps.o
