@@ -100,7 +100,7 @@ dyn_stloop.o           : dyn_stloop.f lflags.o tsteps.o
 #ini_coupler.o          : ini_coupler.f
 ini_agcm_init.o        : ini_agcm_init.f90 cpl_flags.o tsteps.o
 ini_impint.o           : ini_impint.f
-ini_indyns.o           : ini_indyns.f tsteps.o
+ini_indyns.o           : ini_indyns.f90 tsteps.o
 ini_inbcon.o           : ini_inbcon.f cpl_flags.o tsteps.o
 ini_iniatm.o           : ini_iniatm.f90 tsteps.o
 ini_inphys.o           : ini_inphys.f

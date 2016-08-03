@@ -1,6 +1,6 @@
-C--
-C--   Reference vertical profiles of temperature and humidity
-C--   and horizontal diffusion constants (common DYNC0)
+!--
+!--   Reference vertical profiles of temperature and humidity
+!--   and horizontal diffusion constants (common DYNC0)
 
       GAMMA  = 6.
       HSCALE = 7.5
