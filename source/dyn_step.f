@@ -24,10 +24,11 @@ C--
 C--   Modified common blocks : DYNSP1, DYNSP2
 C--
 
+      USE dyncon0, only: tdrs
+
       include "atparam.h"
       include "atparam1.h"
 
-      include "com_dyncon0.h"
       include "com_hdifcon.h"
 
       include "com_dynvar.h"

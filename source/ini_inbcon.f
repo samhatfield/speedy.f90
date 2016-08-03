@@ -383,12 +383,13 @@ C--   and set undefined values to a constant (to avoid over/underflow)
 
       SUBROUTINE FTLAND (STL,PHI0,PHIS0,FMASKL)
 
+      USE dyncon0, only: gamma
+
       include "atparam.h"
       include "atparam1.h"
 
       PARAMETER ( NLON=IX, NLAT=IL)
 
-      include "com_dyncon0.h" 
       include "com_dyncon1.h" 
 
       REAL STL(NLON,NLAT), PHI0(NLON,NLAT), PHIS0(NLON,NLAT),

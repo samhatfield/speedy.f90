@@ -10,13 +10,13 @@ subroutine indyns
     !
 
     use tsteps, only: nsteps, alph
+    use dyncon0
 
     implicit none
 
     include "atparam.h"
     include "atparam1.h"
 
-    include "com_dyncon0.h"
     include "com_dyncon1.h"
     include "com_hdifcon.h"
     include "com_spectral.h"
@@ -42,10 +42,6 @@ subroutine indyns
     pi = 4.*atan(1.)
     a  = rearth
     g  = grav
-
-    ! 1.3 Reference vertical profiles of temperature and humidity
-    !     and horizontal diffusion constants
-    include "cls_indyns.h"
 
     ! Power of Laplacian in horizontal diffusion
     npowhd = 4

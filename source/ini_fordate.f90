@@ -8,6 +8,7 @@ subroutine fordate(imode)
     !   input : imode : 0 = initialization step, 1 = daily update
 
     use lflags, only: lco2
+    use dyncon0, only: refrh1
 
     implicit none
 
@@ -18,7 +19,6 @@ subroutine fordate(imode)
 
     include "com_date.h"
 
-    include "com_dyncon0.h"
     include "com_physcon.h"
 
     include "com_radcon.h"
@@ -123,6 +123,8 @@ subroutine setgam(tyear,gamlat)
     ! aux. routine gamlat : compute reference lapse rate 
     !                       as a function of latitude and date
 
+    use dyncon0, only: gamma
+
     implicit none
 
     include "atparam.h"
@@ -132,7 +134,6 @@ subroutine setgam(tyear,gamlat)
     integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon * nlat
     integer :: j
                                             
-    include "com_dyncon0.h"                 
     include "com_physcon.h"
 
     real, intent(inout) :: gamlat(nlat)

@@ -23,6 +23,7 @@ FILES= \
        cpl_main_interface.o \
        cpl_sea.o \
        cpl_sea_model.o \
+	   dyncon0.o \
        dyn_geop.o \
        dyn_grtend.o \
        dyn_implic.o \
@@ -91,23 +92,24 @@ cpl_land_model.o       : cpl_land_model.f
 cpl_main_interface.o   : cpl_main_interface.f90
 cpl_sea.o              : cpl_sea.f cpl_flags.o
 cpl_sea_model.o        : cpl_sea_model.f
+dyncon0.o              : dyncon0.f90
 dyn_geop.o             : dyn_geop.f
 dyn_grtend.o           : dyn_grtend.f
 dyn_implic.o           : dyn_implic.f
 dyn_sptend.o           : dyn_sptend.f
-dyn_step.o             : dyn_step.f tsteps.o
+dyn_step.o             : dyn_step.f tsteps.o dyncon0.o
 dyn_stloop.o           : dyn_stloop.f lflags.o tsteps.o
 #ini_coupler.o          : ini_coupler.f
 ini_agcm_init.o        : ini_agcm_init.f90 cpl_flags.o tsteps.o
-ini_impint.o           : ini_impint.f
-ini_indyns.o           : ini_indyns.f90 tsteps.o
-ini_inbcon.o           : ini_inbcon.f cpl_flags.o tsteps.o
+ini_impint.o           : ini_impint.f dyncon0.o
+ini_indyns.o           : ini_indyns.f90 tsteps.o dyncon0.o
+ini_inbcon.o           : ini_inbcon.f cpl_flags.o tsteps.o dyncon0.o
 ini_iniatm.o           : ini_iniatm.f90 tsteps.o
 ini_inphys.o           : ini_inphys.f
 ini_inirdf.o           : ini_inirdf.f
-ini_invars.o           : ini_invars.f tsteps.o
+ini_invars.o           : ini_invars.f tsteps.o dyncon0.o
 ini_stepone.o          : ini_stepone.f90 tsteps.o
-ini_fordate.o          : ini_fordate.f90
+ini_fordate.o          : ini_fordate.f90 dyncon0.o lflags.o
 #land2atm.o             : land2atm.f
 #land_init.o            : land_init.f
 lflags.o               : lflags.f90
