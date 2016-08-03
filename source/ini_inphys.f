@@ -26,7 +26,6 @@ C     Surface properties
 C
 C     Constants for sub-grid-scale physics
 C
-      include "com_lsccon.h"
       include "com_radcon.h"  
       include "com_sflcon.h"
       include "com_vdicon.h"

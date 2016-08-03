@@ -22,45 +22,6 @@ CB=$UT/output/exp_$2
 CC=$UT/ver41.input
 CD=$UT/output/exp_$3	
 
-# Edit input files if needed and store them with exp code
-
-echo "Do you want to modify the time-stepping parameters (y/n)?"
-read MODIFY
-if [ $MODIFY = 'y' ] ; then
-  vim $UT/ver41.input/tsteps.f90 $SA/doc_instep.txt
-fi
-
-echo "Do you want to modify the dynamics parameters (y/n)?"
-read MODIFY
-if [ $MODIFY = 'y' ] ; then
-  vim $UT/ver41.input/cls_indyns.h  $SA/doc_indyns.txt
-fi
-
-echo "Do you want to modify the physics parameters (y/n)?"
-read MODIFY
-if [ $MODIFY = 'y' ] ; then
-  vim $UT/ver41.input/cls_inphys.h  $SA/doc_inphys.txt
-fi
-
-echo "Do you want to modify the land model parameters (y/n)?"
-read MODIFY
-if [ $MODIFY = 'y' ] ; then
-  vim $UT/ver41.input/cls_inland.h 
-fi
-
-echo "Do you want to modify the sea/ice model parameters (y/n)?"
-read MODIFY
-if [ $MODIFY = 'y' ] ; then
-  vim $UT/ver41.input/cls_insea.h
-fi
-	
-echo "Do you want to modify the input files (y/n)?"
-read MODIFY
-if [ $MODIFY = 'y' ] ; then
-  vim $UT/ver41.input/inpfiles.s
-fi
-
-
 mkdir $UT/input/exp_$2
 
 echo "model version   :   41"  > $UT/input/exp_$2/run_setup
@@ -133,6 +94,8 @@ ls -l fort.*
 echo ' compiling at_gcm - calling make'
 
 make imp.exe  
+
+exit 0
 
 #
 # create and execute a batch job to run the model

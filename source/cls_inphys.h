@@ -7,13 +7,6 @@ C--   Soil moisture and snow parameters (common SOILMP):
       SWWIL = 0.17
       SD2SC = 60.
 
-C--   Constants for large-scale condensation (common LSCCON):
-
-      TRLSC  = 4.
-      RHLSC  = 0.9
-      DRHLSC = 0.1
-      RHBLSC = 0.95
-
 C--   Constants for radiation (common RADCON):
 
       SOLC   = 342.

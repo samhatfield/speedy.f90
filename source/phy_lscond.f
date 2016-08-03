@@ -20,6 +20,9 @@ C--            PRECLS = large-scale precipitation [g/(m^2 s)]   (2-dim)
 C--            DTLSC  = temperature tendency from l.s. cond     (3-dim)
 C--            DQLSC  = hum. tendency [g/(kg s)] from l.s. cond (3-dim)
 C--
+
+      USE mod_lsccon
+
 C     Resolution parameters
 C
       include "atparam.h"
@@ -30,10 +33,6 @@ C
 C     Physical constants + functions of sigma and latitude
 
       include "com_physcon.h"
-
-C     Large-scale condensation constants
-
-      include "com_lsccon.h"
 
       REAL PSA(NGP), QA(NGP,NLEV), QSAT(NGP,NLEV)
 
