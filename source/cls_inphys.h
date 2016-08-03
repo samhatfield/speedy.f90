@@ -75,13 +75,3 @@
 
       CLAMBDA = 7.
       CLAMBSN = 7. 
-
-!--   Constants for vertical diffusion and sh. conv. (common VDICON):
-
-      TRSHC  =  6.
-      TRVDI  = 24.
-      TRVDS  =  6.
-
-      REDSHC =  0.5
-      RHGRAD =  0.5
-      SEGRAD =  0.1

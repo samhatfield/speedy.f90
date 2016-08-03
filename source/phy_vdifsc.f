@@ -22,6 +22,7 @@ C--            QTENVD = sp. humidity tendency [g/(kg s)] (3-dim)
 C--
 
       USE mod_atparam
+      USE mod_vdicon
 
 C     Resolution parameters
 
@@ -32,10 +33,6 @@ C     Resolution parameters
 C     Physical constants + functions of sigma and latitude
 
       include "com_physcon.h"
-
-C     Vertical diffusion constants
-
-      include "com_vdicon.h"
 
       REAL UA(NGP,NLEV), VA(NGP,NLEV), SE(NGP,NLEV),
      &     RH(NGP,NLEV), QA(NGP,NLEV), QSAT(NGP,NLEV),

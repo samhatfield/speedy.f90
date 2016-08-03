@@ -45,6 +45,7 @@ FILES= \
 	   mod_lflags.o \
 	   mod_lsccon.o \
 	   mod_tsteps.o \
+	   mod_vdicon.o \
        phy_convmf.o \
        phy_lscond.o \
        phy_phypar.o \
@@ -120,13 +121,14 @@ mod_dyncon0.o          : mod_dyncon0.f90
 mod_lflags.o           : mod_lflags.f90
 mod_lsccon.o           : mod_lsccon.f90
 mod_tsteps.o           : mod_tsteps.f90
+mod_vdicon.o           : mod_vdicon.f90
 phy_convmf.o           : phy_convmf.f mod_cnvcon.o mod_atparam.o
 phy_lscond.o           : phy_lscond.f mod_lsccon.o mod_atparam.o
 phy_phypar.o           : phy_phypar.f mod_cpl_flags.o mod_lflags.o mod_atparam.o
 phy_radiat.o           : phy_radiat.f mod_atparam.o
 phy_shtorh.o           : phy_shtorh.f
 phy_suflux.o           : phy_suflux.f mod_atparam.o
-phy_vdifsc.o           : phy_vdifsc.f mod_atparam.o
+phy_vdifsc.o           : phy_vdifsc.f mod_atparam.o mod_vdicon.o
 ppo_diagns.o           : ppo_diagns.f mod_tsteps.o mod_atparam.o
 ppo_restart.o          : ppo_restart.f mod_tsteps.o mod_atparam.o
 ppo_setctl.o           : ppo_setctl.f
