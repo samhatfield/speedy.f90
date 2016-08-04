@@ -96,7 +96,7 @@ cpl_land_model.o       : cpl_land_model.f mod_atparam.o
 cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o
 cpl_sea.o              : cpl_sea.f mod_cpl_flags.o mod_atparam.o
 cpl_sea_model.o        : cpl_sea_model.f mod_atparam.o
-dyn_geop.o             : dyn_geop.f mod_atparam.o mod_dynvar.o
+dyn_geop.o             : dyn_geop.f90 mod_atparam.o mod_dynvar.o
 dyn_grtend.o           : dyn_grtend.f mod_atparam.o mod_dynvar.o
 dyn_implic.o           : dyn_implic.f90 mod_atparam.o
 dyn_sptend.o           : dyn_sptend.f90 mod_atparam.o mod_dynvar.o
