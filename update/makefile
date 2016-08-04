@@ -99,7 +99,7 @@ cpl_sea_model.o        : cpl_sea_model.f mod_atparam.o
 dyn_geop.o             : dyn_geop.f mod_atparam.o mod_dynvar.o
 dyn_grtend.o           : dyn_grtend.f mod_atparam.o mod_dynvar.o
 dyn_implic.o           : dyn_implic.f mod_atparam.o
-dyn_sptend.o           : dyn_sptend.f mod_atparam.o mod_dynvar.o
+dyn_sptend.o           : dyn_sptend.f90 mod_atparam.o mod_dynvar.o
 dyn_step.o             : dyn_step.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dynvar.o
 dyn_stloop.o           : dyn_stloop.f90 mod_lflags.o mod_tsteps.o
 #ini_coupler.o          : ini_coupler.f
