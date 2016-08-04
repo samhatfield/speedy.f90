@@ -23,8 +23,6 @@ c     implicit, are defined in IMPINT)
       USE mod_dyncon0, only: gamma
       USE mod_atparam
 										
-      include "atparam1.h"
-
       include "com_dyncon1.h"
       include "com_dyncon2.h"
       include "com_hdifcon.h"

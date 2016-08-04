@@ -13,8 +13,6 @@ subroutine inphys(hsg,ppl,rlat)
 
     implicit none
 
-    ! Resolution parameters
-    include "atparam1.h"
     integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon*nlat
 
     ! Physical constants + functions of sigma and latitude

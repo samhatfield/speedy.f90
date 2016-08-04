@@ -15,8 +15,6 @@ C--
       USE mod_dyncon0, only: gamma, hscale, hshum, refrh1
       USE mod_atparam
 
-      include "atparam1.h"
-
       include "com_date.h"
 
       include "com_surfcon.h"

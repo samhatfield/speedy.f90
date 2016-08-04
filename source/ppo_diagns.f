@@ -10,8 +10,6 @@ C--
       USE mod_tsteps, only: nstdia, nstppr, nstout
       USE mod_atparam
 
-      include "atparam1.h"
-
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 
       include "com_dynvar.h"

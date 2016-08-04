@@ -24,10 +24,6 @@ C--
       USE mod_atparam
       USE mod_vdicon
 
-C     Resolution parameters
-
-      include "atparam1.h"
-
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 
 C     Physical constants + functions of sigma and latitude

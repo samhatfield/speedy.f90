@@ -11,10 +11,6 @@ C--
       USE mod_tsteps, only: nsteps, nstppr, idout
       USE mod_atparam
 
-C     Resolution parameters
-
-      include "atparam1.h"
-C
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 
 C     Parameters for post-processing arrays

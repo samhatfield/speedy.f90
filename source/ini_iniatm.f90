@@ -8,8 +8,6 @@ subroutine ini_atm(cexp)
 
     implicit none
 
-    include "atparam1.h"
-
     include "com_date.h"
 
     include "par_tmean.h"

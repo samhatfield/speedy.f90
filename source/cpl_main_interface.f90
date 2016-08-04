@@ -9,8 +9,6 @@ subroutine ini_coupler(istart)
 
     integer, intent(in) :: istart
 
-    include "atparam1.h"
-
     include "com_cli_land.h"
     include "com_cli_sea.h"
 

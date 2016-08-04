@@ -11,8 +11,6 @@ C--               > 0 to increment arrays with current flux values
       USE mod_tsteps, only: nsteps
       USE mod_atparam
 
-      include "atparam1.h"
-
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 
 C     Parameters for post-processing arrays

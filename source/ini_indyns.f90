@@ -15,8 +15,6 @@ subroutine indyns
 
     implicit none
 
-    include "atparam1.h"
-
     include "com_dyncon1.h"
     include "com_hdifcon.h"
     include "com_spectral.h"

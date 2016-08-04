@@ -27,8 +27,6 @@ C--
       USE mod_dyncon0, only: tdrs
       USE mod_atparam
 
-      include "atparam1.h"
-
       include "com_hdifcon.h"
 
       include "com_dynvar.h"
@@ -219,8 +217,6 @@ C--            VORDT  = time derivative of VOR
 C--            DIVDT  = time derivative of DIV
 C--
       USE mod_atparam
-
-      include "atparam1.h"
 
       COMPLEX VOR(MX,NX,KX), VORDT(MX,NX,KX), 
      &        DIV(MX,NX,KX), DIVDT(MX,NX,KX), TEMP(MX,NX)

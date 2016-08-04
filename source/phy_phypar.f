@@ -23,10 +23,6 @@ C--
       USE mod_lflags, only: lradsw, lrandf
       USE mod_atparam
 
-C     Resolution parameters
-
-      include "atparam1.h"
-
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 
 C     Constants + functions of sigma and latitude

@@ -11,8 +11,6 @@ C--
 
       USE mod_atparam
 
-      include "atparam1.h"
-
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 
       include "com_physcon.h"
@@ -76,8 +74,6 @@ C--   Output: TT_RDF = random diabatic forcing
 C--
 
       USE mod_atparam
-
-      include "atparam1.h"
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 

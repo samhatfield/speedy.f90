@@ -12,8 +12,6 @@ C--
       USE mod_tsteps, only: nmonrs, iyear0, imont0
       USE mod_atparam
 
-      include "atparam1.h"
-
       include "com_date.h"
 
       include "com_dynvar.h"

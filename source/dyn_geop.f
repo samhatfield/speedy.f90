@@ -10,8 +10,6 @@ C--
 
       USE mod_atparam
 
-      include "atparam1.h"
-
       include "com_dyncon1.h"
       include "com_dynvar.h"
 

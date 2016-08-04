@@ -385,8 +385,6 @@ C--   and set undefined values to a constant (to avoid over/underflow)
       USE mod_dyncon0, only: gamma
       USE mod_atparam
 
-      include "atparam1.h"
-
       PARAMETER ( NLON=IX, NLAT=IL)
 
       include "com_dyncon1.h" 

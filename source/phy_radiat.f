@@ -16,10 +16,6 @@ C--
 
       USE mod_atparam
 
-C     Resolution parameters
-C
-      include "atparam1.h"
-C
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 
 C     Constants + functions of sigma and latitude
@@ -155,10 +151,6 @@ C--            CLSTR  = stratiform cloud cover                  (2-dim)
 
       USE mod_atparam
 
-C     Resolution parameters
-C
-      include "atparam1.h"
-C
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 C
 C     Constants + functions of sigma and latitude
@@ -288,10 +280,6 @@ C--
 
       USE mod_atparam
 
-C     Resolution parameters
-C
-      include "atparam1.h"
-C
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 
 C     Constants + functions of sigma and latitude
@@ -541,10 +529,6 @@ C--
 
       USE mod_atparam
 
-C     Resolution parameters
-C
-      include "atparam1.h"
-C
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 
 C     Number of radiation bands with tau < 1
@@ -783,10 +767,6 @@ C--            as a function of temperature
 C--   Initialized common blocks: RADFIX
 
       USE mod_atparam
-
-C     Resolution parameters
-
-      include "atparam1.h"
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 

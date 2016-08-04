@@ -7,13 +7,10 @@ C--   Input :   IMODE = 0 initialize time-mean arrays to 0
 C--             IMODE > 0 write time-means and reset arrays to 0
 C--   Modified common blocks : TMSAVE 
 C--
-C     Resolution parameters
 
       USE mod_tsteps, only: nstppr
       USE mod_atparam
 
-      include "atparam1.h"
-C
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 
 C     Parameters for post-processing arrays

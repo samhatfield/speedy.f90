@@ -13,8 +13,6 @@ subroutine fordate(imode)
 
     implicit none
 
-    include "atparam1.h"
-
     integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon * nlat
 
     include "com_date.h"
@@ -127,8 +125,6 @@ subroutine setgam(tyear,gamlat)
     use mod_atparam
 
     implicit none
-
-    include "atparam1.h"
 
     integer, intent(in) :: tyear
     integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon * nlat

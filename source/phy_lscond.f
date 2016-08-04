@@ -24,10 +24,6 @@ C--
       USE mod_lsccon
       USE mod_atparam
 
-C     Resolution parameters
-C
-      include "atparam1.h"
-C
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 
 C     Physical constants + functions of sigma and latitude

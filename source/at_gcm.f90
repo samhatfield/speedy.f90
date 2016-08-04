@@ -38,8 +38,6 @@ subroutine agcm_1day(jday, cexp)
 
     implicit none
 
-    include "atparam1.h"
-
     include "com_date.h"
 
     integer, intent(in) :: jday

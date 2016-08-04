@@ -40,8 +40,6 @@ cp $SA/*.f90      $CA/
 cp $SA/*.h      $CA/
 cp $SA/*.s      $CA/
 
-cp $CA/par_verres.h      $CA/atparam1.h 
-
 # Copy parameter and namelist files from user's .input directory
 
 echo "ver41.input new files ..."

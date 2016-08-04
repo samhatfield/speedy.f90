@@ -10,7 +10,6 @@ C--
 
       USE mod_atparam
 
-      include "atparam1.h"
       PARAMETER (MXNXKX=MX*NX*KX)
 
       include "com_dyncon1.h"

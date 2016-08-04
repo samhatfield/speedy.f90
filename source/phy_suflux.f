@@ -42,10 +42,6 @@ C--
 
       USE mod_atparam
 
-C     Resolution parameters
-
-      include "atparam1.h"
-
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 
 C     Physical constants + functions of sigma and latitude
@@ -423,10 +419,6 @@ C--   Input:   PHI0   = surface geopotential            (2-dim)
 C--            Initialized common blocks: SFLFIX
 
       USE mod_atparam
-
-C     Resolution parameters
-C
-      include "atparam1.h"
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 
