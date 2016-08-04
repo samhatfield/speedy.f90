@@ -11,10 +11,9 @@ C--
     
       USE mod_tsteps, only: nmonrs, iyear0, imont0
       USE mod_atparam
+      USE mod_dynvar
 
       include "com_date.h"
-
-      include "com_dynvar.h"
 
       IF (JDAY.EQ.0) THEN
 

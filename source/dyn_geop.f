@@ -9,9 +9,9 @@ C--   Modified common blocks : DYNSP2
 C--
 
       USE mod_atparam
+      USE mod_dynvar
 
       include "com_dyncon1.h"
-      include "com_dynvar.h"
 
 C--   1. Bottom layer (integration over half a layer)
 

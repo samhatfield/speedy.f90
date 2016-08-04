@@ -26,10 +26,9 @@ C--
 
       USE mod_dyncon0, only: tdrs
       USE mod_atparam
+      USE mod_dynvar
 
       include "com_hdifcon.h"
-
-      include "com_dynvar.h"
 
       COMPLEX VORDT(MX,NX,KX), DIVDT(MX,NX,KX), TDT(MX,NX,KX),
      *        PSDT(MX,NX), TRDT(MX,NX,KX,NTR)

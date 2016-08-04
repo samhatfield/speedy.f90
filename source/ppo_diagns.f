@@ -9,10 +9,9 @@ C--
 
       USE mod_tsteps, only: nstdia, nstppr, nstout
       USE mod_atparam
+      USE mod_dynvar
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
-
-      include "com_dynvar.h"
 
       COMPLEX TEMP(MX,NX)
       REAL DIAG (KX,3)

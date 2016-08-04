@@ -9,7 +9,7 @@ module mod_tsteps
     public delt, delt2, rob, wil, alph
 
     ! Integration length in months
-    integer :: nmonts = 24
+    integer :: nmonts = 12
 
     ! No. of days in the last month of int. (max=30)
     integer :: ndaysl = 0

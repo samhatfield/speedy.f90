@@ -14,15 +14,13 @@ C--
       USE mod_tsteps, only: iyear0, imont0
       USE mod_dyncon0, only: gamma, hscale, hshum, refrh1
       USE mod_atparam
+      USE mod_dynvar
 
       include "com_date.h"
 
       include "com_surfcon.h"
 
       include "com_dyncon1.h"
-
-      include "com_dynvar.h"
-
 
       COMPLEX ZERO, CCON, SURFS(MX,NX)
       REAL  SURFG(IX,IL)

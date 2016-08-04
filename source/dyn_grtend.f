@@ -19,10 +19,10 @@ C--           TRDT  = spectral tendency of tracers
 C--
 
       USE mod_atparam
+      USE mod_dynvar
 
       include "com_dyncon1.h"
       include "com_dyncon2.h"
-      include "com_dynvar.h"
 
 *** notes ****
 c -- TG does not have to be computed at both time levels every time step,

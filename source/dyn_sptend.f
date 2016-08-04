@@ -11,10 +11,10 @@ C--                  J4    = time level index (1 or 2)
 C--
     
       USE mod_atparam
+      USE mod_dynvar
 
       include "com_dyncon1.h"
       include "com_dyncon2.h"
-      include "com_dynvar.h"
 
       COMPLEX DIVDT(MX,NX,KX), TDT(MX,NX,KX), PSDT(MX,NX)
 
