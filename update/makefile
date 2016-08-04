@@ -100,7 +100,7 @@ dyn_geop.o             : dyn_geop.f mod_atparam.o mod_dynvar.o
 dyn_grtend.o           : dyn_grtend.f mod_atparam.o mod_dynvar.o
 dyn_implic.o           : dyn_implic.f mod_atparam.o
 dyn_sptend.o           : dyn_sptend.f mod_atparam.o mod_dynvar.o
-dyn_step.o             : dyn_step.f mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dynvar.o
+dyn_step.o             : dyn_step.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dynvar.o
 dyn_stloop.o           : dyn_stloop.f90 mod_lflags.o mod_tsteps.o
 #ini_coupler.o          : ini_coupler.f
 ini_agcm_init.o        : ini_agcm_init.f90 mod_cpl_flags.o mod_tsteps.o mod_atparam.o

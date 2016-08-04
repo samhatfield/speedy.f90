@@ -1,300 +1,277 @@
-      SUBROUTINE STEP (J1,J2,DT,ALPH,ROB,WIL)
-C--
-C--   SUBROUTINE STEP (J1,J2,DT,ALPH,ROB,WIL)
-C--
-C--   Purpose: perform one time step starting from F(1) and F(2) 
-C--            and using the following scheme:
-C--
-C--   Fnew = F(1) + DT * [ T_dyn(F(J2)) + T_phy(F(1)) ]
-C--   F(1) = (1-2*eps)*F(J1) + eps*[F(1)+Fnew]
-C--   F(2) = Fnew
-C--
-C--   Input: 
-C--   If J1=1, J2=1 : forward time step (eps=0)
-C--   If J1=1, J2=2 : initial leapfrog time step (eps=0)
-C--   If J1=2, J2=2 : leapfrog time step with time filter (eps=ROB)
-C--   DT = time step (if DT < or = 0, tendencies are computed but 
-C--                   no time stepping is performed)
-C--   ALPH = 0   : forward step for gravity wave terms
-C--   ALPH = 1   : backward implicit step for g.w.
-C--   ALPH = 0.5 : centered implicit step for g.w.
-C--   ROB  = Robert filter coefficient
-C--   WIL  = Williams filter coefficient
-C-- 
-C--   Modified common blocks : DYNSP1, DYNSP2
-C--
+subroutine step(j1,j2,dt,alph,rob,wil)
+    !   subroutine step (j1,j2,dt,alph,rob,wil)
+    !
+    !   Purpose: perform one time step starting from F(1) and F(2) 
+    !            and using the following scheme:
+    !
+    !   Fnew = F(1) + DT * [ T_dyn(F(J2)) + T_phy(F(1)) ]
+    !   F(1) = (1-2*eps)*F(J1) + eps*[F(1)+Fnew]
+    !   F(2) = Fnew
+    !
+    !   Input: 
+    !   If J1=1, J2=1 : forward time step (eps=0)
+    !   If J1=1, J2=2 : initial leapfrog time step (eps=0)
+    !   If J1=2, J2=2 : leapfrog time step with time filter (eps=ROB)
+    !   DT = time step (if DT < or = 0, tendencies are computed but 
+    !                   no time stepping is performed)
+    !   alph = 0   : forward step for gravity wave terms
+    !   alph = 1   : backward implicit step for g.w.
+    !   alph = 0.5 : centered implicit step for g.w.
+    !   rob  = Robert filter coefficient
+    !   wil  = Williams filter coefficient
+     
+    use mod_dyncon0, only: tdrs
+    use mod_atparam
+    use mod_dynvar
 
-      USE mod_dyncon0, only: tdrs
-      USE mod_atparam
-      USE mod_dynvar
+    implicit none
 
-      include "com_hdifcon.h"
+    include "com_hdifcon.h"
 
-      COMPLEX VORDT(MX,NX,KX), DIVDT(MX,NX,KX), TDT(MX,NX,KX),
-     *        PSDT(MX,NX), TRDT(MX,NX,KX,NTR)
+    integer, intent(in) :: j1, j2
+    real, intent(in) :: dt, alph, rob, wil
+    complex, dimension(mx,nx,kx) ::  ordt, divdt, tdt, vordt
+    complex :: psdt(mx,nx), trdt(mx,nx,kx,ntr)
+    real :: eps, sdrag
 
-      COMPLEX CTMP(MX,NX,KX)
+    complex :: ctmp(mx,nx,kx)
 
-      iitest=0
-      if(iitest.eq.1) print*, ' inside step'
+    integer :: iitest = 0, n, itr, k, m
 
-C--   1. Computation of grid-point tendencies
-C         (converted to spectral at the end of GRTEND)
+    if (iitest.eq.1) print*, ' inside step'
 
-      if (iitest.eq.1) print*,' call grtend'
-      CALL GRTEND (VORDT,DIVDT,TDT,PSDT,TRDT,1,J2)
+    ! 1. Computation of grid-point tendencies
+    ! (converted to spectral at the end of GRTEND)
+    if (iitest.eq.1) print*,' call grtend'
+    call grtend(vordt,divdt,tdt,psdt,trdt,1,j2)
 
-C--   2. Computation of spectral tendencies
-
-      IF (ALPH.EQ.0.) THEN
-
+    ! 2. Computation of spectral tendencies
+    if (alph.eq.0.) then
         if (iitest.eq.1) print*,' call sptend'
-        CALL SPTEND (DIVDT,TDT,PSDT,J2)
-
-      ELSE
-
+        call sptend(divdt,tdt,psdt,j2)
+    else
         if (iitest.eq.1) print*,' call sptend'
-        CALL SPTEND (DIVDT,TDT,PSDT,1)
+        call sptend(divdt,tdt,psdt,1)
 
-c       implicit correction 
+        ! implicit correction 
         if (iitest.eq.1) print*,' call implic'
-        CALL IMPLIC (DIVDT,TDT,PSDT)
+        call implic(divdt,tdt,psdt)
+    endif
 
-      ENDIF
+    ! 3. Horizontal diffusion
+    if (iitest.eq.1) print*, ' biharmonic damping '
 
-C--   3. Horizontal diffusion
+    ! 3.1 Diffusion of wind and temperature
+    call hordif(kx,vor,vordt,dmp, dmp1)
+    call hordif(kx,div,divdt,dmpd,dmp1d)
 
-      if (iitest.eq.1) print*, ' biharmonic damping '
+    do k=1,kx
+        do m=1,mx
+            do n=1,nx 
+                ctmp(m,n,k) = t(m,n,k,1)+tcorh(m,n)*tcorv(k)
+            enddo
+        enddo
+    enddo
 
-C     3.1 Diffusion of wind and temperature
- 
-      CALL HORDIF (KX,VOR,VORDT,DMP, DMP1)
-      CALL HORDIF (KX,DIV,DIVDT,DMPD,DMP1D)
+    call hordif(kx,ctmp,tdt,dmp,dmp1)
 
-      DO K=1,KX
-        DO M=1,MX
-          DO N=1,NX 
-            CTMP(M,N,K)=T(M,N,K,1)
-     &                 +TCORH(M,N)*TCORV(K)
-          ENDDO
-        ENDDO
-      ENDDO
+    ! 3.2 Stratospheric diffusion and zonal wind damping
+    sdrag = 1./(tdrs*3600.)
+    do n = 1,nx
+        vordt(1,n,1) = vordt(1,n,1)-sdrag*vor(1,n,1,1)
+        divdt(1,n,1) = divdt(1,n,1)-sdrag*div(1,n,1,1)
+    enddo
 
-      CALL HORDIF (KX,CTMP,TDT,DMP,DMP1)
+    call hordif(1,vor, vordt,dmps,dmp1s)
+    call hordif(1,div, divdt,dmps,dmp1s)
+    call hordif(1,ctmp,tdt,  dmps,dmp1s)
 
-C     3.2 Stratospheric diffusion and zonal wind damping
+    ! 3.3 Check for eddy kinetic energy growth rate 
+    ! CALL CGRATE (VOR,DIV,VORDT,DIVDT)
 
-      SDRAG=1./(TDRS*3600.)
-      DO N=1,NX
-        VORDT(1,N,1)=VORDT(1,N,1)-SDRAG*VOR(1,N,1,1)
-        DIVDT(1,N,1)=DIVDT(1,N,1)-SDRAG*DIV(1,N,1,1)
-      ENDDO
+    ! 3.4 Diffusion of tracers
+    do k=1,kx
+        do m=1,mx
+            do n=1,nx
+                ctmp(m,n,k) = tr(m,n,k,1,1)+qcorh(m,n)*qcorv(k)
+            enddo
+        enddo
+    enddo
 
-      CALL HORDIF (1,VOR, VORDT,DMPS,DMP1S)
-      CALL HORDIF (1,DIV, DIVDT,DMPS,DMP1S)
-      CALL HORDIF (1,CTMP,TDT,  DMPS,DMP1S)
+    call hordif(kx,ctmp,trdt,dmpd,dmp1d)
 
-C     3.3 Chech for eddy kinetic energy growth rate 
+    if (ntr.gt.1) then
+        do itr=2,ntr
+            call hordif(kx,tr(1,1,1,1,itr),trdt(1,1,1,itr),dmp,dmp1)
+        enddo
+    endif
+
+    ! 4. Time integration with Robert filter
+    if (dt.le.0.) return
+
+    if (iitest.eq.1) print*,' time integration'
+
+    if (j1.eq.1) then
+        eps = 0.
+    else
+        eps = rob
+    endif
+
+    call timint(j1,dt,eps,wil,1,ps,psdt)
+
+    call timint(j1,dt,eps,wil,kx,vor,vordt)
+    call timint(j1,dt,eps,wil,kx,div,divdt)
+    call timint(j1,dt,eps,wil,kx,t,  tdt)
+
+    do itr=1,ntr
+        call timint(j1,dt,eps,wil,kx,tr(1,1,1,1,itr),trdt(1,1,1,itr))
+    enddo
+end   
+
+subroutine hordif(nlev,field,fdt,dmp,dmp1)
+    !   Aux. subr. HORDIF (NLEV,FIELD,FDT,DMP,DMP1)
+    !   Purpose : Add horizontal diffusion tendency of FIELD 
+    !             to spectral tendency FDT at NLEV levels
+    !             using damping coefficients DMP and DMP1
+
+    USE mod_atparam
+
+    implicit none
+
+    integer, intent(in) :: nlev
+    complex, intent(in) :: field(mxnx,kx)
+    complex, intent(inout) :: fdt(mxnx,kx)
+    real, intent(in) :: dmp(mxnx), dmp1(mxnx)
+    integer :: k, m
+
+    do k=1,nlev
+        do m=1,mxnx
+            fdt(m,k)=(fdt(m,k)-dmp(m)*field(m,k))*dmp1(m)
+        enddo
+    enddo
+end
+
+subroutine timint(j1,dt,eps,wil,nlev,field,fdt)
+    !  Aux. subr. timint (j1,dt,eps,wil,nlev,field,fdt)
+    !  Purpose : Perform time integration of field at nlev levels
+    !            using tendency fdt
+
+    use mod_atparam
+
+    implicit none
+
+    integer, intent(in) :: j1, nlev
+    real, intent(in) :: dt, eps, wil
+    complex, intent(in) :: fdt(mxnx,nlev)
+    complex, intent(inout) :: field(mxnx,nlev,2)
+    real :: eps2
+    complex :: fnew(mxnx)
+    integer :: k, m
+
+    eps2 = 1.-2.*eps
+
+    if (ix.eq.iy*4) then
+        do k=1,nlev
+            call trunct(fdt(1,k))
+        enddo
+    endif
+
+    ! The actual leap frog with the robert filter
+    do k=1,nlev
+        do m=1,mxnx
+            fnew (m)     = field(m,k,1) + dt*fdt(m,k)
+            field(m,k,1) = field(m,k,j1) +  wil*eps*(field(m,k,1)&
+                & -2*field(m,k,j1)+fnew(m))
+
+            ! and here comes Williams' innovation to the filter
+            field(m,k,2) = fnew(m)-(1-wil)*eps*(field(m,k,1)&
+                &-2*field(m,k,j1)+fnew(m))
+        enddo
+    enddo
+end
+
+subroutine cgrate(vor,div,vordt,divdt)
+    !   SUBROUTINE CGRATE (VOR,DIV,VORDT,DIVDT)
+    !
+    !   Purpose: Check growth rate of eddy kin. energy 
+    !   Input  : VOR    = vorticity
+    !            DIV    = divergence
+    !            VORDT  = time derivative of VOR
+    !            DIVDT  = time derivative of DIV
     
-C      CALL CGRATE (VOR,DIV,VORDT,DIVDT)
+    USE mod_atparam
 
-C     3.4 Diffusion of tracers
+    implicit none
 
-      DO K=1,KX
-        DO M=1,MX
-          DO N=1,NX
-           CTMP(M,N,K)=TR(M,N,K,1,1)
-     &                 +QCORH(M,N)*QCORV(K)
-          ENDDO
-        ENDDO
-      ENDDO
+    complex, dimension(mx,nx,kx), intent(in) :: vor, div
+    complex, dimension(mx,nx,kx), intent(inout) :: vordt, divdt
+    complex :: temp(mx,nx)
+    real :: cdamp, grate, grmax, rnorm
+    integer :: k, m, n
 
-      CALL HORDIF (KX,CTMP,TRDT,DMPD,DMP1D)
+    grmax=0.2/(86400.*2.)
 
-      IF (NTR.GT.1) THEN
-        DO ITR=2,NTR
-          CALL HORDIF (KX,TR(1,1,1,1,ITR),TRDT(1,1,1,ITR),
-     &                 DMP,DMP1)
-        ENDDO
-      ENDIF
+    cdamp=0.
 
-C--   4. Time integration with Robert filter
+    do k=2,kx
+        grate=0.
+        rnorm=0.
 
-      IF (DT.LE.0.) RETURN
+        call invlap (vor(1,1,k),temp)
 
-      if (iitest.eq.1) print*,' time integration'
+        do n=1,nx
+            do m=2,mx
+                grate=grate-real(vordt(m,n,k)*conjg(temp(m,n)))
+                rnorm=rnorm-real(  vor(m,n,k)*conjg(temp(m,n)))
+            enddo
+        enddo
 
-      IF (J1.EQ.1) THEN
-        EPS=0.
-      ELSE
-        EPS=ROB
-      ENDIF
+        if (grate.gt.grmax*rnorm) cdamp = max(cdamp,0.8*grate/rnorm)
+        ! if (grate.gt.grmax*rnorm) cdamp =&
+        !     & max(cdamp,(grate*grate)/(grmax*rnorm*rnorm))
+    enddo
 
-      CALL TIMINT (J1,DT,EPS,WIL,1,PS,PSDT)
-
-      CALL TIMINT (J1,DT,EPS,WIL,KX,VOR,VORDT)
-      CALL TIMINT (J1,DT,EPS,WIL,KX,DIV,DIVDT)
-      CALL TIMINT (J1,DT,EPS,WIL,KX,T,  TDT)
-
-      DO ITR=1,NTR
-        CALL TIMINT (J1,DT,EPS,WIL,KX,
-     &               TR(1,1,1,1,ITR),TRDT(1,1,1,ITR))
-      ENDDO
-
-C--
-      RETURN
-      END   
-
-      SUBROUTINE HORDIF (NLEV,FIELD,FDT,DMP,DMP1)
-C--
-C--   Aux. subr. HORDIF (NLEV,FIELD,FDT,DMP,DMP1)
-C--   Purpose : Add horizontal diffusion tendency of FIELD 
-C--             to spectral tendency FDT at NLEV levels
-C--             using damping coefficients DMP and DMP1
-C--
-
-      USE mod_tsteps, only: wil
-      USE mod_atparam
-
-      COMPLEX FIELD(MXNX,NLEV), FDT(MXNX,NLEV)
-      REAL    DMP(MXNX), DMP1(MXNX)
-
-      DO K=1,NLEV
-        DO M=1,MXNX
-          FDT(M,K)=(FDT(M,K)-DMP(M)*FIELD(M,K))*DMP1(M)
-        ENDDO
-      ENDDO
-
-      RETURN
-      END
-
-      SUBROUTINE TIMINT (J1,DT,EPS,WIL,NLEV,FIELD,FDT)
-C--
-C--   Aux. subr. TIMINT (J1,DT,EPS,WIL,NLEV,FIELD,FDT)
-C--   Purpose : Perform time integration of FIELD at NLEV levels
-C--             using tendency FDT
-C--
-
-      USE mod_atparam
-
-      COMPLEX FIELD(MXNX,NLEV,2), FDT(MXNX,NLEV), FNEW(MXNX)
-
-      EPS2=1.-2.*EPS
-
-      IF (IX.EQ.IY*4) THEN
-        DO K=1,NLEV
-          CALL TRUNCT (FDT(1,K))
-        ENDDO
-      ENDIF
-
-C the actual leap frog with the robert filter
-      DO K=1,NLEV
-        DO M=1,MXNX
-          FNEW (M)     = FIELD(M,K,1)+DT*FDT(M,K)
-
-          FIELD(M,K,1) = FIELD(M,K,J1) +  WIL*EPS*(FIELD(M,K,1)-
-     &			 2*FIELD(M,K,J1)+FNEW(M))
-
-C and here comes Williams' innovation to the filter
-          FIELD(M,K,2) = FNEW(M)-(1-WIL)*EPS*(FIELD(M,K,1)-
-     &			 2*FIELD(M,K,J1)+FNEW(M))
-
-        ENDDO
-      ENDDO
-
-      RETURN
-      END
-
-      SUBROUTINE CGRATE (VOR,DIV,VORDT,DIVDT)
-C--
-C--   SUBROUTINE CGRATE (VOR,DIV,VORDT,DIVDT)
-C--
-C--   Purpose: Check growth rate of eddy kin. energy 
-C--   Input  : VOR    = vorticity
-C--            DIV    = divergence
-C--            VORDT  = time derivative of VOR
-C--            DIVDT  = time derivative of DIV
-C--
-      USE mod_atparam
-
-      COMPLEX VOR(MX,NX,KX), VORDT(MX,NX,KX), 
-     &        DIV(MX,NX,KX), DIVDT(MX,NX,KX), TEMP(MX,NX)
-
-      GRMAX=0.2/(86400.*2.)
-
-      CDAMP=0.
-
-      DO K=2,KX
-
-        GRATE=0.
-        RNORM=0.
-
-        CALL INVLAP (VOR(1,1,K),TEMP)
-
-        DO N=1,NX
-         DO M=2,MX
-           GRATE=GRATE-REAL(VORDT(M,N,K)*CONJG(TEMP(M,N)))
-           RNORM=RNORM-REAL(  VOR(M,N,K)*CONJG(TEMP(M,N)))
-         ENDDO
-        ENDDO
-
-        IF (GRATE.GT.GRMAX*RNORM) CDAMP =
-     &      MAX(CDAMP,0.8*GRATE/RNORM)
-C    &      MAX(CDAMP,(GRATE*GRATE)/(GRMAX*RNORM*RNORM))
-
-      ENDDO
-
-      IF (CDAMP.GT.0.) THEN
-
+    if (cdamp.gt.0.) then
         print *, ' rot. wind damping enabled'
 
-        DO K=1,KX
-          DO N=1,NX
-           DO M=2,MX
-             VORDT(M,N,K)=VORDT(M,N,K)-CDAMP*VOR(M,N,K)
-           ENDDO
-          ENDDO
-        ENDDO
+        do k=1,kx
+            do n=1,nx
+                do m=2,mx
+                    vordt(m,n,k)=vordt(m,n,k)-cdamp*vor(m,n,k)
+                enddo
+            enddo
+        enddo
+    endif
 
-      ENDIF
+    cdamp=0.
 
+    do k=2,kx
+        grate=0.
+        rnorm=0.
 
-      CDAMP=0.
+        call invlap (div(1,1,k),temp)
 
-      DO K=2,KX
+        do n=1,nx
+            do m=2,mx
+                grate=grate-real(divdt(m,n,k)*conjg(temp(m,n)))
+                rnorm=rnorm-real(  div(m,n,k)*conjg(temp(m,n)))
+            enddo
+        enddo
 
-        GRATE=0.
-        RNORM=0.
+        if (grate.gt.grmax*rnorm) cdamp = max(cdamp,0.8*grate/rnorm)
+        !if (grate.gt.grmax*rnorm) cdamp =&
+        !    & max(cdamp,(grate*grate)/(grmax*rnorm*rnorm))
+    enddo
 
-        CALL INVLAP (DIV(1,1,K),TEMP)
+    if (cdamp.gt.0.) then
+      print *, ' div. wind damping enabled'
 
-        DO N=1,NX
-         DO M=2,MX
-           GRATE=GRATE-REAL(DIVDT(M,N,K)*CONJG(TEMP(M,N)))
-           RNORM=RNORM-REAL(  DIV(M,N,K)*CONJG(TEMP(M,N)))
-         ENDDO
-        ENDDO
-
-        IF (GRATE.GT.GRMAX*RNORM) CDAMP =
-     &      MAX(CDAMP,0.8*GRATE/RNORM)
-C    &      MAX(CDAMP,(GRATE*GRATE)/(GRMAX*RNORM*RNORM))
-
-      ENDDO
-
-      IF (CDAMP.GT.0.) THEN
-
-        print *, ' div. wind damping enabled'
-
-        DO K=1,KX
-          DO N=1,NX
-           DO M=2,MX
-             DIVDT(M,N,K)=DIVDT(M,N,K)-CDAMP*DIV(M,N,K)
-           ENDDO
-          ENDDO
-        ENDDO
-
-      ENDIF
-
-C--
-      RETURN
-      END
+      do k=1,kx
+        do n=1,nx
+         do m=2,mx
+           divdt(m,n,k)=divdt(m,n,k)-cdamp*div(m,n,k)
+         enddo
+        enddo
+      enddo
+    endif
+end
