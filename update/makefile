@@ -104,7 +104,7 @@ dyn_step.o             : dyn_step.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o m
 dyn_stloop.o           : dyn_stloop.f90 mod_lflags.o mod_tsteps.o
 #ini_coupler.o          : ini_coupler.f
 ini_agcm_init.o        : ini_agcm_init.f90 mod_cpl_flags.o mod_tsteps.o mod_atparam.o
-ini_impint.o           : ini_impint.f mod_dyncon0.o mod_atparam.o
+ini_impint.o           : ini_impint.f90 mod_dyncon0.o mod_atparam.o
 ini_indyns.o           : ini_indyns.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o
 ini_inbcon.o           : ini_inbcon.f90 mod_cpl_flags.o mod_tsteps.o mod_dyncon0.o mod_atparam.o
 ini_iniatm.o           : ini_iniatm.f90 mod_tsteps.o mod_atparam.o
