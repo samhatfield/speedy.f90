@@ -110,7 +110,7 @@ ini_inbcon.o           : ini_inbcon.f90 mod_cpl_flags.o mod_tsteps.o mod_dyncon0
 ini_iniatm.o           : ini_iniatm.f90 mod_tsteps.o mod_atparam.o
 ini_inphys.o           : ini_inphys.f90 mod_atparam.o
 ini_inirdf.o           : ini_inirdf.f mod_atparam.o
-ini_invars.o           : ini_invars.f mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dynvar.o
+ini_invars.o           : ini_invars.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dynvar.o
 ini_stepone.o          : ini_stepone.f90 mod_tsteps.o
 ini_fordate.o          : ini_fordate.f90 mod_dyncon0.o mod_lflags.o mod_atparam.o
 #land2atm.o             : land2atm.f
