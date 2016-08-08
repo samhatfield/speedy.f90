@@ -130,7 +130,7 @@ phy_phypar.o           : phy_phypar.f mod_cpl_flags.o mod_lflags.o mod_atparam.o
 phy_radiat.o           : phy_radiat.f mod_atparam.o
 phy_shtorh.o           : phy_shtorh.f90
 phy_suflux.o           : phy_suflux.f mod_atparam.o
-phy_vdifsc.o           : phy_vdifsc.f mod_atparam.o mod_vdicon.o
+phy_vdifsc.o           : phy_vdifsc.f90 mod_atparam.o mod_vdicon.o
 ppo_diagns.o           : ppo_diagns.f mod_tsteps.o mod_atparam.o mod_dynvar.o
 ppo_restart.o          : ppo_restart.f mod_tsteps.o mod_atparam.o mod_dynvar.o
 ppo_setctl.o           : ppo_setctl.f
