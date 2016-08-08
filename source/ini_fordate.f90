@@ -126,7 +126,7 @@ subroutine setgam(tyear,gamlat)
 
     implicit none
 
-    integer, intent(in) :: tyear
+    real, intent(in) :: tyear
     integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon * nlat
     integer :: j
                                             
