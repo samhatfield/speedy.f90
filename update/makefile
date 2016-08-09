@@ -128,7 +128,7 @@ mod_tsteps.o           : mod_tsteps.f90
 mod_vdicon.o           : mod_vdicon.f90
 phy_convmf.o           : phy_convmf.f mod_cnvcon.o mod_atparam.o
 phy_lscond.o           : phy_lscond.f mod_lsccon.o mod_atparam.o
-phy_phypar.o           : phy_phypar.f mod_cpl_flags.o mod_lflags.o mod_atparam.o
+phy_phypar.o           : phy_phypar.f90 mod_cpl_flags.o mod_lflags.o mod_atparam.o
 phy_radiat.o           : phy_radiat.f mod_atparam.o
 phy_shtorh.o           : phy_shtorh.f90
 phy_suflux.o           : phy_suflux.f mod_atparam.o
