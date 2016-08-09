@@ -110,7 +110,8 @@ subroutine inv(a,y,indx,n)
     implicit none
 
     real, intent(inout) :: a(n,n), y(n,n)
-    integer, intent(in) :: indx(n), n
+    integer, intent(inout) :: indx(n)
+    integer, intent(in) :: n
     integer :: i
     real :: d
 
