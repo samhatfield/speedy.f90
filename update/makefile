@@ -144,6 +144,6 @@ ppo_dmout.o            : ppo_dmout.f mod_tsteps.o mod_atparam.o
 #sea2atm.o              : sea2atm.f
 #sea_init.o             : sea_init.f 
 #send_to_coupler.o      : send_to_coupler.f
-spe_matinv.o           : spe_matinv.f
+spe_matinv.o           : spe_matinv.f90
 spe_spectral.o         : spe_spectral.f mod_atparam.o
 spe_subfft_fftpack.o   : spe_subfft_fftpack.f mod_atparam.o
