@@ -17,10 +17,10 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
 
     USE mod_atparam
     USE mod_dynvar
+    use mod_dyncon1, only: akap, rgas, dhs, fsg, dhsr, fsgr, coriol
 
     implicit none
 
-    include "com_dyncon1.h"
     include "com_dyncon2.h"
 
     !** notes ****

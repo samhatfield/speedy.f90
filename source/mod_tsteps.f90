@@ -9,7 +9,7 @@ module mod_tsteps
     public delt, delt2, rob, wil, alph
 
     ! Integration length in months
-    integer :: nmonts = 12
+    integer :: nmonts = 3
 
     ! No. of days in the last month of int. (max=30)
     integer :: ndaysl = 0
@@ -27,7 +27,7 @@ module mod_tsteps
     integer :: nstout = -1
 
     ! Daily output flag (0=no, 1=basic (Z500,PREC,MSLP,TEMP0), 2=full)
-    integer, parameter :: idout  = 1
+    integer, parameter :: idout  = 0
 
     ! Period (no. of months) for restart file update
     integer, parameter :: nmonrs = 3

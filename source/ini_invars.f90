@@ -12,14 +12,13 @@ subroutine invars
     use mod_dyncon0, only: gamma, hscale, hshum, refrh1
     use mod_atparam
     use mod_dynvar
+    use mod_dyncon1, only: grav, rgas, fsg
 
     implicit none
 
     include "com_date.h"
 
     include "com_surfcon.h"
-
-    include "com_dyncon1.h"
 
     complex :: zero, ccon, surfs(mx,nx)
     real :: surfg(ix,il)
@@ -67,8 +66,8 @@ subroutine invars
         surfs(1,1) = ccon*tref - gam1*phis(1,1)
 
         ! Temperature at tropospheric levels
-        DO K=3,KX
-            FACTK=FSG(K)**RGAM
+        do k=3,kx
+            factk=fsg(k)**rgam
             t(:,:,k,1) = surfs * factk
         end do
 

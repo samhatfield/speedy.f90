@@ -10,10 +10,10 @@ subroutine sptend (divdt,tdt,psdt,j4)
     
     use mod_atparam
     use mod_dynvar
+    use mod_dyncon1, only: rgas, dhs, dhsr
 
     implicit none
 
-    include "com_dyncon1.h"
     include "com_dyncon2.h"
 
     complex, intent(inout) :: psdt(mx,nx), divdt(mx,nx,kx), tdt(mx,nx,kx)

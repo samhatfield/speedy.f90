@@ -305,14 +305,13 @@ subroutine forchk (fmask,field,ngp,nf,fmin,fmax,fset)
 end
 
 subroutine ftland (stl,phi0,phis0,fmaskl)
-    USE mod_dyncon0, only: gamma
-    USE mod_atparam
+    use mod_dyncon0, only: gamma
+    use mod_dyncon1, only: gcos, grav
+    use mod_atparam
 
     implicit none
 
     integer, parameter :: nlon = ix, nlat = il
-
-    include "com_dyncon1.h" 
 
     real, dimension(nlon, nlat), intent(inout) :: stl, phi0, phis0, fmaskl
     real :: stl2(nlon,nlat), sumt, sumw

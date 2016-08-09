@@ -20,10 +20,10 @@ subroutine impint(dt,alph)
 
     use mod_dyncon0, only: gamma
     use mod_atparam
+    use mod_dyncon1, only: akap, rgas, hsg, dhs, fsg, fsgr, a, grav
 
     implicit none
 	  								
-    include "com_dyncon1.h"
     include "com_dyncon2.h"
     include "com_hdifcon.h"
 
@@ -43,7 +43,7 @@ subroutine impint(dt,alph)
 
     ! 1. Constants for implicit gravity wave computation
     ! reference atmosphere, function of sigma only
-    RGAM = RGAS*GAMMA/(1000.*GRAV)
+    rgam = rgas*gamma/(1000.*grav)
 
     do k=1,kx
         tref(k)=288.*max(0.2,fsg(k))**rgam
@@ -54,9 +54,8 @@ subroutine impint(dt,alph)
     end do
 
     ! Other constants 
-
-    XI=DT*ALPH
-    XXI = XI/(A*A)
+    xi=dt*alph
+    xxi = xi/(a*a)
 
     dhsx = xi * dhs
 
@@ -82,8 +81,8 @@ subroutine impint(dt,alph)
         xa(k,k-1)=0.5*(akap*tref(k)/fsg(k)-(tref(k)-tref(k-1))/dhs(k))
     end do
 
-    DO K=1,KXM
-        XA(K,K)=0.5*(AKAP*TREF(K)/FSG(K)-(TREF(K+1)-TREF(K))/DHS(K))
+    do k=1,kxm
+        xa(k,k)=0.5*(akap*tref(k)/fsg(k)-(tref(k+1)-tref(k))/dhs(k))
     end do
 
     !sig(k)=xb(k,k')*d(k')
@@ -122,11 +121,11 @@ subroutine impint(dt,alph)
     end do
 
     !P(K)=YE(K)+XE(K,K')*D(K')
-    DO K=1,KX
-        DO K1=1,KX
-            XE(K,K1)=0.
-            DO K2=1,KX
-                XE(K,K1)=XE(K,K1)+XD(K,K2)*XC(K2,K1)
+    do k=1,kx
+        do k1=1,kx
+            xe(k,k1)=0.
+            do k2=1,kx
+                xe(k,k1)=xe(k,k1)+xd(k,k2)*xc(k2,k1)
             end do
         end do
     end do

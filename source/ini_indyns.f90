@@ -11,11 +11,11 @@ subroutine indyns
 
     use mod_tsteps, only: nsteps, alph
     use mod_dyncon0
+    use mod_dyncon1
     use mod_atparam
 
     implicit none
 
-    include "com_dyncon1.h"
     include "com_hdifcon.h"
     include "com_spectral.h"
 
@@ -29,17 +29,6 @@ subroutine indyns
     ! alph = 1 ---- backward implicit -----------------
     ! alph = 0.5 -- centered implicit -----------------
     alph = 0.5 
-
-    ! 1.2 Physical constants required by the dynamical core
-    rearth = 6.371e+6
-    omega  = 7.292e-05
-    grav   = 9.81
-    akap   = 2./7.
-    rgas   = akap*1004.
-
-    pi = 4.*atan(1.)
-    a  = rearth
-    g  = grav
 
     ! Power of Laplacian in horizontal diffusion
     npowhd = 4
