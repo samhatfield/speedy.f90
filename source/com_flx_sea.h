@@ -1,7 +1,5 @@
-
-C--
-C--   /SEAFLUX/ Fluxes at sea surface (all downward, except evaporation)
-      common /SEAFLUX/ prec_s, snowf_s, evap_s, ustr_s, vstr_s,
+!   /SEAFLUX/ Fluxes at sea surface (all downward, except evaporation)
+      common /SEAFLUX/ prec_s, snowf_s, evap_s, ustr_s, vstr_s,         &
      &                 ssr_s, slr_s, shf_s, ehf_s, hflux_s, hflux_i
 
       real  prec_s(ngp)                 ! precipitation (sea)
