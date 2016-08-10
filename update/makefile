@@ -91,7 +91,7 @@ at_gcm.o               : at_gcm.f90 mod_tsteps.o
 #atm2land.o             : atm2land.f
 #atm2sea.o              : atm2sea.f
 #get_from_coupler.o     : get_from_coupler.f
-cpl_bcinterp.o         : cpl_bcinterp.f
+cpl_bcinterp.o         : cpl_bcinterp.f90
 cpl_land.o             : cpl_land.f mod_cpl_flags.o mod_atparam.o
 cpl_land_model.o       : cpl_land_model.f mod_atparam.o
 cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o
