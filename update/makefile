@@ -145,5 +145,5 @@ ppo_dmout.o            : ppo_dmout.f90 mod_tsteps.o mod_atparam.o
 #sea_init.o             : sea_init.f 
 #send_to_coupler.o      : send_to_coupler.f
 spe_matinv.o           : spe_matinv.f90
-spe_spectral.o         : spe_spectral.f mod_atparam.o
+spe_spectral.o         : spe_spectral.f90 mod_atparam.o
 spe_subfft_fftpack.o   : spe_subfft_fftpack.f mod_atparam.o
