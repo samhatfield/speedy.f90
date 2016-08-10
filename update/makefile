@@ -140,7 +140,7 @@ ppo_setgrd.o           : ppo_setgrd.f mod_tsteps.o
 ppo_tminc.o            : ppo_tminc.f mod_lflags.o mod_atparam.o
 ppo_dmflux.o           : ppo_dmflux.f mod_tsteps.o mod_atparam.o
 ppo_tmout.o            : ppo_tmout.f mod_tsteps.o mod_atparam.o
-ppo_dmout.o            : ppo_dmout.f mod_tsteps.o mod_atparam.o
+ppo_dmout.o            : ppo_dmout.f90 mod_tsteps.o mod_atparam.o
 #sea2atm.o              : sea2atm.f
 #sea_init.o             : sea_init.f 
 #send_to_coupler.o      : send_to_coupler.f
