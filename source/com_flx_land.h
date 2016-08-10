@@ -1,7 +1,5 @@
-
-C--
-C--   /LANDFLUX/ Fluxes at land surface (all downward, except evaporation)
-      common /LANDFLUX/ prec_l, snowf_l, evap_l, ustr_l, vstr_l,
+!   /LANDFLUX/ Fluxes at land surface (all downward, except evaporation)
+      common /LANDFLUX/ prec_l, snowf_l, evap_l, ustr_l, vstr_l,        &
      &                  ssr_l, slr_l, shf_l, ehf_l, hflux_l
 
       real  prec_l(ngp)                 ! precipitation (land)
