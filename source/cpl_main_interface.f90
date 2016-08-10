@@ -4,6 +4,7 @@ subroutine ini_coupler(istart)
     !
 
     use mod_atparam
+    use mod_cpl_land_model, only: land_model_init
     
     implicit none
 

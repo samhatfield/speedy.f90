@@ -29,6 +29,7 @@ end
 subroutine atm2land(jday)
     use mod_cpl_flags, only: icland
     use mod_atparam
+    use mod_cpl_land_model, only: vland_input
 
     implicit none
 
@@ -40,8 +41,6 @@ subroutine atm2land(jday)
     include "com_cli_land.h" 
     include "com_var_land.h"
     include "com_flx_land.h"
-
-    include "com_cplvar_land.h"
 
     ! 1. Interpolate climatological fields to actual date
 
@@ -69,6 +68,7 @@ end
 subroutine land2atm(jday)
     use mod_cpl_flags, only: icland
     use mod_atparam
+    use mod_cpl_land_model, only: land_model, vland_output
 
     implicit none
 
@@ -76,7 +76,6 @@ subroutine land2atm(jday)
     integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
 
     include "com_var_land.h"
-    include "com_cplvar_land.h"
 
     if (jday.gt.0.and.icland.gt.0) then
         ! 1. Run ocean mixed layer or 
@@ -84,7 +83,7 @@ subroutine land2atm(jday)
         call land_model 
 
         ! 2. Get updated variables for mixed-layer/ocean model
-        stl_lm(:) = VLAND_OUTPUT(:,1)      ! land sfc. temperature
+        stl_lm(:) = vland_output(:,1)      ! land sfc. temperature
     end if
 
     ! 3. Compute land-sfc. fields for atm. model

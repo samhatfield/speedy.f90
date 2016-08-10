@@ -18,7 +18,6 @@ COMPILE=gfortran
 FILES= \
        cpl_bcinterp.o \
        cpl_land.o \
-       cpl_land_model.o \
        cpl_main_interface.o \
        cpl_sea.o \
        cpl_sea_model.o \
@@ -41,6 +40,7 @@ FILES= \
 	   mod_atparam.o \
 	   mod_cnvcon.o \
 	   mod_cpl_flags.o \
+       mod_cpl_land_model.o \
 	   mod_dyncon0.o \
 	   mod_dyncon1.o \
 	   mod_dynvar.o \
@@ -92,9 +92,9 @@ at_gcm.o               : at_gcm.f90 mod_tsteps.o
 #atm2sea.o              : atm2sea.f
 #get_from_coupler.o     : get_from_coupler.f
 cpl_bcinterp.o         : cpl_bcinterp.f90
-cpl_land.o             : cpl_land.f90 mod_cpl_flags.o mod_atparam.o
-cpl_land_model.o       : cpl_land_model.f90 mod_atparam.o
-cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o
+cpl_land.o             : cpl_land.f90 mod_cpl_flags.o mod_atparam.o mod_cpl_land_model.o
+mod_cpl_land_model.o   : mod_cpl_land_model.f90 mod_atparam.o
+cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o mod_cpl_land_model.o
 cpl_sea.o              : cpl_sea.f90 mod_cpl_flags.o mod_atparam.o
 cpl_sea_model.o        : cpl_sea_model.f mod_atparam.o
 dyn_geop.o             : dyn_geop.f90 mod_atparam.o mod_dynvar.o mod_dyncon1.o
