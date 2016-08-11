@@ -136,7 +136,7 @@ phy_vdifsc.o           : phy_vdifsc.f90 mod_atparam.o mod_vdicon.o
 ppo_diagns.o           : ppo_diagns.f90 mod_tsteps.o mod_atparam.o mod_dynvar.o
 ppo_restart.o          : ppo_restart.f mod_tsteps.o mod_atparam.o mod_dynvar.o
 ppo_setctl.o           : ppo_setctl.f
-ppo_setgrd.o           : ppo_setgrd.f mod_tsteps.o
+ppo_setgrd.o           : ppo_setgrd.f90 mod_tsteps.o
 ppo_tminc.o            : ppo_tminc.f mod_lflags.o mod_atparam.o
 ppo_dmflux.o           : ppo_dmflux.f mod_tsteps.o mod_atparam.o
 ppo_tmout.o            : ppo_tmout.f mod_tsteps.o mod_atparam.o
