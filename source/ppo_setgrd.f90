@@ -7,9 +7,12 @@ subroutine setgrd(ind,norun)
 
     use mod_tsteps, only: idout
 
+    implicit none
+
     include "com_date.h"
 
-    character(len=3)  :: norun
+    integer, intent(in) :: ind
+    character(len=3), intent(in) :: norun
     character(len=16), save :: ofile11, ofile13, ofile15
     character(len=17), save :: ofile17
 
