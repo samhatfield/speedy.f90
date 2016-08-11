@@ -1,6 +1,6 @@
 
-C--
-C--   /SEA_MC/ Constant parameters and fields in sea/ice model
+!
+!   /SEA_MC/ Constant parameters and fields in sea/ice model
       common /SEA_MC/ rhcaps, rhcapi, cdsea, cdice, beta
 
       real  rhcaps(nlon,nlat)           ! 1./heat_capacity (sea)
