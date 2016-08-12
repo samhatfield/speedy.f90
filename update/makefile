@@ -126,10 +126,10 @@ mod_dyncon0.o          : mod_dyncon0.f90
 mod_dyncon1.o          : mod_dyncon1.f90 mod_atparam.o
 mod_dyncon2.o          : mod_dyncon2.f90 mod_atparam.o
 mod_dynvar.o           : mod_dynvar.f90 mod_atparam.o
-mod_hdifcon.o          : mod_hdifcon.f90
+mod_hdifcon.o          : mod_hdifcon.f90 mod_atparam.o
 mod_lflags.o           : mod_lflags.f90
 mod_lsccon.o           : mod_lsccon.f90
-mod_sflcon.o           : mod_sflcon.f90
+mod_sflcon.o           : mod_sflcon.f90 mod_atparam.o
 mod_tsteps.o           : mod_tsteps.f90
 mod_vdicon.o           : mod_vdicon.f90
 phy_convmf.o           : phy_convmf.f90 mod_cnvcon.o mod_atparam.o
