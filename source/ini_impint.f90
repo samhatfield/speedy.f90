@@ -21,10 +21,10 @@ subroutine impint(dt,alph)
     use mod_dyncon0, only: gamma
     use mod_atparam
     use mod_dyncon1, only: akap, rgas, hsg, dhs, fsg, fsgr, a, grav
+    use mod_dyncon2
 
     implicit none
 	  								
-    include "com_dyncon2.h"
     include "com_hdifcon.h"
 
     real, intent(in) :: dt, alph

@@ -18,10 +18,9 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
     USE mod_atparam
     USE mod_dynvar
     use mod_dyncon1, only: akap, rgas, dhs, fsg, dhsr, fsgr, coriol
+    use mod_dyncon2, only: tref, tref3
 
     implicit none
-
-    include "com_dyncon2.h"
 
     !** notes ****
     ! -- TG does not have to be computed at both time levels every time step,

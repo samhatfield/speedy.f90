@@ -10,12 +10,11 @@ subroutine implic(divdt,tdt,psdt)
 
     use mod_atparam
     use mod_dyncon1, only: dhs
+    use mod_dyncon2, only: tref1, xc, xd, xj, dhsx, elz
 
     implicit none
 
     integer, parameter :: mxnxkx = mx*nx*kx
-
-    include "com_dyncon2.h"
 
     complex, intent(inout) :: divdt(mx,nx,kx), tdt(mx,nx,kx), psdt(mx,nx)
     complex ::  ye(mx,nx,kx), yf(mx,nx,kx), zero
