@@ -9,17 +9,11 @@ subroutine tmout(imode)
 
     use mod_tsteps, only: nstppr
     use mod_atparam
+    use mod_tmean
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Parameters for post-processing arrays
-    include "par_tmean.h"
-
-    ! Post-processing arrays (time means)
-    include "com_tmean.h"
-    !include "com_tmean_daily.h"
 
     ! Physical constants
     include "com_physcon.h"

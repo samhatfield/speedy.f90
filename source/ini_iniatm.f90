@@ -6,12 +6,11 @@ subroutine ini_atm(cexp)
     use mod_tsteps, only: nmonts, nsteps, nstout, idout, iyear0, imont0, indrdf
     use mod_atparam
     use mod_dyncon1, only: grav, hsg, fsg, radang
+    use mod_tmean
 
     implicit none
 
     include "com_date.h"
-
-    include "par_tmean.h"
 
     character(len=3) :: cexp        ! experiment identifier
     real :: ppl(kx)            ! post-processing levels (hpa/1000)

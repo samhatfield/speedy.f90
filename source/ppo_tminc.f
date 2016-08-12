@@ -9,14 +9,10 @@ C--
 
       USE mod_lflags, only: lppres
       USE mod_atparam
+      USE mod_tmean, only: ns3d1, ns3d2, ns3d3, save3d, save2d_1,        &
+     & rnsave, save2d_d1
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
-
-C     Parameters for post-processing arrays
-      include "par_tmean.h"
-
-C     Post-processing arrays (time means)
-      include "com_tmean.h"
 
 C     Constants and conversion factors
       include "com_physcon.h"

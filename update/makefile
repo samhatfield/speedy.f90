@@ -49,6 +49,7 @@ FILES= \
 	   mod_lflags.o \
 	   mod_lsccon.o \
 	   mod_sflcon.o \
+	   mod_tmean.o \
 	   mod_tsteps.o \
 	   mod_vdicon.o \
        phy_convmf.o \
@@ -111,7 +112,7 @@ ini_agcm_init.o        : ini_agcm_init.f90 mod_cpl_flags.o mod_tsteps.o mod_atpa
 ini_impint.o           : ini_impint.f90 mod_dyncon0.o mod_atparam.o mod_dyncon1.o mod_dyncon2.o mod_hdifcon.o
 ini_indyns.o           : ini_indyns.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o mod_hdifcon.o
 ini_inbcon.o           : ini_inbcon.f90 mod_cpl_flags.o mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o
-ini_iniatm.o           : ini_iniatm.f90 mod_tsteps.o mod_atparam.o mod_dyncon1.o
+ini_iniatm.o           : ini_iniatm.f90 mod_tsteps.o mod_atparam.o mod_dyncon1.o mod_tmean.o
 ini_inphys.o           : ini_inphys.f90 mod_atparam.o
 ini_inirdf.o           : ini_inirdf.f90 mod_atparam.o
 ini_invars.o           : ini_invars.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dynvar.o mod_dyncon1.o
@@ -130,6 +131,7 @@ mod_hdifcon.o          : mod_hdifcon.f90 mod_atparam.o
 mod_lflags.o           : mod_lflags.f90
 mod_lsccon.o           : mod_lsccon.f90
 mod_sflcon.o           : mod_sflcon.f90 mod_atparam.o
+mod_tmean.o            : mod_tmean.f90 mod_atparam.o
 mod_tsteps.o           : mod_tsteps.f90
 mod_vdicon.o           : mod_vdicon.f90
 phy_convmf.o           : phy_convmf.f90 mod_cnvcon.o mod_atparam.o
@@ -143,10 +145,10 @@ ppo_diagns.o           : ppo_diagns.f90 mod_tsteps.o mod_atparam.o mod_dynvar.o
 ppo_restart.o          : ppo_restart.f90 mod_tsteps.o mod_atparam.o mod_dynvar.o
 ppo_setctl.o           : ppo_setctl.f90
 ppo_setgrd.o           : ppo_setgrd.f90 mod_tsteps.o
-ppo_tminc.o            : ppo_tminc.f mod_lflags.o mod_atparam.o
-ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o
-ppo_tmout.o            : ppo_tmout.f90 mod_tsteps.o mod_atparam.o
-ppo_dmout.o            : ppo_dmout.f90 mod_tsteps.o mod_atparam.o
+ppo_tminc.o            : ppo_tminc.f mod_lflags.o mod_atparam.o mod_tmean.o
+ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_tmean.o
+ppo_tmout.o            : ppo_tmout.f90 mod_tsteps.o mod_atparam.o mod_tmean.o
+ppo_dmout.o            : ppo_dmout.f90 mod_tsteps.o mod_atparam.o mod_tmean.o
 #sea2atm.o              : sea2atm.f
 #sea_init.o             : sea_init.f 
 #send_to_coupler.o      : send_to_coupler.f

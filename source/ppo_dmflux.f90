@@ -8,13 +8,11 @@ subroutine dmflux(iadd)
 
     use mod_tsteps, only: nsteps
     use mod_atparam
+    use mod_tmean, only: save2d_2, save2d_d2
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Parameters for post-processing arrays
-    include "par_tmean.h"
 
     include "com_surfcon.h"
 
@@ -27,8 +25,6 @@ subroutine dmflux(iadd)
     include "com_flx_sea.h"
 
     include "com_var_sea.h"
-
-    include "com_tmean.h"
 
     integer, intent(in) :: iadd
 

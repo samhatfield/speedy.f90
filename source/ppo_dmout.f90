@@ -8,17 +8,12 @@ subroutine dmout(imode)
 
     use mod_tsteps, only: nsteps, nstppr, idout
     use mod_atparam
+    use mod_tmean, only: ns2d_d1, ns2d_d2, save2d_d1, save2d_d2
 
     implicit none
 
     integer, intent(in) :: imode
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Parameters for post-processing arrays
-    include "par_tmean.h"
-
-    ! Post-processing arrays (time means)
-    include "com_tmean.h"
 
     real*4 :: r4out(ngp), fmean
     integer :: iitest=0, n, nout_d1, nout_d2
