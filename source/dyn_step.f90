@@ -23,10 +23,9 @@ subroutine step(j1,j2,dt,alph,rob,wil)
     use mod_dyncon0, only: tdrs
     use mod_atparam
     use mod_dynvar
+    use mod_hdifcon
 
     implicit none
-
-    include "com_hdifcon.h"
 
     integer, intent(in) :: j1, j2
     real, intent(in) :: dt, alph, rob, wil

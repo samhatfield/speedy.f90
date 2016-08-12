@@ -10,6 +10,7 @@ subroutine fordate(imode)
     use mod_lflags, only: lco2
     use mod_dyncon0, only: refrh1
     use mod_atparam
+    use mod_hdifcon, only: tcorh, qcorh
 
     implicit none
 
@@ -20,7 +21,6 @@ subroutine fordate(imode)
     include "com_physcon.h"
 
     include "com_radcon.h"
-    include "com_hdifcon.h"
 
     include "com_surfcon.h"
 

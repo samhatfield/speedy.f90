@@ -13,10 +13,10 @@ subroutine indyns
     use mod_dyncon0
     use mod_dyncon1
     use mod_atparam
+    use mod_hdifcon, only: dmp, dmpd, dmps, tcorv, qcorv
 
     implicit none
 
-    include "com_hdifcon.h"
     include "com_spectral.h"
 
     integer :: j, k, jj, npowhd

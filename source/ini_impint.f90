@@ -22,11 +22,10 @@ subroutine impint(dt,alph)
     use mod_atparam
     use mod_dyncon1, only: akap, rgas, hsg, dhs, fsg, fsgr, a, grav
     use mod_dyncon2
+    use mod_hdifcon, only: dmp, dmpd, dmps, dmp1, dmp1d, dmp1s
 
     implicit none
 	  								
-    include "com_hdifcon.h"
-
     real, intent(in) :: dt, alph
     real :: dsum(kx), ya(kx,kx)
     integer :: indx(kx), m, n, k, k1, k2, l, ll, mm
