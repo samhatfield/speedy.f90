@@ -1,9 +1,9 @@
-SUBROUTINE SUFLUX (PSA,UA,VA,TA,QA,RH,PHI,PHI0,FMASK,TLAND,TSEA,SWAV,SSRD,SLRD,&
-        & USTR,VSTR,SHF,EVAP,SLRU,HFLUXN,TSFC,TSKIN,U0,V0,T0,Q0,LFLUXLAND)
-    !  SUBROUTINE SUFLUX (PSA,UA,VA,TA,QA,RH,PHI,
-    ! &                   PHI0,FMASK,TLAND,TSEA,SWAV,SSRD,SLRD,
-    ! &                   USTR,VSTR,SHF,EVAP,SLRU,HFLUXN,
-    ! &                   TSFC,TSKIN,U0,V0,T0,Q0,LFLUXLAND)
+subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tland,tsea,swav,ssrd,slrd,&
+        & ustr,vstr,shf,evap,slru,hfluxn,tsfc,tskin,u0,v0,t0,q0,lfluxland)
+    !  subroutine suflux (psa,ua,va,ta,qa,rh,phi,
+    ! &                   phi0,fmask,tland,tsea,swav,ssrd,slrd,
+    ! &                   ustr,vstr,shf,evap,slru,hfluxn,
+    ! &                   tsfc,tskin,u0,v0,t0,q0,lfluxland)
     !
     !  Purpose: Compute surface fluxes of momentum, energy and moisture,
     !           and define surface skin temperature from energy balance
@@ -36,6 +36,7 @@ SUBROUTINE SUFLUX (PSA,UA,VA,TA,QA,RH,PHI,PHI0,FMASK,TLAND,TSEA,SWAV,SSRD,SLRD,&
     !           Q0     = near-surface sp. humidity [g/kg](2-dim)
 
     use mod_atparam
+    use mod_sflcon
 
     implicit none
 
@@ -43,9 +44,6 @@ SUBROUTINE SUFLUX (PSA,UA,VA,TA,QA,RH,PHI,PHI0,FMASK,TLAND,TSEA,SWAV,SSRD,SLRD,&
 
     ! Physical constants + functions of sigma and latitude
     include "com_physcon.h"
-
-    ! Surface flux constants
-    include "com_sflcon.h"      
 
     include "com_radcon.h"
 
@@ -368,6 +366,7 @@ subroutine sflset(phi0)
     !          Initialized common blocks: sflfix
 
     use mod_atparam
+    use mod_sflcon
 
     implicit none
 
@@ -375,9 +374,6 @@ subroutine sflset(phi0)
 
     ! Physical constants + functions of sigma and latitude
     include "com_physcon.h"
-
-    ! Surface flux constants
-    include "com_sflcon.h"
 
     real, intent(in) :: phi0(ngp)
     integer :: j

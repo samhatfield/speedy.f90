@@ -9,7 +9,7 @@ subroutine inphys(hsg,ppl,rlat)
     ! Initialized common blocks: phycon, fsiglt, forcon, 
     !                            cnvcon, lsccon, radcon, sflcon, vdicon
 
-    USE mod_atparam
+    use mod_atparam
 
     implicit none
 
@@ -23,7 +23,6 @@ subroutine inphys(hsg,ppl,rlat)
 
     ! Constants for sub-grid-scale physics
     include "com_radcon.h"  
-    include "com_sflcon.h"
 
     real :: hsg(0:nlev), ppl(nlev), rlat(nlat)  
     integer :: j, k

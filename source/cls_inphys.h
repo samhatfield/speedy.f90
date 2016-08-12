@@ -52,26 +52,3 @@
 
       ABLCL1 = 12.0
       ABLCL2 =  0.6
-
-!--   Constants for surface fluxes (common SFLCON):
-
-      FWIND0 = 0.95
-      FTEMP0 = 1.
-      FHUM0  = 0.
-
-      CDL = 2.4e-3
-!      CDS = 0.8e-3
-      CDS = 1.0e-3
-      CHL = 1.2e-3
-      CHS = 0.9e-3
-!      CHS = 1.0e-3
-
-      VGUST  = 5.
-      CTDAY  = 1.0e-2
-      DTHETA = 3.
-      FSTAB  = 0.67
-      HDRAG  = 2000.
-      FHDRAG = 0.5
-
-      CLAMBDA = 7.
-      CLAMBSN = 7. 
