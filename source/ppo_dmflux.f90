@@ -9,6 +9,7 @@ subroutine dmflux(iadd)
     use mod_tsteps, only: nsteps
     use mod_atparam
     use mod_tmean, only: save2d_2, save2d_d2
+    use mod_flx_land
 
     implicit none
 
@@ -21,7 +22,6 @@ subroutine dmflux(iadd)
 
     include "com_radcon.h"
 
-    include "com_flx_land.h"
     include "com_flx_sea.h"
 
     include "com_var_sea.h"

@@ -45,6 +45,7 @@ FILES= \
 	   mod_dyncon1.o \
 	   mod_dyncon2.o \
 	   mod_dynvar.o \
+	   mod_flx_land.o \
 	   mod_hdifcon.o \
 	   mod_lflags.o \
 	   mod_lsccon.o \
@@ -96,7 +97,7 @@ at_gcm.o               : at_gcm.f90 mod_tsteps.o
 #atm2sea.o              : atm2sea.f
 #get_from_coupler.o     : get_from_coupler.f
 cpl_bcinterp.o         : cpl_bcinterp.f90
-cpl_land.o             : cpl_land.f90 mod_cpl_flags.o mod_atparam.o mod_cpl_land_model.o
+cpl_land.o             : cpl_land.f90 mod_cpl_flags.o mod_atparam.o mod_cpl_land_model.o mod_flx_land.o
 mod_cpl_land_model.o   : mod_cpl_land_model.f90 mod_atparam.o
 cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o mod_cpl_land_model.o
 cpl_sea.o              : cpl_sea.f90 mod_cpl_flags.o mod_atparam.o
@@ -127,6 +128,7 @@ mod_dyncon0.o          : mod_dyncon0.f90
 mod_dyncon1.o          : mod_dyncon1.f90 mod_atparam.o
 mod_dyncon2.o          : mod_dyncon2.f90 mod_atparam.o
 mod_dynvar.o           : mod_dynvar.f90 mod_atparam.o
+mod_flx_land.o         : mod_flx_land.f90 mod_atparam.o
 mod_hdifcon.o          : mod_hdifcon.f90 mod_atparam.o
 mod_lflags.o           : mod_lflags.f90
 mod_lsccon.o           : mod_lsccon.f90
@@ -146,7 +148,7 @@ ppo_restart.o          : ppo_restart.f90 mod_tsteps.o mod_atparam.o mod_dynvar.o
 ppo_setctl.o           : ppo_setctl.f90
 ppo_setgrd.o           : ppo_setgrd.f90 mod_tsteps.o
 ppo_tminc.o            : ppo_tminc.f mod_lflags.o mod_atparam.o mod_tmean.o
-ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_tmean.o
+ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_tmean.o mod_flx_land.o
 ppo_tmout.o            : ppo_tmout.f90 mod_tsteps.o mod_atparam.o mod_tmean.o
 ppo_dmout.o            : ppo_dmout.f90 mod_tsteps.o mod_atparam.o mod_tmean.o
 #sea2atm.o              : sea2atm.f

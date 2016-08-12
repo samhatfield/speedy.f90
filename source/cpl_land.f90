@@ -30,6 +30,7 @@ subroutine atm2land(jday)
     use mod_cpl_flags, only: icland
     use mod_atparam
     use mod_cpl_land_model, only: vland_input
+    use mod_flx_land, only: hflux_l
 
     implicit none
 
@@ -40,7 +41,6 @@ subroutine atm2land(jday)
 
     include "com_cli_land.h" 
     include "com_var_land.h"
-    include "com_flx_land.h"
 
     ! 1. Interpolate climatological fields to actual date
 
