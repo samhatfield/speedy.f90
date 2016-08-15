@@ -11,11 +11,9 @@ C--
       USE mod_atparam
       USE mod_tmean, only: ns3d1, ns3d2, ns3d3, save3d, save2d_1,        &
      & rnsave, save2d_d1
+      USE mod_physcon, only: gg, rd, sigl, pout
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
-
-C     Constants and conversion factors
-      include "com_physcon.h"
 
 C     Model variables, tendencies and fluxes on gaussian grid
       include "com_physvar.h"

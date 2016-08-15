@@ -19,13 +19,11 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     use mod_cpl_flags, only: icsea
     use mod_lflags, only: lradsw, lrandf
     use mod_atparam
+    use mod_physcon, only: sig, sigh, grdsig, grdscp, cp
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Constants + functions of sigma and latitude
-    include "com_physcon.h"
 
     ! Model variables, tendencies and fluxes on gaussian grid
     include "com_physvar.h"
@@ -211,20 +209,19 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 end
 
 subroutine xs_rdf(tt1,tt2,ivm)
-    !  SUBROUTINE XS_RDF (TT1,TT2,IVM)
+    !  subroutine xs_rdf (tt1,tt2,ivm)
     !
     !  Purpose: compute zonal-mean cross-sec. of random diabatic forcing
-    !  Input: TT1, TT2 = diabatic heating fields
-    !         IVM      = index of vertical mode (1 or 2)
-    !  Modified common block: RANDF
+    !  Input: tt1, tt2 = diabatic heating fields
+    !         ivm      = index of vertical mode (1 or 2)
+    !  Modified common block: randf
 
-    USE mod_atparam
+    use mod_atparam
+    use mod_physcon, only: sig
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    include "com_physcon.h"
 
     include "com_randfor.h"
 

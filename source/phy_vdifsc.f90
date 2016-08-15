@@ -18,15 +18,13 @@ subroutine vdifsc(ua,va,se,rh,qa,qsat,phi,icnv,utenvd,vtenvd,ttenvd,qtenvd)
     !            qtenvd = sp. humidity tendency [g/(kg s)] (3-dim)
     !
 
-    USE mod_atparam
-    USE mod_vdicon
+    use mod_atparam
+    use mod_vdicon
+    use mod_physcon, only: cp, alhc, sig, sigh, dsig
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Physical constants + functions of sigma and latitude
-    include "com_physcon.h"
 
     real, dimension(ngp,nlev), intent(in) :: ua, va, se, rh, qa, qsat, phi
     integer, intent(in) :: icnv(ngp)

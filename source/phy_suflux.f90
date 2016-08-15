@@ -37,13 +37,11 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tland,tsea,swav,ssrd,slrd,&
 
     use mod_atparam
     use mod_sflcon
+    use mod_physcon, only: p0, rd, cp, alhc, sbc, sigl, wvi, clat
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Physical constants + functions of sigma and latitude
-    include "com_physcon.h"
 
     include "com_radcon.h"
 
@@ -367,13 +365,11 @@ subroutine sflset(phi0)
 
     use mod_atparam
     use mod_sflcon
+    use mod_physcon, only: gg
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Physical constants + functions of sigma and latitude
-    include "com_physcon.h"
 
     real, intent(in) :: phi0(ngp)
     integer :: j

@@ -1,7 +1,7 @@
 !fk#if !defined(KNMI)
-SUBROUTINE LSCOND(PSA,QA,QSAT,ITOP,PRECLS,DTLSC,DQLSC)
+subroutine lscond(psa,qa,qsat,itop,precls,dtlsc,dqlsc)
 !fk#else
-!fkSUBROUTINE LSCOND (PSA,QA,QSAT,TS,ITOP,PRECLS,SNOWLS,DTLSC,DQLSC)
+!fksubroutine lscond (psa,qa,qsat,ts,itop,precls,snowls,dtlsc,dqlsc)
 !fk#endif
     !  subroutine lscond (psa,qa,qsat,
     ! *                   itop,precls,dtlsc,dqlsc) 
@@ -17,15 +17,13 @@ SUBROUTINE LSCOND(PSA,QA,QSAT,ITOP,PRECLS,DTLSC,DQLSC)
     !           dtlsc  = temperature tendency from l.s. cond     (3-dim)
     !           dqlsc  = hum. tendency [g/(kg s)] from l.s. cond (3-dim)
 
-    USE mod_lsccon
-    USE mod_atparam
+    use mod_lsccon
+    use mod_atparam
+    use mod_physcon, only: p0, gg, cp, alhc, alhs, sig, dsig
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Physical constants + functions of sigma and latitude
-    include "com_physcon.h"
 
     real, intent(in) :: psa(ngp), qa(ngp,nlev), qsat(ngp,nlev)
 

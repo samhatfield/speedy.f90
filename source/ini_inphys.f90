@@ -10,13 +10,11 @@ subroutine inphys(hsg,ppl,rlat)
     !                            cnvcon, lsccon, radcon, sflcon, vdicon
 
     use mod_atparam
+    use mod_physcon
 
     implicit none
 
     integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon*nlat
-
-    ! Physical constants + functions of sigma and latitude
-    include "com_physcon.h"
 
     ! Surface properties
     include "com_surfcon.h"
@@ -27,21 +25,6 @@ subroutine inphys(hsg,ppl,rlat)
     real :: hsg(0:nlev), ppl(nlev), rlat(nlat)  
     integer :: j, k
     
-    ! 1. Time independent parameters and arrays
-    
-    ! 1.1 Physical constants
-    p0 = 1.e+5
-    gg = 9.81
-    rd = 287.
-    cp = 1004.
-
-    ! Latent heat is in J/g for consistency with spec.hum. in g/Kg
-    alhc = 2501.0
-!fk#if defined(knmi)
-!fk    alhs = 2801.0
-!fk#end if
-    sbc = 5.67e-8
-
     ! 1.2 Functions of sigma and latitude
     sigh(0) = hsg(0)
 

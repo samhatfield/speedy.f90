@@ -10,13 +10,11 @@ subroutine tmout(imode)
     use mod_tsteps, only: nstppr
     use mod_atparam
     use mod_tmean
+    use mod_physcon, only: p0, pout
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Physical constants
-    include "com_physcon.h"
 
     integer, intent(in) :: imode
 

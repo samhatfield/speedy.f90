@@ -11,14 +11,13 @@ subroutine fordate(imode)
     use mod_dyncon0, only: refrh1
     use mod_atparam
     use mod_hdifcon, only: tcorh, qcorh
+    use mod_physcon, only: rd
 
     implicit none
 
     integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon * nlat
 
     include "com_date.h"
-
-    include "com_physcon.h"
 
     include "com_radcon.h"
 
@@ -123,6 +122,7 @@ subroutine setgam(tyear,gamlat)
 
     use mod_dyncon0, only: gamma
     use mod_atparam
+    use mod_physcon, only: gg
 
     implicit none
 
@@ -130,8 +130,6 @@ subroutine setgam(tyear,gamlat)
     integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon * nlat
     integer :: j
                                             
-    include "com_physcon.h"
-
     real, intent(inout) :: gamlat(nlat)
 
     gamlat(1) = gamma/(1000. * gg)

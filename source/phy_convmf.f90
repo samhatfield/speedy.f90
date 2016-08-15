@@ -21,13 +21,11 @@ subroutine convmf (psa,se,qa,qsat,itop,cbmf,precnv,dfse,dfqa)
 
     use mod_cnvcon
     use mod_atparam
+    use mod_physcon, only: p0, gg, alhc, alhs, sig, dsig, wvi
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Physical constants + functions of sigma and latitude
-    include "com_physcon.h"
 
     real, intent(in) :: psa(ngp), se(ngp,nlev), qa(ngp,nlev), qsat(ngp,nlev)
 

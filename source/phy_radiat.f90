@@ -11,13 +11,11 @@ subroutine sol_oz(tyear)
     !  Updated common blocks: radzon
 
     use mod_atparam
+    use mod_physcon, only: slat, clat
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Constants + functions of sigma and latitude
-    include "com_physcon.h"
 
     ! Radiation constants
     include "com_radcon.h"
@@ -146,9 +144,6 @@ subroutine cloud(qa,rh,precnv,precls,iptop,gse,fmask,icltop,cloudc,clstr)
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
 
-    ! Constants + functions of sigma and latitude
-    include "com_physcon.h"
-
     ! Cloud and radiation parameters
     include "com_radcon.h"
 
@@ -257,13 +252,11 @@ subroutine radsw(psa,qa,icltop,cloudc,clstr,fsfcd,fsfc,ftop,dfabs)
     !           dfabs  = flux of sw rad. absorbed by each atm. layer  (3-dim)
 
     use mod_atparam
+    use mod_physcon, only: sig, dsig
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Constants + functions of sigma and latitude
-    include "com_physcon.h"
 
     ! Radiation parameters
 
@@ -471,7 +464,8 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
     !           dfabs  = flux of lw rad. absorbed by each atm. layer (3-dim)
     !
 
-    USE mod_atparam
+    use mod_atparam
+    use mod_physcon, only: sbc, dsig, wvi
 
     implicit none
 
@@ -480,9 +474,6 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
 
     ! Number of radiation bands with tau < 1
     integer, parameter :: nband=4
-
-    ! Constants + functions of sigma and latitude
-    include "com_physcon.h"
 
     ! Radiation parameters
     include "com_radcon.h"
