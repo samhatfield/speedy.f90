@@ -50,6 +50,7 @@ FILES= \
 	   mod_lflags.o \
 	   mod_lsccon.o \
 	   mod_physcon.o \
+	   mod_randfor.o \
 	   mod_sflcon.o \
 	   mod_tmean.o \
 	   mod_tsteps.o \
@@ -116,7 +117,7 @@ ini_indyns.o           : ini_indyns.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o
 ini_inbcon.o           : ini_inbcon.f90 mod_cpl_flags.o mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o
 ini_iniatm.o           : ini_iniatm.f90 mod_tsteps.o mod_atparam.o mod_dyncon1.o mod_tmean.o
 ini_inphys.o           : ini_inphys.f90 mod_atparam.o mod_physcon.o
-ini_inirdf.o           : ini_inirdf.f90 mod_atparam.o mod_physcon.o
+ini_inirdf.o           : ini_inirdf.f90 mod_atparam.o mod_physcon.o mod_randfor.o
 ini_invars.o           : ini_invars.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dynvar.o mod_dyncon1.o
 ini_stepone.o          : ini_stepone.f90 mod_tsteps.o
 ini_fordate.o          : ini_fordate.f90 mod_dyncon0.o mod_lflags.o mod_atparam.o mod_hdifcon.o mod_physcon.o
@@ -134,13 +135,14 @@ mod_hdifcon.o          : mod_hdifcon.f90 mod_atparam.o
 mod_lflags.o           : mod_lflags.f90
 mod_lsccon.o           : mod_lsccon.f90
 mod_physcon.o          : mod_physcon.f90 mod_atparam.o
+mod_randfor.o          : mod_randfor.f90 mod_atparam.o
 mod_sflcon.o           : mod_sflcon.f90 mod_atparam.o
 mod_tmean.o            : mod_tmean.f90 mod_atparam.o
 mod_tsteps.o           : mod_tsteps.f90
 mod_vdicon.o           : mod_vdicon.f90
 phy_convmf.o           : phy_convmf.f90 mod_cnvcon.o mod_atparam.o mod_physcon.o
 phy_lscond.o           : phy_lscond.f90 mod_lsccon.o mod_atparam.o mod_physcon.o
-phy_phypar.o           : phy_phypar.f90 mod_cpl_flags.o mod_lflags.o mod_atparam.o mod_physcon.o
+phy_phypar.o           : phy_phypar.f90 mod_cpl_flags.o mod_lflags.o mod_atparam.o mod_physcon.o mod_randfor.o
 phy_radiat.o           : phy_radiat.f90 mod_atparam.o mod_physcon.o
 phy_shtorh.o           : phy_shtorh.f90
 phy_suflux.o           : phy_suflux.f90 mod_atparam.o mod_sflcon.o mod_physcon.o

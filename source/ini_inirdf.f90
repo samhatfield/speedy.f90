@@ -3,10 +3,10 @@ subroutine inirdf(indrdf)
     !
     !  Purpose : Initialize random diabatic forcing 
     !  Input :   inirdf = index of forcing perturbation
-    !  Initialized common blocks: RANDF
 
     use mod_atparam
     use mod_physcon, only: slat
+    use mod_randfor, only: randfh
 
     implicit none
 
@@ -14,8 +14,6 @@ subroutine inirdf(indrdf)
 
     integer, intent(in) :: indrdf
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    include "com_randfor.h"
 
     real :: redgrd(0:36,0:18), randf2(nlon,nlat), rnlon(0:18), colat(nlat)
     real :: ampl, flat1, flat2, fran, freq0, rdeg, rlon

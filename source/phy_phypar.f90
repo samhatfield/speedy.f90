@@ -214,16 +214,14 @@ subroutine xs_rdf(tt1,tt2,ivm)
     !  Purpose: compute zonal-mean cross-sec. of random diabatic forcing
     !  Input: tt1, tt2 = diabatic heating fields
     !         ivm      = index of vertical mode (1 or 2)
-    !  Modified common block: randf
 
     use mod_atparam
     use mod_physcon, only: sig
+    use mod_randfor, only: randfv
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    include "com_randfor.h"
 
     real, dimension(nlon,nlat,nlev), intent(in) :: tt1, tt2
     integer, intent(in) :: ivm
@@ -275,12 +273,11 @@ subroutine setrdf(tt_rdf)
     !  Output: tt_rdf = random diabatic forcing
 
     use mod_atparam
+    use mod_randfor
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    include "com_randfor.h"
 
     real :: tt_rdf(nlon,nlat,nlev)
     integer :: i, j, k
