@@ -5,6 +5,7 @@ subroutine sea_model_init(fmask_s,rlat)
     !  Initialized common blocks: sea_mc
 
     use mod_atparam
+    use mod_cplcon_sea
 
     implicit none
 							
@@ -13,8 +14,6 @@ subroutine sea_model_init(fmask_s,rlat)
     ! Input variables
     real fmask_s(nlon,nlat)            ! sea mask (fraction of sea)
     real rlat(nlat)                    ! latitudes in degrees
-
-    include "com_cplcon_sea.h"
 
     ! Auxiliary variables
 
@@ -57,9 +56,6 @@ subroutine sea_model_init(fmask_s,rlat)
 
     ! Dissipation time (days) for sea-ice temp. anomalies
     real :: tdice
-
-    ! Heat flux coefficient at sea/ice interface [(W/m^2)/deg]
-    beta = 1.
 
     ! Geographical domain
     ! note : more than one regional domain may be set .true.
@@ -124,6 +120,7 @@ subroutine sea_model
     ! Purpose : Integrate slab ocean and sea-ice models for one day
 
     use mod_atparam
+    use mod_cplcon_sea
 
     implicit none
 
@@ -131,7 +128,6 @@ subroutine sea_model
 
     !real vsea_input(nlon,nlat,8), vsea_output(nlon,nlat,3)
 
-    include "com_cplcon_sea.h"
     include "com_cplvar_sea.h"
 
     ! Input variables:
