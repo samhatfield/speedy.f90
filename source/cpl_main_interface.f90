@@ -6,12 +6,12 @@ subroutine ini_coupler(istart)
     use mod_atparam
     use mod_cpl_land_model, only: land_model_init
     use mod_surfcon, only: fmask, alb0
+    use mod_cli_land, only: fmask_l
     
     implicit none
 
     integer, intent(in) :: istart
 
-    include "com_cli_land.h"
     include "com_cli_sea.h"
 
     ! 1.1 initialize land model constants

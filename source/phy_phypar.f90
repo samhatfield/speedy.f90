@@ -31,7 +31,6 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 
     ! Surface fields (daily averages)
     include "com_cli_sea.h"
-    include "com_cli_land.h"
     include "com_var_sea.h"
     include "com_var_land.h"
 

@@ -13,6 +13,7 @@ subroutine fordate(imode)
     use mod_hdifcon, only: tcorh, qcorh
     use mod_physcon, only: rd
     use mod_surfcon, only: phis0, alb0, sd2sc
+    use mod_cli_land, only: fmask_l
 
     implicit none
 
@@ -23,7 +24,6 @@ subroutine fordate(imode)
     include "com_radcon.h"
 
     include "com_cli_sea.h"
-    include "com_cli_land.h"
 
     include "com_var_sea.h"
     include "com_var_land.h"
@@ -33,11 +33,11 @@ subroutine fordate(imode)
     real :: gamlat(nlat)
 
     real :: fland(ngp), alb_0(ngp)
-    equivalence (fland,fmask_l)
 
     real :: del_co2, dummy, pexp
     integer :: i, j, ij, iitest = 0, iyear_ref
 
+    fland = reshape(fmask_l, (/ngp/))
     alb_0 = reshape(alb0, (/ngp/))
 
     ! time variables for interpolation are set by newdate
