@@ -121,14 +121,13 @@ subroutine sea_model
 
     use mod_atparam
     use mod_cplcon_sea
+    use mod_cplvar_sea
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
 
     !real vsea_input(nlon,nlat,8), vsea_output(nlon,nlat,3)
-
-    include "com_cplvar_sea.h"
 
     ! Input variables:
     real ::  sst0(nlon,nlat)     ! SST at initial time
@@ -141,23 +140,10 @@ subroutine sea_model
     real :: ticecl1(nlon,nlat)   ! clim. sea ice temp. at final time
     real :: hfseacl(nlon,nlat)   ! clim. heat flux due to advection/upwelling
 
-    equivalence    (sst0,vsea_input(1,1))
-    equivalence   (tice0,vsea_input(1,2))
-    equivalence   (sice0,vsea_input(1,3))
-    equivalence   (hfsea,vsea_input(1,4))
-    equivalence   (hfice,vsea_input(1,5))
-    equivalence  (sstcl1,vsea_input(1,6))
-    equivalence (ticecl1,vsea_input(1,7))
-    equivalence (hfseacl,vsea_input(1,8))
-
     ! Output variables
     real ::  sst1(nlon,nlat)     ! SST at final time
     real :: tice1(nlon,nlat)     ! sea ice temp. at final time 
     real :: sice1(nlon,nlat)     ! sea ice fraction at final time 
-
-    equivalence  (sst1,vsea_output(1,1))
-    equivalence (tice1,vsea_output(1,2))
-    equivalence (sice1,vsea_output(1,3))
 
     ! Auxiliary variables
     real :: hflux(nlon,nlat)   ! net sfc. heat flux
@@ -165,6 +151,15 @@ subroutine sea_model
     real :: cdis(nlon,nlat)    ! dissipation ceofficient
 
     real :: anom0, sstfr
+
+    sst0 = reshape(vsea_input(:,1), (/nlon, nlat/))
+    tice0 = reshape(vsea_input(:,2), (/nlon, nlat/))
+    sice0 = reshape(vsea_input(:,3), (/nlon, nlat/))
+    hfsea = reshape(vsea_input(:,4), (/nlon, nlat/))
+    hfice = reshape(vsea_input(:,5), (/nlon, nlat/))
+    sstcl1 = reshape(vsea_input(:,6), (/nlon, nlat/))
+    ticecl1 = reshape(vsea_input(:,7), (/nlon, nlat/))
+    hfseacl = reshape(vsea_input(:,8), (/nlon, nlat/))
 
     sstfr = 273.2-1.8       ! SST at freezing point
 
@@ -204,6 +199,10 @@ subroutine sea_model
 
     ! Persistence of sea ice fraction
     sice1 = sice0
+
+    vsea_output(:,1) = reshape(sst1, (/ngp/))
+    vsea_output(:,2) = reshape(tice1, (/ngp/))
+    vsea_output(:,3) = reshape(sice1, (/ngp/))
 end
 
 subroutine sea_domain(cdomain,rlat,dmask) 

@@ -39,6 +39,7 @@ subroutine atm2sea(jday)
 
     use mod_cpl_flags, only: icsea, icice, isstan
     use mod_atparam
+    use mod_cplvar_sea, only: vsea_input
 
     implicit none
 
@@ -50,8 +51,6 @@ subroutine atm2sea(jday)
     include "com_cli_sea.h" 
     include "com_var_sea.h"
     include "com_flx_sea.h"
-
-    include "com_cplvar_sea.h"
 
     real :: fmasks(ngp)                  ! sea fraction
     equivalence (fmasks,fmask_s)
@@ -130,6 +129,7 @@ subroutine sea2atm(jday)
 
     use mod_cpl_flags, only: icsea, icice, isstan
     use mod_atparam
+    use mod_cplvar_sea, only: vsea_output
 
     implicit none
 
@@ -137,8 +137,6 @@ subroutine sea2atm(jday)
     integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
 
     include "com_var_sea.h"
-
-    include "com_cplvar_sea.h"
 
     if (jday.gt.0.and.(icsea.gt.0.or.icice.gt.0)) then
         ! 1. Run ocean mixed layer or 

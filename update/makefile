@@ -40,6 +40,7 @@ FILES= \
 	   mod_atparam.o \
 	   mod_cnvcon.o \
 	   mod_cplcon_sea.o \
+	   mod_cplvar_sea.o \
 	   mod_cpl_flags.o \
        mod_cpl_land_model.o \
 	   mod_dyncon0.o \
@@ -104,8 +105,8 @@ cpl_bcinterp.o         : cpl_bcinterp.f90
 cpl_land.o             : cpl_land.f90 mod_cpl_flags.o mod_atparam.o mod_cpl_land_model.o mod_flx_land.o
 mod_cpl_land_model.o   : mod_cpl_land_model.f90 mod_atparam.o
 cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o mod_cpl_land_model.o mod_surfcon.o
-cpl_sea.o              : cpl_sea.f90 mod_cpl_flags.o mod_atparam.o
-cpl_sea_model.o        : cpl_sea_model.f90 mod_atparam.o mod_cplcon_sea.o
+cpl_sea.o              : cpl_sea.f90 mod_cpl_flags.o mod_atparam.o mod_cplvar_sea.o
+cpl_sea_model.o        : cpl_sea_model.f90 mod_atparam.o mod_cplcon_sea.o mod_cplvar_sea.o
 dyn_geop.o             : dyn_geop.f90 mod_atparam.o mod_dynvar.o mod_dyncon1.o
 dyn_grtend.o           : dyn_grtend.f90 mod_atparam.o mod_dynvar.o mod_dyncon1.o mod_dyncon2.o
 dyn_implic.o           : dyn_implic.f90 mod_atparam.o mod_dyncon1.o mod_dyncon1.o mod_dyncon2.o
@@ -131,6 +132,7 @@ ini_fordate.o          : ini_fordate.f90 mod_dyncon0.o mod_lflags.o mod_atparam.
 mod_atparam.o          : mod_atparam.f90
 mod_cnvcon.o           : mod_cnvcon.f90
 mod_cplcon_sea.o       : mod_cplcon_sea.f90 mod_atparam.o
+mod_cplvar_sea.o       : mod_cplvar_sea.f90 mod_atparam.o
 mod_cpl_flags.o        : mod_cpl_flags.f90
 mod_dyncon0.o          : mod_dyncon0.f90
 mod_dyncon1.o          : mod_dyncon1.f90 mod_atparam.o
