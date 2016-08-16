@@ -7,10 +7,9 @@ subroutine ini_atm(cexp)
     use mod_atparam
     use mod_dyncon1, only: grav, hsg, fsg, radang
     use mod_tmean
+    use mod_date, only: ndaytot
 
     implicit none
-
-    include "com_date.h"
 
     character(len=3) :: cexp        ! experiment identifier
     real :: ppl(kx)            ! post-processing levels (hpa/1000)

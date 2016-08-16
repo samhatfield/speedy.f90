@@ -31,13 +31,12 @@ subroutine atm2land(jday)
     use mod_cpl_land_model, only: vland_input
     use mod_flx_land, only: hflux_l
     use mod_cli_land, only: stl12, snowd12, soilw12
+    use mod_date, only: imont1, tmonth
 
     implicit none
 
     integer, intent(in) :: jday
     integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
-
-    include "com_date.h"
 
     include "com_var_land.h"
 

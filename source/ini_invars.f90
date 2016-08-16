@@ -14,10 +14,9 @@ subroutine invars
     use mod_dynvar
     use mod_dyncon1, only: grav, rgas, fsg
     use mod_surfcon, only: phi0, phis0
+    use mod_date, only: iyear, imonth
 
     implicit none
-
-    include "com_date.h"
 
     complex :: zero, ccon, surfs(mx,nx)
     real :: surfg(ix,il)
@@ -38,8 +37,8 @@ subroutine invars
         ! 2. Start from reference atmosphere (at rest) 
         print*, ' starting from rest'
 
-        IYEAR  = IYEAR0
-        IMONTH = IMONT0
+        iyear  = iyear0
+        imonth = imont0
 
         ! 2.1 Set vorticity, divergence and tracers to zero
         vor(:,:,:,1) = zero

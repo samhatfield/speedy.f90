@@ -10,10 +10,9 @@ subroutine restart(jday)
     use mod_tsteps, only: nmonrs, iyear0, imont0
     use mod_atparam
     use mod_dynvar
+    use mod_date, only: iyear, imonth, iday, ndaytot
 
     implicit none
-
-    include "com_date.h"
 
     integer, intent(in) :: jday
     integer :: jrec

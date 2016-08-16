@@ -40,13 +40,12 @@ subroutine atm2sea(jday)
     use mod_cpl_flags, only: icsea, icice, isstan
     use mod_atparam
     use mod_cplvar_sea, only: vsea_input
+    use mod_date, only: iday, imont1, tmonth
 
     implicit none
 
     integer, intent(in) :: jday
     integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
-
-    include "com_date.h"
 
     include "com_cli_sea.h" 
     include "com_var_sea.h"

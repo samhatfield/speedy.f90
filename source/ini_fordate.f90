@@ -14,12 +14,11 @@ subroutine fordate(imode)
     use mod_physcon, only: rd
     use mod_surfcon, only: phis0, alb0, sd2sc
     use mod_cli_land, only: fmask_l
+    use mod_date, only: iyear, tyear
 
     implicit none
 
     integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon * nlat
-
-    include "com_date.h"
 
     include "com_radcon.h"
 

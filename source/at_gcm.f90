@@ -35,10 +35,9 @@ subroutine agcm_1day(jday, cexp)
     ! post-proc. and i/o at selected times 
 
     use mod_tsteps, only: nsteps, idout, nstout
+    use mod_date, only: iyear, imonth, iday, ndaytot, newdate
 
     implicit none
-
-    include "com_date.h"
 
     integer, intent(in) :: jday
     character(len=3), intent(in) :: cexp

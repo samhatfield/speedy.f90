@@ -6,10 +6,9 @@ subroutine setgrd(ind,norun)
     !        : norun = run identifier
 
     use mod_tsteps, only: idout
+    use mod_date, only: iyear
 
     implicit none
-
-    include "com_date.h"
 
     integer, intent(in) :: ind
     character(len=3), intent(in) :: norun
