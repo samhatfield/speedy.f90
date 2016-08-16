@@ -20,6 +20,7 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     use mod_lflags, only: lradsw, lrandf
     use mod_atparam
     use mod_physcon, only: sig, sigh, grdsig, grdscp, cp
+    use mod_surfcon, only: fmask1, phis0
 
     implicit none
 
@@ -27,9 +28,6 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 
     ! Model variables, tendencies and fluxes on gaussian grid
     include "com_physvar.h"
-
-    ! Surface properties (time-inv.)
-    include "com_surfcon.h"
 
     ! Surface fields (daily averages)
     include "com_cli_sea.h"

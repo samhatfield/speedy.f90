@@ -11,12 +11,11 @@ subroutine dmflux(iadd)
     use mod_tmean, only: save2d_2, save2d_d2
     use mod_flx_land
     use mod_physcon, only: alhc, sbc
+    use mod_surfcon, only: fmask, fmask1
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    include "com_surfcon.h"
 
     include "com_physvar.h"
 
@@ -31,7 +30,8 @@ subroutine dmflux(iadd)
     real :: prec(ngp), difice(ngp)
 
     real :: fland(ngp), esbc, rstep1, rstep2, rsteps, sstfr, sstfr4
-    equivalence (fland,fmask1)
+
+    fland = reshape(fmask1,(/ngp/))
 
     ! 1. Initialization
     if (iadd.le.0) then

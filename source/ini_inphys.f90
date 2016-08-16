@@ -16,9 +16,6 @@ subroutine inphys(hsg,ppl,rlat)
 
     integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon*nlat
 
-    ! Surface properties
-    include "com_surfcon.h"
-
     ! Constants for sub-grid-scale physics
     include "com_radcon.h"  
 

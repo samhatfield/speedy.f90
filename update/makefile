@@ -52,6 +52,7 @@ FILES= \
 	   mod_physcon.o \
 	   mod_randfor.o \
 	   mod_sflcon.o \
+	   mod_surfcon.o \
 	   mod_tmean.o \
 	   mod_tsteps.o \
 	   mod_vdicon.o \
@@ -101,7 +102,7 @@ at_gcm.o               : at_gcm.f90 mod_tsteps.o
 cpl_bcinterp.o         : cpl_bcinterp.f90
 cpl_land.o             : cpl_land.f90 mod_cpl_flags.o mod_atparam.o mod_cpl_land_model.o mod_flx_land.o
 mod_cpl_land_model.o   : mod_cpl_land_model.f90 mod_atparam.o
-cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o mod_cpl_land_model.o
+cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o mod_cpl_land_model.o mod_surfcon.o
 cpl_sea.o              : cpl_sea.f90 mod_cpl_flags.o mod_atparam.o
 cpl_sea_model.o        : cpl_sea_model.f90 mod_atparam.o
 dyn_geop.o             : dyn_geop.f90 mod_atparam.o mod_dynvar.o mod_dyncon1.o
@@ -114,13 +115,16 @@ dyn_stloop.o           : dyn_stloop.f90 mod_lflags.o mod_tsteps.o
 ini_agcm_init.o        : ini_agcm_init.f90 mod_cpl_flags.o mod_tsteps.o mod_atparam.o
 ini_impint.o           : ini_impint.f90 mod_dyncon0.o mod_atparam.o mod_dyncon1.o mod_dyncon2.o mod_hdifcon.o
 ini_indyns.o           : ini_indyns.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o mod_hdifcon.o
-ini_inbcon.o           : ini_inbcon.f90 mod_cpl_flags.o mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o
+ini_inbcon.o           : ini_inbcon.f90 mod_cpl_flags.o mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o\
+						 mod_surfcon.o
 ini_iniatm.o           : ini_iniatm.f90 mod_tsteps.o mod_atparam.o mod_dyncon1.o mod_tmean.o
 ini_inphys.o           : ini_inphys.f90 mod_atparam.o mod_physcon.o
 ini_inirdf.o           : ini_inirdf.f90 mod_atparam.o mod_physcon.o mod_randfor.o
-ini_invars.o           : ini_invars.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dynvar.o mod_dyncon1.o
+ini_invars.o           : ini_invars.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dynvar.o mod_dyncon1.o\
+						 mod_surfcon.o
 ini_stepone.o          : ini_stepone.f90 mod_tsteps.o
-ini_fordate.o          : ini_fordate.f90 mod_dyncon0.o mod_lflags.o mod_atparam.o mod_hdifcon.o mod_physcon.o
+ini_fordate.o          : ini_fordate.f90 mod_dyncon0.o mod_lflags.o mod_atparam.o mod_hdifcon.o mod_physcon.o\
+						 mod_surfcon.o
 #land2atm.o             : land2atm.f
 #land_init.o            : land_init.f
 mod_atparam.o          : mod_atparam.f90
@@ -137,12 +141,14 @@ mod_lsccon.o           : mod_lsccon.f90
 mod_physcon.o          : mod_physcon.f90 mod_atparam.o
 mod_randfor.o          : mod_randfor.f90 mod_atparam.o
 mod_sflcon.o           : mod_sflcon.f90 mod_atparam.o
+mod_surfcon.o          : mod_surfcon.f90 mod_atparam.o
 mod_tmean.o            : mod_tmean.f90 mod_atparam.o
 mod_tsteps.o           : mod_tsteps.f90
 mod_vdicon.o           : mod_vdicon.f90
 phy_convmf.o           : phy_convmf.f90 mod_cnvcon.o mod_atparam.o mod_physcon.o
 phy_lscond.o           : phy_lscond.f90 mod_lsccon.o mod_atparam.o mod_physcon.o
-phy_phypar.o           : phy_phypar.f90 mod_cpl_flags.o mod_lflags.o mod_atparam.o mod_physcon.o mod_randfor.o
+phy_phypar.o           : phy_phypar.f90 mod_cpl_flags.o mod_lflags.o mod_atparam.o mod_physcon.o mod_randfor.o\
+					     mod_surfcon.o
 phy_radiat.o           : phy_radiat.f90 mod_atparam.o mod_physcon.o
 phy_shtorh.o           : phy_shtorh.f90
 phy_suflux.o           : phy_suflux.f90 mod_atparam.o mod_sflcon.o mod_physcon.o
@@ -151,8 +157,9 @@ ppo_diagns.o           : ppo_diagns.f90 mod_tsteps.o mod_atparam.o mod_dynvar.o
 ppo_restart.o          : ppo_restart.f90 mod_tsteps.o mod_atparam.o mod_dynvar.o
 ppo_setctl.o           : ppo_setctl.f90
 ppo_setgrd.o           : ppo_setgrd.f90 mod_tsteps.o
-ppo_tminc.o            : ppo_tminc.f mod_lflags.o mod_atparam.o mod_tmean.o mod_physcon.o
-ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_tmean.o mod_flx_land.o mod_physcon.o
+ppo_tminc.o            : ppo_tminc.f mod_lflags.o mod_atparam.o mod_tmean.o mod_physcon.o mod_surfcon.o
+ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_tmean.o mod_flx_land.o mod_physcon.o\
+						 mod_surfcon.o
 ppo_tmout.o            : ppo_tmout.f90 mod_tsteps.o mod_atparam.o mod_tmean.o mod_physcon.o
 ppo_dmout.o            : ppo_dmout.f90 mod_tsteps.o mod_atparam.o mod_tmean.o
 #sea2atm.o              : sea2atm.f

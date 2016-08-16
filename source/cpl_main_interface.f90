@@ -5,6 +5,7 @@ subroutine ini_coupler(istart)
 
     use mod_atparam
     use mod_cpl_land_model, only: land_model_init
+    use mod_surfcon, only: fmask, alb0
     
     implicit none
 
@@ -12,8 +13,6 @@ subroutine ini_coupler(istart)
 
     include "com_cli_land.h"
     include "com_cli_sea.h"
-
-    include "com_surfcon.h"
 
     ! 1.1 initialize land model constants
     call land_model_init(fmask_l,alb0)

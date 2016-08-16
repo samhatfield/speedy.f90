@@ -12,6 +12,7 @@ C--
       USE mod_tmean, only: ns3d1, ns3d2, ns3d3, save3d, save2d_1,        &
      & rnsave, save2d_d1
       USE mod_physcon, only: gg, rd, sigl, pout
+      USE mod_surfcon, only: phis0
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 
@@ -25,16 +26,13 @@ C     Surface variables on gaussian grid
       include "com_var_land.h"
       include "com_radcon.h"
 
-
-C     Surface properties (time-inv.)
-      include "com_surfcon.h"
-
       real ADSAVE(ngp,6), PHISG(ngp), PMSL(ngp), QSATPL(ngp), ST0(ngp)
-      equivalence (PHISG,PHIS0)
 
 C     fields for vertical interpolation
       integer K0(ngp)
       real    W0(ngp), ZOUT(ngp), ZINP(nlev), RDZINP(nlev)
+
+      PHISG = RESHAPE(PHIS0, (/NGP/))
 
 C     Level indices for daily-mean storage of upper-air fields
 C     upper tropos. u, v :

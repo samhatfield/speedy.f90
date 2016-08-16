@@ -13,12 +13,11 @@ subroutine invars
     use mod_atparam
     use mod_dynvar
     use mod_dyncon1, only: grav, rgas, fsg
+    use mod_surfcon, only: phi0, phis0
 
     implicit none
 
     include "com_date.h"
-
-    include "com_surfcon.h"
 
     complex :: zero, ccon, surfs(mx,nx)
     real :: surfg(ix,il)

@@ -12,6 +12,7 @@ subroutine fordate(imode)
     use mod_atparam
     use mod_hdifcon, only: tcorh, qcorh
     use mod_physcon, only: rd
+    use mod_surfcon, only: phis0, alb0, sd2sc
 
     implicit none
 
@@ -20,8 +21,6 @@ subroutine fordate(imode)
     include "com_date.h"
 
     include "com_radcon.h"
-
-    include "com_surfcon.h"
 
     include "com_cli_sea.h"
     include "com_cli_land.h"
@@ -34,10 +33,12 @@ subroutine fordate(imode)
     real :: gamlat(nlat)
 
     real :: fland(ngp), alb_0(ngp)
-    equivalence (fland,fmask_l), (alb_0,alb0)
+    equivalence (fland,fmask_l)
 
     real :: del_co2, dummy, pexp
     integer :: i, j, ij, iitest = 0, iyear_ref
+
+    alb_0 = reshape(alb0, (/ngp/))
 
     ! time variables for interpolation are set by newdate
     
@@ -105,11 +106,7 @@ subroutine fordate(imode)
     call shtorh(0, ngp, tref,   1., -1., dummy, dummy, qref)
     call shtorh(0, ngp, tsfc, psfc,  1., dummy, dummy, qsfc)
 
-    do j = 1, nlat
-        do i = 1, nlon
-            corh(i,j) = refrh1 * (qref(i,j) - qsfc(i,j))
-        end do
-    end do
+    corh = refrh1 * (qref - qsfc)
 
     if (iitest > 1.and.imode == 0) call outest(19,corh)
 

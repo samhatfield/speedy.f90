@@ -1,12 +1,6 @@
 !--
 !--   Constants for physical parametrization routines:
 
-!--   Soil moisture and snow parameters (common SOILMP):
-
-      SWCAP = 0.30
-      SWWIL = 0.17
-      SD2SC = 60.
-
 !--   Constants for radiation (common RADCON):
 
       SOLC   = 342.

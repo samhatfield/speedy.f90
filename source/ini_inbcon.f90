@@ -9,13 +9,12 @@ subroutine inbcon(grav0,radlat)
     use mod_cpl_flags, only: icsea, isstan
     use mod_tsteps, only: isst0
     use mod_atparam
+    use mod_surfcon
  	  							
     implicit none
 
     real, intent(in) :: grav0, radlat(il)
     integer, parameter :: nlon = ix, nlat = il
-
-    include "com_surfcon.h"    
 
     include "com_cli_land.h" 
     include "com_cli_sea.h" 
