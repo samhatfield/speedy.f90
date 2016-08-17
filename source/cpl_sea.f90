@@ -41,6 +41,7 @@ subroutine atm2sea(jday)
     use mod_atparam
     use mod_cplvar_sea, only: vsea_input
     use mod_date, only: iday, imont1, tmonth
+    use mod_flx_sea, only: hflux_s, hflux_i
 
     implicit none
 
@@ -49,7 +50,6 @@ subroutine atm2sea(jday)
 
     include "com_cli_sea.h" 
     include "com_var_sea.h"
-    include "com_flx_sea.h"
 
     real :: fmasks(ngp)                  ! sea fraction
     equivalence (fmasks,fmask_s)

@@ -10,6 +10,7 @@ subroutine dmflux(iadd)
     use mod_atparam
     use mod_tmean, only: save2d_2, save2d_d2
     use mod_flx_land
+    use mod_flx_sea
     use mod_physcon, only: alhc, sbc
     use mod_surfcon, only: fmask, fmask1
 
@@ -20,8 +21,6 @@ subroutine dmflux(iadd)
     include "com_physvar.h"
 
     include "com_radcon.h"
-
-    include "com_flx_sea.h"
 
     include "com_var_sea.h"
 
