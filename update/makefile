@@ -170,7 +170,7 @@ ppo_diagns.o           : ppo_diagns.f90 mod_tsteps.o mod_atparam.o mod_dynvar.o
 ppo_restart.o          : ppo_restart.f90 mod_tsteps.o mod_atparam.o mod_dynvar.o mod_date.o
 ppo_setctl.o           : ppo_setctl.f90
 ppo_setgrd.o           : ppo_setgrd.f90 mod_tsteps.o mod_date.o
-ppo_tminc.o            : ppo_tminc.f mod_lflags.o mod_atparam.o mod_tmean.o mod_physcon.o mod_surfcon.o\
+ppo_tminc.o            : ppo_tminc.f90 mod_lflags.o mod_atparam.o mod_tmean.o mod_physcon.o mod_surfcon.o\
 						 mod_cli_land.o
 ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_tmean.o mod_flx_land.o mod_physcon.o\
 						 mod_surfcon.o mod_flx_sea.o
