@@ -4,13 +4,11 @@ subroutine ini_land(istart)
     ! Input : istart = restart flag ( 0 = no, 1 = yes)
 
     use mod_atparam
+    use mod_var_land, only: stlcl_ob, stl_lm
 
     implicit none
 
     integer, intent(in) :: istart
-    integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
-
-    include "com_var_land.h"
 
     ! 1. Compute climatological fields for initial date
     call atm2land(0)
@@ -32,13 +30,12 @@ subroutine atm2land(jday)
     use mod_flx_land, only: hflux_l
     use mod_cli_land, only: stl12, snowd12, soilw12
     use mod_date, only: imont1, tmonth
+    use mod_var_land, only: stlcl_ob, snowdcl_ob, soilwcl_ob, stl_lm
 
     implicit none
 
     integer, intent(in) :: jday
     integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
-
-    include "com_var_land.h"
 
     ! 1. Interpolate climatological fields to actual date
 
@@ -67,13 +64,11 @@ subroutine land2atm(jday)
     use mod_cpl_flags, only: icland
     use mod_atparam
     use mod_cpl_land_model, only: land_model, vland_output
+    use mod_var_land
 
     implicit none
 
     integer, intent(in) :: jday
-    integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
-
-    include "com_var_land.h"
 
     if (jday.gt.0.and.icland.gt.0) then
         ! 1. Run ocean mixed layer or 
@@ -108,13 +103,11 @@ subroutine rest_land(imode)
 
     use mod_cpl_flags, only: icland
     use mod_atparam
+    use mod_var_land, only: stl_am, stl_lm
 
     implicit none
 
     integer, intent(in) :: imode
-    integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
-
-    include "com_var_land.h"
 
     if (imode.eq.0) then
         read (3)  stl_lm(:)       ! Land sfc. temperature 

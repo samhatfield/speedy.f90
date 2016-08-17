@@ -21,6 +21,7 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     use mod_atparam
     use mod_physcon, only: sig, sigh, grdsig, grdscp, cp
     use mod_surfcon, only: fmask1, phis0
+    use mod_var_land, only: stl_am, soilw_am
 
     implicit none
 
@@ -32,7 +33,6 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     ! Surface fields (daily averages)
     include "com_cli_sea.h"
     include "com_var_sea.h"
-    include "com_var_land.h"
 
     complex, dimension(mx,nx,nlev) :: vor1, div1, t1, q1, phi1
     complex, dimension(mx,nx) :: psl1, ucos, vcos
@@ -135,7 +135,7 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     end if
 
     ! 3.2 Compute downward longwave fluxes 
-    CALL RADLW(-1,TG1,TS,SLRD,SLRU(1,3),SLR,OLR,TT_RLW)
+    call radlw(-1,tg1,ts,slrd,slru(1,3),slr,olr,tt_rlw)
 
     ! 3.3. Compute surface fluxes and land skin temperature
     if (iitest.eq.1) then 

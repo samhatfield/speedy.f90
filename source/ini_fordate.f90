@@ -15,6 +15,7 @@ subroutine fordate(imode)
     use mod_surfcon, only: phis0, alb0, sd2sc
     use mod_cli_land, only: fmask_l
     use mod_date, only: iyear, tyear
+    use mod_var_land, only: stl_am, snowd_am
 
     implicit none
 
@@ -25,7 +26,6 @@ subroutine fordate(imode)
     include "com_cli_sea.h"
 
     include "com_var_sea.h"
-    include "com_var_land.h"
 
     integer, intent(in) :: imode
     real, dimension(nlon, nlat) :: corh, tsfc, tref, psfc, qsfc, qref

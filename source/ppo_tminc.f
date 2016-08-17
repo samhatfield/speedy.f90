@@ -14,6 +14,7 @@ C--
       USE mod_physcon, only: gg, rd, sigl, pout
       USE mod_surfcon, only: phis0
       USE mod_cli_land, only: bmask_l
+      USE mod_var_land, only: stl_am, soilw_am
 
       PARAMETER ( NLON=IX, NLAT=IL, NLEV=KX, NGP=NLON*NLAT )
 
@@ -23,7 +24,6 @@ C     Model variables, tendencies and fluxes on gaussian grid
 C     Surface variables on gaussian grid
       include "com_cli_sea.h"
       include "com_var_sea.h"
-      include "com_var_land.h"
       include "com_radcon.h"
 
       real ADSAVE(ngp,6), PHISG(ngp), PMSL(ngp), QSATPL(ngp), ST0(ngp)
