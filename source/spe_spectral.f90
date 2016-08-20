@@ -44,11 +44,11 @@ end
 !****************************************************************
 subroutine parmtr(a)
     use mod_atparam
+    use mod_spectral
 
     implicit none
 
     !include "param1spec.h"
-    include "com_spectral.h"
 
     real, intent(in) :: a
     real :: am1, am2, cosqr, el1, ell2, emm2
@@ -62,13 +62,13 @@ subroutine parmtr(a)
     ! first compute Gaussian latitudes and weights at the IY points from 
     !     pole to equator
     ! SIA(IY) is sin of latitude, WT(IY) are Gaussian weights for quadratures,
-    !   saved in COMMON/GAUSS (com_spectral.h)
+    !   saved in mod_spectral
     call gaussl(sia,wt,iy)
     am1 = 1./a
     am2=  1./(a*a)
 
     ! COA(IY) = cos(lat); WGHT needed for transforms, 
-    !           saved in COMMON/GAUSS (com_spectral.h)
+    !           saved in mod_spectral
     do j=1,iy
         cosqr = 1.0-sia(j)**2
         coa(j)=sqrt(cosqr)
@@ -76,7 +76,7 @@ subroutine parmtr(a)
     end do
 
     ! expand cosine and its reciprocal to cover both hemispheres, 
-    !    saved in COMMON/GAUSS (com_spectral.h)
+    !    saved in mod_spectral
     do j=1,iy
         jj=il+1-j
         cosg(j)=coa(j)
@@ -95,7 +95,7 @@ subroutine parmtr(a)
     !  EL4 = EL2*EL2 ; for biharmonic diffusion
     !  ELM2 = 1./EL2
     !  TRFILT used to filter out "non-triangular" part of rhomboidal truncation
-    !   saved in COMMON/CSPEC (com_spectral.h)
+    !   saved in mod_spectral
     do n=1,nx
         nsh2(n)=0
         do m=1,mx
@@ -126,7 +126,7 @@ subroutine parmtr(a)
 
     ! quantities needed to generate and differentiate Legendre polynomials
     ! all m values up to MXP = ISC*MTRUN+1 are needed by recursion relation 
-    ! saved in COMMON/LGND (com_spectral.h)
+    ! saved in mod_spectral
     do m=1,mxp
         do n=1,nxp
             emm(m)=float(m-1)
@@ -151,7 +151,7 @@ subroutine parmtr(a)
     end do
 
     ! quantities required by subroutines GRAD, UVSPEC, and VDS
-    ! saved in COMMON/UV, COMMON/GRADC, and COMMON/VDS (com_spectral.h)
+    ! saved in mod_spectral
     do m=1,mx
         do n=1,nx
             m1=mm(m)
@@ -176,8 +176,8 @@ subroutine parmtr(a)
 
     !  generate associated Legendre polynomial
     !  LGNDRE computes the polynomials at a particular latitiude, POLY(MX,NX), and stores
-    !  them in COMMON/POL (com_spectral.h)
-    !  polynomials and 'clones' stored in COMMON/POL1 (com_spectral.h)
+    !  them in mod_spectral
+    !  polynomials and 'clones' stored in mod_spectral
     do j=1,iy
         call lgndre(j)
         do n=1,nx
@@ -195,13 +195,13 @@ subroutine lgndre(j)
     ! follows Leith Holloways code 
 
     use mod_atparam
+    use mod_spectral, only: sia, coa, sqrhlf, consq, repsi, epsi, poly
 
     implicit none
 
     !include "param1spec.h"
     integer, intent(in) :: j
     real, parameter :: small = 1.e-30
-    include "com_spectral.h"
 
     integer :: m, n, mm2
     real :: alp(mxp,nx), x, y
@@ -215,8 +215,8 @@ subroutine lgndre(j)
     end do
   
     ! continue with other elements
-    DO M=1,MXP
-        ALP(M,2)=(X*ALP(M,1))*REPSI(M,2)
+    do m=1,mxp
+        alp(m,2)=(x*alp(m,1))*repsi(m,2)
     end do
 
     do n=3,nx
@@ -243,11 +243,10 @@ end
 !***************************************************************
 subroutine lap(strm,vorm)
     use mod_atparam
+    use mod_spectral, only: el2
 
     implicit none
 
-    !include "param1spec.h"
-    include "com_spectral.h"
 
     complex, intent(in) :: strm(mx,nx)
     complex, intent(inout) :: vorm(mx,nx)
@@ -256,9 +255,9 @@ end
 !*******************************************************************
 subroutine invlap(vorm,strm)
     use mod_atparam
+    use mod_spectral, only: elm2
 
     ! include "param1spec.h"
-    include "com_spectral.h"
 
     complex, intent(in) :: vorm(mx,nx)
     complex, intent(inout) :: strm(mx,nx)
@@ -271,11 +270,11 @@ end
 !*********************************************************************
 subroutine grad(psi,psdx,psdy)
     use mod_atparam
+    use mod_spectral, only: gradx, gradyp, gradym
 
     implicit none
 
     !include "param1spec.h"
-    include "com_spectral.h"
 
     real, dimension(2,mx,nx), intent(inout) :: psi
     real, dimension(2,mx,nx), intent(inout) :: psdx, psdy
@@ -307,11 +306,11 @@ end
 !******************************************************************
 subroutine vds(ucosm,vcosm,vorm,divm)
     use mod_atparam
+    use mod_spectral, only: gradx, vddyp, vddym
 
     implicit none
 
     !include "param1spec.h"
-    include "com_spectral.h"
                                                         
     real, dimension(2,mx,nx) :: ucosm, vcosm
     real, dimension(2,mx,nx), intent(inout) :: vorm, divm
@@ -351,9 +350,9 @@ end
 !******************************************************************
 subroutine uvspec(vorm,divm,ucosm,vcosm)
     use mod_atparam
+    use mod_spectral, only: uvdx, uvdyp, uvdym
 
     !include "param1spec.h"
-    include "com_spectral.h"
                                                         
     real, dimension(2,mx,nx), intent(in) :: vorm,divm
     real, dimension(2,mx,nx), intent(inout) :: ucosm,vcosm
@@ -416,11 +415,11 @@ end
 !*********************************************************************
 subroutine vdspec(ug,vg,vorm,divm,kcos)
     use mod_atparam
+    use mod_spectral, only: cosgr, cosgr2
 
     implicit none
 
     !include "param1spec.h"
-    include "com_spectral.h"
 
     real, intent(in) :: ug(ix,il), vg(ix,il)
     real, intent(inout) :: vorm(mx2,nx), divm(mx2,nx)
@@ -454,11 +453,11 @@ end
 !*********************************************************************
 subroutine gridy(v,varm)
     use mod_atparam
+    use mod_spectral, only: cpol, nsh2
 
     implicit none
 
     !include "param1spec.h"
-    include "com_spectral.h"
 
     real, intent(in) :: v(mx2,nx)
     real, intent(inout) :: varm(mx2,il)
@@ -497,11 +496,11 @@ end
 !******************************************************************
 subroutine specy(varm,vorm)
     use mod_atparam
+    use mod_spectral, only: wt, cpol, nsh2
 
     implicit none
 
     !include "param1spec.h"
-    include "com_spectral.h"
 
     real, intent(in) :: varm(mx2,il)
     real, intent(inout) :: vorm(mx2,nx)
@@ -540,11 +539,11 @@ end
 !******************************************************************
 subroutine trunct(vor)
     use mod_atparam
+    use mod_spectral, only: trfilt
 
     implicit none
 
     !include "param1spec.h"
-    include "com_spectral.h"
 
     complex, intent(inout) :: vor(mx,nx)
 

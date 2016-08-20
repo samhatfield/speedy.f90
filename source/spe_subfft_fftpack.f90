@@ -18,6 +18,7 @@ subroutine gridx(varm,vorg,kcos)
     ! From Fourier coefficients to grid-point data
 
     use mod_atparam
+    use mod_spectral, only: cosgr
 
     implicit none
 
@@ -29,8 +30,6 @@ subroutine gridx(varm,vorg,kcos)
     integer, intent(in) :: kcos
     integer :: j, m
     real :: fvar(ix)
-
-      include "com_spectral.h"
 
 	do j = 1,il
 		fvar(1) = varm(1,j)

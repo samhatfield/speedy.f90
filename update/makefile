@@ -57,6 +57,7 @@ FILES= \
 	   mod_physcon.o \
 	   mod_randfor.o \
 	   mod_sflcon.o \
+	   mod_spectral.o \
 	   mod_surfcon.o \
 	   mod_tmean.o \
 	   mod_tsteps.o \
@@ -121,7 +122,8 @@ dyn_stloop.o           : dyn_stloop.f90 mod_lflags.o mod_tsteps.o
 #ini_coupler.o          : ini_coupler.f
 ini_agcm_init.o        : ini_agcm_init.f90 mod_cpl_flags.o mod_tsteps.o mod_atparam.o mod_date.o
 ini_impint.o           : ini_impint.f90 mod_dyncon0.o mod_atparam.o mod_dyncon1.o mod_dyncon2.o mod_hdifcon.o
-ini_indyns.o           : ini_indyns.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o mod_hdifcon.o
+ini_indyns.o           : ini_indyns.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o mod_hdifcon.o\
+	                     mod_spectral.o
 ini_inbcon.o           : ini_inbcon.f90 mod_cpl_flags.o mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o\
 						 mod_surfcon.o mod_cli_land.o
 ini_iniatm.o           : ini_iniatm.f90 mod_tsteps.o mod_atparam.o mod_dyncon1.o mod_tmean.o mod_date.o
@@ -153,6 +155,7 @@ mod_lsccon.o           : mod_lsccon.f90
 mod_physcon.o          : mod_physcon.f90 mod_atparam.o
 mod_randfor.o          : mod_randfor.f90 mod_atparam.o
 mod_sflcon.o           : mod_sflcon.f90 mod_atparam.o
+mod_spectral.o         : mod_spectral.f90 mod_atparam.o
 mod_surfcon.o          : mod_surfcon.f90 mod_atparam.o
 mod_tmean.o            : mod_tmean.f90 mod_atparam.o
 mod_tsteps.o           : mod_tsteps.f90
@@ -180,5 +183,5 @@ ppo_dmout.o            : ppo_dmout.f90 mod_tsteps.o mod_atparam.o mod_tmean.o
 #sea_init.o             : sea_init.f 
 #send_to_coupler.o      : send_to_coupler.f
 spe_matinv.o           : spe_matinv.f90
-spe_spectral.o         : spe_spectral.f90 mod_atparam.o
-spe_subfft_fftpack.o   : spe_subfft_fftpack.f90 mod_atparam.o
+spe_spectral.o         : spe_spectral.f90 mod_atparam.o mod_spectral.o
+spe_subfft_fftpack.o   : spe_subfft_fftpack.f90 mod_atparam.o mod_spectral.o

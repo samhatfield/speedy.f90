@@ -14,10 +14,9 @@ subroutine indyns
     use mod_dyncon1
     use mod_atparam
     use mod_hdifcon, only: dmp, dmpd, dmps, tcorv, qcorv
+    use mod_spectral, only: sia, cosg
 
     implicit none
-
-    include "com_spectral.h"
 
     integer :: j, k, jj, npowhd
     real :: elap, elapn, hdifd, hdiff, hdifs, qexp, rad1, rgam, rlap, twn
