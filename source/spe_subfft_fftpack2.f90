@@ -1,319 +1,358 @@
-      SUBROUTINE RFFTI (N, WSAVE)
-      DIMENSION WSAVE(*)
-C***FIRST EXECUTABLE STATEMENT  RFFTI
-      IF (N .EQ. 1) RETURN
-      CALL RFFTI1 (N,WSAVE(N+1),WSAVE(2*N+1))
-      RETURN
-      END
+subroutine rffti(n, wsave)
+    implicit none
 
-      SUBROUTINE RFFTB (N, R, WSAVE)
-      DIMENSION R(*), WSAVE(*)
-C***FIRST EXECUTABLE STATEMENT  RFFTB
-      IF (N .EQ. 1) RETURN
-      CALL RFFTB1 (N,R,WSAVE,WSAVE(N+1),WSAVE(2*N+1))
-      RETURN
-      END
+    integer, intent(in) :: n
+    real, intent(inout) :: wsave(*)
 
-      SUBROUTINE RFFTF (N, R, WSAVE)
-      DIMENSION R(*), WSAVE(*)
-C***FIRST EXECUTABLE STATEMENT  RFFTF
-      IF (N .EQ. 1) RETURN
-      CALL RFFTF1 (N,R,WSAVE,WSAVE(N+1),WSAVE(2*N+1))
-      RETURN
-      END
+    !***first executable statement  rffti
+    if (n .eq. 1) return
+    call rffti1(n,wsave(n+1),wsave(2*n+1))
+    return
+end
 
-      SUBROUTINE RFFTI1 (N, WA, IFAC)
-      DIMENSION WA(*), IFAC(*), NTRYH(4)
-      SAVE NTRYH
-      DATA NTRYH(1),NTRYH(2),NTRYH(3),NTRYH(4)/4,2,3,5/
-C***FIRST EXECUTABLE STATEMENT  RFFTI1
-      NL = N
-      NF = 0
-      J = 0
-  101 J = J+1
-      IF (J-4) 102,102,103
-  102 NTRY = NTRYH(J)
-      GO TO 104
-  103 NTRY = NTRY+2
-  104 NQ = NL/NTRY
-      NR = NL-NTRY*NQ
-      IF (NR) 101,105,101
-  105 NF = NF+1
-      IFAC(NF+2) = NTRY
-      NL = NQ
-      IF (NTRY .NE. 2) GO TO 107
-      IF (NF .EQ. 1) GO TO 107
-      DO 106 I=2,NF
-         IB = NF-I+2
-         IFAC(IB+2) = IFAC(IB+1)
-  106 CONTINUE
-      IFAC(3) = 2
-  107 IF (NL .NE. 1) GO TO 104
-      IFAC(1) = N
-      IFAC(2) = NF
-      TPI = 8.*ATAN(1.)
-      ARGH = TPI/N
-      IS = 0
-      NFM1 = NF-1
-      L1 = 1
-      IF (NFM1 .EQ. 0) RETURN
-      DO 110 K1=1,NFM1
-         IP = IFAC(K1+2)
-         LD = 0
-         L2 = L1*IP
-         IDO = N/L2
-         IPM = IP-1
-         DO 109 J=1,IPM
-            LD = LD+L1
-            I = IS
-            ARGLD = LD*ARGH
-            FI = 0.
-            DO 108 II=3,IDO,2
-               I = I+2
-               FI = FI+1.
-               ARG = FI*ARGLD
-               WA(I-1) = COS(ARG)
-               WA(I) = SIN(ARG)
-  108       CONTINUE
-            IS = IS+IDO
-  109    CONTINUE
-         L1 = L2
-  110 CONTINUE
-      RETURN
-      END
+subroutine rfftb(n, r, wsave)
+    implicit none
 
-      SUBROUTINE RFFTB1 (N, C, CH, WA, IFAC)
-      DIMENSION CH(*), C(*), WA(*), IFAC(*)
-C***FIRST EXECUTABLE STATEMENT  RFFTB1
-      NF = IFAC(2)
-      NA = 0
-      L1 = 1
-      IW = 1
-      DO 116 K1=1,NF
-         IP = IFAC(K1+2)
-         L2 = IP*L1
-         IDO = N/L2
-         IDL1 = IDO*L1
-         IF (IP .NE. 4) GO TO 103
-         IX2 = IW+IDO
-         IX3 = IX2+IDO
-         IF (NA .NE. 0) GO TO 101
-         CALL RADB4 (IDO,L1,C,CH,WA(IW),WA(IX2),WA(IX3))
-         GO TO 102
-  101    CALL RADB4 (IDO,L1,CH,C,WA(IW),WA(IX2),WA(IX3))
-  102    NA = 1-NA
-         GO TO 115
-  103    IF (IP .NE. 2) GO TO 106
-         IF (NA .NE. 0) GO TO 104
-         CALL RADB2 (IDO,L1,C,CH,WA(IW))
-         GO TO 105
-  104    CALL RADB2 (IDO,L1,CH,C,WA(IW))
-  105    NA = 1-NA
-         GO TO 115
-  106    IF (IP .NE. 3) GO TO 109
-         IX2 = IW+IDO
-         IF (NA .NE. 0) GO TO 107
-         CALL RADB3 (IDO,L1,C,CH,WA(IW),WA(IX2))
-         GO TO 108
-  107    CALL RADB3 (IDO,L1,CH,C,WA(IW),WA(IX2))
-  108    NA = 1-NA
-         GO TO 115
-  109    IF (IP .NE. 5) GO TO 112
-         IX2 = IW+IDO
-         IX3 = IX2+IDO
-         IX4 = IX3+IDO
-         IF (NA .NE. 0) GO TO 110
-         CALL RADB5 (IDO,L1,C,CH,WA(IW),WA(IX2),WA(IX3),WA(IX4))
-         GO TO 111
-  110    CALL RADB5 (IDO,L1,CH,C,WA(IW),WA(IX2),WA(IX3),WA(IX4))
-  111    NA = 1-NA
-         GO TO 115
-  112    IF (NA .NE. 0) GO TO 113
-         CALL RADBG (IDO,IP,L1,IDL1,C,C,C,CH,CH,WA(IW))
-         GO TO 114
-  113    CALL RADBG (IDO,IP,L1,IDL1,CH,CH,CH,C,C,WA(IW))
-  114    IF (IDO .EQ. 1) NA = 1-NA
-  115    L1 = L2
-         IW = IW+(IP-1)*IDO
-  116 CONTINUE
-      IF (NA .EQ. 0) RETURN
-      DO 117 I=1,N
-         C(I) = CH(I)
-  117 CONTINUE
-      RETURN
-      END
+    integer, intent(in) :: n
+    real, intent(inout) :: r(*), wsave(*)
 
-      SUBROUTINE RFFTF1 (N, C, CH, WA, IFAC)
-      DIMENSION CH(*), C(*), WA(*), IFAC(*)
-C***FIRST EXECUTABLE STATEMENT  RFFTF1
-      NF = IFAC(2)
-      NA = 1
-      L2 = N
-      IW = N
-      DO 111 K1=1,NF
-         KH = NF-K1
-         IP = IFAC(KH+3)
-         L1 = L2/IP
-         IDO = N/L2
-         IDL1 = IDO*L1
-         IW = IW-(IP-1)*IDO
-         NA = 1-NA
-         IF (IP .NE. 4) GO TO 102
-         IX2 = IW+IDO
-         IX3 = IX2+IDO
-         IF (NA .NE. 0) GO TO 101
-         CALL RADF4 (IDO,L1,C,CH,WA(IW),WA(IX2),WA(IX3))
-         GO TO 110
-  101    CALL RADF4 (IDO,L1,CH,C,WA(IW),WA(IX2),WA(IX3))
-         GO TO 110
-  102    IF (IP .NE. 2) GO TO 104
-         IF (NA .NE. 0) GO TO 103
-         CALL RADF2 (IDO,L1,C,CH,WA(IW))
-         GO TO 110
-  103    CALL RADF2 (IDO,L1,CH,C,WA(IW))
-         GO TO 110
-  104    IF (IP .NE. 3) GO TO 106
-         IX2 = IW+IDO
-         IF (NA .NE. 0) GO TO 105
-         CALL RADF3 (IDO,L1,C,CH,WA(IW),WA(IX2))
-         GO TO 110
-  105    CALL RADF3 (IDO,L1,CH,C,WA(IW),WA(IX2))
-         GO TO 110
-  106    IF (IP .NE. 5) GO TO 108
-         IX2 = IW+IDO
-         IX3 = IX2+IDO
-         IX4 = IX3+IDO
-         IF (NA .NE. 0) GO TO 107
-         CALL RADF5 (IDO,L1,C,CH,WA(IW),WA(IX2),WA(IX3),WA(IX4))
-         GO TO 110
-  107    CALL RADF5 (IDO,L1,CH,C,WA(IW),WA(IX2),WA(IX3),WA(IX4))
-         GO TO 110
-  108    IF (IDO .EQ. 1) NA = 1-NA
-         IF (NA .NE. 0) GO TO 109
-         CALL RADFG (IDO,IP,L1,IDL1,C,C,C,CH,CH,WA(IW))
-         NA = 1
-         GO TO 110
-  109    CALL RADFG (IDO,IP,L1,IDL1,CH,CH,CH,C,C,WA(IW))
-         NA = 0
-  110    L2 = L1
-  111 CONTINUE
-      IF (NA .EQ. 1) RETURN
-      DO 112 I=1,N
-         C(I) = CH(I)
-  112 CONTINUE
-      RETURN
-      END
+    !***first executable statement  rfftb
+    if (n .eq. 1) return
+    call rfftb1 (n,r,wsave,wsave(n+1),wsave(2*n+1))
+end
 
-      SUBROUTINE RADB2 (IDO, L1, CC, CH, WA1)
-      DIMENSION CC(IDO,2,*), CH(IDO,L1,2), WA1(*)
-C***FIRST EXECUTABLE STATEMENT  RADB2
-      DO 101 K=1,L1
-         CH(1,K,1) = CC(1,1,K)+CC(IDO,2,K)
-         CH(1,K,2) = CC(1,1,K)-CC(IDO,2,K)
-  101 CONTINUE
-      IF (IDO-2) 107,105,102
-  102 IDP2 = IDO+2
-      IF((IDO-1)/2.LT.L1) GO TO 108
-      DO 104 K=1,L1
-CDIR$ IVDEP
-         DO 103 I=3,IDO,2
-            IC = IDP2-I
-            CH(I-1,K,1) = CC(I-1,1,K)+CC(IC-1,2,K)
-            TR2 = CC(I-1,1,K)-CC(IC-1,2,K)
-            CH(I,K,1) = CC(I,1,K)-CC(IC,2,K)
-            TI2 = CC(I,1,K)+CC(IC,2,K)
-            CH(I-1,K,2) = WA1(I-2)*TR2-WA1(I-1)*TI2
-            CH(I,K,2) = WA1(I-2)*TI2+WA1(I-1)*TR2
-  103    CONTINUE
-  104 CONTINUE
-      GO TO 111
-  108 DO 110 I=3,IDO,2
-         IC = IDP2-I
-CDIR$ IVDEP
-         DO 109 K=1,L1
-            CH(I-1,K,1) = CC(I-1,1,K)+CC(IC-1,2,K)
-            TR2 = CC(I-1,1,K)-CC(IC-1,2,K)
-            CH(I,K,1) = CC(I,1,K)-CC(IC,2,K)
-            TI2 = CC(I,1,K)+CC(IC,2,K)
-            CH(I-1,K,2) = WA1(I-2)*TR2-WA1(I-1)*TI2
-            CH(I,K,2) = WA1(I-2)*TI2+WA1(I-1)*TR2
-  109    CONTINUE
-  110 CONTINUE
-  111 IF (MOD(IDO,2) .EQ. 1) RETURN
-  105 DO 106 K=1,L1
-         CH(IDO,K,1) = CC(IDO,1,K)+CC(IDO,1,K)
-         CH(IDO,K,2) = -(CC(1,2,K)+CC(1,2,K))
-  106 CONTINUE
-  107 RETURN
-      END
+subroutine rfftf(n, r, wsave)
+    implicit none
 
-      SUBROUTINE RADB3 (IDO, L1, CC, CH, WA1, WA2)
-      DIMENSION CC(IDO,3,*), CH(IDO,L1,3), WA1(*), WA2(*)
-C***FIRST EXECUTABLE STATEMENT  RADB3
-      TAUR = -.5
-      TAUI = .5*SQRT(3.)
-      DO 101 K=1,L1
-         TR2 = CC(IDO,2,K)+CC(IDO,2,K)
-         CR2 = CC(1,1,K)+TAUR*TR2
-         CH(1,K,1) = CC(1,1,K)+TR2
-         CI3 = TAUI*(CC(1,3,K)+CC(1,3,K))
-         CH(1,K,2) = CR2-CI3
-         CH(1,K,3) = CR2+CI3
-  101 CONTINUE
-      IF (IDO .EQ. 1) RETURN
-      IDP2 = IDO+2
-      IF((IDO-1)/2.LT.L1) GO TO 104
-      DO 103 K=1,L1
-CDIR$ IVDEP
-         DO 102 I=3,IDO,2
-            IC = IDP2-I
-            TR2 = CC(I-1,3,K)+CC(IC-1,2,K)
-            CR2 = CC(I-1,1,K)+TAUR*TR2
-            CH(I-1,K,1) = CC(I-1,1,K)+TR2
-            TI2 = CC(I,3,K)-CC(IC,2,K)
-            CI2 = CC(I,1,K)+TAUR*TI2
-            CH(I,K,1) = CC(I,1,K)+TI2
-            CR3 = TAUI*(CC(I-1,3,K)-CC(IC-1,2,K))
-            CI3 = TAUI*(CC(I,3,K)+CC(IC,2,K))
-            DR2 = CR2-CI3
-            DR3 = CR2+CI3
-            DI2 = CI2+CR3
-            DI3 = CI2-CR3
-            CH(I-1,K,2) = WA1(I-2)*DR2-WA1(I-1)*DI2
-            CH(I,K,2) = WA1(I-2)*DI2+WA1(I-1)*DR2
-            CH(I-1,K,3) = WA2(I-2)*DR3-WA2(I-1)*DI3
-            CH(I,K,3) = WA2(I-2)*DI3+WA2(I-1)*DR3
-  102    CONTINUE
-  103 CONTINUE
-      RETURN
-  104 DO 106 I=3,IDO,2
-         IC = IDP2-I
-CDIR$ IVDEP
-         DO 105 K=1,L1
-            TR2 = CC(I-1,3,K)+CC(IC-1,2,K)
-            CR2 = CC(I-1,1,K)+TAUR*TR2
-            CH(I-1,K,1) = CC(I-1,1,K)+TR2
-            TI2 = CC(I,3,K)-CC(IC,2,K)
-            CI2 = CC(I,1,K)+TAUR*TI2
-            CH(I,K,1) = CC(I,1,K)+TI2
-            CR3 = TAUI*(CC(I-1,3,K)-CC(IC-1,2,K))
-            CI3 = TAUI*(CC(I,3,K)+CC(IC,2,K))
-            DR2 = CR2-CI3
-            DR3 = CR2+CI3
-            DI2 = CI2+CR3
-            DI3 = CI2-CR3
-            CH(I-1,K,2) = WA1(I-2)*DR2-WA1(I-1)*DI2
-            CH(I,K,2) = WA1(I-2)*DI2+WA1(I-1)*DR2
-            CH(I-1,K,3) = WA2(I-2)*DR3-WA2(I-1)*DI3
-            CH(I,K,3) = WA2(I-2)*DI3+WA2(I-1)*DR3
-  105    CONTINUE
-  106 CONTINUE
-      RETURN
-      END
+    integer, intent(in) :: n
+    real, intent(inout) :: r(*), wsave(*)
+
+    !***first executable statement  rfftf
+    if (n .eq. 1) return
+    call rfftf1 (n,r,wsave,wsave(n+1),wsave(2*n+1))
+    return
+end
+
+subroutine rffti1(n, wa, ifac)
+    implicit none
+
+    integer, intent(in) :: n
+    real, intent(inout) :: wa(*)
+    integer, intent(inout) :: ifac(*)
+    integer, save :: ntryh(4) = (/ 4, 2, 3, 5 /)
+    integer :: nl, nf, i, j, ib, ido, ii, ip, ipm, is, k1, l1, l2, ld, nfm1,&
+        & nq, nr, ntry
+    real :: arg, argh, argld, fi, tpi
+
+    !***first executable statement  rffti1
+      nl = n
+      nf = 0
+      j = 0
+  101 j = j+1
+      if (j-4) 102,102,103
+  102 ntry = ntryh(j)
+      go to 104
+  103 ntry = ntry+2
+  104 nq = nl/ntry
+      nr = nl-ntry*nq
+      if (nr) 101,105,101
+  105 nf = nf+1
+      ifac(nf+2) = ntry
+      nl = nq
+      if (ntry .ne. 2) go to 107
+      if (nf .eq. 1) go to 107
+      do 106 i=2,nf
+         ib = nf-i+2
+         ifac(ib+2) = ifac(ib+1)
+  106 continue
+      ifac(3) = 2
+  107 if (nl .ne. 1) go to 104
+      ifac(1) = n
+      ifac(2) = nf
+      tpi = 8.*atan(1.)
+      argh = tpi/n
+      is = 0
+      nfm1 = nf-1
+      l1 = 1
+      if (nfm1 .eq. 0) return
+      do 110 k1=1,nfm1
+         ip = ifac(k1+2)
+         ld = 0
+         l2 = l1*ip
+         ido = n/l2
+         ipm = ip-1
+         do 109 j=1,ipm
+            ld = ld+l1
+            i = is
+            argld = ld*argh
+            fi = 0.
+            do 108 ii=3,ido,2
+               i = i+2
+               fi = fi+1.
+               arg = fi*argld
+               wa(i-1) = cos(arg)
+               wa(i) = sin(arg)
+  108       continue
+            is = is+ido
+  109    continue
+         l1 = l2
+  110 continue
+end
+
+subroutine rfftb1(n, c, ch, wa, ifac)
+    implicit none
+
+    integer, intent(in) :: n, ifac(*)
+    real, intent(inout) :: ch(*), c(*), wa(*)
+    integer :: nf, na, l1, iw, ip, l2, ido, idl1, ix2, ix3, ix4, i, k1
+
+    !***first executable statement  rfftb1
+      nf = ifac(2)
+      na = 0
+      l1 = 1
+      iw = 1
+      do 116 k1=1,nf
+         ip = ifac(k1+2)
+         l2 = ip*l1
+         ido = n/l2
+         idl1 = ido*l1
+         if (ip .ne. 4) go to 103
+         ix2 = iw+ido
+         ix3 = ix2+ido
+         if (na .ne. 0) go to 101
+         call radb4(ido,l1,c,ch,wa(iw),wa(ix2),wa(ix3))
+         go to 102
+  101    call radb4(ido,l1,ch,c,wa(iw),wa(ix2),wa(ix3))
+  102    na = 1-na
+         go to 115
+  103    if (ip .ne. 2) go to 106
+         if (na .ne. 0) go to 104
+         call radb2(ido,l1,c,ch,wa(iw))
+         go to 105
+  104    call radb2(ido,l1,ch,c,wa(iw))
+  105    na = 1-na
+         go to 115
+  106    if (ip .ne. 3) go to 109
+         ix2 = iw+ido
+         if (na .ne. 0) go to 107
+         call radb3(ido,l1,c,ch,wa(iw),wa(ix2))
+         go to 108
+  107    call radb3(ido,l1,ch,c,wa(iw),wa(ix2))
+  108    na = 1-na
+         go to 115
+  109    if (ip .ne. 5) go to 112
+         ix2 = iw+ido
+         ix3 = ix2+ido
+         ix4 = ix3+ido
+         if (na .ne. 0) go to 110
+         call radb5(ido,l1,c,ch,wa(iw),wa(ix2),wa(ix3),wa(ix4))
+         go to 111
+  110    call radb5(ido,l1,ch,c,wa(iw),wa(ix2),wa(ix3),wa(ix4))
+  111    na = 1-na
+         go to 115
+  112    if (na .ne. 0) go to 113
+         call radbg(ido,ip,l1,idl1,c,c,c,ch,ch,wa(iw))
+         go to 114
+  113    call radbg(ido,ip,l1,idl1,ch,ch,ch,c,c,wa(iw))
+  114    if (ido .eq. 1) na = 1-na
+  115    l1 = l2
+         iw = iw+(ip-1)*ido
+  116 continue
+      if (na .eq. 0) return
+      do 117 i=1,n
+         c(i) = ch(i)
+  117 continue
+end
+
+subroutine rfftf1 (n, c, ch, wa, ifac)
+    implicit none
+
+    integer, intent(in) :: n, ifac(*)
+    real, intent(in) :: ch(*), wa(*)
+    real, intent(inout) :: c(*)
+    integer :: nf, na, l2, iw, k1, kh, ip, l1, ido, idl1, ix2, ix3, ix4, i
+
+    !***FIRST EXECUTABLE STATEMENT  RFFTF1
+      nf = ifac(2)
+      na = 1
+      l2 = n
+      iw = n
+      do 111 k1=1,nf
+         kh = nf-k1
+         ip = ifac(kh+3)
+         l1 = l2/ip
+         ido = n/l2
+         idl1 = ido*l1
+         iw = iw-(ip-1)*ido
+         na = 1-na
+         if (ip .ne. 4) go to 102
+         ix2 = iw+ido
+         ix3 = ix2+ido
+         if (na .ne. 0) go to 101
+         call radf4 (ido,l1,c,ch,wa(iw),wa(ix2),wa(ix3))
+         go to 110
+  101    call radf4 (ido,l1,ch,c,wa(iw),wa(ix2),wa(ix3))
+         go to 110
+  102    if (ip .ne. 2) go to 104
+         if (na .ne. 0) go to 103
+         call radf2 (ido,l1,c,ch,wa(iw))
+         go to 110
+  103    call radf2 (ido,l1,ch,c,wa(iw))
+         go to 110
+  104    if (ip .ne. 3) go to 106
+         ix2 = iw+ido
+         if (na .ne. 0) go to 105
+         call radf3 (ido,l1,c,ch,wa(iw),wa(ix2))
+         go to 110
+  105    call radf3 (ido,l1,ch,c,wa(iw),wa(ix2))
+         go to 110
+  106    if (ip .ne. 5) go to 108
+         ix2 = iw+ido
+         ix3 = ix2+ido
+         ix4 = ix3+ido
+         if (na .ne. 0) go to 107
+         call radf5 (ido,l1,c,ch,wa(iw),wa(ix2),wa(ix3),wa(ix4))
+         go to 110
+  107    call radf5 (ido,l1,ch,c,wa(iw),wa(ix2),wa(ix3),wa(ix4))
+         go to 110
+  108    if (ido .eq. 1) na = 1-na
+         if (na .ne. 0) go to 109
+         call radfg (ido,ip,l1,idl1,c,c,c,ch,ch,wa(iw))
+         na = 1
+         go to 110
+  109    call radfg (ido,ip,l1,idl1,ch,ch,ch,c,c,wa(iw))
+         na = 0
+  110    l2 = l1
+  111 continue
+      if (na .eq. 1) return
+      do 112 i=1,n
+         c(i) = ch(i)
+  112 continue
+end
+
+subroutine radb2 (ido, l1, cc, ch, wa1)
+    implicit none
+
+    integer, intent(in) :: ido, l1
+    real, intent(in) :: cc(ido,2,*)
+    real, intent(inout) :: ch(ido,l1,2), wa1(*)
+    integer :: k, idp2, ic, i
+    real :: tr2, ti2
+
+    !***FIRST EXECUTABLE STATEMENT  RADB2
+      do 101 k=1,l1
+         ch(1,k,1) = cc(1,1,k)+cc(ido,2,k)
+         ch(1,k,2) = cc(1,1,k)-cc(ido,2,k)
+  101 continue
+      if (ido-2) 107,105,102
+  102 idp2 = ido+2
+      if((ido-1)/2.lt.l1) go to 108
+      do 104 k=1,l1
+!dir$ ivdep
+         do 103 i=3,ido,2
+            ic = idp2-i
+            ch(i-1,k,1) = cc(i-1,1,k)+cc(ic-1,2,k)
+            tr2 = cc(i-1,1,k)-cc(ic-1,2,k)
+            ch(i,k,1) = cc(i,1,k)-cc(ic,2,k)
+            ti2 = cc(i,1,k)+cc(ic,2,k)
+            ch(i-1,k,2) = wa1(i-2)*tr2-wa1(i-1)*ti2
+            ch(i,k,2) = wa1(i-2)*ti2+wa1(i-1)*tr2
+  103    continue
+  104 continue
+      go to 111
+  108 do 110 i=3,ido,2
+         ic = idp2-i
+!dir$ ivdep
+         do 109 k=1,l1
+            ch(i-1,k,1) = cc(i-1,1,k)+cc(ic-1,2,k)
+            tr2 = cc(i-1,1,k)-cc(ic-1,2,k)
+            ch(i,k,1) = cc(i,1,k)-cc(ic,2,k)
+            ti2 = cc(i,1,k)+cc(ic,2,k)
+            ch(i-1,k,2) = wa1(i-2)*tr2-wa1(i-1)*ti2
+            ch(i,k,2) = wa1(i-2)*ti2+wa1(i-1)*tr2
+  109    continue
+  110 continue
+  111 if (mod(ido,2) .eq. 1) return
+  105 do 106 k=1,l1
+         ch(ido,k,1) = cc(ido,1,k)+cc(ido,1,k)
+         ch(ido,k,2) = -(cc(1,2,k)+cc(1,2,k))
+  106 continue
+  107 return
+end
+
+subroutine radb3(ido, l1, cc, ch, wa1, wa2)
+    implicit none
+
+    integer, intent(in) :: ido, l1
+    real, intent(in) :: cc(ido,3,*), wa1(*), wa2(*)
+    real, intent(inout) :: ch(ido,l1,3)
+    integer :: idp2, ic, i, k
+    real :: taur, taui, tr2, cr2, ci3, ti2, ci2, cr3, dr2, dr3, di2, di3
+
+    !***FIRST EXECUTABLE STATEMENT  RADB3
+      taur = -.5
+      taui = .5*sqrt(3.)
+      do 101 k=1,l1
+         tr2 = cc(ido,2,k)+cc(ido,2,k)
+         cr2 = cc(1,1,k)+taur*tr2
+         ch(1,k,1) = cc(1,1,k)+tr2
+         ci3 = taui*(cc(1,3,k)+cc(1,3,k))
+         ch(1,k,2) = cr2-ci3
+         ch(1,k,3) = cr2+ci3
+  101 continue
+      if (ido .eq. 1) return
+      idp2 = ido+2
+      if((ido-1)/2.lt.l1) go to 104
+      do 103 k=1,l1
+!dir$ ivdep
+         do 102 i=3,ido,2
+            ic = idp2-i
+            tr2 = cc(i-1,3,k)+cc(ic-1,2,k)
+            cr2 = cc(i-1,1,k)+taur*tr2
+            ch(i-1,k,1) = cc(i-1,1,k)+tr2
+            ti2 = cc(i,3,k)-cc(ic,2,k)
+            ci2 = cc(i,1,k)+taur*ti2
+            ch(i,k,1) = cc(i,1,k)+ti2
+            cr3 = taui*(cc(i-1,3,k)-cc(ic-1,2,k))
+            ci3 = taui*(cc(i,3,k)+cc(ic,2,k))
+            dr2 = cr2-ci3
+            dr3 = cr2+ci3
+            di2 = ci2+cr3
+            di3 = ci2-cr3
+            ch(i-1,k,2) = wa1(i-2)*dr2-wa1(i-1)*di2
+            ch(i,k,2) = wa1(i-2)*di2+wa1(i-1)*dr2
+            ch(i-1,k,3) = wa2(i-2)*dr3-wa2(i-1)*di3
+            ch(i,k,3) = wa2(i-2)*di3+wa2(i-1)*dr3
+  102    continue
+  103 continue
+      return
+  104 do 106 i=3,ido,2
+         ic = idp2-i
+!dir$ ivdep
+         do 105 k=1,l1
+            tr2 = cc(i-1,3,k)+cc(ic-1,2,k)
+            cr2 = cc(i-1,1,k)+taur*tr2
+            ch(i-1,k,1) = cc(i-1,1,k)+tr2
+            ti2 = cc(i,3,k)-cc(ic,2,k)
+            ci2 = cc(i,1,k)+taur*ti2
+            ch(i,k,1) = cc(i,1,k)+ti2
+            cr3 = taui*(cc(i-1,3,k)-cc(ic-1,2,k))
+            ci3 = taui*(cc(i,3,k)+cc(ic,2,k))
+            dr2 = cr2-ci3
+            dr3 = cr2+ci3
+            di2 = ci2+cr3
+            di3 = ci2-cr3
+            ch(i-1,k,2) = wa1(i-2)*dr2-wa1(i-1)*di2
+            ch(i,k,2) = wa1(i-2)*di2+wa1(i-1)*dr2
+            ch(i-1,k,3) = wa2(i-2)*dr3-wa2(i-1)*di3
+            ch(i,k,3) = wa2(i-2)*di3+wa2(i-1)*dr3
+  105    continue
+  106 continue
+end
 
       SUBROUTINE RADB4 (IDO, L1, CC, CH, WA1, WA2, WA3)
       DIMENSION CC(IDO,4,*), CH(IDO,L1,4), WA1(*), WA2(*), WA3(*)
-C***FIRST EXECUTABLE STATEMENT  RADB4
+!***FIRST EXECUTABLE STATEMENT  RADB4
       SQRT2 = SQRT(2.)
       DO 101 K=1,L1
          TR1 = CC(1,1,K)-CC(IDO,4,K)
@@ -329,7 +368,7 @@ C***FIRST EXECUTABLE STATEMENT  RADB4
   102 IDP2 = IDO+2
       IF((IDO-1)/2.LT.L1) GO TO 108
       DO 104 K=1,L1
-CDIR$ IVDEP
+!DIR$ IVDEP
          DO 103 I=3,IDO,2
             IC = IDP2-I
             TI1 = CC(I,1,K)+CC(IC,4,K)
@@ -359,7 +398,7 @@ CDIR$ IVDEP
       GO TO 111
   108 DO 110 I=3,IDO,2
          IC = IDP2-I
-CDIR$ IVDEP
+!DIR$ IVDEP
          DO 109 K=1,L1
             TI1 = CC(I,1,K)+CC(IC,4,K)
             TI2 = CC(I,1,K)-CC(IC,4,K)
@@ -400,9 +439,8 @@ CDIR$ IVDEP
       END
 
       SUBROUTINE RADB5 (IDO, L1, CC, CH, WA1, WA2, WA3, WA4)
-      DIMENSION CC(IDO,5,*), CH(IDO,L1,5), WA1(*), WA2(*), WA3(*),
-     +          WA4(*)
-C***FIRST EXECUTABLE STATEMENT  RADB5
+      DIMENSION CC(IDO,5,*), CH(IDO,L1,5), WA1(*), WA2(*), WA3(*), WA4(*)
+!***FIRST EXECUTABLE STATEMENT  RADB5
       PI = 4.*ATAN(1.)
       TR11 = SIN(.1*PI)
       TI11 = SIN(.4*PI)
@@ -427,7 +465,7 @@ C***FIRST EXECUTABLE STATEMENT  RADB5
       IDP2 = IDO+2
       IF((IDO-1)/2.LT.L1) GO TO 104
       DO 103 K=1,L1
-CDIR$ IVDEP
+!DIR$ IVDEP
          DO 102 I=3,IDO,2
             IC = IDP2-I
             TI5 = CC(I,3,K)+CC(IC,2,K)
@@ -469,7 +507,7 @@ CDIR$ IVDEP
       RETURN
   104 DO 106 I=3,IDO,2
          IC = IDP2-I
-CDIR$ IVDEP
+!DIR$ IVDEP
          DO 105 K=1,L1
             TI5 = CC(I,3,K)+CC(IC,2,K)
             TI2 = CC(I,3,K)-CC(IC,2,K)
@@ -511,9 +549,9 @@ CDIR$ IVDEP
       END
 
       SUBROUTINE RADBG (IDO, IP, L1, IDL1, CC, C1, C2, CH, CH2, WA)
-      DIMENSION CH(IDO,L1,*), CC(IDO,IP,*), C1(IDO,L1,*),
-     +          C2(IDL1,*), CH2(IDL1,*), WA(*)
-C***FIRST EXECUTABLE STATEMENT  RADBG
+      DIMENSION CH(IDO,L1,*), CC(IDO,IP,*), C1(IDO,L1,*), C2(IDL1,*),&
+          & CH2(IDL1,*), WA(*)
+!***FIRST EXECUTABLE STATEMENT  RADBG
       TPI = 8.*ATAN(1.)
       ARG = TPI/IP
       DCP = COS(ARG)
@@ -547,7 +585,7 @@ C***FIRST EXECUTABLE STATEMENT  RADBG
       DO 111 J=2,IPPH
          JC = IPP2-J
          DO 110 K=1,L1
-CDIR$ IVDEP
+!DIR$ IVDEP
             DO 109 I=3,IDO,2
                IC = IDP2-I
                CH(I-1,K,J) = CC(I-1,2*J-1,K)+CC(IC-1,2*J-2,K)
@@ -560,7 +598,7 @@ CDIR$ IVDEP
       GO TO 116
   112 DO 115 J=2,IPPH
          JC = IPP2-J
-CDIR$ IVDEP
+!DIR$ IVDEP
          DO 114 I=3,IDO,2
             IC = IDP2-I
             DO 113 K=1,L1
@@ -614,7 +652,7 @@ CDIR$ IVDEP
       DO 127 J=2,IPPH
          JC = IPP2-J
          DO 126 K=1,L1
-CDIR$ IVDEP
+!DIR$ IVDEP
             DO 125 I=3,IDO,2
                CH(I-1,K,J) = C1(I-1,K,J)-C1(I,K,JC)
                CH(I-1,K,JC) = C1(I-1,K,J)+C1(I,K,JC)
@@ -664,7 +702,7 @@ CDIR$ IVDEP
          IS = IS+IDO
          DO 141 K=1,L1
             IDIJ = IS
-CDIR$ IVDEP
+!DIR$ IVDEP
             DO 140 I=3,IDO,2
                IDIJ = IDIJ+2
                C1(I-1,K,J) = WA(IDIJ-1)*CH(I-1,K,J)-WA(IDIJ)*CH(I,K,J)
@@ -677,7 +715,7 @@ CDIR$ IVDEP
 
       SUBROUTINE RADF2 (IDO, L1, CC, CH, WA1)
       DIMENSION CH(IDO,2,*), CC(IDO,L1,2), WA1(*)
-C***FIRST EXECUTABLE STATEMENT  RADF2
+!***FIRST EXECUTABLE STATEMENT  RADF2
       DO 101 K=1,L1
          CH(1,1,K) = CC(1,K,1)+CC(1,K,2)
          CH(IDO,2,K) = CC(1,K,1)-CC(1,K,2)
@@ -686,7 +724,7 @@ C***FIRST EXECUTABLE STATEMENT  RADF2
   102 IDP2 = IDO+2
       IF((IDO-1)/2.LT.L1) GO TO 108
       DO 104 K=1,L1
-CDIR$ IVDEP
+!DIR$ IVDEP
          DO 103 I=3,IDO,2
             IC = IDP2-I
             TR2 = WA1(I-2)*CC(I-1,K,2)+WA1(I-1)*CC(I,K,2)
@@ -700,7 +738,7 @@ CDIR$ IVDEP
       GO TO 111
   108 DO 110 I=3,IDO,2
          IC = IDP2-I
-CDIR$ IVDEP
+!DIR$ IVDEP
          DO 109 K=1,L1
             TR2 = WA1(I-2)*CC(I-1,K,2)+WA1(I-1)*CC(I,K,2)
             TI2 = WA1(I-2)*CC(I,K,2)-WA1(I-1)*CC(I-1,K,2)
@@ -720,7 +758,7 @@ CDIR$ IVDEP
 
       SUBROUTINE RADF3 (IDO, L1, CC, CH, WA1, WA2)
       DIMENSION CH(IDO,3,*), CC(IDO,L1,3), WA1(*), WA2(*)
-C***FIRST EXECUTABLE STATEMENT  RADF3
+!***FIRST EXECUTABLE STATEMENT  RADF3
       TAUR = -.5
       TAUI = .5*SQRT(3.)
       DO 101 K=1,L1
@@ -733,7 +771,7 @@ C***FIRST EXECUTABLE STATEMENT  RADF3
       IDP2 = IDO+2
       IF((IDO-1)/2.LT.L1) GO TO 104
       DO 103 K=1,L1
-CDIR$ IVDEP
+!DIR$ IVDEP
          DO 102 I=3,IDO,2
             IC = IDP2-I
             DR2 = WA1(I-2)*CC(I-1,K,2)+WA1(I-1)*CC(I,K,2)
@@ -757,7 +795,7 @@ CDIR$ IVDEP
       RETURN
   104 DO 106 I=3,IDO,2
          IC = IDP2-I
-CDIR$ IVDEP
+!DIR$ IVDEP
          DO 105 K=1,L1
             DR2 = WA1(I-2)*CC(I-1,K,2)+WA1(I-1)*CC(I,K,2)
             DI2 = WA1(I-2)*CC(I,K,2)-WA1(I-1)*CC(I-1,K,2)
@@ -782,7 +820,7 @@ CDIR$ IVDEP
 
       SUBROUTINE RADF4 (IDO, L1, CC, CH, WA1, WA2, WA3)
       DIMENSION CC(IDO,L1,4), CH(IDO,4,*), WA1(*), WA2(*), WA3(*)
-C***FIRST EXECUTABLE STATEMENT  RADF4
+!***FIRST EXECUTABLE STATEMENT  RADF4
       HSQT2 = .5*SQRT(2.)
       DO 101 K=1,L1
          TR1 = CC(1,K,2)+CC(1,K,4)
@@ -796,7 +834,7 @@ C***FIRST EXECUTABLE STATEMENT  RADF4
   102 IDP2 = IDO+2
       IF((IDO-1)/2.LT.L1) GO TO 111
       DO 104 K=1,L1
-CDIR$ IVDEP
+!DIR$ IVDEP
          DO 103 I=3,IDO,2
             IC = IDP2-I
             CR2 = WA1(I-2)*CC(I-1,K,2)+WA1(I-1)*CC(I,K,2)
@@ -826,7 +864,7 @@ CDIR$ IVDEP
       GO TO 110
   111 DO 109 I=3,IDO,2
          IC = IDP2-I
-CDIR$ IVDEP
+!DIR$ IVDEP
          DO 108 K=1,L1
             CR2 = WA1(I-2)*CC(I-1,K,2)+WA1(I-1)*CC(I,K,2)
             CI2 = WA1(I-2)*CC(I,K,2)-WA1(I-1)*CC(I-1,K,2)
@@ -865,9 +903,8 @@ CDIR$ IVDEP
       END
 
       SUBROUTINE RADF5 (IDO, L1, CC, CH, WA1, WA2, WA3, WA4)
-      DIMENSION CC(IDO,L1,5), CH(IDO,5,*), WA1(*), WA2(*), WA3(*),
-     +          WA4(*)
-C***FIRST EXECUTABLE STATEMENT  RADF5
+      DIMENSION CC(IDO,L1,5), CH(IDO,5,*), WA1(*), WA2(*), WA3(*), WA4(*)
+!***FIRST EXECUTABLE STATEMENT  RADF5
       PI = 4.*ATAN(1.)
       TR11 = SIN(.1*PI)
       TI11 = SIN(.4*PI)
@@ -888,7 +925,7 @@ C***FIRST EXECUTABLE STATEMENT  RADF5
       IDP2 = IDO+2
       IF((IDO-1)/2.LT.L1) GO TO 104
       DO 103 K=1,L1
-CDIR$ IVDEP
+!DIR$ IVDEP
          DO 102 I=3,IDO,2
             IC = IDP2-I
             DR2 = WA1(I-2)*CC(I-1,K,2)+WA1(I-1)*CC(I,K,2)
@@ -930,7 +967,7 @@ CDIR$ IVDEP
       RETURN
   104 DO 106 I=3,IDO,2
          IC = IDP2-I
-CDIR$ IVDEP
+!DIR$ IVDEP
          DO 105 K=1,L1
             DR2 = WA1(I-2)*CC(I-1,K,2)+WA1(I-1)*CC(I,K,2)
             DI2 = WA1(I-2)*CC(I,K,2)-WA1(I-1)*CC(I-1,K,2)
@@ -972,9 +1009,9 @@ CDIR$ IVDEP
       END
 
       SUBROUTINE RADFG (IDO, IP, L1, IDL1, CC, C1, C2, CH, CH2, WA)
-      DIMENSION CH(IDO,L1,*), CC(IDO,IP,*), C1(IDO,L1,*),
-     +          C2(IDL1,*), CH2(IDL1,*), WA(*)
-C***FIRST EXECUTABLE STATEMENT  RADFG
+      DIMENSION CH(IDO,L1,*), CC(IDO,IP,*), C1(IDO,L1,*), C2(IDL1,*),&
+          & CH2(IDL1,*), WA(*)
+!***FIRST EXECUTABLE STATEMENT  RADFG
       TPI = 8.*ATAN(1.)
       ARG = TPI/IP
       DCP = COS(ARG)
@@ -1011,7 +1048,7 @@ C***FIRST EXECUTABLE STATEMENT  RADFG
          IS = IS+IDO
          DO 109 K=1,L1
             IDIJ = IS
-CDIR$ IVDEP
+!DIR$ IVDEP
             DO 108 I=3,IDO,2
                IDIJ = IDIJ+2
                CH(I-1,K,J) = WA(IDIJ-1)*C1(I-1,K,J)+WA(IDIJ)*C1(I,K,J)
@@ -1023,7 +1060,7 @@ CDIR$ IVDEP
       DO 114 J=2,IPPH
          JC = IPP2-J
          DO 113 K=1,L1
-CDIR$ IVDEP
+!DIR$ IVDEP
             DO 112 I=3,IDO,2
                C1(I-1,K,J) = CH(I-1,K,J)+CH(I-1,K,JC)
                C1(I-1,K,JC) = CH(I,K,J)-CH(I,K,JC)
@@ -1055,7 +1092,7 @@ CDIR$ IVDEP
             C1(1,K,JC) = CH(1,K,JC)-CH(1,K,J)
   122    CONTINUE
   123 CONTINUE
-C
+!
       AR1 = 1.
       AI1 = 0.
       DO 127 L=2,IPPH
@@ -1087,7 +1124,7 @@ C
             CH2(IK,1) = CH2(IK,1)+C2(IK,J)
   128    CONTINUE
   129 CONTINUE
-C
+!
       IF (IDO .LT. L1) GO TO 132
       DO 131 K=1,L1
          DO 130 I=1,IDO
@@ -1114,7 +1151,7 @@ C
          JC = IPP2-J
          J2 = J+J
          DO 139 K=1,L1
-CDIR$ IVDEP
+!DIR$ IVDEP
             DO 138 I=3,IDO,2
                IC = IDP2-I
                CC(I-1,J2-1,K) = CH(I-1,K,J)+CH(I-1,K,JC)
