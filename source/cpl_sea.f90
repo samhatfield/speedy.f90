@@ -5,13 +5,13 @@ subroutine ini_sea(istart)
 
     use mod_cpl_flags, only: icsea
     use mod_atparam
+    use mod_cli_sea, only: deglat_s
 
     implicit none
 
     integer, intent(in) :: istart
     integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
 
-    include "com_cli_sea.h"
     include "com_var_sea.h"
 
     ! 1. Compute climatological fields for initial date
@@ -29,7 +29,7 @@ subroutine ini_sea(istart)
 
     ! 3. Compute additional sea/ice variables
     wsst_ob(:) = 0.
-    if (icsea.ge.4) call sea_doMAIN ('elnino',deglat_s,wsst_ob)
+    if (icsea.ge.4) call sea_domain('elnino',deglat_s,wsst_ob)
 
     call sea2atm(0)
 end
@@ -42,21 +42,17 @@ subroutine atm2sea(jday)
     use mod_cplvar_sea, only: vsea_input
     use mod_date, only: iday, imont1, tmonth
     use mod_flx_sea, only: hflux_s, hflux_i
+    use mod_cli_sea, only: fmask_s, sst12, sice12, sstan3, hfseacl, sstom12
 
     implicit none
 
     integer, intent(in) :: jday
     integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
 
-    include "com_cli_sea.h" 
     include "com_var_sea.h"
 
     real :: fmasks(ngp)                  ! sea fraction
-    equivalence (fmasks,fmask_s)
-
     real :: hfyearm(ngp)                 ! annual mean heat flux into the ocean
-    equivalence (hfyearm,hfseacl)
-
     integer :: j
     real :: sstcl0, sstfr
 
@@ -103,6 +99,9 @@ subroutine atm2sea(jday)
 
         if (icsea.ge.3) sstcl_om(j) = sstcl_om(j)+(sstcl_ob(j)-sstcl0)
     end do
+
+    hfyearm = reshape(hfseacl, (/ngp/))
+    fmasks = reshape(fmask_s, (/ngp/))
 
     if (jday.le.0) return
         ! 2. Set input variables for mixed-layer/ocean model
@@ -240,11 +239,10 @@ subroutine obs_ssta
     ! Purpose : update observed SST anomaly array
 
     use mod_atparam
+    use mod_cli_sea, only: sstan3, bmask_s
 
     implicit none
  
-    include "com_cli_sea.h"
-
     integer :: i, j
     real*4 :: r4inp(ix,il)
    

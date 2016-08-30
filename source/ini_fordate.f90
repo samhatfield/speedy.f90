@@ -16,14 +16,13 @@ subroutine fordate(imode)
     use mod_cli_land, only: fmask_l
     use mod_date, only: iyear, tyear
     use mod_var_land, only: stl_am, snowd_am
+    use mod_cli_sea, only: fmask_s
 
     implicit none
 
     integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon * nlat
 
     include "com_radcon.h"
-
-    include "com_cli_sea.h"
 
     include "com_var_sea.h"
 

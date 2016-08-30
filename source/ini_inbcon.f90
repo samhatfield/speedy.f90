@@ -11,13 +11,12 @@ subroutine inbcon(grav0,radlat)
     use mod_atparam
     use mod_surfcon
     use mod_cli_land
+    use mod_cli_sea
  	  							
     implicit none
 
     real, intent(in) :: grav0, radlat(il)
     integer, parameter :: nlon = ix, nlat = il
-
-    include "com_cli_sea.h" 
 
     real*4 :: r4inp(ix,il), dummy4
     real*4 :: veg(ix,il), swl1(ix,il), swl2(ix,il)

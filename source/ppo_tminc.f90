@@ -14,6 +14,7 @@ subroutine tminc
     use mod_surfcon, only: phis0
     use mod_cli_land, only: bmask_l
     use mod_var_land, only: stl_am, soilw_am
+    use mod_cli_sea, only: bmask_s
 
     implicit none
 
@@ -23,7 +24,6 @@ subroutine tminc
     include "com_physvar.h"
 
     ! Surface variables on gaussian grid
-    include "com_cli_sea.h"
     include "com_var_sea.h"
     include "com_radcon.h"
 
