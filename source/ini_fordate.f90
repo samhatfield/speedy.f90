@@ -17,14 +17,13 @@ subroutine fordate(imode)
     use mod_date, only: iyear, tyear
     use mod_var_land, only: stl_am, snowd_am
     use mod_cli_sea, only: fmask_s
+    use mod_var_sea, only: sstcl_ob, sst_am, sice_am
 
     implicit none
 
     integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon * nlat
 
     include "com_radcon.h"
-
-    include "com_var_sea.h"
 
     integer, intent(in) :: imode
     real, dimension(nlon, nlat) :: corh, tsfc, tref, psfc, qsfc, qref

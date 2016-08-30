@@ -13,6 +13,7 @@ subroutine dmflux(iadd)
     use mod_flx_sea
     use mod_physcon, only: alhc, sbc
     use mod_surfcon, only: fmask, fmask1
+    use mod_var_sea, only: tice_am, sice_am
 
     implicit none
 
@@ -21,8 +22,6 @@ subroutine dmflux(iadd)
     include "com_physvar.h"
 
     include "com_radcon.h"
-
-    include "com_var_sea.h"
 
     integer, intent(in) :: iadd
 

@@ -6,13 +6,11 @@ subroutine ini_sea(istart)
     use mod_cpl_flags, only: icsea
     use mod_atparam
     use mod_cli_sea, only: deglat_s
+    use mod_var_sea
 
     implicit none
 
     integer, intent(in) :: istart
-    integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
-
-    include "com_var_sea.h"
 
     ! 1. Compute climatological fields for initial date
     call atm2sea(0)
@@ -43,13 +41,13 @@ subroutine atm2sea(jday)
     use mod_date, only: iday, imont1, tmonth
     use mod_flx_sea, only: hflux_s, hflux_i
     use mod_cli_sea, only: fmask_s, sst12, sice12, sstan3, hfseacl, sstom12
+    use mod_var_sea, only: sstcl_ob, sicecl_ob, ticecl_ob, sstan_ob, sstcl_om,&
+        & sst_om, tice_om
 
     implicit none
 
     integer, intent(in) :: jday
     integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
-
-    include "com_var_sea.h"
 
     real :: fmasks(ngp)                  ! sea fraction
     real :: hfyearm(ngp)                 ! annual mean heat flux into the ocean
@@ -128,13 +126,11 @@ subroutine sea2atm(jday)
     use mod_cpl_flags, only: icsea, icice, isstan
     use mod_atparam
     use mod_cplvar_sea, only: vsea_output
+    use mod_var_sea
 
     implicit none
 
     integer, intent(in) :: jday
-    integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
-
-    include "com_var_sea.h"
 
     if (jday.gt.0.and.(icsea.gt.0.or.icice.gt.0)) then
         ! 1. Run ocean mixed layer or 
@@ -196,13 +192,12 @@ subroutine rest_sea(imode)
 
     use mod_cpl_flags, only: icsea, icice
     use mod_atparam
+    use mod_var_sea, only: sst_om, tice_om, sice_om, sst_am, tice_am, sice_am
 
     implicit none
 
     integer, intent(in) :: imode
     integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
-
-    include "com_var_sea.h"
 
     real :: sst_c(ngp)              ! sst corrected for sea-ice values
     real :: sstfr
