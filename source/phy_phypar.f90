@@ -23,13 +23,11 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     use mod_surfcon, only: fmask1, phis0
     use mod_var_land, only: stl_am, soilw_am
     use mod_var_sea, only: sst_am, ssti_om
+    use mod_physvar
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Model variables, tendencies and fluxes on gaussian grid
-    include "com_physvar.h"
 
     complex, dimension(mx,nx,nlev) :: vor1, div1, t1, q1, phi1
     complex, dimension(mx,nx) :: psl1, ucos, vcos

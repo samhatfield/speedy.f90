@@ -16,13 +16,11 @@ subroutine tminc
     use mod_var_land, only: stl_am, soilw_am
     use mod_cli_sea, only: bmask_s
     use mod_var_sea, only: sst_am, sstan_am, sst_om, ssti_om
+    use mod_physvar
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Model variables, tendencies and fluxes on gaussian grid
-    include "com_physvar.h"
 
     ! Surface variables on gaussian grid
     include "com_radcon.h"
