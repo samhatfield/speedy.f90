@@ -38,12 +38,11 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tland,tsea,swav,ssrd,slrd,&
     use mod_atparam
     use mod_sflcon
     use mod_physcon, only: p0, rd, cp, alhc, sbc, sigl, wvi, clat
+    use mod_radcon, only: emisfc, alb_l, alb_s, snowc
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    include "com_radcon.h"
 
     real, dimension(ngp,nlev), intent(in) :: ua, va, ta, qa, rh, phi
     real, dimension(ngp), intent(in) :: phi0, fmask, tland, tsea, swav, ssrd,&

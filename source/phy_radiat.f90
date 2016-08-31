@@ -12,13 +12,11 @@ subroutine sol_oz(tyear)
 
     use mod_atparam
     use mod_physcon, only: slat, clat
+    use mod_radcon, only: solc, epssw, fsol, ozone, ozupp, zenit, stratz
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Radiation constants
-    include "com_radcon.h"
 
     real, intent(in) :: tyear
     real :: topsr(nlat), alpha, azen, coz1, coz2, czen, dalpha, flat2, fs0
@@ -139,13 +137,12 @@ subroutine cloud(qa,rh,precnv,precls,iptop,gse,fmask,icltop,cloudc,clstr)
     !           clstr  = stratiform cloud cover                  (2-dim)
 
     use mod_atparam
+    use mod_radcon, only: rhcl1, rhcl2, qacl, wpcl, pmaxcl, clsmax, clsminl,&
+        & gse_s0, gse_s1, albcl, qcloud
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Cloud and radiation parameters
-    include "com_radcon.h"
 
     integer :: iptop(ngp)
     real, intent(in) :: qa(ngp,nlev), rh(ngp,nlev), precnv(ngp), precls(ngp), gse(ngp),&
@@ -253,24 +250,19 @@ subroutine radsw(psa,qa,icltop,cloudc,clstr,fsfcd,fsfc,ftop,dfabs)
 
     use mod_atparam
     use mod_physcon, only: sig, dsig
+    use mod_radcon
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Radiation parameters
-
-    include "com_radcon.h"
 
     integer, intent(in) :: icltop(ngp)
     real, intent(in) :: psa(ngp), qa(ngp,nlev), cloudc(ngp), clstr(ngp)
     real, intent(inout) :: ftop(ngp), fsfc(ngp), fsfcd(ngp), dfabs(ngp,nlev)
 
     integer :: j, k, nl1
-    real :: acloud(ngp), psaz(ngp), frefl(ngp,nlev), abs1, acloud1, deltap, eps1
+    real :: acloud(ngp), psaz(ngp), abs1, acloud1, deltap, eps1
     real :: fband1, fband2
-
-    equivalence (frefl(1,1),tau2(1,1,3))
 
     nl1 = nlev-1
 
@@ -281,15 +273,15 @@ subroutine radsw(psa,qa,icltop,cloudc,clstr,fsfcd,fsfc,ftop,dfabs)
     ! ALBCLS = 0.5
     
     ! 1.  Initialization
-    frefl = 0.0
+    tau2 = 0.0
 
     do j=1,ngp
         !fk-- change to ensure only icltop <= nlev used
         if(icltop(j) .le. nlev) then
-          frefl(j,icltop(j))= albcl*cloudc(j)
+          tau2(j,icltop(j),3)= albcl*cloudc(j)
         endif
         !fk-- end change
-        frefl(j,nlev)     = albcls*clstr(j)
+        tau2(j,nlev,3)     = albcls*clstr(j)
     end do
 
     ! 2. Shortwave transmissivity:
@@ -345,8 +337,8 @@ subroutine radsw(psa,qa,icltop,cloudc,clstr,fsfcd,fsfc,ftop,dfabs)
         dfabs(j,k)=dfabs(j,k)-flux(j,1)
     end do
 
-    K=2
-    DO J=1,NGP
+    k=2
+    do j=1,ngp
         dfabs(j,k)=flux(j,1)
         flux (j,1)=tau2(j,k,1)*(flux(j,1)-ozone(j)*psa(j))
         dfabs(j,k)=dfabs(j,k)-flux(j,1)
@@ -355,8 +347,8 @@ subroutine radsw(psa,qa,icltop,cloudc,clstr,fsfcd,fsfc,ftop,dfabs)
     ! 3.3  Absorption and reflection in the troposphere
     do k=3,nlev
         do j=1,ngp
-            frefl(j,k)=flux(j,1)*frefl(j,k)
-            flux (j,1)=flux(j,1)-frefl(j,k)
+            tau2(j,k,3)=flux(j,1)*tau2(j,k,3)
+            flux (j,1)=flux(j,1)-tau2(j,k,3)
             dfabs(j,k)=flux(j,1)
             flux (j,1)=tau2(j,k,1)*flux(j,1)
             dfabs(j,k)=dfabs(j,k)-flux(j,1)
@@ -385,7 +377,7 @@ subroutine radsw(psa,qa,icltop,cloudc,clstr,fsfcd,fsfc,ftop,dfabs)
             dfabs(j,k)=dfabs(j,k)+flux(j,1)
             flux (j,1)=tau2(j,k,1)*flux(j,1)
             dfabs(j,k)=dfabs(j,k)-flux(j,1)
-            flux (j,1)=flux(j,1)+frefl(j,k)
+            flux (j,1)=flux(j,1)+tau2(j,k,3)
         end do
     end do
 
@@ -466,6 +458,7 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
 
     use mod_atparam
     use mod_physcon, only: sbc, dsig, wvi
+    use mod_radcon, only: epslw, emisfc, fband, tau2, st4a, stratc, flux
 
     implicit none
 
@@ -474,9 +467,6 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
 
     ! Number of radiation bands with tau < 1
     integer, parameter :: nband=4
-
-    ! Radiation parameters
-    include "com_radcon.h"
 
     real, intent(in) :: ta(ngp,nlev), ts(ngp)
     real, intent(inout) :: fsfcd(ngp), fsfcu(ngp), ftop(ngp), fsfc(ngp)
@@ -667,20 +657,17 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
 end
 
 subroutine radset
-    ! SUBROUTINE RADSET
+    ! subroutine radset
     !
     ! Purpose: compute energy fractions in LW bands
     !          as a function of temperature
-    ! Initialized common blocks: RADFIX
 
-    USE mod_atparam
+    use mod_atparam
+    use mod_radcon, only: epslw, fband
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Radiation constants
-    include "com_radcon.h"
 
     integer :: jb, jtemp
     real :: eps1

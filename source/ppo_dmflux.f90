@@ -15,12 +15,11 @@ subroutine dmflux(iadd)
     use mod_surfcon, only: fmask, fmask1
     use mod_var_sea, only: tice_am, sice_am
     use mod_physvar
+    use mod_radcon, only: albsea, albice, emisfc
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    include "com_radcon.h"
 
     integer, intent(in) :: iadd
 

@@ -16,9 +16,6 @@ subroutine inphys(hsg,ppl,rlat)
 
     integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon*nlat
 
-    ! Constants for sub-grid-scale physics
-    include "com_radcon.h"  
-
     real :: hsg(0:nlev), ppl(nlev), rlat(nlat)  
     integer :: j, k
     
@@ -51,7 +48,4 @@ subroutine inphys(hsg,ppl,rlat)
         slat(j) = sin(rlat(j))
         clat(j) = cos(rlat(j))
     end do
-
-    ! 2. Constants for physical parametrization routines:
-    include "cls_inphys.h"
 end

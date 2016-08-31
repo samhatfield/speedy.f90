@@ -17,13 +17,11 @@ subroutine tminc
     use mod_cli_sea, only: bmask_s
     use mod_var_sea, only: sst_am, sstan_am, sst_om, ssti_om
     use mod_physvar
+    use mod_radcon, only: albsfc
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
-    ! Surface variables on gaussian grid
-    include "com_radcon.h"
 
     real :: adsave(ngp,6), phisg(ngp), pmsl(ngp), qsatpl(ngp), st0(ngp)
 
