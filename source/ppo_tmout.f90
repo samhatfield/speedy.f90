@@ -19,8 +19,7 @@ subroutine tmout(imode)
     integer, intent(in) :: imode
 
     ! Fields used to compute omega, psi and chi
-    complex :: vorsp(mx,nx), divsp(mx,nx), psisp(mx,nx), chisp(mx,nx)
-    equivalence (psisp,chisp)
+    complex :: vorsp(mx,nx), divsp(mx,nx), psisp(mx,nx)
 
     real :: div3d(ngp,nlev), dpr2, fmean
     real*4 :: r4out(ngp)
@@ -52,8 +51,8 @@ subroutine tmout(imode)
 
         call invlap (vorsp,psisp)
         call grid (psisp,save3d(1,k,8),1)
-        call invlap (divsp,chisp)
-        call grid (chisp,save3d(1,k,9),1)
+        call invlap (divsp,psisp)
+        call grid (psisp,save3d(1,k,9),1)
         call grid (divsp,div3d(1,k),1)
     end do
 
