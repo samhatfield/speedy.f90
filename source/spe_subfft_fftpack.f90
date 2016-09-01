@@ -1,12 +1,10 @@
 subroutine inifft
     ! Initialize FFTs
 
-    use mod_atparam
+    use mod_atparam, only: ix
+    use mod_fft
 
     implicit none
-
-    real :: wsave
-    common /fftcom/ wsave(2*ix+15)
 
     call rffti(ix,wsave)
     !call dffti (ix,wsave)
@@ -19,11 +17,9 @@ subroutine gridx(varm,vorg,kcos)
 
     use mod_atparam
     use mod_spectral, only: cosgr
+    use mod_fft
 
     implicit none
-
-    real :: wsave
-    common /fftcom/ wsave(2*ix+15)
 
     real, intent(in) :: varm(mx2,il)
     real, intent(inout) :: vorg(ix,il)
@@ -60,11 +56,9 @@ subroutine specx(vorg,varm)
     ! From grid-point data to Fourier coefficients
 
     use mod_atparam
+    use mod_fft
 
     implicit none
-
-    real :: wsave
-    common /fftcom/ wsave(2*ix+15)
 
     real, intent(in) :: vorg(ix,il)
     real, intent(inout) :: varm(mx2,il)
