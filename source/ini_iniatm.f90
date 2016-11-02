@@ -93,7 +93,11 @@ subroutine ini_atm(cexp)
     end if
 
     ! 8.3 output files for grid-point fields
-    call setgrd(0,cexp)
+    if (ihout == .false.) call setgrd(0,cexp)
+
+    ! Write initial data
+    if (ihout .and. ipout) call iogrid(2)
+    if (ihout) call iogrid(4)
 
     contains
         function prlev(siglev)

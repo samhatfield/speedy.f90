@@ -3,11 +3,13 @@ module mod_date
 
     private
     public iyear, imonth, iday, imont1, tmonth, tyear, ndaycal, ndaytot
+    public ihour, sixhrrun
     public newdate
 
     ! Date and time variables (updated in NEWDATE)
-    integer :: iyear, imonth, iday, imont1
+    integer :: iyear, imonth, iday, imont1, ihour
     real :: tmonth, tyear
+    logical :: sixhrrun
 
     ! Calendar set-up (initialized in NEWDATE)
     integer :: ndaycal(12,2), ndaytot

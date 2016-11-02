@@ -4,9 +4,9 @@ module mod_tsteps
     implicit none
 
     private
-    public nmonts, ndaysl, nsteps, nstdia, nstppr, nstout, idout, nmonrs
-    public iseasc, istart, iyear0, imont0, nstrad, nstrdf, indrdf, issty0, isst0
-    public delt, delt2, rob, wil, alph
+    public nmonts, ndaysl, nsteps, nstdia, nstppr, nstout, idout, nmonrs, ihout
+    public iseasc, istart, iyear0, imont0, ipout, nstrad, nstrdf, indrdf, issty0
+    public isst0, delt, delt2, rob, wil, alph
 
     ! Integration length in months
     integer :: nmonts = 3
@@ -27,10 +27,13 @@ module mod_tsteps
     integer :: nstout = -1
 
     ! Daily output flag (0=no, 1=basic (Z500,PREC,MSLP,TEMP0), 2=full)
-    integer, parameter :: idout  = 0
+    integer, parameter :: idout  = 2
 
     ! Period (no. of months) for restart file update
     integer, parameter :: nmonrs = 3
+
+    ! 6-hourly output flag (0=no, 1=yes)
+    integer :: ihout = 0
 
     ! Seasonal cycle flag (0=no, 1=yes)
     integer, parameter :: iseasc = 1

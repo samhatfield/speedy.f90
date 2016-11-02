@@ -76,6 +76,7 @@ FILES= \
        phy_suflux.o \
        phy_vdifsc.o \
        ppo_diagns.o \
+       ppo_iogrid.o \
        ppo_restart.o \
        ppo_setctl.o \
        ppo_setgrd.o \
@@ -103,7 +104,7 @@ FILES= \
 	$(COMPILE) $(COMCONV) $(COMOTT1) -c $<
 
 imp.exe: $(FILES)  at_gcm.o
-	$(COMPILE) $(COMCONV) $(COMOTT1) $(FILES) at_gcm.o -o imp.exe $(COMLIB1) 
+	$(COMPILE) $(COMCONV) $(COMOTT1) $(FILES) at_gcm.o -o imp.exe $(COMLIB1)
 
 
 at_gcm.o               : at_gcm.f90 mod_tsteps.o mod_date.o
