@@ -13,7 +13,7 @@ subroutine stepone
 
     if (iitest == 1) print *, ' instep: initial time step'
 
-    if (istart == 0) then
+    if (istart == 0 .or. istart == 1111) then
 
       delth = 0.5 * delt
 

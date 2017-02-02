@@ -12,28 +12,30 @@ module mod_tsteps
     integer :: nmonts = 3
 
     ! No. of days in the last month of int. (max=30)
-    integer :: ndaysl = 0
+    integer :: ndaysl = 30
 
     ! No. of time steps in one day
     integer, parameter :: nsteps = 36
 
     ! Period (no. of steps) for diagnostic print-out
-    integer, parameter :: nstdia = 36*5
+    integer, parameter :: nstdia = 36*30
 
     ! Period (no. of steps) for post-processing
     integer, parameter :: nstppr = 6
 
     ! Period (no. of steps) for time-mean output
-    integer :: nstout = -1
+    integer :: nstout = 36*30
 
     ! Daily output flag (0=no, 1=basic (Z500,PREC,MSLP,TEMP0), 2=full)
-    integer, parameter :: idout  = 2
+    integer, parameter :: idout  = 1
 
     ! Period (no. of months) for restart file update
     integer, parameter :: nmonrs = 3
 
-    ! 6-hourly output flag (0=no, 1=yes)
-    integer :: ihout = 0
+    ! 6-hourly output flag
+    logical :: ihout = .true.
+
+    logical :: ipout
 
     ! Seasonal cycle flag (0=no, 1=yes)
     integer, parameter :: iseasc = 1
@@ -42,7 +44,7 @@ module mod_tsteps
     integer :: istart
 
     ! Year of initial date (4-digit, eg 1900)
-    integer :: iyear0 = 1978
+    integer :: iyear0 = 1981
     
     ! Month of initial date (1 to 12)
     integer :: imont0 = 1
@@ -55,7 +57,7 @@ module mod_tsteps
     integer, parameter :: nstrdf = 0
 
     ! Initialization index for random diabatic forcing
-    integer, parameter :: indrdf = 1
+    integer, parameter :: indrdf = 0
 
     integer, parameter :: issty0 = 1854
 

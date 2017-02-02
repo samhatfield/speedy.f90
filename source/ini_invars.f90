@@ -14,7 +14,7 @@ subroutine invars
     use mod_dynvar
     use mod_dyncon1, only: grav, rgas, fsg
     use mod_surfcon, only: phi0, phis0
-    use mod_date, only: iyear, imonth
+    use mod_date, only: iyear, imonth, iday, ihour
 
     implicit none
 
@@ -39,6 +39,8 @@ subroutine invars
 
         iyear  = iyear0
         imonth = imont0
+        iday = 1
+        ihour = 0
 
         ! 2.1 Set vorticity, divergence and tracers to zero
         vor(:,:,:,1) = zero

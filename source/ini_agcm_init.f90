@@ -30,7 +30,27 @@ subroutine agcm_init(cexp, inidate, ntimes, irstart, ndays)
        istart = irstart
     endif
 
-    if (istart /= 0) istart = 1
+!   if (istart /= 0) istart = 1
+    if (istart == 1110) then ! restart and 6-hourly output
+        istart = 1
+        ihout = .true.
+        ipout = .true.
+    else if (istart == 1111) then ! Start with gridded data
+        ihout = .true.
+        ipout = .true.
+    else if (istart == 1112) then ! Start with gridded data
+        istart = 1111
+        ihout = .true.
+        ipout = .false.
+    else if (istart /= 0) then
+        istart = 1
+        ihout = .false.
+        ipout = .false.
+    else
+        istart = 0
+        ihout = .false.
+        ipout = .false.
+    end if
 
     if (inidate > 0) then
        iyear0 = inidate/100

@@ -12,17 +12,18 @@ subroutine iogrid(imode)
     !  Initialized common blocks (if IMODE = 1) : DYNSP1, SFCANOM 
     !
 
-    implicit none
-
     use mod_atparam, only: ix, iy, nx, mx, il, kx
     use mod_physcon, only: p0, gg, rd, sig, sigl, pout
     use mod_dynvar
     use mod_dyncon1
     use mod_date
-    use mod_steps
+    use mod_tsteps
     use mod_tmean
 
+    implicit none
+
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
+    integer, intent(in) :: imode
 
     ! Check what this file corresponds to in my version
 !    include "com_anomvar.h"
@@ -31,8 +32,8 @@ subroutine iogrid(imode)
     real, dimension(ngp,kx) :: ugr, vgr, tgr, qgr, phigr
     real :: psgr(ngp)
     real, dimension(ngp,kx) :: ugr1, vgr1, tgr1, qgr1, phigr1
-    real :: rrgr1(ngp)
-    real(4), dimension(ngp,kx) :: ugr4, vgr4, ltgr4, qgr4, phigr4
+    real :: rrgr1(ngp), aref, phi1, phi2, textr, tref
+    real(4), dimension(ngp,kx) :: ugr4, vgr4, tgr4, qgr4, phigr4
     real, dimension(ngp) :: psgr4(ngp), rrgr4(ngp)
 
     ! For vertical interpolation !adapted from ppo_tminc.f
@@ -47,17 +48,18 @@ subroutine iogrid(imode)
     character(len=3) :: cmon3='JAN'
     integer :: irec
     integer :: iitest=0
+    integer :: j, k
 
     if (imode.eq.1) then
         ! 1. Read the gridded dataset (Sigma-level)
         read (2,*,end=200) iyear
         read (2,*,end=200) imonth
-        read (2,*,end=200) idate
+        read (2,*,end=200) iday
         read (2,*,end=200) ihour
 
         print '(A,I4.4,A,I2.2,A,I2.2,A,I2.2)',&
             & 'Read gridded dataset for year/month/date/hour: ',&
-            & iyear,'/',imonth,'/',idate,'/',ihour
+            & iyear,'/',imonth,'/',iday,'/',ihour
 
         open (90,form='unformatted',access='direct',recl=4*ngp)
         irec=1
@@ -164,7 +166,7 @@ subroutine iogrid(imode)
                 end do
 
                 do j=1,ngp
-                  rrgr1(j) = (save2d_l(j,1) + save2d_l(j,2))& ! g/m^2/s
+                  rrgr1(j) = (save2d_d2(j,1) + save2d_d2(j,2))& ! g/m^2/s
                       &*3.6*4.0/real(nsteps)*6.0 ! mm/6hr
                 end do
             end do
@@ -179,7 +181,7 @@ subroutine iogrid(imode)
         ! Output
         print '(A,I4.4,A,I2.2,A,I2.2,A,I2.2)',&
             & 'Write gridded dataset for year/month/date/hour: ',&
-            & IYEAR,'/',IMONTH,'/',IDATE,'/',IHOUR
+            & iyear,'/',imonth,'/',iday,'/',ihour
 
         ugr4 = ugr1
         vgr4 = vgr1
@@ -192,14 +194,14 @@ subroutine iogrid(imode)
         if (imode.eq.2) then
             write (filenamep(1:4),'(i4.4)') iyear
             write (filenamep(5:6),'(i2.2)') imonth
-            write (filenamep(7:8),'(i2.2)') idate
+            write (filenamep(7:8),'(i2.2)') iday
             write (filenamep(9:10),'(i2.2)') ihour
             open (99,file=filenamep,form='unformatted',access='direct',&
                 & recl=4*ix*il)
         else
             write (filename(1:4),'(i4.4)') iyear
             write (filename(5:6),'(i2.2)') imonth
-            write (filename(7:8),'(i2.2)') idate
+            write (filename(7:8),'(i2.2)') iday
             write (filename(9:10),'(i2.2)') ihour
             open (99,file=filename,form='unformatted',access='direct',&
                 & recl=4*ix*il)
@@ -227,9 +229,9 @@ subroutine iogrid(imode)
                 irec=irec+1
             end do
         end if
-        write (99,rec=irec) (psgr4(j),j=1,ngp)
-        irec=irec+1
-        write (99,rec=irec) (rrgr4(j),j=1,ngp)
+!        write (99,rec=irec) (psgr4(j),j=1,ngp)
+!        irec=irec+1
+!        write (99,rec=irec) (rrgr4(j),j=1,ngp)
         close (99)
         if(iitest==1) print *,' UGR  :',minval(ugr4),maxval(ugr4)
         if(iitest==1) print *,' VGR  :',minval(vgr4),maxval(vgr4)
@@ -270,14 +272,14 @@ subroutine iogrid(imode)
         if (imode.eq.3) then !p-level
             write (ctlnamep(1:4),'(I4.4)') iyear
             write (ctlnamep(5:6),'(I2.2)') imonth
-            write (ctlnamep(7:8),'(I2.2)') idate
+            write (ctlnamep(7:8),'(I2.2)') iday
             write (ctlnamep(9:10),'(I2.2)') ihour
             open (11,file=ctlnamep,form='formatted')
             write (11,'(A)') 'DSET ^%y4%m2%d2%h2_p.grd'
         else !sigma-level
             write (ctlname(1:4),'(I4.4)') iyear
             write (ctlname(5:6),'(I2.2)') imonth
-            write (ctlname(7:8),'(I2.2)') idate
+            write (ctlname(7:8),'(I2.2)') iday
             write (ctlname(9:10),'(I2.2)') ihour
             open (11,file=ctlname,form='formatted')
             write (11,'(A)') 'DSET ^%y4%m2%d2%h2.grd'
@@ -286,7 +288,7 @@ subroutine iogrid(imode)
         write (11,'(A)') 'UNDEF -9.99E33'
         write (11,'(A)') 'OPTIONS template big_endian'
         write (11,'(A)') 'XDEF 96 LINEAR 0.0 3.75'
-        write (11,'(A,48F8.3)') 'YDEF 48 LEVELS ',&&
+        write (11,'(A,48F8.3)') 'YDEF 48 LEVELS ',&
             & (RADANG(J)*90.0d0/ASIN(1.0d0),J=1,48)
         if (imode.eq.3) then
             write (11,'(A)') 'ZDEF 7 LEVELS 925 850 700 500 300 200 100'
@@ -295,10 +297,10 @@ subroutine iogrid(imode)
         end if
         if (ndaysl.ne.0) then
             write (11,'(A,I4,A,I2.2,A,I2.2,A,I4.4,A)') 'TDEF ',&
-               & ndaysl*4+1,' LINEAR ',ihour,'Z',idate,cmon3,iyear,' 6HR'
+               & ndaysl*4+1,' LINEAR ',ihour,'Z',iday,cmon3,iyear,' 6HR'
         else
             write (11,'(A,I4,A,I2.2,A,I2.2,A,I4.4,A)') 'TDEF ',&
-                & 2,' LINEAR ',ihour,'Z',idate,cmon3,iyear,' 6HR'
+                & 2,' LINEAR ',ihour,'Z',iday,cmon3,iyear,' 6HR'
         end if
         if (imode.eq.3) then !p-level
             write (11,'(A)') 'VARS 7'

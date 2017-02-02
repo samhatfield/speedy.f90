@@ -8,11 +8,12 @@ subroutine stloop(istep)
       
     use mod_lflags, only: lradsw, lrandf
     use mod_tsteps
+    use mod_date, only: ihour, sixhrrun
 
     implicit none
 
     integer, intent(inout) :: istep
-    integer :: iitest = 0, j
+    integer :: iitest = 0, j, jj
 
     ihour = 0
 
@@ -32,7 +33,7 @@ subroutine stloop(istep)
             ! Do diagnostic, post-processing and I/O tasks 
             call diagns(2, istep)
     
-            if (ihout /= 1) then
+            if (ihout .eqv. .true.) then
                 if (mod(istep, nstppr) == 0) call tminc
                 if (nstout > 0 .and. mod(istep, nstout) == 0) call tmout(1)
             end if
@@ -40,11 +41,8 @@ subroutine stloop(istep)
             istep = istep + 1
         end do
 
-        ! Increment hour timer (takes values of 0, 6, 12 or 18)
-        ihour = mod(ihour + 6, 24)
-
-        if (ihout.eq.1) then
-            if (ipout.eq.1) call iogrid (2) !output for every 6 hours
+        if (ihout) then
+            if (ipout) call iogrid (2) !output for every 6 hours
             call iogrid (4) !gridded data output for every 6 hours
         end if
 
@@ -53,5 +51,8 @@ subroutine stloop(istep)
             print *,'normal end with 6-hr fcst (yeahhhhhhh!!!!)'
             stop 1111
         end if
+
+        ! Increment hour timer (takes values of 0, 6, 12 or 18)
+        ihour = mod(ihour + 6, 24)
     end do
 end

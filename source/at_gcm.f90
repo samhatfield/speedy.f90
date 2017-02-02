@@ -1,5 +1,5 @@
 program agcm_main
-    use mod_tsteps, only: ndaysl, ihout
+    use mod_tsteps, only: ndaysl, ihout, nmonts
     use mod_date, only: sixhrrun
 
     implicit none
@@ -21,11 +21,11 @@ program agcm_main
     if (ndaysl == 0) then
         ndaysl = 1
         sixhrrun = .true.
-        ihout = 1
+        ihout = .true.
     end if
 
     ! Salinity check
-    if (ihout == 1 and nmonths >= 4) then
+    if (ihout .and. nmonts >= 4) then
         print *, 'You are going to make 6-hourly output for more than 4&
             & months! Check the nmonts parameter! (at_gcm)'
         stop
