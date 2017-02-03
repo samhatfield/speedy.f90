@@ -52,6 +52,9 @@ subroutine agcm_init(cexp, inidate, ntimes, irstart, ndays)
         ipout = .false.
     end if
 
+    ipout = .true.
+    ihout = .true.
+
     if (inidate > 0) then
        iyear0 = inidate/100
        imont0 = mod(inidate,100)
