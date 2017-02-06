@@ -11,8 +11,8 @@ i.FUTURE.netcdf_promote = True
 color_map = plt.get_cmap('inferno')
 
 # Load file
-mslp = i.load(argv[1] + '.nc', 'geopotential height at 500 hPa    [m]')[0]
-#mslp = mslp.extract(i.Constraint(time=lambda t: t < 216))
+mslp = i.load(argv[1] + '.nc', 'Temperature [K]')[0]
+mslp = mslp.extract(i.Constraint(generic=925.0))
 
 # Compute max and min
 mslp_avg = mslp.collapsed(['latitude', 'longitude', 'time'], i.analysis.MEAN)
