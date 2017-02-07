@@ -5,10 +5,15 @@ from matplotlib import animation
 from matplotlib.animation import ArtistAnimation
 import cartopy.crs as ccrs
 from sys import argv
+from numpy import linspace
+from os import makedirs
 
 i.FUTURE.netcdf_promote = True
 
 color_map = plt.get_cmap('inferno')
+
+# Make directory to store frames, if it doesn't exit
+makedirs(argv[2], exist_ok=True)
 
 # Load file
 mslp = i.load(argv[1] + '.nc', 'Temperature [K]')[0]
@@ -24,18 +29,11 @@ fig = plt.figure(figsize=(24,8))
 ax = plt.axes(projection=ccrs.PlateCarree())
 ax.coastlines()
 ax.set_global()
-#plt.colorbar()
 plt.title('')
 
 # Animate
-ims = []
 for i, m in enumerate(mslp.slices_over('time')):
     print(i)
-    iplt.contourf(m - mslp_avg, 20, cmap=color_map)
-    plt.clim([mslp_min.data, mslp_max.data])
-    plt.savefig('frames/s{0:03d}.png'.format(i), bbox_inches='tight')
-#    ims.append(im.collections)
-#im_ani = ArtistAnimation(fig, ims, interval=100)
-
-#im_ani.save('im.mp4', writer='mencoder')
-#plt.show()
+    iplt.contourf(m - mslp_avg, linspace(mslp_min.data, mslp_max.data, 20), cmap=color_map)
+    plt.savefig(argv[2] + '/{0:03d}.png'.format(i), bbox_inches='tight')
+    plt.clf()
