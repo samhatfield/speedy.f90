@@ -34,6 +34,6 @@ plt.title('')
 # Animate
 for i, m in enumerate(mslp.slices_over('time')):
     print(i)
-    iplt.contourf(m - mslp_avg, linspace(mslp_min.data, mslp_max.data, 20), cmap=color_map)
+    cont = iplt.contourf(m - mslp_avg, linspace(mslp_min.data, mslp_max.data, 20), cmap=color_map)
     plt.savefig(argv[2] + '/{0:03d}.png'.format(i), bbox_inches='tight')
-    plt.clf()
+    cont.collections[0].remove()
