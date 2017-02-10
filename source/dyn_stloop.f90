@@ -8,7 +8,7 @@ subroutine stloop(istep)
       
     use mod_lflags, only: lradsw, lrandf
     use mod_tsteps
-    use mod_date, only: ihour, sixhrrun
+    use mod_date, only: ihour
 
     implicit none
 
@@ -33,7 +33,7 @@ subroutine stloop(istep)
             ! Do diagnostic, post-processing and I/O tasks 
             call diagns(2, istep)
     
-            if (ihout .eqv. .true.) then
+            if (ihout .eqv. .false.) then
                 if (mod(istep, nstppr) == 0) call tminc
                 if (nstout > 0 .and. mod(istep, nstout) == 0) call tmout(1)
             end if

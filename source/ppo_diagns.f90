@@ -6,8 +6,7 @@ subroutine diagns(jj,istep)
     !         istep = time step index
 
 
-    use mod_tsteps, only: nstdia, nstppr, nstout
-    use mod_date, only: ihour
+    use mod_tsteps, only: nstdia, nstppr, nstout, ihout
     use mod_atparam
     use mod_dynvar
 
@@ -62,11 +61,11 @@ subroutine diagns(jj,istep)
             print 2003,        (diag(kk,3),kk=1,kx)
 
             ! Write model fields at t-1 on output file 
-            if (ihour /= 1) then !Only when no hourly output
-            call tmout(0)
-            call tminc
-            nstout=nstppr
-            call tmout(1)
+            if (ihout .eqv. .false.) then !Only when no hourly output
+                call tmout(0)
+                call tminc
+                nstout=nstppr
+                call tmout(1)
             end if
 
             stop '*** model variables out of accepted range ***'
