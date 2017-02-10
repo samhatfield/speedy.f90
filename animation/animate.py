@@ -23,17 +23,28 @@ mslp = mslp.extract(i.Constraint(generic=925.0))
 mslp_avg = mslp.collapsed(['latitude', 'longitude', 'time'], i.analysis.MEAN)
 mslp_max = mslp.collapsed(['latitude', 'longitude', 'time'], i.analysis.MAX) - mslp_avg
 mslp_min = mslp.collapsed(['latitude', 'longitude', 'time'], i.analysis.MIN) - mslp_avg
+mslp_avg.data = 276.94
+mslp_max.data = 28.31
+mslp_min.data = -56.70
 
-# Setup up figure window
 fig = plt.figure(figsize=(24,8))
-ax = plt.axes(projection=ccrs.PlateCarree())
-ax.coastlines()
-ax.set_global()
-plt.title('')
 
 # Animate
+sbits = 23
 for i, m in enumerate(mslp.slices_over('time')):
     print(i)
+
+    # Setup up figure window
+    ax = plt.axes(projection=ccrs.PlateCarree())
+    ax.coastlines()
+    ax.set_global()
+
     cont = iplt.contourf(m - mslp_avg, linspace(mslp_min.data, mslp_max.data, 20), cmap=color_map)
+
+    plt.text(170, -80, '{0} bits'.format(sbits), fontsize=28, color='white', horizontalalignment='right')
+
+    if i / 4 > 31 and i % 24 == 0:
+        sbits -= 1
+
     plt.savefig(argv[2] + '/{0:03d}.png'.format(i), bbox_inches='tight')
-    cont.collections[0].remove()
+    plt.clf()
