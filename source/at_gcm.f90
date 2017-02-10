@@ -1,6 +1,5 @@
 program agcm_main
     use mod_tsteps, only: ndaysl, ihout, nmonts
-    use mod_date, only: sixhrrun
 
     implicit none
 
@@ -15,14 +14,6 @@ program agcm_main
     call agcm_init(cexp, 0, 0, 0, ndays)
 
     print *, 'integration length in days: ', ndays
-
-    ! Boolean flag indicates whether simulation should terminate after 6 hours
-    sixhrrun = .false.
-    if (ndaysl == 0) then
-        ndaysl = 1
-        sixhrrun = .true.
-        ihout = .true.
-    end if
 
     ! Salinity check
     if (ihout .and. nmonts >= 4) then
