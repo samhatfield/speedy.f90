@@ -106,6 +106,9 @@ FILES= \
 imp.exe: $(FILES)  at_gcm.o
 	$(COMPILE) $(COMCONV) $(COMOTT1) $(FILES) at_gcm.o -o imp.exe $(COMLIB1)
 
+.PHONY: clean
+clean:
+	rm -f *.o *.mod
 
 at_gcm.o               : at_gcm.f90 mod_tsteps.o mod_date.o
 #addflx.o               : addflx.f

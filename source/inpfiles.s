@@ -4,13 +4,13 @@ SB=../data/bc/$1/clim
 SC=../data/bc/$1/anom
 SH=../hflux	
 
- ln -s $SB/orog_lsm_alb.${1}.grd         fort.20
- ln -s $SB/sst_7908clim.${1}.sea.grd     fort.21
- ln -s $SB/seaice_7908clim.${1}.sea.grd  fort.22
- ln -s $SB/surfv_st3_7908clim.${1}.land.grd   fort.23	
- ln -s $SB/sndep_7908clim.${1}.land.grd  fort.24
- ln -s $SB/veget.${1}.land.grd           fort.25
- ln -s $SB/soilw_7908clim.${1}.land.grd  fort.26
+ ln -sf $SB/orog_lsm_alb.${1}.grd         fort.20
+ ln -sf $SB/sst_7908clim.${1}.sea.grd     fort.21
+ ln -sf $SB/seaice_7908clim.${1}.sea.grd  fort.22
+ ln -sf $SB/surfv_st3_7908clim.${1}.land.grd   fort.23	
+ ln -sf $SB/sndep_7908clim.${1}.land.grd  fort.24
+ ln -sf $SB/veget.${1}.land.grd           fort.25
+ ln -sf $SB/soilw_7908clim.${1}.land.grd  fort.26
 
  cp    $SC/noaa_anom_1854_2010_mean1979_2008.${1}.grd fort.30
 
