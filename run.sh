@@ -3,10 +3,11 @@
 # $1 = resolution (eg t21, t30)
 # $2 = experiment no. (eg 111)
 # $3 = experiment no. for restart file ( 0 = no restart ) 
+# $4 = make only, and don't run? ("make" for yes, "run" for no)
 
 
-if [ $# -ne 3 ] ; then
-    echo 'Usage: '$0' resol. exp_no. restart_no' 1>&2
+if [ $# -ne 4 ] ; then
+    echo 'Usage: '$0' resol. exp_no. restart_no make_only_or_run' 1>&2
     exit 1
 fi
 
@@ -53,6 +54,10 @@ echo ' compiling at_gcm - calling make'
 
 make clean
 make imp.exe || { echo "Compilation failed"; exit 1; }
+
+if [ $4 == make ] ; then
+    exit 0
+fi
 
 time ./imp.exe | tee out.lis
 
