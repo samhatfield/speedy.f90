@@ -43,7 +43,7 @@ subroutine agcm_1day(jday, cexp)
     ! perform atm. model integration for 1 day, 
     ! post-proc. and i/o at selected times 
 
-    use mod_tsteps, only: nsteps, idout, nstout
+    use mod_tsteps, only: nsteps, idout, nstout, ihout
     use mod_date, only: iyear, imonth, iday, ndaytot, newdate
 
     implicit none
@@ -75,7 +75,9 @@ subroutine agcm_1day(jday, cexp)
     ! months
     if (iday == 1) then
         ! write monthly-mean output for previous month
-        if (nstout < 0) call tmout(1)
+        if (ihout .eqv. .false.) then
+            if (nstout < 0) call tmout(1)
+        end if
         
         ! open new output files at the beginning of each year
         if (imonth == 1 .and. jday < ndaytot) call setgrd(1, cexp)
