@@ -37,7 +37,7 @@ def plot_zon_mean(field, title, level=-1):
     plt.savefig('../figs/' + title + '.pdf')
 
 call(['sed', '-i', 's/ 365_day_calendar//g', '../output/exp_101/attm101.ctl'])
-#call(['cdo', '-f', 'nc', 'import_binary', '../output/exp_101/attm101.ctl', '../output/exp_101/attm101.nc'])
+call(['cdo', '-f', 'nc', 'import_binary', '../output/exp_101/attm101.ctl', '../output/exp_101/attm101.nc'])
 
 plot_zon_mean('geopotential height               [m]', 'geopotential', 925.0)
 plot_zon_mean('streamfunction           [10^6 m^2/s]', 'streamfunction', 925.0)
