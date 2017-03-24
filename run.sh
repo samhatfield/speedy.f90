@@ -70,4 +70,7 @@ mv at*$2_*.grd $OUT
 mv day*$2.ctl   $OUT
 mv day*$2_*.grd $OUT
 
+mv *.grd $OUT
+cp ../ctl_files/yyyymmddhh.ctl $OUT
+
 cd $OUT
