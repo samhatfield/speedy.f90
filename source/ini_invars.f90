@@ -110,7 +110,7 @@ subroutine invars
 
         ! Print diagnostics from initial conditions
         call diagns (1,0)
-    else
+    else if (istart .eq. 1) then
         ! 3. Start from restart file 
         print*,' reading a restart file'
 
@@ -118,5 +118,14 @@ subroutine invars
 
         ! Print diagnostics from initial conditions
         call diagns (2,0)
+    else if (istart .eq. 1111) then
+        ! 4. Start from grid initial condition
+
+        call iogrid(1)
+
+        call diagns(1,0)
+    else
+        print *, 'IMPOSSIBLE!! check the fort.2 file!'
+        stop
     endif
 end

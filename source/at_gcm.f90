@@ -15,6 +15,13 @@ program agcm_main
 
     print *, 'integration length in days: ', ndays
 
+    sixhrrun = .false.
+    if (ndaysl == 0) then
+        ndaysl = 1
+        sixhrrun = .true.
+        ihout = .true.
+    end if
+
     ! Salinity check
     if (ihout .and. nmonts >= 4) then
         print *, 'You are going to make 6-hourly output for more than 4&
