@@ -1,5 +1,5 @@
 program agcm_main
-    use mod_tsteps, only: ndaysl, ihout, nmonts
+    use mod_tsteps, only: ndaysl, ihout, nmonts, sixhrrun
 
     implicit none
 
