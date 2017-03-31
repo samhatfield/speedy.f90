@@ -166,7 +166,7 @@ subroutine iogrid(imode)
                 end do
 
                 do j=1,ngp
-                  rrgr1(j) = (save2d_d2(j,1) + save2d_d2(j,2))& ! g/m^2/s
+                  rrgr1(j) = save2d_d2(j,1)& ! g/m^2/s
                       &*3.6*4.0/real(nsteps)*6.0 ! mm/6hr
                 end do
             end do
@@ -293,7 +293,7 @@ subroutine iogrid(imode)
         if (imode.eq.3) then
             write (11,'(A)') 'ZDEF 8 LEVELS 925 850 700 500 300 200 100 30'
         else
-            write (11,'(A,7F6.3)') 'ZDEF 8 LEVELS ',(sig(k),k=7,1,-1)
+            write (11,'(A,7F6.3)') 'ZDEF 8 LEVELS ',(sig(k),k=8,1,-1)
         end if
         if (ndaysl.ne.0) then
             write (11,'(A,I4,A,I2.2,A,I2.2,A,I4.4,A)') 'TDEF ',&
@@ -312,7 +312,7 @@ subroutine iogrid(imode)
         write (11,'(A)') 'T 8 99 Temperature [K]'
         write (11,'(A)') 'Q 8 99 Specific Humidity [kg/kg]'
         if (imode.eq.3) then
-          write (11,'(A)') 'Z 7 99 Geopotential Height [m]'
+          write (11,'(A)') 'Z 8 99 Geopotential Height [m]'
         end if
         write (11,'(A)') 'PS 0 99 Surface Pressure [Pa]'
         write (11,'(A)') 'RAIN 0 99 Precipitation [mm/6hr]'
