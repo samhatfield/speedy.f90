@@ -8,14 +8,13 @@ subroutine stloop(istep)
       
     use mod_lflags, only: lradsw, lrandf
     use mod_tsteps
-    use mod_date, only: ihour
+    use mod_date, only: ihour, newdate
+    use mod_dynvar
 
     implicit none
 
     integer, intent(inout) :: istep
     integer :: iitest = 0, j, jj
-
-    ihour = 0
 
     ! Break up each day into four 6-hour windows
     do jj = 1, 4
@@ -41,6 +40,15 @@ subroutine stloop(istep)
             istep = istep + 1
         end do
 
+        ! Increment hour timer (takes values of 0, 6, 12 or 18)
+        ihour = mod(ihour + 6, 24)
+
+        ! If it's a new day...
+        if (ihour .eq. 0) then
+            ! Compute new date
+            call newdate(1)
+        end if
+
         if (ihout) then
             if (ipout) call iogrid (2) !output for every 6 hours
             call iogrid (4) !gridded data output for every 6 hours
@@ -51,8 +59,5 @@ subroutine stloop(istep)
             print *,'normal end with 6-hr fcst (yeahhhhhhh!!!!)'
             stop 1111
         end if
-
-        ! Increment hour timer (takes values of 0, 6, 12 or 18)
-        ihour = mod(ihour + 6, 24)
     end do
 end

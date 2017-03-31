@@ -67,10 +67,7 @@ subroutine agcm_1day(jday, cexp)
     ! 4. write daily-mean output
     call dmout(idout)
 
-    ! 5. compute new date
-    call newdate(1)
-
-    ! 6. write time-mean output files and restart file at the end of selected
+    ! 5. write time-mean output files and restart file at the end of selected
     ! months
     if (iday == 1) then
         ! write monthly-mean output for previous month
