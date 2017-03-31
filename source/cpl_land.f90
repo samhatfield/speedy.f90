@@ -15,7 +15,7 @@ subroutine ini_land(istart)
 
     ! 2. Initialize prognostic variables of land model
     !    in case of no restart or no coupling
-    if (istart.le.0) then
+    if (istart.le.0 .or. istart == 2) then
         stl_lm(:)  = stlcl_ob(:)      ! land sfc. temperature 
     end if
 

@@ -24,27 +24,6 @@ subroutine agcm_init(cexp, inidate, ntimes, irstart, ndays)
 
     ! 1. set run initial time, duration, time-stepping and coupling options
     read (2,*) istart
-    read (2,'(a3)') cexp
-    if (istart .eq. 1110) then ! restart and 6-hourly output
-        istart = 1
-        ihout = .true.
-        ipout = .true.
-    else if (istart .eq. 1111) then ! Start with gridded data
-        ihout = .true.
-        ipout = .true.
-    else if (istart .eq. 1112) then ! Start with gridded data
-        istart = 1111
-        ihout = .true.
-        ipout = .false.
-    else if (istart .ne. 0) then
-        istart = 1
-        ihout = .false.
-        ipout = .false.
-    else
-        istart = 0
-        ihout = .false.
-        ipout = .false.
-    end if
 
     if (inidate > 0) then
        iyear0 = inidate/100

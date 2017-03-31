@@ -33,9 +33,9 @@ module mod_tsteps
     integer, parameter :: nmonrs = 3
 
     ! 6-hourly output flags
-    logical :: ihout = .false.
-    logical :: ipout = .false.
-    logical :: sixhrrun = .false.
+    logical, parameter :: ihout = .false.
+    logical, parameter :: ipout = .false.
+    logical, parameter :: sixhrrun = .false.
 
     ! Seasonal cycle flag (0=no, 1=yes)
     integer, parameter :: iseasc = 1

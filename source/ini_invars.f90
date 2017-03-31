@@ -118,7 +118,7 @@ subroutine invars
 
         ! Print diagnostics from initial conditions
         call diagns (2,0)
-    else if (istart .eq. 1111) then
+    else if (istart .eq. 2) then
         ! 4. Start from grid initial condition
 
         call iogrid(1)
