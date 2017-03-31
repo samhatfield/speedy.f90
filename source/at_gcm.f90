@@ -15,13 +15,6 @@ program agcm_main
 
     print *, 'integration length in days: ', ndays
 
-    sixhrrun = .false.
-    if (ndaysl == 0) then
-        ndaysl = 1
-        sixhrrun = .true.
-        ihout = .true.
-    end if
-
     ! Salinity check
     if (ihout .and. nmonts >= 4) then
         print *, 'You are going to make 6-hourly output for more than 4&
@@ -37,11 +30,10 @@ program agcm_main
         ! 2.1 exchange data with coupler
         call agcm_to_coupler(jday)
         call coupler_to_agcm(jday)
-
-        ! 2.3 write restart file at the end of selected months and at the end of
-        ! the integration 
-        call restart(jday)
     enddo
+
+    ! Restart dataset is only written at the end
+    call restart(2)
 end
 
 subroutine agcm_1day(jday, cexp)
