@@ -34,7 +34,7 @@ subroutine iogrid(imode)
     real, dimension(ngp,kx) :: ugr1, vgr1, tgr1, qgr1, phigr1
     real :: rrgr1(ngp), aref, phi1, phi2, textr, tref
     real(4), dimension(ngp,kx) :: ugr4, vgr4, tgr4, qgr4, phigr4
-    real, dimension(ngp) :: psgr4(ngp), rrgr4(ngp)
+    real(4), dimension(ngp) :: psgr4(ngp), rrgr4(ngp)
 
     ! For vertical interpolation !adapted from ppo_tminc.f
     integer :: k0(ngp)
@@ -229,9 +229,9 @@ subroutine iogrid(imode)
                 irec=irec+1
             end do
         end if
-!        write (99,rec=irec) (psgr4(j),j=1,ngp)
-!        irec=irec+1
-!        write (99,rec=irec) (rrgr4(j),j=1,ngp)
+        write (99,rec=irec) (psgr4(j),j=1,ngp)
+        irec=irec+1
+        write (99,rec=irec) (rrgr4(j),j=1,ngp)
         close (99)
         if(iitest==1) print *,' UGR  :',minval(ugr4),maxval(ugr4)
         if(iitest==1) print *,' VGR  :',minval(vgr4),maxval(vgr4)
@@ -291,9 +291,9 @@ subroutine iogrid(imode)
         write (11,'(A,48F8.3)') 'YDEF 48 LEVELS ',&
             & (RADANG(J)*90.0d0/ASIN(1.0d0),J=1,48)
         if (imode.eq.3) then
-            write (11,'(A)') 'ZDEF 7 LEVELS 925 850 700 500 300 200 100'
+            write (11,'(A)') 'ZDEF 8 LEVELS 925 850 700 500 300 200 100 30'
         else
-            write (11,'(A,7F6.3)') 'ZDEF 7 LEVELS ',(sig(k),k=7,1,-1)
+            write (11,'(A,7F6.3)') 'ZDEF 8 LEVELS ',(sig(k),k=7,1,-1)
         end if
         if (ndaysl.ne.0) then
             write (11,'(A,I4,A,I2.2,A,I2.2,A,I4.4,A)') 'TDEF ',&
@@ -307,10 +307,10 @@ subroutine iogrid(imode)
         else !sigma-level
            write (11,'(A)') 'VARS 6'
         end if
-        write (11,'(A)') 'U 7 99 U-wind [m/s]'
-        write (11,'(A)') 'V 7 99 V-wind [m/s]'
-        write (11,'(A)') 'T 7 99 Temperature [K]'
-        write (11,'(A)') 'Q 7 99 Specific Humidity [kg/kg]'
+        write (11,'(A)') 'U 8 99 U-wind [m/s]'
+        write (11,'(A)') 'V 8 99 V-wind [m/s]'
+        write (11,'(A)') 'T 8 99 Temperature [K]'
+        write (11,'(A)') 'Q 8 99 Specific Humidity [kg/kg]'
         if (imode.eq.3) then
           write (11,'(A)') 'Z 7 99 Geopotential Height [m]'
         end if
