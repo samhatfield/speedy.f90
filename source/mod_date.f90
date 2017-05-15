@@ -62,9 +62,17 @@ module mod_date
                 ! set new date
                 iday = iday+1
         
-                if (iday > ndaycal(imonth,1)) then
-                    iday   = 1
-                    imonth = imonth+1
+                ! Leap year and February?
+                if (mod(iyear,4) == 0 .and. imonth == 2) then
+                    if (iday > 29) then
+                        iday   = 1
+                        imonth = imonth+1
+                    end if
+                else
+                    if (iday > ndaycal(imonth,1)) then
+                        iday   = 1
+                        imonth = imonth+1
+                    end if
                 end if
         
                 if (imonth > 12) then
