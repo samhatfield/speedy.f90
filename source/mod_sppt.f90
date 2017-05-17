@@ -23,10 +23,10 @@ module mod_sppt
     ! Time autocorrelation of spectral AR(1) signals
     real :: phi
 
-    ! Decorrelation time of SPPT perturbation
+    ! Decorrelation time of SPPT perturbation (in hours)
     real, parameter :: time_decorr = 6.0
 
-    ! Correlation length scale of SPPT perturbation
+    ! Correlation length scale of SPPT perturbation (in metres)
     real, parameter :: len_decorr = 500000.0
 
     ! Standard deviation of SPPT perturbation (in grid point space)
