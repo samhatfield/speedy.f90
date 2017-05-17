@@ -46,23 +46,6 @@ module mod_sppt
             complex :: eta(mx,nx,kx)
             real :: f0, randreal, randimag, twn
 
-            ! Generate spatial amplitude pattern and time correlation
-            if (first) then
-                f0 = sum((/ ((2*n+1)*exp(-0.5*(len_decorr/rearth)**2*n*(n+1)),n=1,ntrun) /))
-                f0 = sqrt((stddev**2*(1-phi**2))/(2*f0))
-
-                do m = 1, mx
-                    do n = 1, nx
-                        ! Compute total wave number (I don't understand how this works)
-                        twn=isc*(m-1)+n-1
-                        
-                        sigma(m,n,:) = f0 * exp(-0.25*(len_decorr/rearth)**2*twn*(twn+1))
-                    end do
-                end do
-
-                phi = exp(-(24/real(nsteps))/time_decorr)
-            end if
-
             ! Generate Gaussian noise
             do m = 1,mx
                 do n = 1,nx
@@ -78,6 +61,21 @@ module mod_sppt
 
             ! If first timestep
             if (first) then
+                ! Generate spatial amplitude pattern and time correlation
+                f0 = sum((/ ((2*n+1)*exp(-0.5*(len_decorr/rearth)**2*n*(n+1)),n=1,ntrun) /))
+                f0 = sqrt((stddev**2*(1-phi**2))/(2*f0))
+
+                do m = 1, mx
+                    do n = 1, nx
+                        ! Compute total wave number (I don't understand how this works)
+                        twn=isc*(m-1)+n-1
+                        
+                        sigma(m,n,:) = f0 * exp(-0.25*(len_decorr/rearth)**2*twn*(twn+1))
+                    end do
+                end do
+
+                phi = exp(-(24/real(nsteps))/time_decorr)
+
                 ! First AR(1) step
                 sppt_spec = (1 - phi**2)**(-0.5) * sigma * eta
 
