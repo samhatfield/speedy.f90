@@ -5,7 +5,7 @@ module mod_tsteps
 
     private
     public nmonts, ndaysl, nsteps, nstdia, nstppr, nstout, idout, nmonrs, ihout, sixhrrun
-    public iseasc, istart, iyear0, imont0, ipout, nstrad, nstrdf, indrdf, issty0
+    public iseasc, istart, iyear0, imont0, ipout, nstrad, sppt_on, nstrdf, indrdf, issty0
     public isst0, delt, delt2, rob, wil, alph
 
     ! Integration length in months
@@ -51,6 +51,9 @@ module mod_tsteps
 
     ! Period (no. of steps) for shortwave radiation 
     integer, parameter :: nstrad = 3
+
+    ! Turn on SPPT?
+    logical, parameter :: sppt_on = .false.
     
     ! Duration of random diabatic forcing ( 0 : no forcing, > 0 : no. of
     ! initial steps, < 0 : whole integration)
