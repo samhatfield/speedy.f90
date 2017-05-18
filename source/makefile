@@ -174,7 +174,7 @@ mod_radcon.o           : mod_radcon.f90 mod_atparam.o
 mod_randfor.o          : mod_randfor.f90 mod_atparam.o
 mod_sflcon.o           : mod_sflcon.f90 mod_atparam.o
 mod_spectral.o         : mod_spectral.f90 mod_atparam.o
-mod_sppt.o             : mod_atparam.o mod_tsteps.o mod_dyncon1.o
+mod_sppt.o             : mod_atparam.o mod_tsteps.o mod_dyncon1.o mod_spectral.o
 mod_surfcon.o          : mod_surfcon.f90 mod_atparam.o
 mod_tmean.o            : mod_tmean.f90 mod_atparam.o
 mod_tsteps.o           : mod_tsteps.f90

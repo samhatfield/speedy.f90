@@ -8,6 +8,7 @@ module mod_sppt
     use mod_atparam
     use mod_tsteps, only: nsteps
     use mod_dyncon1, only: rearth
+    use mod_spectral, only: el2
 
     implicit none
 
@@ -65,13 +66,8 @@ module mod_sppt
                 f0 = sum((/ ((2*n+1)*exp(-0.5*(len_decorr/rearth)**2*n*(n+1)),n=1,ntrun) /))
                 f0 = sqrt((stddev**2*(1-phi**2))/(2*f0))
 
-                do m = 1, mx
-                    do n = 1, nx
-                        ! Compute total wave number (I don't understand how this works)
-                        twn=isc*(m-1)+n-1
-                        
-                        sigma(m,n,:) = f0 * exp(-0.25*(len_decorr/rearth)**2*twn*(twn+1))
-                    end do
+                do k = 1,kx
+                    sigma(:,:,k) = f0 * exp(-0.25*len_decorr**2 * el2)
                 end do
 
                 phi = exp(-(24/real(nsteps))/time_decorr)
