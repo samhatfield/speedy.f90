@@ -53,9 +53,11 @@ module mod_sppt
                     do k = 1,kx
                         randreal = randn(0.0, 1.0)
                         randimag = randn(0.0, 1.0)
+
+                        ! Clip noise to +- 10 standard deviations
                         eta(m,n,k) = cmplx(&
-                            & min(10.0, abs(randreal)) * randreal/abs(randreal),&
-                            & min(10.0, abs(randimag)) * randimag/abs(randimag))
+                            & min(10.0, abs(randreal)) * sign(1.0,randreal),&
+                            & min(10.0, abs(randimag)) * sign(1.0,randimag))
                     end do
                 end do
             end do
@@ -87,7 +89,7 @@ module mod_sppt
              end do
 
              ! Clip to +/- 3 standard deviations
-             sppt_grid = min(3.0*stddev, abs(sppt_grid)) * sppt_grid/abs(sppt_grid)
+             sppt_grid = min(3.0*stddev, abs(sppt_grid)) * sign(1.0,sppt_grid)
         end function
 
         !> @brief
