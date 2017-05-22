@@ -32,7 +32,7 @@ module mod_sppt
     real, parameter :: len_decorr = 500000.0
 
     ! Standard deviation of SPPT perturbation (in grid point space)
-    real, parameter :: stddev = 0.20
+    real, parameter :: stddev = 0.33
 
     ! Total wavenumber-wise standard deviation of spectral signals
     real :: sigma(mx,nx,kx)
@@ -93,8 +93,8 @@ module mod_sppt
                  sppt_grid_out(:,k) = reshape(sppt_grid(:,:,k), (/ix*il/))
              end do
 
-             ! Clip to +/- 3 standard deviations
-             sppt_grid_out = min(3.0*stddev, abs(sppt_grid_out)) * sign(1.0,sppt_grid_out)
+             ! Clip to +/- 1.0
+             sppt_grid_out = min(1.0, abs(sppt_grid_out)) * sign(1.0,sppt_grid_out)
         end function
 
         !> @brief
