@@ -47,6 +47,9 @@ module mod_sppt
             complex :: eta(mx,nx,kx)
             real :: f0, randreal, randimag, twn
 
+            ! Seed RNG if first use of SPPT
+            if (first) call time_seed()
+
             ! Generate Gaussian noise
             do m = 1,mx
                 do n = 1,nx
@@ -110,4 +113,21 @@ module mod_sppt
             v =   2.0 * 6.28318530718 * rand(2)
             randn = mean + stdev * u * sin(v)
         end function
+
+        !> @brief
+        !> Seeds RNG from system clock.
+        subroutine time_seed()
+            integer :: i, n, clock
+            integer, allocatable :: seed(:)
+          
+            call random_seed(size = n)
+            allocate(seed(n))
+          
+            call system_clock(count=clock)
+          
+            seed = clock + 37 * (/ (i - 1, i = 1, n) /)
+            call random_seed(put = seed)
+          
+            deallocate(seed)
+        end subroutine
 end module
