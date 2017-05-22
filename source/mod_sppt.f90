@@ -16,7 +16,8 @@ module mod_sppt
     public mu, gen_sppt
 
     ! Array for tapering value of SPPT in the different layers of the atmosphere
-    real :: mu(kx) = (/ 0, 1, 1, 1, 1, 1, 1, 0 /)
+    ! A value of 1 means the tendency is not tapered at that level
+    real :: mu(kx) = (/ 1, 1, 1, 1, 1, 1, 1, 1 /)
 
     complex :: sppt_spec(mx,nx,kx)
     logical :: first = .true.
