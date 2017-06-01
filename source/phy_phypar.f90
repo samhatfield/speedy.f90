@@ -35,16 +35,17 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     complex, dimension(mx,nx) :: psl1, ucos, vcos
 
     real, dimension(ngp,nlev) :: utend, vtend, ttend, qtend
-    real, dimension(ngp,nlev) :: utend_phy, vtend_phy, ttend_phy, qtend_phy
+    real, dimension(ngp,nlev) :: utend_dyn, vtend_dyn, ttend_dyn, qtend_dyn
 
     integer :: iptop(ngp), icltop(ngp,2), icnv(ngp), iitest=0, j, k
     real, dimension(ngp) :: rps, gse
     real :: sppt(ngp,kx)
 
-    utend_phy = 0.0
-    vtend_phy = 0.0
-    ttend_phy = 0.0
-    qtend_phy = 0.0
+    ! Keep a copy of the original (dynamics only) tendencies
+    utend_dyn = utend
+    vtend_dyn = vtend
+    ttend_dyn = ttend
+    qtend_dyn = qtend
 
     ! 1. Compute grid-point fields
     ! 1.1 Convert model spectral variables to grid-point variables
@@ -109,8 +110,8 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 !fk      call lscond (psg,qg1,qsat,ts,iptop,precls,snowls,tt_lsc,qt_lsc)
 !fk#end if
 
-    ttend_phy = ttend_phy + tt_cnv + tt_lsc
-    qtend_phy = qtend_phy + qt_cnv + qt_lsc
+    ttend = ttend + tt_cnv + tt_lsc
+    qtend = qtend + qt_cnv + qt_lsc
 
     ! 3. Radiation (shortwave and longwave) and surface fluxes
     ! 3.1 Compute shortwave tendencies and initialize lw transmissivity
@@ -168,7 +169,7 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     do k=1,nlev
         do j=1,ngp
             tt_rlw(j,k) = tt_rlw(j,k)*rps(j)*grdscp(k)
-            ttend_phy(j,k) = ttend_phy(j,k)+tt_rsw(j,k)+tt_rlw(j,k)
+            ttend(j,k) = ttend(j,k)+tt_rsw(j,k)+tt_rlw(j,k)
         end do
     end do
 
@@ -184,10 +185,10 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
         qt_pbl(j,nlev)=qt_pbl(j,nlev)+evap(j,3)*rps(j)*grdsig(nlev)
     end do
 
-    utend_phy = utend_phy + ut_pbl
-    vtend_phy = vtend_phy + vt_pbl
-    ttend_phy = ttend_phy + tt_pbl
-    qtend_phy = qtend_phy + qt_pbl
+    utend = utend + ut_pbl
+    vtend = vtend + vt_pbl
+    ttend = ttend + tt_pbl
+    qtend = qtend + qt_pbl
 
     ! 5. Store all fluxes for coupling and daily-mean output
     call dmflux(1)
@@ -205,25 +206,21 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 
         call setrdf(tt_lsc)
 
-        ttend_phy = ttend_phy + tt_lsc
+        ttend = ttend + tt_lsc
     end if
 
     ! Add SPPT noise
     if (sppt_on) then
         sppt = gen_sppt()
         
+        ! The physical contribution to the tendency is *tend - *tend_dyn, where * is u, v, t, q
         do k = 1,kx
-            utend_phy(:,k) = (1 + sppt(:,k)*mu(k)) * utend_phy(:,k)
-            vtend_phy(:,k) = (1 + sppt(:,k)*mu(k)) * vtend_phy(:,k)
-            ttend_phy(:,k) = (1 + sppt(:,k)*mu(k)) * ttend_phy(:,k)
-            qtend_phy(:,k) = (1 + sppt(:,k)*mu(k)) * qtend_phy(:,k)
+            utend(:,k) = (1 + sppt(:,k)*mu(k)) * (utend(:,k) - utend_dyn(:,k)) + utend_dyn(:,k)
+            vtend(:,k) = (1 + sppt(:,k)*mu(k)) * (vtend(:,k) - vtend_dyn(:,k)) + vtend_dyn(:,k)
+            ttend(:,k) = (1 + sppt(:,k)*mu(k)) * (ttend(:,k) - ttend_dyn(:,k)) + ttend_dyn(:,k)
+            qtend(:,k) = (1 + sppt(:,k)*mu(k)) * (qtend(:,k) - qtend_dyn(:,k)) + qtend_dyn(:,k)
         end do
     end if
-
-    utend = utend + utend_phy
-    vtend = vtend + vtend_phy
-    ttend = ttend + ttend_phy
-    qtend = qtend + qtend_phy
 end
 
 subroutine xs_rdf(tt1,tt2,ivm)
