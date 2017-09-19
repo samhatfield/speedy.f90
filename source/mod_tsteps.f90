@@ -44,7 +44,7 @@ module mod_tsteps
     integer :: istart
 
     ! Year of initial date (4-digit, eg 1900)
-    integer :: iyear0 = 1978
+    integer :: iyear0 = 1982
     
     ! Month of initial date (1 to 12)
     integer :: imont0 = 1
@@ -62,7 +62,7 @@ module mod_tsteps
     ! Initialization index for random diabatic forcing
     integer, parameter :: indrdf = -1
 
-    integer, parameter :: issty0 = 1854
+    integer, parameter :: issty0 = 1979
 
     ! Record in SST anomaly file corr. to the initial month
     ! Initialized in agcm_init

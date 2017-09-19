@@ -235,20 +235,27 @@ subroutine obs_ssta
 
     use mod_atparam
     use mod_cli_sea, only: sstan3, bmask_s
+    use mod_date, only: imonth
+    use mod_tsteps, only: iyear0, issty0
 
     implicit none
  
-    integer :: i, j
-    real*4 :: r4inp(ix,il)
-   
+    integer :: i, j, next_month
+    integer, parameter :: nlon = ix, nlat = il, ngp = ix*il
+    real   :: inp(nlon,nlat)
+
     sstan3(:,:,1) = sstan3(:,:,2)
     sstan3(:,:,2) = sstan3(:,:,3)
 
-    read(30,end=100) ((r4inp(i,j),i=1,ix),j=il,1,-1)
+    ! Compute next month given initial SST year
+    next_month = (iyear0 - issty0) * 12 + imonth
 
-    sstan3(:,:,3) = r4inp
+    ! Read next month SST anomalies
+    call load_boundary_file(1,30,inp,next_month-1)
 
-    call forchk(bmask_s,sstan3(1,1,3),ix*il,1,-50.,50.,0.)
+    sstan3(1:nlon,1:nlat,3)   = inp
+
+    call forchk(bmask_s,sstan3(1,1,3),nlon*nlat,1,-50.,50.,0.)
 
  100  continue
 
