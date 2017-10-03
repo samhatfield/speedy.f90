@@ -69,6 +69,6 @@ subroutine agcm_1day(jday, cexp)
         end if
         
         ! open new output files at the beginning of each year
-        if (imonth == 1 .and. jday < ndaytot) call setgrd(1, cexp)
+        if (imonth == 1 .and. jday < ndaytot .and. (ihout .eqv. .false.)) call setgrd(1, cexp)
     endif
 end
