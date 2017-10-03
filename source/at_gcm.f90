@@ -15,13 +15,6 @@ program agcm_main
 
     print *, 'integration length in days: ', ndays
 
-    ! Salinity check
-    if (ihout .and. nmonts >= 4) then
-        print *, 'You are going to make 6-hourly output for more than 4&
-            & months! Check the nmonts parameter! (at_gcm)'
-        stop
-    end if
-
     ! 2. do loop over total no. of integration days
     do jday = 1, ndays
         ! 2.2 run atmospheric model for 1 day
