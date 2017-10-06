@@ -7,7 +7,7 @@ subroutine agcm_init(cexp, inidate, ntimes, irstart, ndays)
 
     use mod_cpl_flags, only: icsea, isstan
     use mod_tsteps
-    use mod_date, only: newdate, ndaytot
+    use mod_date, only: newdate, ndaytot, iyear, imonth, iday, ihour
 
     implicit none
 
@@ -25,22 +25,19 @@ subroutine agcm_init(cexp, inidate, ntimes, irstart, ndays)
     ! 1. set run initial time, duration, time-stepping and coupling options
     read (2,*) istart
 
-    if (inidate > 0) then
-       iyear0 = inidate/100
-       imont0 = mod(inidate,100)
-
-       if (ntimes < 0) then
-          nmonts = -ntimes
-          ndaysl = 0
-       else
-          nmonts = 0
-          ndaysl = ntimes
-       endif
-    endif
-
-    isst0 = (iyear0 - issty0) * 12 + imont0
+    ! Read date from fort.2 file
+    read (2,*) iyear0
+    read (2,*) imont0
+    read (2,*) iday
+    read (2,*) ihour
+    iyear = iyear0
+    imonth = imont0
 
     call newdate(0)
+
+    print *, 'start date ', iyear, imonth, iday, ihour
+
+    isst0 = (iyear0 - issty0) * 12 + imont0
 
     ndays = ndaytot
 

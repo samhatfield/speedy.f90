@@ -51,12 +51,6 @@ subroutine iogrid(imode)
     integer :: j, k
 
     if (imode.eq.1) then
-        ! 1. Read the gridded dataset (Sigma-level)
-        read (2,*,end=200) iyear
-        read (2,*,end=200) imonth
-        read (2,*,end=200) iday
-        read (2,*,end=200) ihour
-
         print '(A,I4.4,A,I2.2,A,I2.2,A,I2.2)',&
             & 'Read gridded dataset for year/month/date/hour: ',&
             & iyear,'/',imonth,'/',iday,'/',ihour
