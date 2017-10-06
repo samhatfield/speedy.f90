@@ -17,11 +17,9 @@ subroutine ini_sea(istart)
 
     ! 2. Initialize prognostic variables of ocean/ice model
     !    in case of no restart or no coupling
-    if (istart.le.0) then
-        sst_om(:)  = sstcl_ob(:)      ! SST 
-        tice_om(:) = ticecl_ob(:)     ! sea ice temperature
-        sice_om(:) = sicecl_ob(:)     ! sea ice fraction
-    end if
+    sst_om(:)  = sstcl_ob(:)      ! SST 
+    tice_om(:) = ticecl_ob(:)     ! sea ice temperature
+    sice_om(:) = sicecl_ob(:)     ! sea ice fraction
 
     if (icsea.le.0) sst_om(:) = 0.
 
