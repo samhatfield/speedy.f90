@@ -53,11 +53,6 @@ module mod_date
                     im = im+1
                     if (im.eq.13) im=1
                 end do
-        
-                ! initial date
-                iyear  = iyear0
-                imonth = imont0
-                iday   = 1
             else
                 ! set new date
                 iday = iday+1

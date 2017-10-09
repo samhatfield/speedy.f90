@@ -44,10 +44,10 @@ module mod_tsteps
     integer :: istart
 
     ! Year of initial date (4-digit, eg 1900)
-    integer :: iyear0 = 1982
+    integer :: iyear0
     
     ! Month of initial date (1 to 12)
-    integer :: imont0 = 1
+    integer :: imont0
 
     ! Period (no. of steps) for shortwave radiation 
     integer, parameter :: nstrad = 3

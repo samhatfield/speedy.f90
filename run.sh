@@ -59,6 +59,15 @@ if [ $4 == make ] ; then
     exit 0
 fi
 
+# Write date input file
+cat << EOF > fort.2
+0
+1985
+01
+01
+00
+EOF
+
 time ./imp.exe | tee out.lis
 
 mv out.lis $OUT/atgcm$2.lis

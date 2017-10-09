@@ -19,6 +19,8 @@ subroutine iogrid(imode)
     use mod_date
     use mod_tsteps
     use mod_tmean
+    use mod_flx_land
+    use mod_flx_sea
 
     implicit none
 
@@ -51,12 +53,6 @@ subroutine iogrid(imode)
     integer :: j, k
 
     if (imode.eq.1) then
-        ! 1. Read the gridded dataset (Sigma-level)
-        read (2,*,end=200) iyear
-        read (2,*,end=200) imonth
-        read (2,*,end=200) iday
-        read (2,*,end=200) ihour
-
         print '(A,I4.4,A,I2.2,A,I2.2,A,I2.2)',&
             & 'Read gridded dataset for year/month/date/hour: ',&
             & iyear,'/',imonth,'/',iday,'/',ihour
@@ -241,6 +237,24 @@ subroutine iogrid(imode)
         if(iitest==1) print *,' PSGR :',minval(psgr4),maxval(psgr4)
         if(iitest==1) print *,' RRGR :',minval(rrgr4),maxval(rrgr4)
 
+        open (100,file='fluxes.grd',form='unformatted',access='direct',recl=8*ix*il)
+        write (100,rec=1) (prec_l(j),j=1,ngp)
+        write (100,rec=2) (snowf_l(j),j=1,ngp)
+        write (100,rec=3) (evap_l(j),j=1,ngp)
+        write (100,rec=4) (hflux_l(j),j=1,ngp)
+
+        write (100,rec=5) (prec_s(j),j=1,ngp)
+        write (100,rec=6) (snowf_s(j),j=1,ngp)
+        write (100,rec=7) (evap_s(j),j=1,ngp)
+        write (100,rec=8) (ustr_s(j),j=1,ngp)
+        write (100,rec=9) (vstr_s(j),j=1,ngp)
+        write (100,rec=10) (ssr_s(j),j=1,ngp)
+        write (100,rec=11) (slr_s(j),j=1,ngp)
+        write (100,rec=12) (shf_s(j),j=1,ngp)
+        write (100,rec=13) (ehf_s(j),j=1,ngp)
+        write (100,rec=14) (hflux_s(j),j=1,ngp)
+        write (100,rec=15) (hflux_i(j),j=1,ngp)
+        close (100)
     else if (imode.eq.3.or.imode.eq.5) then
         ! 3. Write a GrADS control file (3:p,5:sigma)
         if (imonth.eq.1) then
