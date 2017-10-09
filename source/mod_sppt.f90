@@ -22,11 +22,11 @@ module mod_sppt
     complex :: sppt_spec(mx,nx,kx)
     logical :: first = .true.
 
-    ! Time autocorrelation of spectral AR(1) signals
-    real :: phi
-
     ! Decorrelation time of SPPT perturbation (in hours)
     real, parameter :: time_decorr = 6.0
+
+    ! Time autocorrelation of spectral AR(1) signals
+    real :: phi = exp(-(24/real(nsteps))/time_decorr)
 
     ! Correlation length scale of SPPT perturbation (in metres)
     real, parameter :: len_decorr = 500000.0
@@ -75,8 +75,6 @@ module mod_sppt
                 do k = 1,kx
                     sigma(:,:,k) = f0 * exp(-0.25*len_decorr**2 * el2)
                 end do
-
-                phi = exp(-(24/real(nsteps))/time_decorr)
 
                 ! First AR(1) step
                 sppt_spec = (1 - phi**2)**(-0.5) * sigma * eta
