@@ -33,7 +33,7 @@ subroutine dmflux(iadd)
 
     ! 1. Initialization
     if (iadd.le.0) then
-        if (ihour /= 0) then
+        if (ihour /= 0 .and. istart /= 0) then
             ! Read from flux file
             open (100,file='fluxes.grd',form='unformatted',access='direct',recl=8*ngp)
             read (100,rec=1) (prec_l(j),j=1,ngp)
