@@ -6,7 +6,7 @@ subroutine dmflux(iadd)
     ! Input: IADD = 0 to initialize storage arrays to 0
     !             > 0 to increment arrays with current flux values  
 
-    use mod_tsteps, only: nsteps
+    use mod_tsteps, only: nsteps, istart
     use mod_atparam
     use mod_tmean, only: save2d_2, save2d_d2
     use mod_flx_land
