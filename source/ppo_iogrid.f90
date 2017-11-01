@@ -93,14 +93,17 @@ subroutine iogrid(imode)
         ! Conversion from gridded variable to spectral variable
         do k=1,kx
             call vdspec(ugr(1,k),vgr(1,k),vor(1,1,k,1),div(1,1,k,1),2)
+            call spec(tgr(1,k),t(1,1,k,1))
+            call spec(qgr(1,k),tr(1,1,k,1,1))
             if(ix.eq.iy*4) then
                 call trunct(vor(1,1,k,1))
                 call trunct(div(1,1,k,1))
+                call trunct(t(1,1,k,1))
+                call trunct(tr(1,1,k,1,1))
             end if
-            call spec(tgr(1,k),t(1,1,k,1))
-            call spec(qgr(1,k),tr(1,1,k,1,1))
         end do
         call spec(psgr(1),ps(1,1,1))
+        if (ix.eq.iy*4) call trunct(ps(1,1,1))
     else if (imode.eq.2.or.imode.eq.4) then
         ! 2. Write date and model variables to the gridded file (2:P,4:sigma)
 
