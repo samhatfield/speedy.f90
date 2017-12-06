@@ -62,7 +62,7 @@ fi
 # Write date input file
 cat << EOF > fort.2
 0
-1985
+1982
 01
 01
 00
