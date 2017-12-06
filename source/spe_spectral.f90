@@ -426,7 +426,7 @@ subroutine vdspec(ug,vg,vorm,divm,kcos)
     integer, intent(in) :: kcos
     integer :: i, j
     real :: ug1(ix,il), vg1(ix,il), um(mx2,il), vm(mx2,il)
-    real :: dumc1(mx2,nx), dumc2(mx2,nx)
+    real :: specu(mx2,nx), specv(mx2,nx)
 
     if (kcos.eq.2) then
         do j=1,il
@@ -444,11 +444,9 @@ subroutine vdspec(ug,vg,vorm,divm,kcos)
         end do
     end if
 
-    call specx(ug1,um)  
-    call specx(vg1,vm)
-    call specy(um,dumc1)
-    call specy(vm,dumc2)
-    call vds(dumc1,dumc2,vorm,divm)
+    call spec(ug1,specu)
+    call spec(vg1,specv)
+    call vds(specu,specv,vorm,divm)
 end
 !*********************************************************************
 subroutine gridy(v,varm)
