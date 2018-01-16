@@ -405,12 +405,10 @@ subroutine spec(vorg,vorm)
 
     implicit none
 
-    !include "param1spec.h"
-
     real, intent(inout) :: vorg(ix,il), vorm(mx2,nx)
     real :: varm(mx2,il)
     call specx(vorg,varm)
-    call specy(varm,vorm)
+    call legendre_dir(varm,vorm)
 end
 !*********************************************************************
 subroutine vdspec(ug,vg,vorm,divm,kcos)
@@ -455,8 +453,6 @@ subroutine gridy(v,varm)
 
     implicit none
 
-    !include "param1spec.h"
-
     real, intent(in) :: v(mx2,nx)
     real, intent(inout) :: varm(mx2,il)
     real :: vm1(mx2),vm2(mx2)
@@ -492,45 +488,48 @@ subroutine gridy(v,varm)
     end do
 end
 !******************************************************************
-subroutine specy(varm,vorm)
+! Computes direct Legendre transformation
+subroutine legendre_dir(v_in,v_out)
     use mod_atparam
     use mod_spectral, only: wt, cpol, nsh2
 
     implicit none
 
-    !include "param1spec.h"
-
-    real, intent(in) :: varm(mx2,il)
-    real, intent(inout) :: vorm(mx2,nx)
-    real :: svarm(mx2,iy), dvarm(mx2,iy)
+    ! mx2 = 2*mx because these arrays actually represent complex variables
+    real, intent(in) :: v_in(mx2,il)
+    real, intent(inout) :: v_out(mx2,nx)
+    real :: even(mx2,iy), odd(mx2,iy)
 
     integer :: j, j1, m, n
 
-    vorm = 0.0
-
+    ! Loop over Northern Hemisphere, computing odd and even decomposition of
+    ! incoming field. The Legendre weights (wt) are applied here
     do j=1,iy
+        ! Corresponding Southern Hemisphere latitude
         j1=il+1-j
-        do m=1,mx2
-            svarm(m,j)=(varm(m,j1)+varm(m,j))*wt(j)
-            dvarm(m,j)=(varm(m,j1)-varm(m,j))*wt(j)
+
+        even(:,j) = (v_in(:,j1) + v_in(:,j)) * wt(j)
+        odd(:,j)  = (v_in(:,j1) - v_in(:,j)) * wt(j)
+    end do
+
+    ! The parity of an associated Legendre polynomial is the same
+    ! as the parity of n' - m'. n', m' are the actual total wavenumber and zonal
+    ! wavenumber, n and m are the indices used for SPEEDY's spectral packing.
+    ! m' = m - 1 and n' = m + n - 2, therefore n' - m' = n - 1
+
+    ! Loop over coefficients corresponding to even associated Legendre
+    ! polynomials
+    do n=1,ntrun1,2
+        do m=1,nsh2(n)
+            v_out(m,n) = dot_product(cpol(m,n,:iy), even(m,:iy))
         end do
     end do
 
-    do j=1,iy
-        j1=il+1-j
-
-        do n=1,ntrun1,2
-            !do m=1,mx2
-            do m=1,nsh2(n)
-                vorm(m,n) = vorm(m,n)+cpol(m,n,j)*svarm(m,j)
-            end do
-        end do
-
-        do n=2,ntrun1,2
-            !do m=1,mx2
-            do m=1,nsh2(n)
-                vorm(m,n) = vorm(m,n)+cpol(m,n,j)*dvarm(m,j)
-            end do
+    ! Loop over coefficients corresponding to odd associated Legendre
+    ! polynomials
+    do n=2,ntrun1,2
+        do m=1,nsh2(n)
+            v_out(m,n) = dot_product(cpol(m,n,:iy), odd(m,:iy))
         end do
     end do
 end
