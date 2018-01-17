@@ -502,6 +502,9 @@ subroutine legendre_dir(v_in,v_out)
 
     integer :: j, j1, m, n
 
+    ! Initialise output array
+    v_out = 0.0
+
     ! Loop over Northern Hemisphere, computing odd and even decomposition of
     ! incoming field. The Legendre weights (wt) are applied here
     do j=1,iy
