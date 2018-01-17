@@ -48,8 +48,6 @@ subroutine parmtr(a)
 
     implicit none
 
-    !include "param1spec.h"
-
     real, intent(in) :: a
     real :: am1, am2, cosqr, el1, ell2, emm2
 
@@ -199,7 +197,6 @@ subroutine lgndre(j)
 
     implicit none
 
-    !include "param1spec.h"
     integer, intent(in) :: j
     real, parameter :: small = 1.e-30
 
@@ -274,8 +271,6 @@ subroutine grad(psi,psdx,psdy)
 
     implicit none
 
-    !include "param1spec.h"
-
     real, dimension(2,mx,nx), intent(inout) :: psi
     real, dimension(2,mx,nx), intent(inout) :: psdx, psdy
 
@@ -310,8 +305,6 @@ subroutine vds(ucosm,vcosm,vorm,divm)
 
     implicit none
 
-    !include "param1spec.h"
-                                                        
     real, dimension(2,mx,nx) :: ucosm, vcosm
     real, dimension(2,mx,nx), intent(inout) :: vorm, divm
     real, dimension(2,mx,nx) :: zc, zp
@@ -352,8 +345,6 @@ subroutine uvspec(vorm,divm,ucosm,vcosm)
     use mod_atparam
     use mod_spectral, only: uvdx, uvdyp, uvdym
 
-    !include "param1spec.h"
-                                                        
     real, dimension(2,mx,nx), intent(in) :: vorm,divm
     real, dimension(2,mx,nx), intent(inout) :: ucosm,vcosm
     real, dimension(2,mx,nx) :: zc,zp
@@ -391,12 +382,10 @@ subroutine grid(vorm,vorg,kcos)
 
     implicit none
 
-    !include "param1spec.h"
-
     real, intent(inout) :: vorg(ix,il), vorm(mx2,nx)
     integer, intent(in) :: kcos
     real :: varm(mx2,il)
-    call gridy(vorm,varm)
+    call legendre_inv(vorm,varm)
     call gridx(varm,vorg,kcos)
 end
 !*********************************************************************
@@ -416,8 +405,6 @@ subroutine vdspec(ug,vg,vorm,divm,kcos)
     use mod_spectral, only: cosgr, cosgr2
 
     implicit none
-
-    !include "param1spec.h"
 
     real, intent(in) :: ug(ix,il), vg(ix,il)
     real, intent(inout) :: vorm(mx2,nx), divm(mx2,nx)
@@ -447,44 +434,48 @@ subroutine vdspec(ug,vg,vorm,divm,kcos)
     call vds(specu,specv,vorm,divm)
 end
 !*********************************************************************
-subroutine gridy(v,varm)
+! Computes inverse Legendre transformation
+subroutine legendre_inv(v_in,v_out)
     use mod_atparam
     use mod_spectral, only: cpol, nsh2
 
     implicit none
 
-    real, intent(in) :: v(mx2,nx)
-    real, intent(inout) :: varm(mx2,il)
-    real :: vm1(mx2),vm2(mx2)
+    ! mx2 = 2*mx because these arrays actually represent complex variables
+    real, intent(in) :: v_in(mx2,nx)
+    real, intent(inout) :: v_out(mx2,il)
+    real :: even(mx2),odd(mx2)
 
     integer :: j, j1, m, n
 
+    ! Loop over Northern Hemisphere, computing odd and even decomposition of
+    ! incoming field
     do j=1,iy
         j1=il+1-j
 
-        do m=1,mx2
-            vm1(m)=0.
-            vm2(m)=0.
-        end do
+        ! Initialise arrays
+        even = 0.0
+        odd = 0.0
 
+        ! Compute even decomposition
         do n=1,nx,2
-            !do m=1,mx2
             do m=1,nsh2(n)
-                vm1(m)=vm1(m)+v(m,n)*cpol(m,n,j)
+                even(m) = even(m) + v_in(m,n)*cpol(m,n,j)
             end do
         end do
 
+        ! Compute odd decomposition
         do n=2,nx,2
-            !do m=1,mx2
             do m=1,nsh2(n)
-                vm2(m)=vm2(m)+v(m,n)*cpol(m,n,j)
+                odd(m) = odd(m) + v_in(m,n)*cpol(m,n,j)
             end do
         end do
 
-        do m=1,mx2
-            varm(m,j1)=vm1(m)+vm2(m)
-            varm(m,j) =vm1(m)-vm2(m)
-        end do
+        ! Compute Southern Hemisphere
+        v_out(:,j1) = even + odd
+
+        ! Compute Northern Hemisphere
+        v_out(:,j)  = even - odd
     end do
 end
 !******************************************************************
@@ -542,8 +533,6 @@ subroutine trunct(vor)
     use mod_spectral, only: trfilt
 
     implicit none
-
-    !include "param1spec.h"
 
     complex, intent(inout) :: vor(mx,nx)
 
