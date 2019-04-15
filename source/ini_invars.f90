@@ -110,14 +110,6 @@ subroutine invars
 
         ! Print diagnostics from initial conditions
         call diagns (1,0)
-    else if (istart .eq. 1) then
-        ! 3. Start from restart file 
-        print*,' reading a restart file'
-
-        call restart(0)
-
-        ! Print diagnostics from initial conditions
-        call diagns (2,0)
     else if (istart .eq. 2) then
         ! 4. Start from grid initial condition
 

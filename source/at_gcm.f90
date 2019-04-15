@@ -18,9 +18,6 @@ program agcm_main
         call agcm_to_coupler(jday)
         call coupler_to_agcm(jday)
     enddo
-
-    ! Restart dataset is only written at the end
-    call restart(2)
 end
 
 subroutine agcm_1day(jday)

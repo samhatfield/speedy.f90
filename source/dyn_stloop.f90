@@ -53,11 +53,5 @@ subroutine stloop(istep)
             if (ipout) call iogrid (2) !output for every 6 hours
             call iogrid (4) !gridded data output for every 6 hours
         end if
-
-        if (sixhrrun) then
-            call restart (2)
-            print *,'normal end with 6-hr fcst (yeahhhhhhh!!!!)'
-            stop 1111
-        end if
     end do
 end
