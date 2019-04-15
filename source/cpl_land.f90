@@ -8,7 +8,7 @@ subroutine ini_land()
     call atm2land(0)
 
     ! 2. Initialize prognostic variables of land model
-    stl_lm(:)  = stlcl_ob(:)      ! land sfc. temperature 
+    stl_lm(:)  = stlcl_ob(:)      ! land sfc. temperature
 
     ! 3. Compute additional land variables
     call land2atm(0)
@@ -83,32 +83,4 @@ subroutine land2atm(jday)
     ! 3.2 Snow depth and soil water availability
     snowd_am(:) = snowdcl_ob(:)
     soilw_am(:) = soilwcl_ob(:)
-end
-
-subroutine rest_land(imode)
-    ! subroutine rest_land (imode)
-
-    ! Purpose : read/write land variables from/to a restart file
-    ! Input :   IMODE = 0 : read model variables from a restart file
-    !                 = 1 : write model variables  to a restart file
-
-    use mod_cpl_flags, only: icland
-    use mod_atparam
-    use mod_var_land, only: stl_am, stl_lm
-
-    implicit none
-
-    integer, intent(in) :: imode
-
-    if (imode.eq.0) then
-        read (3)  stl_lm(:)       ! Land sfc. temperature
-    else
-        ! Write land model variables from coupled runs,
-        ! otherwise write fields used by atmospheric model
-        if (icland.gt.0) then
-            write (10) stl_lm(:)
-        else
-            write (10) stl_am(:)
-        end if
-    end if
 end

@@ -1,25 +1,25 @@
 subroutine step(j1,j2,dt,alph,rob,wil)
     !   subroutine step (j1,j2,dt,alph,rob,wil)
     !
-    !   Purpose: perform one time step starting from F(1) and F(2) 
+    !   Purpose: perform one time step starting from F(1) and F(2)
     !            and using the following scheme:
     !
     !   Fnew = F(1) + DT * [ T_dyn(F(J2)) + T_phy(F(1)) ]
     !   F(1) = (1-2*eps)*F(J1) + eps*[F(1)+Fnew]
     !   F(2) = Fnew
     !
-    !   Input: 
+    !   Input:
     !   If J1=1, J2=1 : forward time step (eps=0)
     !   If J1=1, J2=2 : initial leapfrog time step (eps=0)
     !   If J1=2, J2=2 : leapfrog time step with time filter (eps=ROB)
-    !   DT = time step (if DT < or = 0, tendencies are computed but 
+    !   DT = time step (if DT < or = 0, tendencies are computed but
     !                   no time stepping is performed)
     !   alph = 0   : forward step for gravity wave terms
     !   alph = 1   : backward implicit step for g.w.
     !   alph = 0.5 : centered implicit step for g.w.
     !   rob  = Robert filter coefficient
     !   wil  = Williams filter coefficient
-     
+
     use mod_dyncon0, only: tdrs
     use mod_atparam
     use mod_dynvar
@@ -52,7 +52,7 @@ subroutine step(j1,j2,dt,alph,rob,wil)
         if (iitest.eq.1) print*,' call sptend'
         call sptend(divdt,tdt,psdt,1)
 
-        ! implicit correction 
+        ! implicit correction
         if (iitest.eq.1) print*,' call implic'
         call implic(divdt,tdt,psdt)
     endif
@@ -66,7 +66,7 @@ subroutine step(j1,j2,dt,alph,rob,wil)
 
     do k=1,kx
         do m=1,mx
-            do n=1,nx 
+            do n=1,nx
                 ctmp(m,n,k) = t(m,n,k,1)+tcorh(m,n)*tcorv(k)
             enddo
         enddo
@@ -84,9 +84,6 @@ subroutine step(j1,j2,dt,alph,rob,wil)
     call hordif(1,vor, vordt,dmps,dmp1s)
     call hordif(1,div, divdt,dmps,dmp1s)
     call hordif(1,ctmp,tdt,  dmps,dmp1s)
-
-    ! 3.3 Check for eddy kinetic energy growth rate 
-    ! CALL CGRATE (VOR,DIV,VORDT,DIVDT)
 
     ! 3.4 Diffusion of tracers
     do k=1,kx
@@ -125,11 +122,11 @@ subroutine step(j1,j2,dt,alph,rob,wil)
     do itr=1,ntr
         call timint(j1,dt,eps,wil,kx,tr(1,1,1,1,itr),trdt(1,1,1,itr))
     enddo
-end   
+end
 
 subroutine hordif(nlev,field,fdt,dmp,dmp1)
     !   Aux. subr. HORDIF (NLEV,FIELD,FDT,DMP,DMP1)
-    !   Purpose : Add horizontal diffusion tendency of FIELD 
+    !   Purpose : Add horizontal diffusion tendency of FIELD
     !             to spectral tendency FDT at NLEV levels
     !             using damping coefficients DMP and DMP1
 
@@ -187,90 +184,4 @@ subroutine timint(j1,dt,eps,wil,nlev,field,fdt)
                 &-2*field(m,k,j1)+fnew(m))
         enddo
     enddo
-end
-
-subroutine cgrate(vor,div,vordt,divdt)
-    !   SUBROUTINE CGRATE (VOR,DIV,VORDT,DIVDT)
-    !
-    !   Purpose: Check growth rate of eddy kin. energy 
-    !   Input  : VOR    = vorticity
-    !            DIV    = divergence
-    !            VORDT  = time derivative of VOR
-    !            DIVDT  = time derivative of DIV
-    
-    USE mod_atparam
-
-    implicit none
-
-    complex, dimension(mx,nx,kx), intent(in) :: vor, div
-    complex, dimension(mx,nx,kx), intent(inout) :: vordt, divdt
-    complex :: temp(mx,nx)
-    real :: cdamp, grate, grmax, rnorm
-    integer :: k, m, n
-
-    grmax=0.2/(86400.*2.)
-
-    cdamp=0.
-
-    do k=2,kx
-        grate=0.
-        rnorm=0.
-
-        call invlap (vor(1,1,k),temp)
-
-        do n=1,nx
-            do m=2,mx
-                grate=grate-real(vordt(m,n,k)*conjg(temp(m,n)))
-                rnorm=rnorm-real(  vor(m,n,k)*conjg(temp(m,n)))
-            enddo
-        enddo
-
-        if (grate.gt.grmax*rnorm) cdamp = max(cdamp,0.8*grate/rnorm)
-        ! if (grate.gt.grmax*rnorm) cdamp =&
-        !     & max(cdamp,(grate*grate)/(grmax*rnorm*rnorm))
-    enddo
-
-    if (cdamp.gt.0.) then
-        print *, ' rot. wind damping enabled'
-
-        do k=1,kx
-            do n=1,nx
-                do m=2,mx
-                    vordt(m,n,k)=vordt(m,n,k)-cdamp*vor(m,n,k)
-                enddo
-            enddo
-        enddo
-    endif
-
-    cdamp=0.
-
-    do k=2,kx
-        grate=0.
-        rnorm=0.
-
-        call invlap (div(1,1,k),temp)
-
-        do n=1,nx
-            do m=2,mx
-                grate=grate-real(divdt(m,n,k)*conjg(temp(m,n)))
-                rnorm=rnorm-real(  div(m,n,k)*conjg(temp(m,n)))
-            enddo
-        enddo
-
-        if (grate.gt.grmax*rnorm) cdamp = max(cdamp,0.8*grate/rnorm)
-        !if (grate.gt.grmax*rnorm) cdamp =&
-        !    & max(cdamp,(grate*grate)/(grmax*rnorm*rnorm))
-    enddo
-
-    if (cdamp.gt.0.) then
-      print *, ' div. wind damping enabled'
-
-      do k=1,kx
-        do n=1,nx
-         do m=2,mx
-           divdt(m,n,k)=divdt(m,n,k)-cdamp*div(m,n,k)
-         enddo
-        enddo
-      enddo
-    endif
 end

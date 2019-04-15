@@ -175,51 +175,6 @@ subroutine sea2atm(jday)
     ssti_om(:) = sst_om(:)+sice_am(:)*(tice_am(:)-sst_om(:))
 end
 
-subroutine rest_sea(imode)
-    ! subroutine rest_sea(imode)
-
-    ! Purpose : read/write sea variables from/to a restart file
-    ! Input :   IMODE = 0 : read model variables from a restart file
-    !                 = 1 : write model variables  to a restart file
-
-    use mod_cpl_flags, only: icsea, icice
-    use mod_atparam
-    use mod_var_sea, only: sst_om, tice_om, sice_om, sst_am, tice_am, sice_am
-
-    implicit none
-
-    integer, intent(in) :: imode
-    integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
-
-    real :: sst_c(ngp)              ! sst corrected for sea-ice values
-    real :: sstfr
-
-    if (imode.eq.0) then
-        read (3)  sst_om(:)       ! sst
-        read (3) tice_om(:)       ! sea ice temperature
-        read (3) sice_om(:)       ! sea ice fraction
-    else
-        !    write sea/ice model variables from coupled runs,
-        !    otherwise write fields used by atmospheric model
-        sstfr = 273.2-1.8
-
-        if (icsea.gt.0) then
-            write (10) sst_om(:)
-        else
-            sst_c(:) = max(sst_am(:),sstfr)
-            write (10) sst_c(:)
-        end if
-
-        if (icice.gt.0) then
-            write (10) tice_om(:)
-            write (10) sice_om(:)
-        else
-            write (10) tice_am(:)
-            write (10) sice_am(:)
-        end if
-    end if
-end
-
 subroutine obs_ssta
     ! subroutine obs_ssta
 
