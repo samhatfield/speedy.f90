@@ -1,33 +1,31 @@
 program agcm_main
+    use mod_date, only: ndaytot
+
     implicit none
 
-    integer :: jday, ndays
+    integer :: jday
 
-    ! 1. initialization
-    ! ndays = no. of integration days, set by agcm_init
-    call agcm_init(ndays)
+    ! Initialization
+    call agcm_init()
 
-    print *, 'integration length in days: ', ndays
+    print *, 'integration length in days: ', ndaytot
 
-    ! 2. do loop over total no. of integration days
-    do jday = 1, ndays
-        ! 2.2 run atmospheric model for 1 day
+    ! Do loop over total number of integration days
+    do jday = 1, ndaytot
+        ! Run atmospheric model for 1 day
         call agcm_1day(jday)
 
-        ! 2.1 exchange data with coupler
+        ! Exchange data with coupler
         call agcm_to_coupler(jday)
         call coupler_to_agcm(jday)
     enddo
 end
 
+! Perform atmospheric model integration for 1 day
 subroutine agcm_1day(jday)
-    ! subroutine agcm_1day (jday)
-    !
-    ! perform atm. model integration for 1 day,
-    ! post-proc. and i/o at selected times
 
-    use mod_tsteps, only: nsteps, idout, nstout, ihout
-    use mod_date, only: iyear, imonth, iday, ndaytot, newdate
+    use mod_tsteps, only: nsteps
+    use mod_date, only: iyear, imonth, iday
 
     implicit none
 

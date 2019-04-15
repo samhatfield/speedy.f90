@@ -1,13 +1,10 @@
 ! Initialization of atmospheric model and coupling interface
-subroutine agcm_init(ndays)
+subroutine agcm_init()
     use mod_cpl_flags, only: icsea, isstan
     use mod_tsteps
     use mod_date, only: newdate, ndaytot, iyear, imonth, iday, ihour
 
     implicit none
-
-    ! Total number of integration days
-    integer, intent(inout) :: ndays
 
     ! Read mode from fort.2 file
     read (2,*) istart
@@ -25,8 +22,6 @@ subroutine agcm_init(ndays)
     print *, 'Start date ', iyear, imonth, iday, ihour
 
     isst0 = (iyear0 - issty0) * 12 + imont0
-
-    ndays = ndaytot
 
     ! Check consistency of coupling and prescribed SST anomaly flags
     if (icsea >= 4) isstan = 1
