@@ -345,7 +345,7 @@ subroutine load_boundary_file(ioflag,iunit,fld,offset)
 
     implicit none
 
-    integer, parameter :: ix = ix, il = il, ngp = ix*il
+    integer, parameter :: ngp = ix*il
     integer, intent(in) :: ioflag, iunit, offset
     real     :: fld(ix,il)
     real(4) :: inp(ix,il)
