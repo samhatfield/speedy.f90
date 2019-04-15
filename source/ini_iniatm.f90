@@ -1,64 +1,52 @@
-subroutine ini_atm(cexp)
-    !   subroutine ini_atm (cexp)
-    !
-    !   purpose : call initialization routines for all model common blocks
-
-    use mod_tsteps, only: nmonts, nsteps, nstout, idout, iyear0, imont0, indrdf, ipout, ihout
+! Call initialization routines for all model common blocks
+subroutine ini_atm()
+    use mod_tsteps, only: indrdf, ipout, ihout
     use mod_atparam
     use mod_dyncon1, only: grav, hsg, fsg, radang
     use mod_tmean
-    use mod_date, only: ndaytot
 
     implicit none
 
-    character(len=3) :: cexp        ! experiment identifier
-    real :: ppl(kx)            ! post-processing levels (hpa/1000)
-    integer :: iitest = 1, is3d = 1, k, nddm, ndm, ndtm, ntm
+    ! Post-processing levels (hpa/1000)
+    real :: ppl(kx)
+    integer :: is3d = 1, k, nddm, ndm, ndtm, ntm
 
-    ! 1. initialize ffts
-    if (iitest == 1) print *, 'calling inifft'
+    ! Initialize ffts
     call inifft
 
-    ! 2. initialize dynamical constants and operators
-    if (iitest == 1) print *, 'calling indyns'
+    ! Initialize dynamical constants and operators
     call indyns
 
-    ! 3. set post-processing levels
+    ! Set post-processing levels
     do k = 1, kx
         ppl(k) = prlev(fsg(k))
     end do
 
-    ! 4. initialize constants for physical parametrization
-    if (iitest == 1) print *, 'calling inphys'
+    ! Initialize constants for physical parametrization
     call inphys(hsg, ppl, radang)
 
-    ! 5. initialize forcing fields (boundary cond. + random forcing)
-    if (iitest == 1) print *, 'calling inbcon'
+    ! Initialize forcing fields (boundary cond. + random forcing)
     call inbcon(grav,radang)
 
-    if (iitest == 1) print *, 'calling inirdf'
     call inirdf(indrdf)
 
-    ! 6. initialize model variables
-    if (iitest == 1) print *, 'calling invars'
+    ! Initialize model variables
     call invars
 
-    ! 7. initialize time-mean arrays for surface fluxes and output fields
-    if (iitest == 1) print *, 'calling dmflux'
+    ! Initialize time-mean arrays for surface fluxes and output fields
     call dmflux(0)
 
-    if (iitest == 1) print *, 'calling dmout'
     call dmout(0)
 
-
-    call iogrid(5) ! create control file for 6-hourly output
+    ! Create control file for 6-hourly output
+    call iogrid(5)
     if (ipout) then
         call iogrid(3)
         call geop(1)
     end if
 
-    ! 8.3 output files for grid-point fields
-    if (ihout .eqv. .false.) call setgrd(0,cexp)
+    ! Output files for grid-point fields
+    if (ihout .eqv. .false.) call setgrd(0)
 
     ! Write initial data
     if (ihout .and. ipout) call iogrid(2)
