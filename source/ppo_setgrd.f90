@@ -1,9 +1,8 @@
-subroutine setgrd(ind,norun)
+subroutine setgrd(ind)
     !  subroutine setgrd (ind)
     !  Purpose : open and close output files (.grd)
     !
     !  Input : ind = 0 for initialization, 1 otherwise
-    !        : norun = run identifier
 
     use mod_tsteps, only: idout
     use mod_date, only: iyear
@@ -11,7 +10,6 @@ subroutine setgrd(ind,norun)
     implicit none
 
     integer, intent(in) :: ind
-    character(len=3), intent(in) :: norun
     character(len=16), save :: ofile11, ofile13, ofile15
     character(len=17), save :: ofile17
 
@@ -20,13 +18,13 @@ subroutine setgrd(ind,norun)
         ofile13='atvaNNN_YYYY.grd'
         ofile15='atdfNNN_YYYY.grd'
 
-        ofile11(5:7)=norun
-        ofile13(5:7)=norun
-        ofile15(5:7)=norun
+        ofile11(5:7)='out'
+        ofile13(5:7)='out'
+        ofile15(5:7)='out'
 
         if (IDOUT .gt. 0) then
            ofile17='daytmNNN_YYYY.grd'
-           ofile17(6:8)=norun
+           ofile17(6:8)='out'
         end if
     end if
 

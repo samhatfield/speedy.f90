@@ -1,6 +1,5 @@
-subroutine agcm_init(cexp, inidate, ntimes, irstart, ndays)
-    !   subroutine agcm_init (cexp,inidate,ntimes,irstart,
-    !  &                      ndays)
+subroutine agcm_init(inidate, ntimes, irstart, ndays)
+    !   subroutine agcm_init (inidate,ntimes,irstart,ndays)
     !
     !   purpose: initialization of atmos. model and coupling interface 
     !
@@ -12,7 +11,6 @@ subroutine agcm_init(cexp, inidate, ntimes, irstart, ndays)
     implicit none
 
     ! input (reset by input/include files if inidate = 0):
-    character(len=3), intent(inout) :: cexp        ! experiment identifier
     integer, intent(in) :: inidate     ! initial date yyyymm
     integer, intent(in) :: ntimes      ! integr. length in months (< 0) or days (> 0)
     integer, intent(in) :: irstart     ! restart flag: 0 = no, > 0 = yes
@@ -44,8 +42,8 @@ subroutine agcm_init(cexp, inidate, ntimes, irstart, ndays)
     ! check consistency of coupling and prescribed SST anomaly flags
     if (icsea >= 4) isstan = 1
 
-    ! 2. initialization of atmospheric model constants and variables 
-    call ini_atm(cexp)
+    ! 2. initialization of atmospheric model constants and variables
+    call ini_atm()
 
     ! 3. initialization of coupled modules (land, sea, ice)
     call ini_coupler(istart)
