@@ -1,18 +1,15 @@
 ! Read topography and climatological boundary conditions
-subroutine inbcon(grav0,radlat)
-    ! grav0  = gravity acceleration
-    ! radlat = grid latitudes in radiants
-
+subroutine inbcon
     use mod_cpl_flags, only: icsea, isstan
     use mod_tsteps, only: isst0
     use mod_atparam
     use mod_surfcon
     use mod_cli_land
     use mod_cli_sea
+    use mod_dyncon1, only: grav, radang
 
     implicit none
 
-    real, intent(in) :: grav0, radlat(il)
     integer, parameter :: ngp = ix*il
 
     real*4 :: r4inp(ix,il)
@@ -28,7 +25,7 @@ subroutine inbcon(grav0,radlat)
 
     ! Read surface geopotential (i.e. orography)
     call load_boundary_file(1,20,inp,0)
-    phi0 = grav0*inp
+    phi0 = grav*inp
 
     ! Also store spectrally truncated surface geopotential
     call truncg (ntrun,phi0,phis0)
@@ -127,7 +124,7 @@ subroutine inbcon(grav0,radlat)
 
     ! Grid latitudes for sea-surface variables
     rad2deg = 90.0/asin(1.)
-    deglat_s = rad2deg*radlat
+    deglat_s = rad2deg*radang
 
     ! SST
     do it = 1,12

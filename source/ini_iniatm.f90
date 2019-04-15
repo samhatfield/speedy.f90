@@ -1,9 +1,6 @@
 ! Call initialization routines for all model common blocks
 subroutine ini_atm()
     use mod_tsteps, only: indrdf, ihout
-    use mod_atparam
-    use mod_dyncon1, only: grav, hsg, radang
-    use mod_tmean
 
     implicit none
 
@@ -14,10 +11,10 @@ subroutine ini_atm()
     call indyns
 
     ! Initialize constants for physical parametrization
-    call inphys(hsg, radang)
+    call inphys
 
     ! Initialize forcing fields (boundary cond. + random forcing)
-    call inbcon(grav,radang)
+    call inbcon
 
     call inirdf(indrdf)
 

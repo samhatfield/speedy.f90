@@ -1,24 +1,21 @@
 ! Initialize common blocks for physical parametrization routines
-subroutine inphys(hsg,rlat)
-    ! hsg  : sigma at half levels
-    ! rlat : gaussian-grid latitudes
-
+subroutine inphys
     use mod_atparam
     use mod_physcon
+    use mod_dyncon1, only: hsg, radang
 
     implicit none
 
-    real :: hsg(0:kx), rlat(il)
     integer :: j, k
 
     ! 1.2 Functions of sigma and latitude
-    sigh(0) = hsg(0)
+    sigh(0) = hsg(1)
 
     do k = 1, kx
-        sig(k)  = 0.5*(hsg(k)+hsg(k-1))
+        sig(k)  = 0.5*(hsg(k+1)+hsg(k))
         sigl(k) = log(sig(k))
-        sigh(k) = hsg(k)
-        dsig(k) = hsg(k)-hsg(k-1)
+        sigh(k) = hsg(k+1)
+        dsig(k) = hsg(k+1)-hsg(k)
         grdsig(k) = gg/(dsig(k)*p0)
         grdscp(k) = grdsig(k)/cp
     end do
@@ -36,7 +33,7 @@ subroutine inphys(hsg,rlat)
     wvi(kx,2) = (log(0.99)-sigl(kx))*wvi(kx-1,1)
 
     do j = 1, il
-        slat(j) = sin(rlat(j))
-        clat(j) = cos(rlat(j))
+        slat(j) = sin(radang(j))
+        clat(j) = cos(radang(j))
     end do
 end
