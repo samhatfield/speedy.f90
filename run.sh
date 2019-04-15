@@ -46,7 +46,7 @@ fi
 
 echo 'link input files to fortran units'
 
-ksh inpfiles.s $1
+./inpfiles.s $1
 
 ls -l fort.*
 
