@@ -6,9 +6,6 @@ subroutine agcm_init()
 
     implicit none
 
-    ! Read mode from fort.2 file
-    read (2,*) istart
-
     ! Read date from fort.2 file
     read (2,*) iyear0
     read (2,*) imont0
@@ -30,7 +27,7 @@ subroutine agcm_init()
     call ini_atm()
 
     ! Initialization of coupled modules (land, sea, ice)
-    call ini_coupler(istart)
+    call ini_coupler()
 
     ! Set up the forcing fields for the first time step
     call fordate(0)

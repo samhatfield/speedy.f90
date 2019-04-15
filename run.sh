@@ -2,7 +2,7 @@
 
 # $1 = resolution (eg t21, t30)
 # $2 = experiment no. (eg 111)
-# $3 = experiment no. for restart file ( 0 = no restart ) 
+# $3 = experiment no. for restart file ( 0 = no restart )
 # $4 = make only, and don't run? ("make" for yes, "run" for no)
 
 
@@ -13,11 +13,11 @@ fi
 
 # Define directory names
 UT=`pwd`
-SRC=$UT/source	
+SRC=$UT/source
 TMP=$UT/tmp
-mkdir -p $UT/output/exp_$2	
+mkdir -p $UT/output/exp_$2
 OUT=$UT/output/exp_$2
-CD=$UT/output/exp_$3	
+CD=$UT/output/exp_$3
 
 # Copy files from basic version directory
 
@@ -40,7 +40,7 @@ echo $2 >> fort.2
 if [ $3 != 0 ] ; then
   echo "link restart file atgcm$3.rst to fort.3"
   ln -s $CD/atgcm$3.rst fort.3
-fi 
+fi
 
 # Link input files
 
@@ -61,7 +61,6 @@ fi
 
 # Write date input file
 cat << EOF > fort.2
-0
 1982
 01
 01

@@ -1,8 +1,4 @@
-subroutine ini_sea(istart)
-    ! subroutine ini_sea(istart)
-
-    ! Input : istart = restart flag ( 0 = no, 1 = yes)
-
+subroutine ini_sea()
     use mod_cpl_flags, only: icsea
     use mod_atparam
     use mod_cli_sea, only: deglat_s
@@ -10,14 +6,12 @@ subroutine ini_sea(istart)
 
     implicit none
 
-    integer, intent(in) :: istart
-
     ! 1. Compute climatological fields for initial date
     call atm2sea(0)
 
     ! 2. Initialize prognostic variables of ocean/ice model
     !    in case of no restart or no coupling
-    sst_om(:)  = sstcl_ob(:)      ! SST 
+    sst_om(:)  = sstcl_ob(:)      ! SST
     tice_om(:) = ticecl_ob(:)     ! sea ice temperature
     sice_om(:) = sicecl_ob(:)     ! sea ice fraction
 
@@ -62,7 +56,7 @@ subroutine atm2sea(jday)
     call forint(ngp,imont1,tmonth,sice12,sicecl_ob)
 
     ! SST anomaly
-    if (isstan.gt.0) then 
+    if (isstan.gt.0) then
         if (iday.eq.1.and.jday.gt.0) call OBS_SSTA
         call forint (ngp,2,tmonth,sstan3,sstan_ob)
     end if
@@ -131,13 +125,13 @@ subroutine sea2atm(jday)
     integer, intent(in) :: jday
 
     if (jday.gt.0.and.(icsea.gt.0.or.icice.gt.0)) then
-        ! 1. Run ocean mixed layer or 
+        ! 1. Run ocean mixed layer or
         !    call message-passing routines to receive data from ocean model
-        call sea_model 
+        call sea_model
 
         ! 2. Get updated variables for mixed-layer/ocean model
         sst_om(:)   = vsea_output(:,1)      ! sst
-        tice_om(:)  = vsea_output(:,2)      ! sea ice temperature 
+        tice_om(:)  = vsea_output(:,2)      ! sea ice temperature
         sice_om(:)  = vsea_output(:,3)      ! sea ice fraction
 
         !sice_om(:)  = sicecl_ob(:)
@@ -156,7 +150,7 @@ subroutine sea2atm(jday)
         ! Use full ocean model SST
         sst_am(:) = sst_om(:)
     else if (icsea.ge.3) then
-        ! Define SST anomaly from ocean model ouput and climatology 
+        ! Define SST anomaly from ocean model ouput and climatology
         sstan_am(:) = sst_om(:) - sstcl_om(:)
 
         ! Merge with observed SST anomaly in selected area
@@ -164,7 +158,7 @@ subroutine sea2atm(jday)
             sstan_am(:) = sstan_am(:) + wsst_ob(:)*(sstan_ob(:)-sstan_am(:))
         end if
 
-        ! Add observed SST climatology to model SST anomaly 
+        ! Add observed SST climatology to model SST anomaly
         sst_am(:) = sstcl_ob(:) + sstan_am(:)
     end if
 
@@ -201,7 +195,7 @@ subroutine rest_sea(imode)
     real :: sstfr
 
     if (imode.eq.0) then
-        read (3)  sst_om(:)       ! sst 
+        read (3)  sst_om(:)       ! sst
         read (3) tice_om(:)       ! sea ice temperature
         read (3) sice_om(:)       ! sea ice fraction
     else
@@ -210,24 +204,24 @@ subroutine rest_sea(imode)
         sstfr = 273.2-1.8
 
         if (icsea.gt.0) then
-            write (10) sst_om(:) 
+            write (10) sst_om(:)
         else
             sst_c(:) = max(sst_am(:),sstfr)
             write (10) sst_c(:)
         end if
 
         if (icice.gt.0) then
-            write (10) tice_om(:) 
-            write (10) sice_om(:) 
+            write (10) tice_om(:)
+            write (10) sice_om(:)
         else
             write (10) tice_am(:)
-            write (10) sice_am(:) 
+            write (10) sice_am(:)
         end if
     end if
 end
 
-subroutine obs_ssta 
-    ! subroutine obs_ssta 
+subroutine obs_ssta
+    ! subroutine obs_ssta
 
     ! Purpose : update observed SST anomaly array
 
@@ -237,7 +231,7 @@ subroutine obs_ssta
     use mod_tsteps, only: iyear0, issty0
 
     implicit none
- 
+
     integer :: i, j, next_month
     integer, parameter :: nlon = ix, nlat = il, ngp = ix*il
     real   :: inp(nlon,nlat)
@@ -259,4 +253,4 @@ subroutine obs_ssta
 
     print *, ' warning: end-of-file reached on ssT anomaly file'
     print *, ' sst anomaly will be kept constant'
-end  
+end

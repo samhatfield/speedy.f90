@@ -5,7 +5,7 @@ module mod_tsteps
 
     private
     public nmonts, ndaysl, nsteps, nstdia, nstppr, nstout, idout, nmonrs, ihout, sixhrrun
-    public iseasc, istart, iyear0, imont0, nstrad, sppt_on, nstrdf, indrdf, issty0
+    public iseasc, iyear0, imont0, nstrad, sppt_on, nstrdf, indrdf, issty0
     public isst0, delt, delt2, rob, wil, alph
 
     ! Integration length in months
@@ -38,9 +38,6 @@ module mod_tsteps
 
     ! Seasonal cycle flag (0=no, 1=yes)
     integer, parameter :: iseasc = 1
-
-    ! Start flag (0: from rest, 1: from restart file)
-    integer :: istart
 
     ! Year of initial date (4-digit, eg 1900)
     integer :: iyear0

@@ -6,7 +6,7 @@ subroutine dmflux(iadd)
     ! Input: IADD = 0 to initialize storage arrays to 0
     !             > 0 to increment arrays with current flux values
 
-    use mod_tsteps, only: nsteps, istart
+    use mod_tsteps, only: nsteps
     use mod_atparam
     use mod_tmean, only: save2d_2, save2d_d2
     use mod_flx_land
@@ -34,7 +34,7 @@ subroutine dmflux(iadd)
 
     ! 1. Initialization
     if (iadd.le.0) then
-        if (ihour /= 0 .and. istart /= 0) then
+        if (ihour /= 0) then
             ! Read from flux file
             open (100,file='fluxes.grd',form='unformatted',access='direct',recl=8*ngp)
             read (100,rec=1) (prec_l(j),j=1,ngp)
