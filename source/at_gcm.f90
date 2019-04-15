@@ -5,7 +5,7 @@ program agcm_main
 
     ! 1. initialization
     ! ndays = no. of integration days, set by agcm_init
-    call agcm_init(0, 0, 0, ndays)
+    call agcm_init(ndays)
 
     print *, 'integration length in days: ', ndays
 
