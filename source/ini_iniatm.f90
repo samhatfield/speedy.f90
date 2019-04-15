@@ -7,8 +7,6 @@ subroutine ini_atm()
 
     implicit none
 
-    integer :: is3d = 1, k, nddm, ndm, ndtm, ntm
-
     ! Initialize ffts
     call inifft
 
