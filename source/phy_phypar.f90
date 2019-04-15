@@ -20,7 +20,8 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     use mod_lflags, only: lradsw, lrandf
     use mod_atparam
     use mod_physcon, only: sig, sigh, grdsig, grdscp, cp
-    use mod_surfcon, only: fmask1, phis0
+    use mod_surfcon, only: phis0
+	use mod_cli_land, only: fmask_l
     use mod_var_land, only: stl_am, soilw_am
     use mod_var_sea, only: sst_am, ssti_om
     use mod_physvar
@@ -88,7 +89,7 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
         call shtorh(1,ngp,tg1(1,k),psg,sig(k),qg1(1,k),rh(1,k),qsat(1,k))
     end do
 
-    ! 2. Precipitation 
+    ! 2. Precipitation
     ! 2.1 Deep convection
     call convmf(psg,se,qg1,qsat,iptop,cbmf,precnv,tt_cnv,qt_cnv)
 
@@ -122,16 +123,16 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
         do j=1,ngp
             gse(j) = (se(j,nlev-1)-se(j,nlev))/(phig1(j,nlev-1)-phig1(j,nlev))
         end do
-  
-        call cloud(qg1,rh,precnv,precls,iptop,gse,fmask1,icltop,cloudc,clstr)
-  
+
+        call cloud(qg1,rh,precnv,precls,iptop,gse,fmask_l,icltop,cloudc,clstr)
+
         do j=1,ngp
             cltop(j)=sigh(icltop(j,1)-1)*psg(j)
             prtop(j)=float(iptop(j))
         end do
-  
+
         call radsw(psg,qg1,icltop,cloudc,clstr,ssrd,ssr,tsr,tt_rsw)
-  
+
         do k=1,nlev
             do j=1,ngp
                 tt_rsw(j,k)=tt_rsw(j,k)*rps(j)*grdscp(k)
@@ -139,28 +140,28 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
         end do
     end if
 
-    ! 3.2 Compute downward longwave fluxes 
+    ! 3.2 Compute downward longwave fluxes
     call radlw(-1,tg1,ts,slrd,slru(1,3),slr,olr,tt_rlw)
 
     ! 3.3. Compute surface fluxes and land skin temperature
-    if (iitest.eq.1) then 
+    if (iitest.eq.1) then
         print *, ' 3.3 in PHYPAR'
         print *, 'mean(STL_AM) =', sum(STL_AM(:))/ngp
         print *, 'mean(SST_AM) =', sum(SST_AM(:))/ngp
     end if
 
-    call suflux(psg,ug1,vg1,tg1,qg1,rh,phig1,phis0,fmask1,stl_am,sst_am,&
+    call suflux(psg,ug1,vg1,tg1,qg1,rh,phig1,phis0,fmask_l,stl_am,sst_am,&
         & soilw_am,ssrd,slrd,ustr,vstr,shf,evap,slru,hfluxn,ts,tskin,u0,v0,t0,&
         & q0,.true.)
-     
+
     ! 3.3.1. Recompute sea fluxes in case of anomaly coupling
-    if (icsea .gt. 0) then 
-       call suflux(psg,ug1,vg1,tg1,qg1,rh,phig1,phis0,fmask1,stl_am,ssti_om,&
+    if (icsea .gt. 0) then
+       call suflux(psg,ug1,vg1,tg1,qg1,rh,phig1,phis0,fmask_l,stl_am,ssti_om,&
            & soilw_am,ssrd,slrd,ustr,vstr,shf,evap,slru,hfluxn,ts,tskin,u0,v0,&
            & t0,q0,.false.)
-    end if   
+    end if
 
-    ! 3.4 Compute upward longwave fluxes, convert them to tendencies 
+    ! 3.4 Compute upward longwave fluxes, convert them to tendencies
     !     and add shortwave tendencies
     if (iitest.eq.1) print *, ' 3.4 in PHYPAR'
 
@@ -177,7 +178,7 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     ! 4.1 Vertical diffusion and shallow convection
     call vdifsc(ug1,vg1,se,rh,qg1,qsat,phig1,icnv,ut_pbl,vt_pbl,tt_pbl,qt_pbl)
 
-    ! 4.2 Add tendencies due to surface fluxes 
+    ! 4.2 Add tendencies due to surface fluxes
     do j=1,ngp
         ut_pbl(j,nlev)=ut_pbl(j,nlev)+ustr(j,3)*rps(j)*grdsig(nlev)
         vt_pbl(j,nlev)=vt_pbl(j,nlev)+vstr(j,3)*rps(j)*grdsig(nlev)
@@ -193,7 +194,7 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     ! 5. Store all fluxes for coupling and daily-mean output
     call dmflux(1)
 
-    ! 6. Random diabatic forcing 
+    ! 6. Random diabatic forcing
     if (lrandf) then
         ! 6.1 Compute zonal-mean cross sections of diabatic forcing
         if (lradsw) then
@@ -212,7 +213,7 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     ! Add SPPT noise
     if (sppt_on) then
         sppt = gen_sppt()
-        
+
         ! The physical contribution to the tendency is *tend - *tend_dyn, where * is u, v, t, q
         do k = 1,kx
             utend(:,k) = (1 + sppt(:,k)*mu(k)) * (utend(:,k) - utend_dyn(:,k)) + utend_dyn(:,k)
@@ -260,7 +261,7 @@ subroutine xs_rdf(tt1,tt2,ivm)
            do i=1,nlon
               randfv(j,k,ivm) = randfv(j,k,ivm)+tt1(i,j,k)+tt2(i,j,k)
            end do
-           randfv(j,k,ivm) = randfv(j,k,ivm)*rnsig 
+           randfv(j,k,ivm) = randfv(j,k,ivm)*rnsig
          end do
     end do
 
@@ -273,7 +274,7 @@ subroutine xs_rdf(tt1,tt2,ivm)
           end do
           rand1(0) = rand1(2)
           rand1(nlat+1) = rand1(nlat-1)
-             
+
           do j=1,nlat
              randfv(j,k,ivm) = 0.5*rand1(j)+0.25*(rand1(j-1)+rand1(j+1))
           end do

@@ -52,8 +52,6 @@ subroutine inbcon(grav0,radlat)
         end do
     end do
 
-    fmask1 = fmask_l
-
     ! Annual-mean surface albedo
     call load_boundary_file(1,20,alb0,2)
 

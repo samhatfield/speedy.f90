@@ -1,10 +1,10 @@
 subroutine dmflux(iadd)
     ! subroutine dmflux (iadd)
     !
-    ! Purpose: Add up fluxes to provide daily averages 
+    ! Purpose: Add up fluxes to provide daily averages
     !          used in sea/land models and daily/time-mean output
     ! Input: IADD = 0 to initialize storage arrays to 0
-    !             > 0 to increment arrays with current flux values  
+    !             > 0 to increment arrays with current flux values
 
     use mod_tsteps, only: nsteps, istart
     use mod_atparam
@@ -12,7 +12,8 @@ subroutine dmflux(iadd)
     use mod_flx_land
     use mod_flx_sea
     use mod_physcon, only: alhc, sbc
-    use mod_surfcon, only: fmask, fmask1
+    use mod_surfcon, only: fmask
+    use mod_cli_land, only: fmask_l
     use mod_var_sea, only: tice_am, sice_am
     use mod_physvar
     use mod_radcon, only: albsea, albice, emisfc
@@ -29,7 +30,7 @@ subroutine dmflux(iadd)
 
     real :: fland(ngp), esbc, rstep1, rstep2, rsteps, sstfr, sstfr4
 
-    fland = reshape(fmask1,(/ngp/))
+    fland = reshape(fmask_l,(/ngp/))
 
     ! 1. Initialization
     if (iadd.le.0) then
@@ -55,14 +56,14 @@ subroutine dmflux(iadd)
             close (100)
         else
             ! Set all daily-mean arrays to zero
-            ! NB storage arrays for time-mean output are re-initialized 
+            ! NB storage arrays for time-mean output are re-initialized
             ! by subroutines TMOUT and DMOUT after write-up
-    
+
             prec_l(:)  = 0.
             snowf_l(:) = 0.
             evap_l(:)  = 0.
             hflux_l(:) = 0.
-    
+
             prec_s(:)  = 0.
             snowf_s(:) = 0.
             evap_s(:)  = 0.
@@ -88,7 +89,7 @@ subroutine dmflux(iadd)
     sstfr4 = sstfr**4
     esbc   = emisfc*sbc
 
-    ! Total precipitation 
+    ! Total precipitation
     prec(:) = precls(:)+precnv(:)
 
     ! 2. Store fluxes over land (SI units, all heat fluxes downw.)
@@ -126,7 +127,7 @@ subroutine dmflux(iadd)
     save2d_d2(:,1) = save2d_d2(:,1) + prec(:)  *86.400
     save2d_d2(:,2) = save2d_d2(:,2) + evap(:,3)*86.400
 
-    ! Surface momentum budget 
+    ! Surface momentum budget
     save2d_d2(:,3) = save2d_d2(:,3) - ustr(:,3)
     save2d_d2(:,4) = save2d_d2(:,4) - vstr(:,3)
 
@@ -143,7 +144,7 @@ subroutine dmflux(iadd)
     save2d_2(:,2) = save2d_2(:,2) + precnv(:)*86.400
     save2d_2(:,3) = save2d_2(:,3) + evap(:,3)*86.400
 
-    ! Surface momentum budget 
+    ! Surface momentum budget
     save2d_2(:,4) = save2d_2(:,4) - ustr(:,3)
     save2d_2(:,5) = save2d_2(:,5) - vstr(:,3)
 
