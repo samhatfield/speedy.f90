@@ -33,7 +33,6 @@ FILES= \
        ini_inbcon.o \
        ini_iniatm.o \
        ini_inphys.o \
-       ini_inirdf.o \
        ini_invars.o \
        ini_stepone.o \
        ini_fordate.o \
@@ -59,7 +58,6 @@ FILES= \
 	   mod_physcon.o \
 	   mod_physvar.o \
 	   mod_radcon.o \
-	   mod_randfor.o \
 	   mod_sflcon.o \
 	   mod_spectral.o \
 	   mod_sppt.o \
@@ -135,7 +133,6 @@ ini_inbcon.o           : ini_inbcon.f90 mod_cpl_flags.o mod_tsteps.o mod_dyncon0
 						 mod_surfcon.o mod_cli_land.o mod_cli_sea.o
 ini_iniatm.o           : ini_iniatm.f90 mod_tsteps.o mod_atparam.o mod_dyncon1.o mod_tmean.o mod_date.o
 ini_inphys.o           : ini_inphys.f90 mod_atparam.o mod_physcon.o
-ini_inirdf.o           : ini_inirdf.f90 mod_atparam.o mod_physcon.o mod_randfor.o
 ini_invars.o           : ini_invars.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dynvar.o mod_dyncon1.o\
 						 mod_surfcon.o mod_date.o
 ini_stepone.o          : ini_stepone.f90 mod_tsteps.o
@@ -165,7 +162,6 @@ mod_lsccon.o           : mod_lsccon.f90
 mod_physcon.o          : mod_physcon.f90 mod_atparam.o
 mod_physvar.o          : mod_physvar.f90 mod_atparam.o
 mod_radcon.o           : mod_radcon.f90 mod_atparam.o
-mod_randfor.o          : mod_randfor.f90 mod_atparam.o
 mod_sflcon.o           : mod_sflcon.f90 mod_atparam.o
 mod_spectral.o         : mod_spectral.f90 mod_atparam.o
 mod_sppt.o             : mod_atparam.o mod_tsteps.o mod_dyncon1.o mod_spectral.o
@@ -177,7 +173,7 @@ mod_var_sea.o          : mod_var_sea.f90 mod_atparam.o
 mod_vdicon.o           : mod_vdicon.f90
 phy_convmf.o           : phy_convmf.f90 mod_cnvcon.o mod_atparam.o mod_physcon.o
 phy_lscond.o           : phy_lscond.f90 mod_lsccon.o mod_atparam.o mod_physcon.o
-phy_phypar.o           : phy_phypar.f90 mod_cpl_flags.o mod_lflags.o mod_atparam.o mod_physcon.o mod_randfor.o\
+phy_phypar.o           : phy_phypar.f90 mod_cpl_flags.o mod_lflags.o mod_atparam.o mod_physcon.o\
 					     mod_surfcon.o mod_var_land.o mod_cli_sea.o mod_var_sea.o mod_physvar.o mod_sppt.o\
                          mod_tsteps.o
 phy_radiat.o           : phy_radiat.f90 mod_atparam.o mod_physcon.o mod_radcon.o

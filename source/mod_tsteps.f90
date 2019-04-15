@@ -5,7 +5,7 @@ module mod_tsteps
 
     private
     public nmonts, ndaysl, nsteps, nstdia, nstppr, nstout, idout, nmonrs, ihout, sixhrrun
-    public iseasc, iyear0, imont0, nstrad, sppt_on, nstrdf, indrdf, issty0
+    public iseasc, iyear0, imont0, nstrad, sppt_on, issty0
     public isst0, delt, delt2, rob, wil, alph
 
     ! Integration length in months
@@ -50,13 +50,6 @@ module mod_tsteps
 
     ! Turn on SPPT?
     logical, parameter :: sppt_on = .false.
-
-    ! Duration of random diabatic forcing ( 0 : no forcing, > 0 : no. of
-    ! initial steps, < 0 : whole integration)
-    integer, parameter :: nstrdf = 0
-
-    ! Initialization index for random diabatic forcing
-    integer, parameter :: indrdf = -1
 
     integer, parameter :: issty0 = 1979
 

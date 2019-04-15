@@ -4,9 +4,9 @@ module mod_lflags
     implicit none
 
     private
-    public lppres, lco2, lradsw, lrandf
+    public lppres, lco2, lradsw
 
-    ! Logical flags to activate processes throughout the integration 
+    ! Logical flags to activate processes throughout the integration
 
     ! Flag to post-process upper-air fields on pressure levels (.false. for
     ! model level p.p.)
@@ -20,7 +20,4 @@ module mod_lflags
 
     ! Flag for shortwave radiation routine
     logical :: lradsw  = .true.
-
-    ! Flag for random diabatic forcing
-    logical :: lrandf = .false.
 end module

@@ -1,6 +1,6 @@
 ! Call initialization routines for all model common blocks
 subroutine ini_atm()
-    use mod_tsteps, only: indrdf, ihout
+    use mod_tsteps, only: ihout
 
     implicit none
 
@@ -15,8 +15,6 @@ subroutine ini_atm()
 
     ! Initialize forcing fields (boundary cond. + random forcing)
     call inbcon
-
-    call inirdf(indrdf)
 
     ! Initialize model variables
     call invars

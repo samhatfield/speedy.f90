@@ -6,7 +6,7 @@ subroutine stloop(istep)
     !   Input/output : istep = time step index
     !   Updated common block : lflag2
 
-    use mod_lflags, only: lradsw, lrandf
+    use mod_lflags, only: lradsw
     use mod_tsteps
     use mod_date, only: ihour, newdate
     use mod_dynvar
@@ -24,7 +24,6 @@ subroutine stloop(istep)
 
             ! Set logical flags
             lradsw = (mod(istep,nstrad) == 1)
-            lrandf = ((istep <= nstrdf) .or. (nstrdf < 0))
 
             ! Perform one leapfrog time step
             call step(2, 2, delt2, alph, rob, wil)
