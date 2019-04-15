@@ -146,8 +146,6 @@ subroutine inbcon(grav0,radlat)
         sst12(1:nlon,1:nlat,it) = inp
     end do
 
-    if (iitest >= 1) print *,' checking sst'
-
     call forchk(bmask_s,sst12,ngp,12,100.,400.,273.)
 
     ! 3.3 Sea ice concentration
