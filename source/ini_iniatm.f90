@@ -29,8 +29,6 @@ subroutine ini_atm()
     ! Initialize time-mean arrays for surface fluxes and output fields
     call dmflux(0)
 
-    call dmout(0)
-
     ! Create control file for 6-hourly output
     call iogrid(5)
 

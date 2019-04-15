@@ -46,14 +46,4 @@ subroutine agcm_1day(jday)
 
     ! 3. integrate the atmospheric model for 1 day
     call stloop(istep)
-
-    ! 4. write daily-mean output
-    call dmout(idout)
-
-    ! 5. write time-mean output files and restart file at the end of selected
-    ! months
-    if (iday == 1) then        
-        ! open new output files at the beginning of each year
-        if (imonth == 1 .and. jday < ndaytot .and. (ihout .eqv. .false.)) call setgrd(1)
-    endif
 end

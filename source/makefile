@@ -80,7 +80,6 @@ FILES= \
        ppo_iogrid.o \
        ppo_setgrd.o \
        ppo_dmflux.o \
-       ppo_dmout.o \
        spe_matinv.o \
        spe_spectral.o \
        spe_subfft_fftpack.o
@@ -190,7 +189,6 @@ ppo_iogrid.o           : ppo_iogrid.f90 mod_dynvar.o
 ppo_setgrd.o           : ppo_setgrd.f90 mod_tsteps.o mod_date.o
 ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_tmean.o mod_flx_land.o mod_physcon.o\
 						 mod_surfcon.o mod_flx_sea.o mod_var_sea.o mod_physvar.o mod_radcon.o
-ppo_dmout.o            : ppo_dmout.f90 mod_tsteps.o mod_atparam.o mod_tmean.o
 #sea2atm.o              : sea2atm.f
 #sea_init.o             : sea_init.f
 #send_to_coupler.o      : send_to_coupler.f
