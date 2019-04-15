@@ -5,7 +5,7 @@ module mod_tsteps
 
     private
     public nmonts, ndaysl, nsteps, nstdia, nstppr, nstout, idout, nmonrs, ihout, sixhrrun
-    public iseasc, istart, iyear0, imont0, ipout, nstrad, sppt_on, nstrdf, indrdf, issty0
+    public iseasc, istart, iyear0, imont0, nstrad, sppt_on, nstrdf, indrdf, issty0
     public isst0, delt, delt2, rob, wil, alph
 
     ! Integration length in months
@@ -34,7 +34,6 @@ module mod_tsteps
 
     ! 6-hourly output flags
     logical, parameter :: ihout = .false.
-    logical, parameter :: ipout = .false.
     logical, parameter :: sixhrrun = .false.
 
     ! Seasonal cycle flag (0=no, 1=yes)
@@ -45,16 +44,16 @@ module mod_tsteps
 
     ! Year of initial date (4-digit, eg 1900)
     integer :: iyear0
-    
+
     ! Month of initial date (1 to 12)
     integer :: imont0
 
-    ! Period (no. of steps) for shortwave radiation 
+    ! Period (no. of steps) for shortwave radiation
     integer, parameter :: nstrad = 3
 
     ! Turn on SPPT?
     logical, parameter :: sppt_on = .false.
-    
+
     ! Duration of random diabatic forcing ( 0 : no forcing, > 0 : no. of
     ! initial steps, < 0 : whole integration)
     integer, parameter :: nstrdf = 0
@@ -67,10 +66,10 @@ module mod_tsteps
     ! Record in SST anomaly file corr. to the initial month
     ! Initialized in agcm_init
     integer :: isst0
-    
+
     ! Time step in seconds
     real, parameter :: delt = 86400.0 / nsteps
-    
+
     ! 2 * time step in seconds
     real, parameter :: delt2 = 2 * delt
 

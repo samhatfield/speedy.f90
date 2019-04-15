@@ -5,7 +5,7 @@ module mod_physcon
 
     private
     public p0, gg, rd, cp, alhc, alhs, sbc
-    public sig, sigl, sigh, dsig, pout, grdsig, grdscp, wvi, slat, clat
+    public sig, sigl, sigh, dsig, grdsig, grdscp, wvi, slat, clat
 
     ! Physical constants
     ! Reference pressure
@@ -30,17 +30,16 @@ module mod_physcon
     real, parameter :: sbc = 5.67e-8
 
     !   Functions of sigma and latitude (initial. in INPHYS)
-    !    sig    = full-level sigma 
+    !    sig    = full-level sigma
     !    sigl   = logarithm of full-level sigma
     !    sigh   = half-level sigma
     !    dsig   = layer depth in sigma
-    !    pout   = norm. pressure level [p/p0] for post-processing
     !    grdsig = g/(d_sigma p0) : to convert fluxes of u,v,q into d(u,v,q)/dt
     !    grdscp = g/(d_sigma p0 c_p): to convert energy fluxes into dT/dt
     !    wvi    = weights for vertical interpolation
     !    slat   = sin(lat)
     !    clat   = cos(lat)
-    real, dimension(kx) :: sig, sigl, dsig, pout, grdsig, grdscp
+    real, dimension(kx) :: sig, sigl, dsig, grdsig, grdscp
     real :: wvi(kx,2), sigh(0:kx)
     real, dimension(il) :: slat, clat
 end module

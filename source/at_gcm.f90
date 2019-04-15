@@ -23,8 +23,8 @@ end
 subroutine agcm_1day(jday)
     ! subroutine agcm_1day (jday)
     !
-    ! perform atm. model integration for 1 day, 
-    ! post-proc. and i/o at selected times 
+    ! perform atm. model integration for 1 day,
+    ! post-proc. and i/o at selected times
 
     use mod_tsteps, only: nsteps, idout, nstout, ihout
     use mod_date, only: iyear, imonth, iday, ndaytot, newdate
@@ -52,12 +52,7 @@ subroutine agcm_1day(jday)
 
     ! 5. write time-mean output files and restart file at the end of selected
     ! months
-    if (iday == 1) then
-        ! write monthly-mean output for previous month
-        if (ihout .eqv. .false.) then
-            if (nstout < 0) call tmout(1)
-        end if
-        
+    if (iday == 1) then        
         ! open new output files at the beginning of each year
         if (imonth == 1 .and. jday < ndaytot .and. (ihout .eqv. .false.)) call setgrd(1)
     endif

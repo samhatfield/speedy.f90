@@ -1,5 +1,5 @@
 ###COMPILE=f77
-###COMPILE=pgf90 
+###COMPILE=pgf90
 COMPILE=gfortran
 
 
@@ -10,9 +10,9 @@ COMPILE=gfortran
 #COMOTT1=-Ofast -mips4 -IPA -r8
 # COMOTT1=  -fast -O3 -r8
  COMOTT1=  -Ofast -fdefault-real-8
-### COMOTT1=  -fast  
+### COMOTT1=  -fast
 
-# COMCONV= -byteswapio 
+# COMCONV= -byteswapio
  COMCONV= -fconvert=swap
 
 FILES= \
@@ -79,9 +79,7 @@ FILES= \
        ppo_diagns.o \
        ppo_iogrid.o \
        ppo_setgrd.o \
-       ppo_tminc.o \
        ppo_dmflux.o \
-       ppo_tmout.o \
        ppo_dmout.o \
        spe_matinv.o \
        spe_spectral.o \
@@ -188,15 +186,13 @@ phy_shtorh.o           : phy_shtorh.f90
 phy_suflux.o           : phy_suflux.f90 mod_atparam.o mod_sflcon.o mod_physcon.o mod_radcon.o
 phy_vdifsc.o           : phy_vdifsc.f90 mod_atparam.o mod_vdicon.o mod_physcon.o
 ppo_diagns.o           : ppo_diagns.f90 mod_tsteps.o mod_atparam.o mod_dynvar.o mod_date.o
+ppo_iogrid.o           : ppo_iogrid.f90 mod_dynvar.o
 ppo_setgrd.o           : ppo_setgrd.f90 mod_tsteps.o mod_date.o
-ppo_tminc.o            : ppo_tminc.f90 mod_lflags.o mod_atparam.o mod_tmean.o mod_physcon.o mod_surfcon.o\
-						 mod_cli_land.o mod_cli_sea.o mod_var_sea.o mod_physvar.o mod_radcon.o
 ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_tmean.o mod_flx_land.o mod_physcon.o\
 						 mod_surfcon.o mod_flx_sea.o mod_var_sea.o mod_physvar.o mod_radcon.o
-ppo_tmout.o            : ppo_tmout.f90 mod_tsteps.o mod_atparam.o mod_tmean.o mod_physcon.o
 ppo_dmout.o            : ppo_dmout.f90 mod_tsteps.o mod_atparam.o mod_tmean.o
 #sea2atm.o              : sea2atm.f
-#sea_init.o             : sea_init.f 
+#sea_init.o             : sea_init.f
 #send_to_coupler.o      : send_to_coupler.f
 spe_matinv.o           : spe_matinv.f90
 spe_spectral.o         : spe_spectral.f90 mod_atparam.o mod_spectral.o

@@ -1,7 +1,7 @@
 subroutine diagns(jj,istep)
     ! subroutine diagns(jj,istep)
 
-    ! Purpose: print global means of eddy kinetic energy and temperature 
+    ! Purpose: print global means of eddy kinetic energy and temperature
     ! Input : jj    = time level index (1 or 2)
     !         istep = time step index
 
@@ -19,7 +19,7 @@ subroutine diagns(jj,istep)
     complex :: temp(mx,nx)
     real :: diag(kx,3), sqhalf
 
-    ! 1. Get global-mean temperature and compute eddy kinetic energy 
+    ! 1. Get global-mean temperature and compute eddy kinetic energy
     sqhalf = sqrt(0.5)
 
     do k=1,kx
@@ -59,14 +59,6 @@ subroutine diagns(jj,istep)
             print 2001, istep, (diag(kk,1),kk=1,kx)
             print 2002,        (diag(kk,2),kk=1,kx)
             print 2003,        (diag(kk,3),kk=1,kx)
-
-            ! Write model fields at t-1 on output file 
-            if (ihout .eqv. .false.) then !Only when no hourly output
-                call tmout(0)
-                call tminc
-                nstout=nstppr
-                call tmout(1)
-            end if
 
             stop '*** model variables out of accepted range ***'
         end if
