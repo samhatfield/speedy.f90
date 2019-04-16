@@ -15,13 +15,7 @@ program agcm_main
     ! Model main loop
     do while (.not. datetime_equal(model_datetime, end_datetime))
         ! Daily tasks
-        if (model_datetime%hour == 0 .and. model_datetime%minute == 0) then
-            ! Print date once per month
-            if (model_datetime%day == 1) then
-            	write(*,'(A14, I4, I0.2, I0.2)') 'Current date: ', &
-            	& model_datetime%year, model_datetime%month, model_datetime%day
-            end if
-
+        if (mod(model_step-1, nsteps) == 0) then
             ! Set forcing terms according to date
             call fordate(1)
 
@@ -48,7 +42,7 @@ program agcm_main
         if (mod(model_step-1, nsteps_out) == 0) call output_step(model_step)
 
         ! Exchange data with coupler once per day
-        if (model_datetime%hour == 0 .and. model_datetime%minute == 0) then
+        if (mod(model_step-1, nsteps) == 0) then
             call agcm_to_coupler(1+model_step/nsteps)
             call coupler_to_agcm(1+model_step/nsteps)
         end if
