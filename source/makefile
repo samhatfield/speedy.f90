@@ -48,7 +48,6 @@ FILES= \
 	   mod_dyncon1.o \
 	   mod_dyncon2.o \
 	   mod_dynvar.o \
-	   mod_fft.o \
 	   mod_flx_land.o \
 	   mod_flx_sea.o \
 	   mod_hdifcon.o \
@@ -128,7 +127,7 @@ ini_indyns.o           : ini_indyns.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o
 ini_inbcon.o           : ini_inbcon.f90 mod_cpl_flags.o mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o\
 						 mod_surfcon.o mod_cli_land.o mod_cli_sea.o
 ini_iniatm.o           : ini_iniatm.f90 mod_tsteps.o mod_atparam.o mod_dyncon1.o mod_date.o\
- 						 mod_output.o
+ 						 mod_spectral.o mod_output.o
 ini_inphys.o           : ini_inphys.f90 mod_atparam.o mod_physcon.o
 ini_invars.o           : ini_invars.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dynvar.o mod_dyncon1.o\
 						 mod_surfcon.o mod_date.o
@@ -150,7 +149,6 @@ mod_dyncon0.o          : mod_dyncon0.f90
 mod_dyncon1.o          : mod_dyncon1.f90 mod_atparam.o
 mod_dyncon2.o          : mod_dyncon2.f90 mod_atparam.o
 mod_dynvar.o           : mod_dynvar.f90 mod_atparam.o
-mod_fft.o              : mod_fft.f90 mod_atparam.o
 mod_flx_land.o         : mod_flx_land.f90 mod_atparam.o
 mod_flx_sea.o          : mod_flx_sea.f90 mod_atparam.o
 mod_hdifcon.o          : mod_hdifcon.f90 mod_atparam.o
@@ -186,4 +184,4 @@ ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_flx_land.
 #send_to_coupler.o      : send_to_coupler.f
 spe_matinv.o           : spe_matinv.f90
 spe_spectral.o         : spe_spectral.f90 mod_atparam.o mod_spectral.o
-spe_subfft_fftpack.o   : spe_subfft_fftpack.f90 mod_atparam.o mod_spectral.o mod_fft.o
+spe_subfft_fftpack.o   : spe_subfft_fftpack.f90 mod_atparam.o mod_spectral.o

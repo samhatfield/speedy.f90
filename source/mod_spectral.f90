@@ -7,6 +7,8 @@ module mod_spectral
     public el2, elm2, el4, trfilt, l2, ll, mm, nsh2, sia, coa, wt, wght, cosg,&
         & cosgr, cosgr2, gradx, gradym, gradyp, sqrhlf, consq, epsi, repsi,&
         & emm, ell, poly, cpol, uvdx, uvdym, uvdyp, vddym, vddyp
+    public wsave
+    public inifft
 
     ! Initial. in parmtr
     real, dimension(mx,nx) :: el2, elm2, el4, trfilt
@@ -33,4 +35,12 @@ module mod_spectral
 
     ! Initial. in parmtr
     real, dimension(mx,nx) :: vddym, vddyp
+
+    real, dimension(2*ix+15) :: wsave(2*ix+15)
+
+contains
+    ! Initialize FFTs
+    subroutine inifft
+        call rffti(ix,wsave)
+    end
 end module

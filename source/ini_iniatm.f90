@@ -1,5 +1,6 @@
 ! Call initialization routines for all model common blocks
 subroutine ini_atm()
+    use mod_spectral, only: inifft
     use mod_output, only: output_step
 
     implicit none
