@@ -31,14 +31,18 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 
     integer, parameter :: ngp=ix*il
 
-    complex, dimension(mx,nx,kx) :: vor1, div1, t1, q1, phi1
-    complex, dimension(mx,nx) :: psl1, ucos, vcos
+    complex, dimension(mx,nx,kx), intent(in) :: vor1, div1, t1, q1, phi1
+    complex, dimension(mx,nx), intent(in) :: psl1
+    real, dimension(ngp,kx), intent(inout) :: utend, vtend, ttend, qtend
 
-    real, dimension(ngp,kx) :: utend, vtend, ttend, qtend
-    real, dimension(ngp,kx) :: utend_dyn, vtend_dyn, ttend_dyn, qtend_dyn
-
+    complex, dimension(mx,nx) :: ucos, vcos
+    real, dimension(ngp) :: pslg1, rps, gse
+    real, dimension(ngp,kx) :: ug1, vg1, tg1, qg1, phig1, utend_dyn, vtend_dyn, ttend_dyn, qtend_dyn
+    real, dimension(ngp,kx) :: se, rh, qsat
+    real, dimension(ngp) :: psg, ts, tskin, u0, v0, t0, q0, cloudc, clstr, cltop, prtop
+    real, dimension(ngp,kx) :: tt_cnv, qt_cnv, tt_lsc, qt_lsc, tt_rsw, tt_rlw, ut_pbl, vt_pbl,&
+        & tt_pbl, qt_pbl
     integer :: iptop(ngp), icltop(ngp,2), icnv(ngp), j, k
-    real, dimension(ngp) :: rps, gse
     real :: sppt(ngp,kx)
 
     ! Keep a copy of the original (dynamics only) tendencies
