@@ -364,7 +364,7 @@ subroutine sflset(phi0)
 
     use mod_atparam
     use mod_sflcon
-    use mod_physcon, only: gg
+    use mod_dyncon1, only: grav
 
     implicit none
 
@@ -374,7 +374,7 @@ subroutine sflset(phi0)
     integer :: j
     real :: rhdrag
 
-    rhdrag = 1./(gg*hdrag)
+    rhdrag = 1./(grav*hdrag)
 
     do j=1,ngp
         forog(j)=1.+fhdrag*(1.-exp(-max(phi0(j),0.)*rhdrag))

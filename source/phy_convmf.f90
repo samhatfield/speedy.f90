@@ -21,7 +21,8 @@ subroutine convmf (psa,se,qa,qsat,itop,cbmf,precnv,dfse,dfqa)
 
     use mod_cnvcon
     use mod_atparam
-    use mod_physcon, only: p0, gg, alhc, alhs, sig, dsig, wvi
+    use mod_physcon, only: p0, alhc, alhs, sig, dsig, wvi
+    use mod_dyncon1, only: grav
 
     implicit none
 
@@ -46,7 +47,7 @@ subroutine convmf (psa,se,qa,qsat,itop,cbmf,precnv,dfse,dfqa)
     nlp=nlev+1
     fqmax=5.
 
-    fm0=p0*dsig(nlev)/(gg*trcnv*3600)
+    fm0=p0*dsig(nlev)/(grav*trcnv*3600)
     rdps=2./(1.-psmin)
 
     ! Used in exp 566 to 604:

@@ -116,7 +116,7 @@ subroutine setgam(tyear,gamlat)
 
     use mod_dyncon0, only: gamma
     use mod_atparam
-    use mod_physcon, only: gg
+    use mod_dyncon1, only: grav
 
     implicit none
 
@@ -126,7 +126,7 @@ subroutine setgam(tyear,gamlat)
                                             
     real, intent(inout) :: gamlat(nlat)
 
-    gamlat(1) = gamma/(1000. * gg)
+    gamlat(1) = gamma/(1000. * grav)
     do j = 2, nlat
         gamlat(j) = gamlat(1)
     end do

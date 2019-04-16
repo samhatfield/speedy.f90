@@ -6,9 +6,9 @@
 !  Converted to FORTRAN 90 by Sam Hatfield
 subroutine iogrid(imode)
     use mod_atparam, only: ix, iy, nx, mx, il, kx
-    use mod_physcon, only: p0, gg, sig
+    use mod_physcon, only: p0, sig
     use mod_dynvar
-    use mod_dyncon1, only: radang
+    use mod_dyncon1, only: radang, grav
     use mod_date, only: model_datetime
     use mod_tsteps
     use mod_flx_land
@@ -107,7 +107,7 @@ subroutine iogrid(imode)
         vgr4 = vgr
         tgr4 = tgr
         qgr4 = qgr*1.0d-3 ! kg/kg
-        phigr4 = phigr/gg   ! m
+        phigr4 = phigr/grav   ! m
         psgr4 = p0*exp(psgr)! Pa
         rrgr4 = rrgr
 

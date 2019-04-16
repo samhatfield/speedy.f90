@@ -4,15 +4,12 @@ module mod_physcon
     implicit none
 
     private
-    public p0, gg, rd, cp, alhc, alhs, sbc
+    public p0, rd, cp, alhc, alhs, sbc
     public sig, sigl, sigh, dsig, grdsig, grdscp, wvi, slat, clat
 
     ! Physical constants
     ! Reference pressure
     real, parameter :: p0 = 1.e+5
-
-    ! Gravity accel.
-    real, parameter :: gg = 9.81
 
     ! Gas constant for dry air
     real, parameter :: rd = 287.

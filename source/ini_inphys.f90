@@ -2,7 +2,7 @@
 subroutine inphys
     use mod_atparam
     use mod_physcon
-    use mod_dyncon1, only: hsg, radang
+    use mod_dyncon1, only: grav, hsg, radang
 
     implicit none
 
@@ -16,7 +16,7 @@ subroutine inphys
         sigl(k) = log(sig(k))
         sigh(k) = hsg(k+1)
         dsig(k) = hsg(k+1)-hsg(k)
-        grdsig(k) = gg/(dsig(k)*p0)
+        grdsig(k) = grav/(dsig(k)*p0)
         grdscp(k) = grdsig(k)/cp
     end do
 

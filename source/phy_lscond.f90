@@ -19,7 +19,8 @@ subroutine lscond(psa,qa,qsat,itop,precls,dtlsc,dqlsc)
 
     use mod_lsccon
     use mod_atparam
-    use mod_physcon, only: p0, gg, cp, alhc, alhs, sig, dsig
+    use mod_physcon, only: p0, cp, alhc, alhs, sig, dsig
+    use mod_dyncon1, only: grav
 
     implicit none
 
@@ -45,7 +46,7 @@ subroutine lscond(psa,qa,qsat,itop,precls,dtlsc,dqlsc)
     !fk#if defined(KNMI)
     !fktfacts= alhs/cp
     !fk#endif
-    prg = p0/gg
+    prg = p0/grav
 
     dtlsc(:,1) = 0.
     dqlsc(:,1) = 0.
