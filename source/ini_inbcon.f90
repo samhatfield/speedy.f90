@@ -7,6 +7,7 @@ subroutine inbcon
     use mod_cli_land
     use mod_cli_sea
     use mod_dyncon1, only: grav, radang
+    use mod_input, only: load_boundary_file
 
     implicit none
 
@@ -22,14 +23,13 @@ subroutine inbcon
     thrsh = 0.1
 
     ! Read surface geopotential (i.e. orography)
-    call load_boundary_file(20,inp,0)
-    phi0 = grav*inp
+    phi0 = grav*load_boundary_file(20,0)
 
     ! Also store spectrally truncated surface geopotential
     call truncg (ntrun,phi0,phis0)
 
     ! Read land-sea mask
-    call load_boundary_file(20,fmask,1)
+    fmask = load_boundary_file(20,1)
 
     ! Initialize land-sfc boundary conditions
 
@@ -48,11 +48,11 @@ subroutine inbcon
     end do
 
     ! Annual-mean surface albedo
-    call load_boundary_file(20,alb0,2)
+    alb0 = load_boundary_file(20,2)
 
     ! Land-surface temp.
     do it = 1,12
-        call load_boundary_file(23,inp,it-1)
+        inp = load_boundary_file(23,it-1)
 
         call fillsf(inp,ix,il,0.)
 
@@ -63,17 +63,15 @@ subroutine inbcon
 
     ! Snow depth
     do it = 1,12
-        call load_boundary_file(24,inp,it-1)
-
-        snowd12(1:ix,1:il,it) = inp
+        snowd12(1:ix,1:il,it) = load_boundary_file(24,it-1)
     end do
 
     CALL forchk(bmask_l, 12, 0.0, 20000.0, 0.0, snowd12)
 
     ! Read soil moisture and compute soil water availability using vegetation fraction
     ! Read vegetation fraction
-    call load_boundary_file(20,veg,3)
-    call load_boundary_file(20,inp,4)
+    veg = load_boundary_file(20,3)
+    inp = load_boundary_file(20,4)
 
     ! Combine high and low vegetation fractions
     veg = max(0.,veg+0.8*inp)
@@ -87,8 +85,8 @@ subroutine inbcon
     rsw   = 1./(swcap+idep2*(swcap-swwil))
 
     do it = 1,12
-        call load_boundary_file(26,swl1,3*it-3)
-        call load_boundary_file(26,swl2,3*it-2)
+        swl1 = load_boundary_file(26,3*it-3)
+        swl2 = load_boundary_file(26,3*it-2)
 
         ! Combine soil water content from two top layers
         do j = 1,il
@@ -126,7 +124,7 @@ subroutine inbcon
 
     ! SST
     do it = 1,12
-        call load_boundary_file(21,inp,it-1)
+        inp = load_boundary_file(21,it-1)
 
         call fillsf(inp,ix,il,0.)
 
@@ -137,7 +135,7 @@ subroutine inbcon
 
     ! Sea ice concentration
     do it = 1,12
-        call load_boundary_file(22,inp,it-1)
+        inp = load_boundary_file(22,it-1)
 
         inp = max(inp,0.)
 
@@ -151,7 +149,7 @@ subroutine inbcon
         print *, 'isst0 = ', isst0
         do it=1,3
             if ((isst0 <= 1 .and. it /= 2) .or. isst0 > 1) then
-                call load_boundary_file(30,inp,isst0-2+it-1)
+                inp = load_boundary_file(30,isst0-2+it-1)
             end if
 
             sstan3(1:ix,1:il,it) = inp
@@ -327,28 +325,4 @@ subroutine fillsf(sf,ix,il,fmis)
             end do
         end do
     end do
-end
-
-subroutine load_boundary_file(iunit,fld,offset)
-    use mod_atparam
-
-    implicit none
-
-    integer, intent(in) :: iunit, offset
-    real     :: fld(ix,il)
-    real(4) :: inp(ix,il)
-    integer :: i
-
-    open(unit=iunit, form='unformatted', access='direct', recl=ix*4, convert='little_endian')
-
-    do i = 1, il
-        read(iunit,rec=offset*il+i) inp(:,il+1-i)
-    end do
-
-    fld = inp
-
-    ! Fix undefined values
-    where (fld <= -999) fld = 0.0
-
-    close(unit=iunit)
 end

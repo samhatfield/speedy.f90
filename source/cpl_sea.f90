@@ -177,16 +177,14 @@ end
 
 ! Update observed SST anomaly array
 subroutine obs_ssta
-    use mod_atparam
     use mod_cli_sea, only: sstan3, bmask_s
     use mod_date, only: model_datetime, start_datetime
     use mod_tsteps, only: issty0
+    use mod_input, only: load_boundary_file
 
     implicit none
 
     integer :: i, j, next_month
-    integer, parameter :: nlon = ix, nlat = il, ngp = ix*il
-    real   :: inp(nlon,nlat)
 
     sstan3(:,:,1) = sstan3(:,:,2)
     sstan3(:,:,2) = sstan3(:,:,3)
@@ -195,9 +193,7 @@ subroutine obs_ssta
     next_month = (start_datetime%year - issty0) * 12 + model_datetime%month
 
     ! Read next month SST anomalies
-    call load_boundary_file(30,inp,next_month-1)
-
-    sstan3(1:nlon,1:nlat,3)   = inp
+    sstan3(:,:,3) = load_boundary_file(30,next_month-1)
 
     call forchk(bmask_s, 1, -50.0, 50.0, 0.0, sstan3(:,:,3))
 end
