@@ -14,9 +14,9 @@ program agcm_main
     ! Model main loop
     do while (.not. datetime_equal(model_datetime, end_datetime))
         ! Daily tasks
-        if (model_datetime%hour == 0) then
+        if (model_datetime%hour == 0 .and. model_datetime%minute == 0) then
             ! Print date once per month
-            if (model_datetime%day == 1 .and. model_datetime%minute == 0) then
+            if (model_datetime%day == 1) then
             	write(*,'(A14, I4, I0.2, I0.2)') 'Current date: ', &
             	& model_datetime%year, model_datetime%month, model_datetime%day
             end if
