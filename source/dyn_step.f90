@@ -1,5 +1,5 @@
-subroutine step(j1,j2,dt,alph,rob,wil)
-    !   subroutine step (j1,j2,dt,alph,rob,wil)
+subroutine step(j1,j2,dt,alph)
+    !   subroutine step (j1,j2,dt,alph)
     !
     !   Purpose: perform one time step starting from F(1) and F(2)
     !            and using the following scheme:
@@ -17,18 +17,17 @@ subroutine step(j1,j2,dt,alph,rob,wil)
     !   alph = 0   : forward step for gravity wave terms
     !   alph = 1   : backward implicit step for g.w.
     !   alph = 0.5 : centered implicit step for g.w.
-    !   rob  = Robert filter coefficient
-    !   wil  = Williams filter coefficient
 
     use mod_dyncon0, only: tdrs
     use mod_atparam
     use mod_dynvar
     use mod_hdifcon
+    use mod_tsteps, only: rob, wil
 
     implicit none
 
     integer, intent(in) :: j1, j2
-    real, intent(in) :: dt, alph, rob, wil
+    real, intent(in) :: dt, alph
     complex, dimension(mx,nx,kx) ::  ordt, divdt, tdt, vordt
     complex :: psdt(mx,nx), trdt(mx,nx,kx,ntr)
     real :: eps, sdrag
