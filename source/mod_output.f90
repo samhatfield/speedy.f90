@@ -85,7 +85,7 @@ contains
         call check(nf90_put_var(ncid, timevar, timestep*24.0/real(nsteps,4),               (/ 1 /)))
         call check(nf90_put_var(ncid, lonvar, (/ (3.75*k, k = 0, ix-1) /),                 (/ 1 /)))
         call check(nf90_put_var(ncid, latvar, (/ (radang(k)*90.0/asin(1.0), k = 1, il) /), (/ 1 /)))
-        call check(nf90_put_var(ncid, levvar, (/ (sig(k), k = 8, 1, -1) /),                (/ 1 /)))
+        call check(nf90_put_var(ncid, levvar, (/ (sig(k), k = 1, 8) /),                    (/ 1 /)))
 
         ! Convert prognostic fields from spectral space to grid point space
         do k = 1, kx
