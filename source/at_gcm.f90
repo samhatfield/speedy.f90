@@ -44,7 +44,7 @@ program agcm_main
         call newdate(1)
 
 		! Output
-		if (mod(model_step, nsteps_out) == 0) call iogrid (4)
+		if (mod(model_step-1, nsteps_out) == 0) call iogrid (4)
 
         ! Exchange data with coupler once per day
 		if (model_datetime%hour == 0 .and. model_datetime%minute == 0) then
