@@ -4,7 +4,7 @@ module mod_tsteps
     implicit none
 
     private
-    public nmonts, ndaysl, nsteps, nstdia, ihout
+    public nmonts, ndaysl, nsteps, nstdia, nsteps_out
     public iseasc, nstrad, sppt_on, issty0
     public isst0, delt, delt2, rob, wil, alph
 
@@ -20,8 +20,8 @@ module mod_tsteps
     ! Period (no. of steps) for diagnostic print-out
     integer, parameter :: nstdia = 36*5
 
-    ! 6-hourly output flag
-    logical, parameter :: ihout = .false.
+    ! Number of time steps between outputs
+    integer, parameter :: nsteps_out = 1
 
     ! Seasonal cycle flag (0=no, 1=yes)
     integer, parameter :: iseasc = 1

@@ -1,7 +1,5 @@
 ! Call initialization routines for all model common blocks
 subroutine ini_atm()
-    use mod_tsteps, only: ihout
-
     implicit none
 
     ! Initialize ffts
@@ -26,5 +24,5 @@ subroutine ini_atm()
     call iogrid(5)
 
     ! Write initial data
-    if (ihout) call iogrid(4)
+    call iogrid(4)
 end

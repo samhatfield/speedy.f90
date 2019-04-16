@@ -26,10 +26,8 @@ subroutine iogrid(imode)
     real(4), dimension(ngp) :: psgr4(ngp), rrgr4(ngp)
 
     ! File names etc.
-    character(len=14) :: filename='yyyymmddhh.grd'
-    character(len=14) :: ctlname='yyyymmddhh.ctl'
-    character(len=16) :: filenamep='yyyymmddhh_p.grd'
-    character(len=16) :: ctlnamep='yyyymmddhh_p.ctl'
+    character(len=16) :: filename='yyyymmddhhmm.grd'
+    character(len=16) :: ctlname='yyyymmddhhmm.ctl'
     character(len=3) :: cmon3='JAN'
     integer :: irec
     integer :: j, k
@@ -100,9 +98,10 @@ subroutine iogrid(imode)
         call grid(ps(1,1,1),psgr(1),1)
 
         ! Output
-        print '(A,I4.4,A,I2.2,A,I2.2,A,I2.2)',&
-            & 'Write gridded dataset for year/month/date/hour: ',&
-            & model_datetime%year,'/',model_datetime%month,'/',model_datetime%day,'/',model_datetime%hour
+        print '(A,I4.4,A,I2.2,A,I2.2,A,I2.2,A,I2.2)',&
+            & 'Write gridded dataset for year/month/date/hour/minute: ', &
+            & model_datetime%year,'/',model_datetime%month,'/',model_datetime%day,'/', &
+            & model_datetime%hour,'/',model_datetime%minute
 
         ugr4 = ugr
         vgr4 = vgr
@@ -116,6 +115,7 @@ subroutine iogrid(imode)
         write (filename(5:6),'(i2.2)') model_datetime%month
         write (filename(7:8),'(i2.2)') model_datetime%day
         write (filename(9:10),'(i2.2)') model_datetime%hour
+        write (filename(11:12),'(i2.2)') model_datetime%minute
         open (99,file=filename,form='unformatted',access='direct',&
             & recl=4*ix*il)
 
@@ -191,8 +191,9 @@ subroutine iogrid(imode)
         write (ctlname(5:6),'(I2.2)') model_datetime%month
         write (ctlname(7:8),'(I2.2)') model_datetime%day
         write (ctlname(9:10),'(I2.2)') model_datetime%hour
+        write (ctlname(11:12), '(I2.2)') model_datetime%minute
         open (11,file=ctlname,form='formatted')
-        write (11,'(A)') 'DSET ^%y4%m2%d2%h2.grd'
+        write (11,'(A)') 'DSET ^%y4%m2%d2%h2%m2.grd'
 
         write (11,'(A)') 'TITLE SPEEDY MODEL OUTPUT'
         write (11,'(A)') 'UNDEF -9.99E33'
@@ -204,11 +205,13 @@ subroutine iogrid(imode)
         write (11,'(A,8F6.3)') 'ZDEF 8 LEVELS ',(sig(k),k=8,1,-1)
 
         if (ndaysl.ne.0) then
-            write (11,'(A,I4,A,I2.2,A,I2.2,A,I4.4,A)') 'TDEF ',&
-               & ndaysl*4+1,' LINEAR ',model_datetime%hour,'Z',model_datetime%day,cmon3,model_datetime%year,' 6HR'
+            write (11,'(A,I4,A,I2.2,A,I2.2,A,I2.2,A,I4.4,A)') 'TDEF ',&
+               & ndaysl*4+1,' LINEAR ',model_datetime%hour,':',model_datetime%minute,'Z',&
+               & model_datetime%day,cmon3,model_datetime%year,' 6HR'
         else
-            write (11,'(A,I4,A,I2.2,A,I2.2,A,I4.4,A)') 'TDEF ',&
-                & 2,' LINEAR ',model_datetime%hour,'Z',model_datetime%day,cmon3,model_datetime%year,' 6HR'
+            write (11,'(A,I4,A,I2.2,A,I2.2,A,I2.2,A,I4.4,A)') 'TDEF ',&
+                & 2,' LINEAR ',model_datetime%hour,':',model_datetime%minute,'Z',&
+                & model_datetime%day,cmon3,model_datetime%year,' 6HR'
         end if
        write (11,'(A)') 'VARS 6'
 

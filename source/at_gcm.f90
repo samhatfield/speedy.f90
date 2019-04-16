@@ -1,5 +1,5 @@
 program agcm_main
-    use mod_tsteps, only: nsteps, alph, delt2, ihout, nstrad
+    use mod_tsteps, only: nsteps, alph, delt2, nsteps_out, nstrad
     use mod_date, only: model_datetime, model_step, newdate, ndaytot
 	use mod_lflags, only: lradsw
 
@@ -44,7 +44,7 @@ program agcm_main
 	        call newdate(1)
 
 			! Gridded data output every 6 hours
-	        if (ihout .and. mod(model_step-1,nsteps/4) == 0) call iogrid (4)
+			if (mod(model_step, nsteps_out) == 0) call iogrid (4)
 	    end do
 
         ! Exchange data with coupler
