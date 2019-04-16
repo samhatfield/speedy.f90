@@ -233,12 +233,12 @@ subroutine forchk (fmask,nf,fmin,fmax,fset,field)
 
         do i = 1, ix
             do j = 1, il
-                if (fmask(ix,il) > 0.0) then
-                    if (field(ix,il,jf) < fmin .or. field(ix,il,jf) > fmax) then
+                if (fmask(i,j) > 0.0) then
+                    if (field(i,j,jf) < fmin .or. field(i,j,jf) > fmax) then
                         nfault = nfault + 1
                     end if
                 else
-                    field(ix,il,jf) = fset
+                    field(i,j,jf) = fset
                 end if
             end do
         end do
