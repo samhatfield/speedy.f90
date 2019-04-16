@@ -34,30 +34,23 @@ subroutine step(j1,j2,dt,alph)
 
     complex :: ctmp(mx,nx,kx)
 
-    integer :: iitest = 0, n, itr, k, m
-
-    if (iitest.eq.1) print*, ' inside step'
+    integer :: n, itr, k, m
 
     ! 1. Computation of grid-point tendencies
     ! (converted to spectral at the end of GRTEND)
-    if (iitest.eq.1) print*,' call grtend'
     call grtend(vordt,divdt,tdt,psdt,trdt,1,j2)
 
     ! 2. Computation of spectral tendencies
     if (alph.eq.0.) then
-        if (iitest.eq.1) print*,' call sptend'
         call sptend(divdt,tdt,psdt,j2)
     else
-        if (iitest.eq.1) print*,' call sptend'
         call sptend(divdt,tdt,psdt,1)
 
         ! implicit correction
-        if (iitest.eq.1) print*,' call implic'
         call implic(divdt,tdt,psdt)
     endif
 
     ! 3. Horizontal diffusion
-    if (iitest.eq.1) print*, ' biharmonic damping '
 
     ! 3.1 Diffusion of wind and temperature
     call hordif(kx,vor,vordt,dmp, dmp1)
@@ -103,8 +96,6 @@ subroutine step(j1,j2,dt,alph)
 
     ! 4. Time integration with Robert filter
     if (dt.le.0.) return
-
-    if (iitest.eq.1) print*,' time integration'
 
     if (j1.eq.1) then
         eps = 0.

@@ -8,25 +8,17 @@ subroutine stepone
 
     implicit none
 
-    integer :: iitest = 1
     real :: delth
-
-    if (iitest == 1) print *, ' instep: initial time step'
 
     delth = 0.5 * delt
 
-    if (iitest == 1) print *, ' semi-impl. initialization'
     call impint(delth, alph)
 
-    if (iitest == 1) print *, ' forward half-step'
     call step(1, 1, delth, alph, rob, wil)
 
-    if (iitest == 1) print *, ' semi-impl. initialization'
     call impint(delt, alph)
 
-    if (iitest == 1) print *, ' leapfrog half-step'
     call step(1, 2, delt, alph, rob, wil)
 
-    if (iitest == 1) print *, ' semi-impl. initialization'
     call impint(delt2, alph)
 end

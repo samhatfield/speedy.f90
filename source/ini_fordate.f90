@@ -32,7 +32,7 @@ subroutine fordate(imode)
     real :: fland(ngp), alb_0(ngp)
 
     real :: del_co2, dummy, pexp
-    integer :: i, j, ij, iitest = 0, iyear_ref
+    integer :: i, j, ij, iyear_ref
 
     fland = reshape(fmask_l, (/ngp/))
     alb_0 = reshape(alb0, (/ngp/))
@@ -78,11 +78,6 @@ subroutine fordate(imode)
         end do
     end do
 
-    if (iitest > 1.and.imode == 0) then
-        call outest(19,phis0)
-        call outest(19,corh)
-    end if
-
     call spec(corh,tcorh)
 
 !   4. humidity correction term for horizontal diffusion
@@ -104,8 +99,6 @@ subroutine fordate(imode)
     call shtorh(0, ngp, tsfc, psfc,  1., dummy, dummy, qsfc)
 
     corh = refrh1 * (qref - qsfc)
-
-    if (iitest > 1.and.imode == 0) call outest(19,corh)
 
     call spec(corh,qcorh)
 end
@@ -130,26 +123,4 @@ subroutine setgam(tyear,gamlat)
     do j = 2, nlat
         gamlat(j) = gamlat(1)
     end do
-end
-
-subroutine outest(iunit,fout)
-    ! aux. routine outest : write one field on a test output file 
-
-    use mod_atparam
-
-    implicit none
-
-    integer, intent(in) :: iunit
-    real, intent(in) :: fout(ix, il)
-    integer :: i, j
-
-    real*4 :: r4out(ix,il)
-
-    do j = 1, il
-        do i = 1, ix
-            r4out(i,j) = fout(i,j)
-        end do
-    end do
-
-    write (iunit) r4out
 end
