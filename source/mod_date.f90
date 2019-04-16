@@ -2,7 +2,7 @@ module mod_date
     implicit none
 
     private
-    public model_datetime, model_step, start_datetime, end_datetime
+    public model_datetime, start_datetime, end_datetime
     public imont1, tmonth, tyear, ndaycal, ndaytot
     public datetime_equal, newdate
 
@@ -16,7 +16,7 @@ module mod_date
 
     ! Date and time variables (updated in NEWDATE)
     type(datetime) :: model_datetime, start_datetime, end_datetime
-    integer :: imont1, model_step
+    integer :: imont1
     real :: tmonth, tyear
 
     ! Calendar set-up (initialized in NEWDATE)
