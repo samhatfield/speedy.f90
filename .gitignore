@@ -3,7 +3,7 @@ input
 output
 figs
 rpe
-tmp
+rundir
 animations
 .rsync-filter
 experiments
