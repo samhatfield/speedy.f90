@@ -1,13 +1,13 @@
-subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
-    !  subroutine phypar(vor1,div1,t1,q1,phi1,psl1,
+subroutine phypar(ug1,vg1,tg1,qg1,phi1,psl1,utend,vtend,ttend,qtend)
+    !  subroutine phypar(ug1,vg1,tg1,q1,phi1,psl1,
     ! &                   utend,vtend,ttend,qtend)
     !
     !  Purpose: compute physical parametrization tendencies for u, v, t, q
     !  and add them to dynamical grid-point tendencies
-    !  Input-only  arguments:   vor1   : vorticity (sp)
-    !                           div1   : divergence (sp)
-    !                           t1     : temperature (sp)
-    !                           q1     : specific humidity (sp)
+    !  Input-only  arguments:   ug1    : u-wind (gp)
+    !                           vg1    : v-wind (gp)
+    !                           tg1    : temperature (gp)
+    !                           qg1    : specific humidity (gp)
     !                           phi1   : geopotential (sp)
     !                           psl1   : log of sfc pressure (sp)
     !  Input-output arguments:  utend  : u-wind tendency (gp)
@@ -31,13 +31,14 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 
     integer, parameter :: ngp=ix*il
 
-    complex, dimension(mx,nx,kx), intent(in) :: vor1, div1, t1, q1, phi1
+    real, dimension(ngp,kx), intent(in) :: ug1, vg1, tg1, qg1
+    complex, dimension(mx,nx,kx), intent(in) :: phi1
     complex, dimension(mx,nx), intent(in) :: psl1
     real, dimension(ngp,kx), intent(inout) :: utend, vtend, ttend, qtend
 
     complex, dimension(mx,nx) :: ucos, vcos
     real, dimension(ngp) :: pslg1, rps, gse
-    real, dimension(ngp,kx) :: ug1, vg1, tg1, qg1, phig1, utend_dyn, vtend_dyn, ttend_dyn, qtend_dyn
+    real, dimension(ngp,kx) :: qg_pos, phig1, utend_dyn, vtend_dyn, ttend_dyn, qtend_dyn
     real, dimension(ngp,kx) :: se, rh, qsat
     real, dimension(ngp) :: psg, ts, tskin, u0, v0, t0, q0, cloudc, clstr, cltop, prtop
     real, dimension(ngp,kx) :: tt_cnv, qt_cnv, tt_lsc, qt_lsc, tt_rsw, tt_rlw, ut_pbl, vt_pbl,&
@@ -54,17 +55,8 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     ! 1. Compute grid-point fields
     ! 1.1 Convert model spectral variables to grid-point variables
     do k=1,kx
-      call uvspec(vor1(1,1,k),div1(1,1,k),ucos,vcos)
-      call grid(ucos,ug1(1,k),2)
-      call grid(vcos,vg1(1,k),2)
+      call grid(phi1(:,:,k),phig1(:,k),1)
     end do
-
-    do k=1,kx
-      call grid(t1(1,1,k),  tg1(1,k),  1)
-      call grid(q1(1,1,k),  qg1(1,k),  1)
-      call grid(phi1(1,1,k),phig1(1,k),1)
-    end do
-
     call grid(psl1,pslg1,1)
 
     ! Remove negative humidity values
@@ -79,18 +71,18 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     do k=1,kx
         do j=1,ngp
             ! Remove when qneg is implemented
-	        qg1(j,k)=max(qg1(j,k),0.)
+	        qg_pos(j,k)=max(qg1(j,k),0.)
             se(j,k)=cp*tg1(j,k)+phig1(j,k)
         end do
     end do
 
     do k=1,kx
-        call shtorh(1,ngp,tg1(1,k),psg,sig(k),qg1(1,k),rh(1,k),qsat(1,k))
+        call shtorh(1,ngp,tg1(1,k),psg,sig(k),qg_pos(1,k),rh(1,k),qsat(1,k))
     end do
 
     ! 2. Precipitation
     ! 2.1 Deep convection
-    call convmf(psg,se,qg1,qsat,iptop,cbmf,precnv,tt_cnv,qt_cnv)
+    call convmf(psg,se,qg_pos,qsat,iptop,cbmf,precnv,tt_cnv,qt_cnv)
 
     do k=2,kx
        do j=1,ngp
@@ -104,7 +96,7 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     end do
 
     ! 2.2 Large-scale condensation
-    call lscond(psg,qg1,qsat,iptop,precls,tt_lsc,qt_lsc)
+    call lscond(psg,qg_pos,qsat,iptop,precls,tt_lsc,qt_lsc)
 
     ttend = ttend + tt_cnv + tt_lsc
     qtend = qtend + qt_cnv + qt_lsc
@@ -117,14 +109,14 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
             gse(j) = (se(j,kx-1)-se(j,kx))/(phig1(j,kx-1)-phig1(j,kx))
         end do
 
-        call cloud(qg1,rh,precnv,precls,iptop,gse,fmask_l,icltop,cloudc,clstr)
+        call cloud(qg_pos,rh,precnv,precls,iptop,gse,fmask_l,icltop,cloudc,clstr)
 
         do j=1,ngp
             cltop(j)=sigh(icltop(j,1)-1)*psg(j)
             prtop(j)=float(iptop(j))
         end do
 
-        call radsw(psg,qg1,icltop,cloudc,clstr,ssrd,ssr,tsr,tt_rsw)
+        call radsw(psg,qg_pos,icltop,cloudc,clstr,ssrd,ssr,tsr,tt_rsw)
 
         do k=1,kx
             do j=1,ngp
@@ -137,13 +129,13 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     call radlw(-1,tg1,ts,slrd,slru(1,3),slr,olr,tt_rlw)
 
     ! 3.3. Compute surface fluxes and land skin temperature
-    call suflux(psg,ug1,vg1,tg1,qg1,rh,phig1,phis0,fmask_l,stl_am,sst_am,&
+    call suflux(psg,ug1,vg1,tg1,qg_pos,rh,phig1,phis0,fmask_l,stl_am,sst_am,&
         & soilw_am,ssrd,slrd,ustr,vstr,shf,evap,slru,hfluxn,ts,tskin,u0,v0,t0,&
         & q0,.true.)
 
     ! 3.3.1. Recompute sea fluxes in case of anomaly coupling
     if (icsea .gt. 0) then
-       call suflux(psg,ug1,vg1,tg1,qg1,rh,phig1,phis0,fmask_l,stl_am,ssti_om,&
+       call suflux(psg,ug1,vg1,tg1,qg_pos,rh,phig1,phis0,fmask_l,stl_am,ssti_om,&
            & soilw_am,ssrd,slrd,ustr,vstr,shf,evap,slru,hfluxn,ts,tskin,u0,v0,&
            & t0,q0,.false.)
     end if
@@ -161,7 +153,7 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 
     ! 4. PBL interactions with lower troposphere
     ! 4.1 Vertical diffusion and shallow convection
-    call vdifsc(ug1,vg1,se,rh,qg1,qsat,phig1,icnv,ut_pbl,vt_pbl,tt_pbl,qt_pbl)
+    call vdifsc(ug1,vg1,se,rh,qg_pos,qsat,phig1,icnv,ut_pbl,vt_pbl,tt_pbl,qt_pbl)
 
     ! 4.2 Add tendencies due to surface fluxes
     do j=1,ngp

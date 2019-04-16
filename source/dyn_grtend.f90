@@ -170,8 +170,7 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
 
     call geop(j1)
 
-    call phypar(vor(:,:,:,j1),div(:,:,:,j1),t(:,:,:,j1),tr(:,:,:,j1,1),phi,&
-        & ps(:,:,j1),utend,vtend,ttend,trtend)
+    call phypar(ug, vg, tg, trg(:,:,j1,1), phi, ps(:,:,j1), utend, vtend, ttend, trtend)
 
     !*********************************************************
 
