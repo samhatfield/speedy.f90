@@ -29,7 +29,7 @@ ln -s $ANOM/ssta.grd  fort.30
 # Compile SPEEDY and delete source files
 echo 'Compiling SPEEDY'
 make -s clean
-make -s imp.exe || { echo "Compilation failed"; exit 1; }
+make -s speedy || { echo "Compilation failed"; exit 1; }
 rm *.f90 *.h *.o makefile *.mod
 
 # Write date input file
@@ -47,4 +47,4 @@ cat << EOF >> fort.2
 EOF
 
 # Run SPEEDY
-time ./imp.exe | tee output.txt
+time ./speedy | tee output.txt
