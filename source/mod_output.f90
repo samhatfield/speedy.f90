@@ -19,6 +19,7 @@ contains
         real(4), dimension(ix,il,kx) :: u_out, v_out, t_out, q_out, phi_out
         real(4), dimension(ix,il) :: ps_out
         character(len=15) :: filename = 'yyyymmddhhmm.nc'
+        character(len=32) :: time_template = 'hours since yyyy-mm-dd hh:mm:0.0'
         integer :: k, ncid
         integer :: timedim, latdim, londim, levdim
         integer :: timevar, latvar, lonvar, levvar, uvar, vvar, tvar, qvar, phivar, psvar
@@ -30,29 +31,53 @@ contains
         write (filename(9:10),'(i2.2)') model_datetime%hour
         write (filename(11:12),'(i2.2)') model_datetime%minute
 
+        ! Construct time string
+        write (time_template(13:16),'(i4.4)') model_datetime%year
+        write (time_template(18:19),'(i2.2)') model_datetime%month
+        write (time_template(21:22),'(i2.2)') model_datetime%day
+        write (time_template(24:25),'(i2.2)') model_datetime%hour
+        write (time_template(27:28),'(i2.2)') model_datetime%minute
+
         ! Create NetCDF output file
         call check(nf90_create(filename, nf90_clobber, ncid))
 
         ! Define time
         call check(nf90_def_dim(ncid, "time", nf90_unlimited, timedim))
         call check(nf90_def_var(ncid, "time", nf90_real4, timedim, timevar))
+        call check(nf90_put_att(ncid, timevar, "units", time_template))
 
         ! Define space
-        call check(nf90_def_dim(ncid, "longitude", ix, londim))
-        call check(nf90_def_dim(ncid, "latitude", il, latdim))
-        call check(nf90_def_dim(ncid, "atmosphere_sigma_coordinate", kx, levdim))
-        call check(nf90_def_var(ncid, "longitude", nf90_real4, londim, lonvar))
-        call check(nf90_def_var(ncid, "latitude", nf90_real4, latdim, latvar))
-        call check(nf90_def_var(ncid, "atmosphere_sigma_coordinate", nf90_real4, levdim, levvar))
+        call check(nf90_def_dim(ncid, "lon", ix, londim))
+        call check(nf90_def_dim(ncid, "lat", il, latdim))
+        call check(nf90_def_dim(ncid, "lev", kx, levdim))
+        call check(nf90_def_var(ncid, "lon", nf90_real4, londim, lonvar))
+        call check(nf90_put_att(ncid, lonvar, "long_name", "longitude"))
+        call check(nf90_def_var(ncid, "lat", nf90_real4, latdim, latvar))
+        call check(nf90_put_att(ncid, latvar, "long_name", "latitude"))
+        call check(nf90_def_var(ncid, "lev", nf90_real4, levdim, levvar))
+        call check(nf90_put_att(ncid, levvar, "long_name", "atmosphere_sigma_coordinate"))
 
         ! Define prognostic fields
         call check(nf90_def_var(ncid, "u", nf90_real4, (/ londim, latdim, levdim, timedim /), uvar))
+        call check(nf90_put_att(ncid, uvar, "long_name", "eastward_wind"))
+        call check(nf90_put_att(ncid, uvar, "units", "m/s"))
         call check(nf90_def_var(ncid, "v", nf90_real4, (/ londim, latdim, levdim, timedim /), vvar))
+        call check(nf90_put_att(ncid, vvar, "long_name", "northward_wind"))
+        call check(nf90_put_att(ncid, vvar, "units", "m/s"))
         call check(nf90_def_var(ncid, "t", nf90_real4, (/ londim, latdim, levdim, timedim /), tvar))
+        call check(nf90_put_att(ncid, tvar, "long_name", "air_temperature"))
+        call check(nf90_put_att(ncid, tvar, "units", "K"))
         call check(nf90_def_var(ncid, "q", nf90_real4, (/ londim, latdim, levdim, timedim /), qvar))
+        call check(nf90_put_att(ncid, qvar, "long_name", "specific_humidity"))
+        call check(nf90_put_att(ncid, qvar, "units", "1"))
+
         call check(nf90_def_var(ncid, "phi", nf90_real4, (/ londim, latdim, levdim, timedim /), &
             & phivar))
+        call check(nf90_put_att(ncid, phivar, "long_name", "geopotential_height"))
+        call check(nf90_put_att(ncid, phivar, "units", "m"))
         call check(nf90_def_var(ncid, "ps", nf90_real4, (/ londim, latdim, timedim /), psvar))
+        call check(nf90_put_att(ncid, psvar, "long_name", "surface_air_pressure"))
+        call check(nf90_put_att(ncid, psvar, "units", "Pa"))
 
         call check(nf90_enddef(ncid))
 
