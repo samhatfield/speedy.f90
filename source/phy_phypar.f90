@@ -14,7 +14,6 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     !                           vtend  : v-wind tendency (gp)
     !                           ttend  : temp. tendency (gp)
     !                           qtend  : spec. hum. tendency (gp)
-    !  Modified common blocks:  phygr1, phygr2, phygr3, phyten, fluxes
 
     use mod_cpl_flags, only: icsea
     use mod_lflags, only: lradsw
@@ -30,15 +29,15 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 
     implicit none
 
-    integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
+    integer, parameter :: ngp=ix*il
 
-    complex, dimension(mx,nx,nlev) :: vor1, div1, t1, q1, phi1
+    complex, dimension(mx,nx,kx) :: vor1, div1, t1, q1, phi1
     complex, dimension(mx,nx) :: psl1, ucos, vcos
 
-    real, dimension(ngp,nlev) :: utend, vtend, ttend, qtend
-    real, dimension(ngp,nlev) :: utend_dyn, vtend_dyn, ttend_dyn, qtend_dyn
+    real, dimension(ngp,kx) :: utend, vtend, ttend, qtend
+    real, dimension(ngp,kx) :: utend_dyn, vtend_dyn, ttend_dyn, qtend_dyn
 
-    integer :: iptop(ngp), icltop(ngp,2), icnv(ngp), iitest=0, j, k
+    integer :: iptop(ngp), icltop(ngp,2), icnv(ngp), j, k
     real, dimension(ngp) :: rps, gse
     real :: sppt(ngp,kx)
 
@@ -50,15 +49,13 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 
     ! 1. Compute grid-point fields
     ! 1.1 Convert model spectral variables to grid-point variables
-    if (iitest.eq.1) print *, ' 1.1 in phypar'
-
-    do k=1,nlev
+    do k=1,kx
       call uvspec(vor1(1,1,k),div1(1,1,k),ucos,vcos)
       call grid(ucos,ug1(1,k),2)
       call grid(vcos,vg1(1,k),2)
     end do
 
-    do k=1,nlev
+    do k=1,kx
       call grid(t1(1,1,k),  tg1(1,k),  1)
       call grid(q1(1,1,k),  qg1(1,k),  1)
       call grid(phi1(1,1,k),phig1(1,k),1)
@@ -70,14 +67,12 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     !call qneg (qg1)
 
     ! 1.2 Compute thermodynamic variables
-    if (iitest.eq.1) print *, ' 1.2 in phypar'
-
     do j=1,ngp
      psg(j)=exp(pslg1(j))
      rps(j)=1./psg(j)
     end do
 
-    do k=1,nlev
+    do k=1,kx
         do j=1,ngp
             ! Remove when qneg is implemented
 	        qg1(j,k)=max(qg1(j,k),0.)
@@ -85,7 +80,7 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
         end do
     end do
 
-    do k=1,nlev
+    do k=1,kx
         call shtorh(1,ngp,tg1(1,k),psg,sig(k),qg1(1,k),rh(1,k),qsat(1,k))
     end do
 
@@ -93,7 +88,7 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     ! 2.1 Deep convection
     call convmf(psg,se,qg1,qsat,iptop,cbmf,precnv,tt_cnv,qt_cnv)
 
-    do k=2,nlev
+    do k=2,kx
        do j=1,ngp
         tt_cnv(j,k) = tt_cnv(j,k)*rps(j)*grdscp(k)
         qt_cnv(j,k) = qt_cnv(j,k)*rps(j)*grdsig(k)
@@ -101,27 +96,21 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     end do
 
     do j=1,ngp
-        icnv(j)=nlev-iptop(j)
+        icnv(j)=kx-iptop(j)
     end do
 
     ! 2.2 Large-scale condensation
-!fk#if !defined(KNMI)
     call lscond(psg,qg1,qsat,iptop,precls,tt_lsc,qt_lsc)
-!fk#else
-!fk      call lscond (psg,qg1,qsat,ts,iptop,precls,snowls,tt_lsc,qt_lsc)
-!fk#end if
 
     ttend = ttend + tt_cnv + tt_lsc
     qtend = qtend + qt_cnv + qt_lsc
 
     ! 3. Radiation (shortwave and longwave) and surface fluxes
     ! 3.1 Compute shortwave tendencies and initialize lw transmissivity
-    if (iitest.eq.1) print *, ' 3.1 in PHYPAR'
-
     ! The sw radiation may be called at selected time steps
     if (lradsw) then
         do j=1,ngp
-            gse(j) = (se(j,nlev-1)-se(j,nlev))/(phig1(j,nlev-1)-phig1(j,nlev))
+            gse(j) = (se(j,kx-1)-se(j,kx))/(phig1(j,kx-1)-phig1(j,kx))
         end do
 
         call cloud(qg1,rh,precnv,precls,iptop,gse,fmask_l,icltop,cloudc,clstr)
@@ -133,7 +122,7 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 
         call radsw(psg,qg1,icltop,cloudc,clstr,ssrd,ssr,tsr,tt_rsw)
 
-        do k=1,nlev
+        do k=1,kx
             do j=1,ngp
                 tt_rsw(j,k)=tt_rsw(j,k)*rps(j)*grdscp(k)
             end do
@@ -144,12 +133,6 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     call radlw(-1,tg1,ts,slrd,slru(1,3),slr,olr,tt_rlw)
 
     ! 3.3. Compute surface fluxes and land skin temperature
-    if (iitest.eq.1) then
-        print *, ' 3.3 in PHYPAR'
-        print *, 'mean(STL_AM) =', sum(STL_AM(:))/ngp
-        print *, 'mean(SST_AM) =', sum(SST_AM(:))/ngp
-    end if
-
     call suflux(psg,ug1,vg1,tg1,qg1,rh,phig1,phis0,fmask_l,stl_am,sst_am,&
         & soilw_am,ssrd,slrd,ustr,vstr,shf,evap,slru,hfluxn,ts,tskin,u0,v0,t0,&
         & q0,.true.)
@@ -163,11 +146,9 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 
     ! 3.4 Compute upward longwave fluxes, convert them to tendencies
     !     and add shortwave tendencies
-    if (iitest.eq.1) print *, ' 3.4 in PHYPAR'
-
     call radlw (1,tg1,ts,slrd,slru(1,3),slr,olr,tt_rlw)
 
-    do k=1,nlev
+    do k=1,kx
         do j=1,ngp
             tt_rlw(j,k) = tt_rlw(j,k)*rps(j)*grdscp(k)
             ttend(j,k) = ttend(j,k)+tt_rsw(j,k)+tt_rlw(j,k)
@@ -180,10 +161,10 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 
     ! 4.2 Add tendencies due to surface fluxes
     do j=1,ngp
-        ut_pbl(j,nlev)=ut_pbl(j,nlev)+ustr(j,3)*rps(j)*grdsig(nlev)
-        vt_pbl(j,nlev)=vt_pbl(j,nlev)+vstr(j,3)*rps(j)*grdsig(nlev)
-        tt_pbl(j,nlev)=tt_pbl(j,nlev)+ shf(j,3)*rps(j)*grdscp(nlev)
-        qt_pbl(j,nlev)=qt_pbl(j,nlev)+evap(j,3)*rps(j)*grdsig(nlev)
+        ut_pbl(j,kx)=ut_pbl(j,kx)+ustr(j,3)*rps(j)*grdsig(kx)
+        vt_pbl(j,kx)=vt_pbl(j,kx)+vstr(j,3)*rps(j)*grdsig(kx)
+        tt_pbl(j,kx)=tt_pbl(j,kx)+ shf(j,3)*rps(j)*grdscp(kx)
+        qt_pbl(j,kx)=qt_pbl(j,kx)+evap(j,3)*rps(j)*grdsig(kx)
     end do
 
     utend = utend + ut_pbl
