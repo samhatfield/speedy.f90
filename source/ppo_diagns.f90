@@ -6,7 +6,7 @@ subroutine diagns(jj,istep)
     !         istep = time step index
 
 
-    use mod_tsteps, only: nstdia, nstppr, nstout, ihout
+    use mod_tsteps, only: nstdia, ihout
     use mod_atparam
     use mod_dynvar
 
