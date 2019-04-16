@@ -9,23 +9,23 @@ subroutine impint(dt,alph)
     ! Initialized common blocks : dync5, dync6, hdifc2
 
     ! IMPINT initializes constants for the implicit gravity wave computation.
-    ! It is assumed that that all implicit steps are of length DELT2 and use 
-    ! the forward/backward parameter ALPH.  IMPINT has to be re-called 
+    ! It is assumed that that all implicit steps are of length DELT2 and use
+    ! the forward/backward parameter ALPH.  IMPINT has to be re-called
     ! whenever either of these two parameters is changed. IMPINT should
     ! be called even if the explicit option is chosen for the gravity wave
     ! terms (the reference state temperature TREF is subtracted from some
     ! terms anyway to reduce roundoff error; also the constants needed for
-    ! the biharmonic diffusion, which is assumed always to be backwards 
+    ! the biharmonic diffusion, which is assumed always to be backwards
     ! implicit, are defined in IMPINT)
 
     use mod_dyncon0, only: gamma
     use mod_atparam
-    use mod_dyncon1, only: akap, rgas, hsg, dhs, fsg, fsgr, a, grav
+    use mod_dyncon1, only: akap, rgas, hsg, dhs, fsg, fsgr, grav, rearth
     use mod_dyncon2
     use mod_hdifcon, only: dmp, dmpd, dmps, dmp1, dmp1d, dmp1s
 
     implicit none
-	  								
+
     real, intent(in) :: dt, alph
     real :: dsum(kx), ya(kx,kx)
     integer :: indx(kx), m, n, k, k1, k2, l, ll, mm
@@ -33,7 +33,7 @@ subroutine impint(dt,alph)
 
     ! 1. Constants for backwards implicit biharmonic diffusion
     do m=1,mx
-        do n=1,nx 
+        do n=1,nx
             dmp1 (m,n)=1./(1.+dmp (m,n)*dt)
             dmp1d(m,n)=1./(1.+dmpd(m,n)*dt)
             dmp1s(m,n)=1./(1.+dmps(m,n)*dt)
@@ -52,20 +52,20 @@ subroutine impint(dt,alph)
         tref3(k)=fsgr(k)*tref(k)
     end do
 
-    ! Other constants 
+    ! Other constants
     xi=dt*alph
-    xxi = xi/(a*a)
+    xxi = xi/(rearth*rearth)
 
     dhsx = xi * dhs
 
     do n=1,nx
-        do m=1,mx      
+        do m=1,mx
             mm=isc*(m-1)+1
             ll=mm+n-2
             elz(m,n)=float(ll)*float(ll+1)*xxi
         end do
     end do
- 
+
     !T(K) = TEX(K)+YA(K,K')*D(K') + XA(K,K')*SIG(K')
 
     xa(:kx,:kxm) = 0.0
@@ -107,7 +107,7 @@ subroutine impint(dt,alph)
         end do
     end do
 
-    !P(K)=XD(K,K')*T(K') 
+    !P(K)=XD(K,K')*T(K')
     xd = 0.0
 
     do k=1,kx
@@ -130,7 +130,7 @@ subroutine impint(dt,alph)
     end do
 
     do l=1,lmax
-        xxx=(float(l)*float(l+1))/(a*a)
+        xxx=(float(l)*float(l+1))/(rearth*rearth)
         do k=1,kx
             do k1=1,kx
                 xf(k,k1,l)=xi*xi*xxx*(rgas*tref(k)*dhs(k1)-xe(k,k1))

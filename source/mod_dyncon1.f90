@@ -4,7 +4,7 @@ module mod_dyncon1
     implicit none
 
     private
-    public rearth, omega, grav, akap, rgas, pi, a, g
+    public rearth, omega, grav, akap, rgas
     public hsg, dhs, fsg, dhsr, fsgr
     public radang, gsin, gcos, coriol
     public xgeop1, xgeop2
@@ -15,9 +15,6 @@ module mod_dyncon1
     real, parameter :: grav   = 9.81
     real, parameter :: akap   = 2./7.
     real, parameter :: rgas   = akap*1004.
-    real, parameter :: pi = 4.*atan(1.)
-    real, parameter :: a  = rearth
-    real, parameter :: g  = grav
 
     ! Vertical level parameters (initial. in indyns)
     real :: hsg(kxp), dhs(kx), fsg(kx), dhsr(kx), fsgr(kx)
