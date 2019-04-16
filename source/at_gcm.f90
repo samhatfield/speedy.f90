@@ -1,11 +1,11 @@
 program agcm_main
     use mod_tsteps, only: nsteps, alph, delt2, ihout, nstrad
-    use mod_date, only: ihour, newdate, ndaytot, iyear, imonth, iday
+    use mod_date, only: model_datetime, model_step, newdate, ndaytot
 	use mod_lflags, only: lradsw
 
     implicit none
 
-    integer :: jday, istep, jj
+    integer :: jday, jj
 
     ! Initialization
     call agcm_init()
@@ -13,11 +13,12 @@ program agcm_main
     write (*,'(A28, I5)') 'Integration length in days: ', ndaytot
 
 	! Initialize time step counter
-	istep = 1
+	model_step = 1
 
     ! Do loop over total number of integration days
     do jday = 1, ndaytot
-        if (iday == 1) write(*,'(A14, I4, I0.2, I0.2)') 'Current date: ', iyear, imonth, iday
+        if (model_datetime%day == 1) write(*,'(A14, I4, I0.2, I0.2)') 'Current date: ', &
+			& model_datetime%year, model_datetime%month, model_datetime%day
 
 		! Set forcing terms according to date
         call fordate(1)
@@ -28,25 +29,22 @@ program agcm_main
 		! Integrate the atmospheric model for 1 day
 	    do jj = 1, nsteps
             ! Set logical flags
-            lradsw = (mod(istep,nstrad) == 1)
+            lradsw = (mod(model_step,nstrad) == 1)
 
             ! Perform one leapfrog time step
             call step(2, 2, delt2, alph)
 
             ! Do diagnostic, post-processing and I/O tasks
-            call diagns(2, istep)
+            call diagns(2, model_step)
 
 			! Increment time step counter
-            istep = istep + 1
+            model_step = model_step + 1
 
-	        ! Increment hour timer
-			if (floor(istep*24.0/nsteps) > floor((istep-1)*24.0/nsteps)) ihour = mod(ihour + 1, 24)
-
-	        ! If it's a new day, then compute a new date
-	        if (mod(istep,nsteps) == 0) call newdate(1)
+	        ! Increment model datetime
+	        call newdate(1)
 
 			! Gridded data output every 6 hours
-	        if (ihout .and. mod(istep,nsteps/4) == 0) call iogrid (4)
+	        if (ihout .and. mod(model_step-1,nsteps/4) == 0) call iogrid (4)
 	    end do
 
         ! Exchange data with coupler

@@ -16,7 +16,7 @@ subroutine dmflux(iadd)
     use mod_var_sea, only: tice_am, sice_am
     use mod_physvar
     use mod_radcon, only: albsea, albice, emisfc
-    use mod_date, only: ihour
+    use mod_date, only: model_datetime
 
     implicit none
 
@@ -33,7 +33,7 @@ subroutine dmflux(iadd)
 
     ! 1. Initialization
     if (iadd.le.0) then
-        if (ihour /= 0) then
+        if (model_datetime%hour /= 0) then
             ! Read from flux file
             open (100,file='fluxes.grd',form='unformatted',access='direct',recl=8*ngp)
             read (100,rec=1) (prec_l(j),j=1,ngp)

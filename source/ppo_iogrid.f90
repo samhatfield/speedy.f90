@@ -9,7 +9,7 @@ subroutine iogrid(imode)
     use mod_physcon, only: p0, gg, sig
     use mod_dynvar
     use mod_dyncon1, only: radang
-    use mod_date, only: iyear, imonth, iday, ihour
+    use mod_date, only: model_datetime
     use mod_tsteps, only: ndaysl
     use mod_flx_land
     use mod_flx_sea
@@ -37,7 +37,7 @@ subroutine iogrid(imode)
     if (imode.eq.1) then
         print '(A,I4.4,A,I2.2,A,I2.2,A,I2.2)',&
             & 'Read gridded dataset for year/month/date/hour: ',&
-            & iyear,'/',imonth,'/',iday,'/',ihour
+            & model_datetime%year,'/',model_datetime%month,'/',model_datetime%day,'/',model_datetime%hour
 
         open (90,form='unformatted',access='direct',recl=4*ngp)
         irec=1
@@ -102,7 +102,7 @@ subroutine iogrid(imode)
         ! Output
         print '(A,I4.4,A,I2.2,A,I2.2,A,I2.2)',&
             & 'Write gridded dataset for year/month/date/hour: ',&
-            & iyear,'/',imonth,'/',iday,'/',ihour
+            & model_datetime%year,'/',model_datetime%month,'/',model_datetime%day,'/',model_datetime%hour
 
         ugr4 = ugr
         vgr4 = vgr
@@ -112,10 +112,10 @@ subroutine iogrid(imode)
         psgr4 = p0*exp(psgr)! Pa
         rrgr4 = rrgr
 
-        write (filename(1:4),'(i4.4)') iyear
-        write (filename(5:6),'(i2.2)') imonth
-        write (filename(7:8),'(i2.2)') iday
-        write (filename(9:10),'(i2.2)') ihour
+        write (filename(1:4),'(i4.4)') model_datetime%year
+        write (filename(5:6),'(i2.2)') model_datetime%month
+        write (filename(7:8),'(i2.2)') model_datetime%day
+        write (filename(9:10),'(i2.2)') model_datetime%hour
         open (99,file=filename,form='unformatted',access='direct',&
             & recl=4*ix*il)
 
@@ -161,36 +161,36 @@ subroutine iogrid(imode)
         close (100)
     else if (imode.eq.5) then
         ! 3. Write a GrADS control file (3:p,5:sigma)
-        if (imonth.eq.1) then
+        if (model_datetime%month.eq.1) then
             cmon3='JAN'
-        else if (imonth.eq.2) then
+        else if (model_datetime%month.eq.2) then
             cmon3='FEB'
-        else if (imonth.eq.3) then
+        else if (model_datetime%month.eq.3) then
             cmon3='MAR'
-        else if (imonth.eq.4) then
+        else if (model_datetime%month.eq.4) then
             cmon3='APR'
-        else if (imonth.eq.5) then
+        else if (model_datetime%month.eq.5) then
             cmon3='MAY'
-        else if (imonth.eq.6) then
+        else if (model_datetime%month.eq.6) then
             cmon3='JUN'
-        else if (imonth.eq.7) then
+        else if (model_datetime%month.eq.7) then
             cmon3='JUL'
-        else if (imonth.eq.8) then
+        else if (model_datetime%month.eq.8) then
             cmon3='AUG'
-        else if (imonth.eq.9) then
+        else if (model_datetime%month.eq.9) then
             cmon3='SEP'
-        else if (imonth.eq.10) then
+        else if (model_datetime%month.eq.10) then
             cmon3='OCT'
-        else if (imonth.eq.11) then
+        else if (model_datetime%month.eq.11) then
             cmon3='NOV'
-        else if (imonth.eq.12) then
+        else if (model_datetime%month.eq.12) then
             cmon3='DEC'
         end if
 
-        write (ctlname(1:4),'(I4.4)') iyear
-        write (ctlname(5:6),'(I2.2)') imonth
-        write (ctlname(7:8),'(I2.2)') iday
-        write (ctlname(9:10),'(I2.2)') ihour
+        write (ctlname(1:4),'(I4.4)') model_datetime%year
+        write (ctlname(5:6),'(I2.2)') model_datetime%month
+        write (ctlname(7:8),'(I2.2)') model_datetime%day
+        write (ctlname(9:10),'(I2.2)') model_datetime%hour
         open (11,file=ctlname,form='formatted')
         write (11,'(A)') 'DSET ^%y4%m2%d2%h2.grd'
 
@@ -205,10 +205,10 @@ subroutine iogrid(imode)
 
         if (ndaysl.ne.0) then
             write (11,'(A,I4,A,I2.2,A,I2.2,A,I4.4,A)') 'TDEF ',&
-               & ndaysl*4+1,' LINEAR ',ihour,'Z',iday,cmon3,iyear,' 6HR'
+               & ndaysl*4+1,' LINEAR ',model_datetime%hour,'Z',model_datetime%day,cmon3,model_datetime%year,' 6HR'
         else
             write (11,'(A,I4,A,I2.2,A,I2.2,A,I4.4,A)') 'TDEF ',&
-                & 2,' LINEAR ',ihour,'Z',iday,cmon3,iyear,' 6HR'
+                & 2,' LINEAR ',model_datetime%hour,'Z',model_datetime%day,cmon3,model_datetime%year,' 6HR'
         end if
        write (11,'(A)') 'VARS 6'
 

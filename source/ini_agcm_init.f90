@@ -2,23 +2,24 @@
 subroutine agcm_init()
     use mod_cpl_flags, only: icsea, isstan
     use mod_tsteps
-    use mod_date, only: newdate, ndaytot, iyear, imonth, iday, ihour
+    use mod_date, only: newdate, ndaytot, model_datetime, start_datetime
 
     implicit none
 
     ! Read date from fort.2 file
-    read (2,*) iyear0
-    read (2,*) imont0
-    read (2,*) iday
-    read (2,*) ihour
-    iyear = iyear0
-    imonth = imont0
+    read (2,*) start_datetime%year
+    read (2,*) start_datetime%month
+    read (2,*) start_datetime%day
+    read (2,*) start_datetime%hour
+    read (2,*) start_datetime%minute
+    model_datetime = start_datetime
 
     call newdate(0)
 
-    print *, 'Start date ', iyear, imonth, iday, ihour
+    write(*,'(A12, I4, I0.2, I0.2)') 'Start date: ', &
+        & model_datetime%year, model_datetime%month, model_datetime%day
 
-    isst0 = (iyear0 - issty0) * 12 + imont0
+    isst0 = (start_datetime%year - issty0) * 12 + start_datetime%month
 
     ! Check consistency of coupling and prescribed SST anomaly flags
     if (icsea >= 4) isstan = 1

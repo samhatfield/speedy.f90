@@ -30,7 +30,7 @@ subroutine atm2sea(jday)
     use mod_cpl_flags, only: icsea, icice, isstan
     use mod_atparam
     use mod_cplvar_sea, only: vsea_input
-    use mod_date, only: iday, imont1, tmonth
+    use mod_date, only: model_datetime, imont1, tmonth
     use mod_flx_sea, only: hflux_s, hflux_i
     use mod_cli_sea, only: fmask_s, sst12, sice12, sstan3, hfseacl, sstom12
     use mod_var_sea, only: sstcl_ob, sicecl_ob, ticecl_ob, sstan_ob, sstcl_om,&
@@ -57,7 +57,7 @@ subroutine atm2sea(jday)
 
     ! SST anomaly
     if (isstan.gt.0) then
-        if (iday.eq.1.and.jday.gt.0) call OBS_SSTA
+        if (model_datetime%day.eq.1.and.jday.gt.0) call OBS_SSTA
         call forint (ngp,2,tmonth,sstan3,sstan_ob)
     end if
 
@@ -182,8 +182,8 @@ subroutine obs_ssta
 
     use mod_atparam
     use mod_cli_sea, only: sstan3, bmask_s
-    use mod_date, only: imonth
-    use mod_tsteps, only: iyear0, issty0
+    use mod_date, only: model_datetime, start_datetime
+    use mod_tsteps, only: issty0
 
     implicit none
 
@@ -195,7 +195,7 @@ subroutine obs_ssta
     sstan3(:,:,2) = sstan3(:,:,3)
 
     ! Compute next month given initial SST year
-    next_month = (iyear0 - issty0) * 12 + imonth
+    next_month = (start_datetime%year - issty0) * 12 + model_datetime%month
 
     ! Read next month SST anomalies
     call load_boundary_file(1,30,inp,next_month-1)

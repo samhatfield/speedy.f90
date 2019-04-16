@@ -5,7 +5,7 @@ module mod_tsteps
 
     private
     public nmonts, ndaysl, nsteps, nstdia, ihout
-    public iseasc, iyear0, imont0, nstrad, sppt_on, issty0
+    public iseasc, nstrad, sppt_on, issty0
     public isst0, delt, delt2, rob, wil, alph
 
     ! Integration length in months
@@ -25,12 +25,6 @@ module mod_tsteps
 
     ! Seasonal cycle flag (0=no, 1=yes)
     integer, parameter :: iseasc = 1
-
-    ! Year of initial date (4-digit, eg 1900)
-    integer :: iyear0
-
-    ! Month of initial date (1 to 12)
-    integer :: imont0
 
     ! Period (no. of steps) for shortwave radiation
     integer, parameter :: nstrad = 3

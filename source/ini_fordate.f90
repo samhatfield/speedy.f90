@@ -14,7 +14,7 @@ subroutine fordate(imode)
     use mod_physcon, only: rd
     use mod_surfcon, only: phis0, alb0, sd2sc
     use mod_cli_land, only: fmask_l
-    use mod_date, only: iyear, tyear
+    use mod_date, only: model_datetime, tyear
     use mod_var_land, only: stl_am, snowd_am
     use mod_cli_sea, only: fmask_s
     use mod_var_sea, only: sstcl_ob, sst_am, sice_am
@@ -66,7 +66,7 @@ subroutine fordate(imode)
     ! del_co2   = 0.0033
 
     if (lco2) then
-        ablco2 = ablco2_ref * exp(del_co2 * (iyear + tyear - iyear_ref))
+        ablco2 = ablco2_ref * exp(del_co2 * (model_datetime%year + tyear - iyear_ref))
     end if
 
     ! 3. temperature correction term for horizontal diffusion
