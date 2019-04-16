@@ -16,7 +16,6 @@ subroutine iogrid(imode)
     use mod_dyncon1
     use mod_date
     use mod_tsteps
-    use mod_tmean
     use mod_flx_land
     use mod_flx_sea
 

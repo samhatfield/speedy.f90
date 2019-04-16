@@ -2,13 +2,12 @@ subroutine dmflux(iadd)
     ! subroutine dmflux (iadd)
     !
     ! Purpose: Add up fluxes to provide daily averages
-    !          used in sea/land models and daily/time-mean output
+    !          used in sea/land models
     ! Input: IADD = 0 to initialize storage arrays to 0
     !             > 0 to increment arrays with current flux values
 
     use mod_tsteps, only: nsteps
     use mod_atparam
-    use mod_tmean, only: save2d_2, save2d_d2
     use mod_flx_land
     use mod_flx_sea
     use mod_physcon, only: alhc, sbc
@@ -56,8 +55,6 @@ subroutine dmflux(iadd)
             close (100)
         else
             ! Set all daily-mean arrays to zero
-            ! NB storage arrays for time-mean output are re-initialized
-            ! by subroutines TMOUT and DMOUT after write-up
 
             prec_l(:)  = 0.
             snowf_l(:) = 0.
@@ -122,42 +119,6 @@ subroutine dmflux(iadd)
     ! Multiply net heat fluxes by land or sea fractions
     hfluxn(:,1) = hfluxn(:,1)*fland(:)
     hfluxn(:,2) = hfluxn(:,2)*(1.-fland(:))
-
-    ! Surface water budget (in mm/day)
-    save2d_d2(:,1) = save2d_d2(:,1) + prec(:)  *86.400
-    save2d_d2(:,2) = save2d_d2(:,2) + evap(:,3)*86.400
-
-    ! Surface momentum budget
-    save2d_d2(:,3) = save2d_d2(:,3) - ustr(:,3)
-    save2d_d2(:,4) = save2d_d2(:,4) - vstr(:,3)
-
-    ! OLR
-    save2d_d2(:,5) = save2d_d2(:,5) + olr(:)
-
-    ! Surface energy budget
-    save2d_d2(:,6) = save2d_d2(:,6) + hfluxn(:,1)
-    save2d_d2(:,7) = save2d_d2(:,7) + hfluxn(:,2)
-
-    ! 4.2 Store fluxes for time-mean output
-    ! Surface water budget (in mm/day)
-    save2d_2(:,1) = save2d_2(:,1) + precls(:)*86.400
-    save2d_2(:,2) = save2d_2(:,2) + precnv(:)*86.400
-    save2d_2(:,3) = save2d_2(:,3) + evap(:,3)*86.400
-
-    ! Surface momentum budget
-    save2d_2(:,4) = save2d_2(:,4) - ustr(:,3)
-    save2d_2(:,5) = save2d_2(:,5) - vstr(:,3)
-
-    ! Top-of-atmosphere energy budget
-    save2d_2(:,6) = save2d_2(:,6) + tsr(:)
-    save2d_2(:,7) = save2d_2(:,7) + olr(:)
-
-    ! Surface energy budget
-    save2d_2(:,8)  = save2d_2(:,8)  + ssr(:)
-    save2d_2(:,9)  = save2d_2(:,9)  + slr(:)
-    save2d_2(:,10) = save2d_2(:,10) + shf(:,3)
-    save2d_2(:,11) = save2d_2(:,11) + hfluxn(:,1)
-    save2d_2(:,12) = save2d_2(:,12) + hfluxn(:,2)
 
     ! End of flux increment
 end

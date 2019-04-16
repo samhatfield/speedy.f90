@@ -4,7 +4,7 @@ module mod_tsteps
     implicit none
 
     private
-    public nmonts, ndaysl, nsteps, nstdia, idout, ihout
+    public nmonts, ndaysl, nsteps, nstdia, ihout
     public iseasc, iyear0, imont0, nstrad, sppt_on, issty0
     public isst0, delt, delt2, rob, wil, alph
 
@@ -19,9 +19,6 @@ module mod_tsteps
 
     ! Period (no. of steps) for diagnostic print-out
     integer, parameter :: nstdia = 36*5
-
-    ! Daily output flag (0=no, 1=basic (Z500,PREC,MSLP,TEMP0), 2=full)
-    integer, parameter :: idout  = 0
 
     ! 6-hourly output flag
     logical, parameter :: ihout = .false.
