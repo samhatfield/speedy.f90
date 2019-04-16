@@ -1,43 +1,29 @@
+!  Read or write a gridded file in sigma coordinate
+!  Input :   imode = 1 : read model variables from a gridded file (sigma)
+!                  = 4 : write model variables  to a gridded file (sigma)
+!                  = 5 : write a GrADS control file (for sigma)
+!  Created by Takemasa Miyoshi
+!  Converted to FORTRAN 90 by Sam Hatfield
 subroutine iogrid(imode)
-    !  SUBROUTINE IOGRID (IMODE)
-    !  Created by Takemasa Miyoshi
-    !  Converted to FORTRAN 90 by Sam Hatfield
-    !
-    !  Purpose : read or write a gridded file in sigma coordinate
-    !  Input :   IMODE = 1 : read model variables from a gridded file (sigma)
-    !                  = 4 : write model variables  to a gridded file (sigma)
-    !                  = 5 : write a GrADS control file (for sigma)
-    !  Initialized common blocks (if IMODE = 1) : DYNSP1, SFCANOM
-    !
-
     use mod_atparam, only: ix, iy, nx, mx, il, kx
-    use mod_physcon, only: p0, gg, rd, sig, sigl
+    use mod_physcon, only: p0, gg, sig
     use mod_dynvar
-    use mod_dyncon1
-    use mod_date
-    use mod_tsteps
+    use mod_dyncon1, only: radang
+    use mod_date, only: iyear, imonth, iday, ihour
+    use mod_tsteps, only: ndaysl
     use mod_flx_land
     use mod_flx_sea
 
     implicit none
 
-    integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
+    integer, parameter :: ngp=ix*il
     integer, intent(in) :: imode
-
-    ! Check what this file corresponds to in my version
-!    include "com_anomvar.h"
 
     complex, dimension(mx,nx) :: ucostmp, vcostmp
     real, dimension(ngp,kx) :: ugr, vgr, tgr, qgr, phigr
-    real :: psgr(ngp)
-    real, dimension(ngp,kx) :: ugr1, vgr1, tgr1, qgr1, phigr1
-    real :: rrgr1(ngp), aref, phi1, phi2, textr, tref
+    real, dimension(ngp) :: psgr, rrgr
     real(4), dimension(ngp,kx) :: ugr4, vgr4, tgr4, qgr4, phigr4
     real(4), dimension(ngp) :: psgr4(ngp), rrgr4(ngp)
-
-    ! For vertical interpolation !adapted from ppo_tminc.f
-    integer :: k0(ngp)
-    real :: w0(ngp), zout(ngp), zinp(nlev), rdzinp(nlev)
 
     ! File names etc.
     character(len=14) :: filename='yyyymmddhh.grd'
@@ -46,7 +32,6 @@ subroutine iogrid(imode)
     character(len=16) :: ctlnamep='yyyymmddhh_p.ctl'
     character(len=3) :: cmon3='JAN'
     integer :: irec
-    integer :: iitest=0
     integer :: j, k
 
     if (imode.eq.1) then
@@ -81,11 +66,6 @@ subroutine iogrid(imode)
         qgr = qgr4 *1.0d3
         psgr = psgr4
         psgr = log(psgr/p0)
-        if(iitest==1) print *,' UGR  :',minval(ugr),maxval(ugr)
-        if(iitest==1) print *,' VGR  :',minval(vgr),maxval(vgr)
-        if(iitest==1) print *,' TGR  :',minval(tgr),maxval(tgr)
-        if(iitest==1) print *,' QGR  :',minval(qgr),maxval(qgr)
-        if(iitest==1) print *,' PSGR :',minval(psgr),maxval(psgr)
 
         ! Conversion from gridded variable to spectral variable
         do k=1,kx
@@ -119,25 +99,18 @@ subroutine iogrid(imode)
 
         call grid(ps(1,1,1),psgr(1),1)
 
-        ! Vertical interpolation from sigma level to pressure level (ppo_tminc.f)
-        ugr1 = ugr
-        vgr1 = vgr
-        tgr1 = tgr
-        qgr1 = qgr
-        phigr1 = phigr
-
         ! Output
         print '(A,I4.4,A,I2.2,A,I2.2,A,I2.2)',&
             & 'Write gridded dataset for year/month/date/hour: ',&
             & iyear,'/',imonth,'/',iday,'/',ihour
 
-        ugr4 = ugr1
-        vgr4 = vgr1
-        tgr4 = tgr1
-        qgr4 = qgr1*1.0d-3 ! kg/kg
-        phigr4 = phigr1/gg   ! m
+        ugr4 = ugr
+        vgr4 = vgr
+        tgr4 = tgr
+        qgr4 = qgr*1.0d-3 ! kg/kg
+        phigr4 = phigr/gg   ! m
         psgr4 = p0*exp(psgr)! Pa
-        rrgr4 = rrgr1
+        rrgr4 = rrgr
 
         write (filename(1:4),'(i4.4)') iyear
         write (filename(5:6),'(i2.2)') imonth
@@ -167,13 +140,6 @@ subroutine iogrid(imode)
         irec=irec+1
         write (99,rec=irec) (rrgr4(j),j=1,ngp)
         close (99)
-        if(iitest==1) print *,' UGR  :',minval(ugr4),maxval(ugr4)
-        if(iitest==1) print *,' VGR  :',minval(vgr4),maxval(vgr4)
-        if(iitest==1) print *,' TGR  :',minval(tgr4),maxval(tgr4)
-        if(iitest==1) print *,' QGR  :',minval(qgr4),maxval(qgr4)
-        if(iitest==1) print *,' PHIGR:',minval(phigr4),maxval(phigr4)
-        if(iitest==1) print *,' PSGR :',minval(psgr4),maxval(psgr4)
-        if(iitest==1) print *,' RRGR :',minval(rrgr4),maxval(rrgr4)
 
         open (100,file='fluxes.grd',form='unformatted',access='direct',recl=8*ix*il)
         write (100,rec=1) (prec_l(j),j=1,ngp)
@@ -235,7 +201,7 @@ subroutine iogrid(imode)
         write (11,'(A,48F8.3)') 'YDEF 48 LEVELS ',&
             & (RADANG(J)*90.0d0/ASIN(1.0d0),J=1,48)
 
-        write (11,'(A,7F6.3)') 'ZDEF 8 LEVELS ',(sig(k),k=8,1,-1)
+        write (11,'(A,8F6.3)') 'ZDEF 8 LEVELS ',(sig(k),k=8,1,-1)
 
         if (ndaysl.ne.0) then
             write (11,'(A,I4,A,I2.2,A,I2.2,A,I4.4,A)') 'TDEF ',&
