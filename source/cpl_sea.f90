@@ -175,11 +175,8 @@ subroutine sea2atm(jday)
     ssti_om(:) = sst_om(:)+sice_am(:)*(tice_am(:)-sst_om(:))
 end
 
+! Update observed SST anomaly array
 subroutine obs_ssta
-    ! subroutine obs_ssta
-
-    ! Purpose : update observed SST anomaly array
-
     use mod_atparam
     use mod_cli_sea, only: sstan3, bmask_s
     use mod_date, only: model_datetime, start_datetime
@@ -202,10 +199,5 @@ subroutine obs_ssta
 
     sstan3(1:nlon,1:nlat,3)   = inp
 
-    call forchk(bmask_s,sstan3(1,1,3),nlon*nlat,1,-50.,50.,0.)
-
- 100  continue
-
-    print *, ' warning: end-of-file reached on ssT anomaly file'
-    print *, ' sst anomaly will be kept constant'
+    call forchk(bmask_s, 1, -50.0, 50.0, 0.0, sstan3(:,:,3))
 end

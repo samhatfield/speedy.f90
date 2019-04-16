@@ -10,8 +10,6 @@ subroutine inbcon
 
     implicit none
 
-    integer, parameter :: ngp = ix*il
-
     real*4 :: r4inp(ix,il)
     real   :: inp(ix,il)
     real   :: veg(ix,il), swl1(ix,il), swl2(ix,il)
@@ -61,7 +59,7 @@ subroutine inbcon
        stl12(1:ix,1:il,it) = inp
     end do
 
-    call forchk(bmask_l,stl12,ngp,12,0.,400.,273.)
+    call forchk(bmask_l, 12, 0.0, 400.0, 273.0, stl12)
 
     ! Snow depth
     do it = 1,12
@@ -70,7 +68,7 @@ subroutine inbcon
         snowd12(1:ix,1:il,it) = inp
     end do
 
-    CALL forchk(bmask_l,snowd12,ngp,12,0.,20000.,0.)
+    CALL forchk(bmask_l, 12, 0.0, 20000.0, 0.0, snowd12)
 
     ! Read soil moisture and compute soil water availability using vegetation fraction
     ! Read vegetation fraction
@@ -103,7 +101,7 @@ subroutine inbcon
         soilw12(1:ix,1:il,it) = inp
     end do
 
-    call forchk(bmask_l,soilw12,ngp,12,0.,10.,0.)
+    call forchk(bmask_l, 12, 0.0, 10.0, 0.0, soilw12)
 
     ! Initialize sea-surface boundary conditions
 
@@ -135,7 +133,7 @@ subroutine inbcon
         sst12(1:ix,1:il,it) = inp
     end do
 
-    call forchk(bmask_s,sst12,ngp,12,100.,400.,273.)
+    call forchk(bmask_s, 12, 100.0, 400.0, 273.0, sst12)
 
     ! Sea ice concentration
     do it = 1,12
@@ -146,7 +144,7 @@ subroutine inbcon
         sice12(1:ix,1:il,it) = inp
     end do
 
-    call forchk(bmask_s,sice12,ngp,12,0.,1.,0.)
+    call forchk(bmask_s, 12, 0.0, 1.0, 0.0, sice12)
 
     ! SST anomalies for initial and prec./following months
     if (isstan > 0) then
@@ -159,7 +157,7 @@ subroutine inbcon
             sstan3(1:ix,1:il,it) = inp
         end do
 
-        call forchk(bmask_s,sstan3,ngp,3,-50.,50.,0.)
+        call forchk(bmask_s, 3, -50.0, 50.0, 0.0, sstan3)
     end if
 
     ! Climatological fields for the ocean model (TO BE RECODED)
@@ -194,7 +192,7 @@ subroutine inbcon
             end do
         end do
 
-        call forchk (bmask_s,hfseacl,ix*il,1,-1000.,1000.,0.)
+        call forchk (bmask_s, 1, -1000.0, 1000.0, 0.0, hfseacl)
     end if
 
     ! Ocean model SST climatology:
@@ -212,50 +210,51 @@ subroutine inbcon
             end do
         end do
 
-        call forchk (bmask_s,sstom12,ix*il,12,100.,400.,273.)
+        call forchk (bmask_s, 12, 100.0, 400.0, 273.0, sstom12)
     end if
 end
 
-subroutine forchk (fmask,field,ngp,nf,fmin,fmax,fset)
-    ! Aux. routine forchk: Check consistency of sfc fields with land-sea mask
-    ! and set undefined values to a constant (to avoid over/underflow)
+! Check consistency of sfc fields with land-sea mask and set undefined values to a constant
+! (to avoid over/underflow)
+subroutine forchk (fmask,nf,fmin,fmax,fset,field)
+    use mod_atparam, only: ix, il
 
     implicit none
 
-    real, intent(in) :: fmask(ngp)
-    real, intent(inout) :: field(ngp,nf)
-    integer, intent(in) :: ngp, nf
+    real, intent(in) :: fmask(ix,il)
+    integer, intent(in) :: nf
     real, intent(in) :: fmin, fmax, fset
+    real, intent(inout) :: field(ix,il,nf)
 
-    integer :: jf, jgp, nfault
+    integer :: i, j, jf, nfault
 
-    do jf = 1,nf
-        nfault=0
+    do jf = 1, nf
+        nfault = 0
 
-        do jgp = 1,ngp
-            if (fmask(jgp).gt.0.0) then
-                if (field(jgp,jf).lt.fmin.or.field(jgp,jf).gt.fmax) then
-                    nfault = nfault+1
+        do i = 1, ix
+            do j = 1, il
+                if (fmask(ix,il) > 0.0) then
+                    if (field(ix,il,jf) < fmin .or. field(ix,il,jf) > fmax) then
+                        nfault = nfault + 1
+                    end if
+                else
+                    field(ix,il,jf) = fset
                 end if
-            else
-                field(jgp,jf) = fset
-            end if
+            end do
         end do
 
-        print *, ' field: ', jf, '   no. of faulty points:', nfault
+        print *, 'Number of faulty points for field: ', jf, ' = ',nfault
     end do
 
-    print *, ' undefined values set to', fset
+    print *, 'Undefined values set to ', fset
 end
 
+! Compute a spectrally-filtered grid-point field
+! Input   : itr : spectral truncation (triangular)
+!         : fg1 : original grid-point field
+! Output  : fg2 : filtered grid-point field
 subroutine truncg (itr,fg1,fg2)
-    ! subroutine truncg (itr,fg1,fg2)
-    ! Purpose : compute a spectrally-filtered grid-point field
-    ! Input   : itr : spectral truncation (triangular)
-    !         : fg1 : original grid-point field
-    ! Output  : fg2 : filtered grid-point field
-
-    USE mod_atparam
+    use mod_atparam
 
     implicit none
 
@@ -281,11 +280,9 @@ subroutine truncg (itr,fg1,fg2)
     call grid (fsp,fg2,1)
 end
 
+! Replace missing values in surface fields
+! NB: it is assumed that non-missing values exist near the Equator
 subroutine fillsf(sf,ix,il,fmis)
-    ! subroutine fillsf (sf,ix,il)
-    ! Purpose: replace missing values in surface fields
-    ! NB: it is assumed that non-missing values exist near the Equator
-
     implicit none
 
     real :: sf(ix,il), sf2(0:ix+1)
@@ -340,7 +337,6 @@ subroutine load_boundary_file(ioflag,iunit,fld,offset)
 
     implicit none
 
-    integer, parameter :: ngp = ix*il
     integer, intent(in) :: ioflag, iunit, offset
     real     :: fld(ix,il)
     real(4) :: inp(ix,il)
