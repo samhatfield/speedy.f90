@@ -1,6 +1,6 @@
 program agcm_main
     use mod_tsteps, only: nsteps, alph, delt2, nsteps_out, nstrad
-    use mod_date, only: model_datetime, model_step, newdate, ndaytot
+    use mod_date, only: model_datetime, end_datetime, model_step, newdate, datetime_equal
 	use mod_lflags, only: lradsw
 
     implicit none
@@ -10,13 +10,11 @@ program agcm_main
     ! Initialization
     call agcm_init()
 
-    write (*,'(A28, I5)') 'Integration length in days: ', ndaytot
-
 	! Initialize time step counter
 	model_step = 1
 
     ! Do loop over total number of integration days
-    do jday = 1, ndaytot
+    do while (.not. datetime_equal(model_datetime, end_datetime))
         if (model_datetime%day == 1) write(*,'(A14, I4, I0.2, I0.2)') 'Current date: ', &
 			& model_datetime%year, model_datetime%month, model_datetime%day
 

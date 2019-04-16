@@ -4,15 +4,9 @@ module mod_tsteps
     implicit none
 
     private
-    public nmonts, ndaysl, nsteps, nstdia, nsteps_out
+    public nsteps, nstdia, nsteps_out
     public iseasc, nstrad, sppt_on, issty0
     public isst0, delt, delt2, rob, wil, alph
-
-    ! Integration length in months
-    integer :: nmonts = 3
-
-    ! No. of days in the last month of int. (max=30)
-    integer :: ndaysl = 0
 
     ! No. of time steps in one day
     integer, parameter :: nsteps = 36

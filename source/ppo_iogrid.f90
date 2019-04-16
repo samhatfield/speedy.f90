@@ -10,7 +10,7 @@ subroutine iogrid(imode)
     use mod_dynvar
     use mod_dyncon1, only: radang
     use mod_date, only: model_datetime
-    use mod_tsteps, only: ndaysl
+    use mod_tsteps
     use mod_flx_land
     use mod_flx_sea
 
@@ -204,16 +204,10 @@ subroutine iogrid(imode)
 
         write (11,'(A,8F6.3)') 'ZDEF 8 LEVELS ',(sig(k),k=8,1,-1)
 
-        if (ndaysl.ne.0) then
-            write (11,'(A,I4,A,I2.2,A,I2.2,A,I2.2,A,I4.4,A)') 'TDEF ',&
-               & ndaysl*4+1,' LINEAR ',model_datetime%hour,':',model_datetime%minute,'Z',&
-               & model_datetime%day,cmon3,model_datetime%year,' 6HR'
-        else
-            write (11,'(A,I4,A,I2.2,A,I2.2,A,I2.2,A,I4.4,A)') 'TDEF ',&
-                & 2,' LINEAR ',model_datetime%hour,':',model_datetime%minute,'Z',&
-                & model_datetime%day,cmon3,model_datetime%year,' 6HR'
-        end if
-       write (11,'(A)') 'VARS 6'
+        write (11,'(A,I4,A,I2.2,A,I2.2,A,I2.2,A,I4.4,A)') 'TDEF ',&
+            & 2,' LINEAR ',model_datetime%hour,':',model_datetime%minute,'Z',&
+            & model_datetime%day,cmon3,model_datetime%year,' 6HR'
+        write (11,'(A)') 'VARS 6'
 
         write (11,'(A)') 'U 8 99 U-wind [m/s]'
         write (11,'(A)') 'V 8 99 V-wind [m/s]'

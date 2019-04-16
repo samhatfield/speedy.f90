@@ -66,6 +66,11 @@ cat << EOF > fort.2
 01
 00
 00
+1982
+01
+02
+00
+00
 EOF
 
 time ./imp.exe | tee out.lis

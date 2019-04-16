@@ -2,9 +2,9 @@ module mod_date
     implicit none
 
     private
-    public model_datetime, model_step, start_datetime
+    public model_datetime, model_step, start_datetime, end_datetime
     public imont1, tmonth, tyear, ndaycal, ndaytot
-    public newdate
+    public datetime_equal, newdate
 
     type datetime
         integer :: year
@@ -15,7 +15,7 @@ module mod_date
     end type
 
     ! Date and time variables (updated in NEWDATE)
-    type(datetime) :: model_datetime, start_datetime
+    type(datetime) :: model_datetime, start_datetime, end_datetime
     integer :: imont1, model_step
     real :: tmonth, tyear
 
@@ -27,15 +27,29 @@ module mod_date
     integer :: ncal365(12) = (/ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 /)
 
     contains
+        logical function datetime_equal(datetime1, datetime2)
+            type(datetime), intent(in) :: datetime1, datetime2
+
+            if (datetime1%year == datetime2%year .and. &
+                datetime1%month == datetime2%month .and. &
+                datetime1%day == datetime2%day .and. &
+                datetime1%hour == datetime2%hour .and. &
+                datetime1%minute == datetime2%minute) then
+                datetime_equal = .true.
+            else
+                datetime_equal = .false.
+            end if
+        end function
+
         subroutine newdate(imode)
             !--   subroutine newdate (imode)
             !--   purpose:   initilialize and update date variables
             !--   input :    imode = 0 for initialization, > 0 for update
 
             use mod_tsteps
-        
+
             implicit none
-        
+
             integer, intent(in) :: imode
 
             integer :: jm, im
@@ -47,20 +61,10 @@ module mod_date
                 else
                     ndaycal(:,1) = 30
                 end if
-         
+
                 ndaycal(1,2) = 0
                 do jm = 2, 12
                     ndaycal(jm,2) = ndaycal(jm-1,1)+ndaycal(jm-1,2)
-                end do
-        
-                ! total no. of integration days
-                ndaytot = ndaysl
-                im = start_datetime%month
-
-                do jm=1,nmonts
-                    ndaytot = ndaytot+ndaycal(im,1)
-                    im = im+1
-                    if (im.eq.13) im=1
                 end do
             else
                 ! Increment minute counter
@@ -98,7 +102,7 @@ module mod_date
                     model_datetime%year  = model_datetime%year+1
                 end if
             end if
-        
+
             ! additional variables to define forcing terms and boundary cond.
             if (iseasc >= 1) then
                 imont1 = model_datetime%month
