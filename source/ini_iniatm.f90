@@ -25,9 +25,6 @@ subroutine ini_atm()
     ! Create control file for 6-hourly output
     call iogrid(5)
 
-    ! Output files for grid-point fields
-    if (ihout .eqv. .false.) call setgrd(0)
-
     ! Write initial data
     if (ihout) call iogrid(4)
 end
