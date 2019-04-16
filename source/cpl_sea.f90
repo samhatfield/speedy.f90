@@ -195,7 +195,7 @@ subroutine obs_ssta
     next_month = (start_datetime%year - issty0) * 12 + model_datetime%month
 
     ! Read next month SST anomalies
-    call load_boundary_file(1,30,inp,next_month-1)
+    call load_boundary_file(30,inp,next_month-1)
 
     sstan3(1:nlon,1:nlat,3)   = inp
 
