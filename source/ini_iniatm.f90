@@ -1,5 +1,7 @@
 ! Call initialization routines for all model common blocks
 subroutine ini_atm()
+    use mod_output, only: output_step
+
     implicit none
 
     ! Initialize ffts
@@ -20,9 +22,6 @@ subroutine ini_atm()
     ! Initialize time-mean arrays for surface fluxes and output fields
     call dmflux(0)
 
-    ! Create control file for 6-hourly output
-    call iogrid(5)
-
     ! Write initial data
-    call iogrid(4)
+    call output_step(0)
 end

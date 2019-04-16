@@ -2,6 +2,7 @@ program agcm_main
     use mod_tsteps, only: nsteps, alph, delt2, nsteps_out, nstrad
     use mod_date, only: model_datetime, end_datetime, newdate, datetime_equal
     use mod_lflags, only: lradsw
+    use mod_output, only: output_step
 
     implicit none
 
@@ -44,7 +45,7 @@ program agcm_main
         call newdate(1)
 
         ! Output
-        if (mod(model_step-1, nsteps_out) == 0) call iogrid (4)
+        if (mod(model_step-1, nsteps_out) == 0) call output_step(model_step)
 
         ! Exchange data with coupler once per day
         if (model_datetime%hour == 0 .and. model_datetime%minute == 0) then

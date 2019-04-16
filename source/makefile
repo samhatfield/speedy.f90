@@ -54,6 +54,7 @@ FILES= \
 	   mod_hdifcon.o \
 	   mod_lflags.o \
 	   mod_lsccon.o \
+	   mod_output.o \
 	   mod_physcon.o \
 	   mod_physvar.o \
 	   mod_radcon.o \
@@ -73,7 +74,6 @@ FILES= \
        phy_suflux.o \
        phy_vdifsc.o \
        ppo_diagns.o \
-       ppo_iogrid.o \
        ppo_dmflux.o \
        spe_matinv.o \
        spe_spectral.o \
@@ -89,13 +89,13 @@ FILES= \
 .SUFFIXES: .f .f90 .o
 
 .f90.o:
-	$(COMPILE) $(COMCONV) $(COMOTT1) -c $<
+	$(COMPILE) $(COMCONV) $(COMOTT1) -c $< -I/usr/local/include
 
 .f.o:
 	$(COMPILE) $(COMCONV) $(COMOTT1) -c $<
 
 imp.exe: $(FILES)  at_gcm.o
-	$(COMPILE) $(COMCONV) $(COMOTT1) $(FILES) at_gcm.o -o imp.exe $(COMLIB1)
+	$(COMPILE) $(COMCONV) $(COMOTT1) $(FILES) at_gcm.o -o imp.exe $(COMLIB1) -L/usr/local/lib -lnetcdff -lnetcdf
 
 .PHONY: clean
 clean:
@@ -127,7 +127,8 @@ ini_indyns.o           : ini_indyns.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o
 	                     mod_spectral.o
 ini_inbcon.o           : ini_inbcon.f90 mod_cpl_flags.o mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o\
 						 mod_surfcon.o mod_cli_land.o mod_cli_sea.o
-ini_iniatm.o           : ini_iniatm.f90 mod_tsteps.o mod_atparam.o mod_dyncon1.o mod_date.o
+ini_iniatm.o           : ini_iniatm.f90 mod_tsteps.o mod_atparam.o mod_dyncon1.o mod_date.o\
+ 						 mod_output.o
 ini_inphys.o           : ini_inphys.f90 mod_atparam.o mod_physcon.o
 ini_invars.o           : ini_invars.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dynvar.o mod_dyncon1.o\
 						 mod_surfcon.o mod_date.o
@@ -155,6 +156,8 @@ mod_flx_sea.o          : mod_flx_sea.f90 mod_atparam.o
 mod_hdifcon.o          : mod_hdifcon.f90 mod_atparam.o
 mod_lflags.o           : mod_lflags.f90
 mod_lsccon.o           : mod_lsccon.f90
+mod_output.o           : mod_output.f90 mod_atparam.o mod_dyncon1.o mod_physcon.o mod_date.o\
+                         mod_tsteps.o mod_dynvar.o
 mod_physcon.o          : mod_physcon.f90 mod_atparam.o
 mod_physvar.o          : mod_physvar.f90 mod_atparam.o
 mod_radcon.o           : mod_radcon.f90 mod_atparam.o
@@ -176,7 +179,6 @@ phy_shtorh.o           : phy_shtorh.f90
 phy_suflux.o           : phy_suflux.f90 mod_atparam.o mod_sflcon.o mod_physcon.o mod_radcon.o
 phy_vdifsc.o           : phy_vdifsc.f90 mod_atparam.o mod_vdicon.o mod_physcon.o
 ppo_diagns.o           : ppo_diagns.f90 mod_tsteps.o mod_atparam.o mod_dynvar.o mod_date.o
-ppo_iogrid.o           : ppo_iogrid.f90 mod_dynvar.o
 ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_flx_land.o mod_physcon.o\
 						 mod_surfcon.o mod_flx_sea.o mod_var_sea.o mod_physvar.o mod_radcon.o
 #sea2atm.o              : sea2atm.f
