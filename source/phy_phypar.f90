@@ -51,9 +51,12 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     ttend_dyn = ttend
     qtend_dyn = qtend
 
-    ! 1. Compute grid-point fields
-    ! 1.1 Convert model spectral variables to grid-point variables
-    do k=1,kx
+	! =========================================================================
+    ! Compute grid-point fields
+    ! =========================================================================
+
+    ! Convert model spectral variables to grid-point variables
+    do k = 1, kx
 		call uvspec(vor1(:,:,k), div1(:,:,k), ucos, vcos)
 		call grid(ucos, ug1(:,k), 2)
 		call grid(vcos, vg1(:,k), 2)
@@ -64,108 +67,114 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 
     call grid(psl1,pslg1,1)
 
-    ! Remove negative humidity values
-    !call qneg (qg1)
+	! =========================================================================
+    ! Compute thermodynamic variables
+    ! =========================================================================
 
-    ! 1.2 Compute thermodynamic variables
-    do j=1,ngp
-     psg(j)=exp(pslg1(j))
-     rps(j)=1./psg(j)
+    do j = 1, ngp
+     psg(j) = exp(pslg1(j))
+     rps(j) = 1.0/psg(j)
     end do
 
-    do k=1,kx
-        do j=1,ngp
-            ! Remove when qneg is implemented
-	        qg1(j,k)=max(qg1(j,k),0.)
-            se(j,k)=cp*tg1(j,k)+phig1(j,k)
+    do k = 1, kx
+        do j = 1, ngp
+	        qg1(j,k) = max(qg1(j,k),0.0)
+            se(j,k) = cp*tg1(j,k) + phig1(j,k)
         end do
     end do
 
-    do k=1,kx
-        call shtorh(1,ngp,tg1(1,k),psg,sig(k),qg1(1,k),rh(1,k),qsat(1,k))
+    do k = 1, kx
+        call shtorh(1, ngp, tg1(:,k), psg, sig(k), qg1(:,k), rh(:,k), qsat(:,k))
     end do
 
-    ! 2. Precipitation
-    ! 2.1 Deep convection
-    call convmf(psg,se,qg1,qsat,iptop,cbmf,precnv,tt_cnv,qt_cnv)
+	! =========================================================================
+    ! Precipitation
+    ! =========================================================================
 
-    do k=2,kx
-       do j=1,ngp
-        tt_cnv(j,k) = tt_cnv(j,k)*rps(j)*grdscp(k)
-        qt_cnv(j,k) = qt_cnv(j,k)*rps(j)*grdsig(k)
-       end do
+    ! Deep convection
+    call convmf(psg, se, qg1, qsat, iptop, cbmf, precnv, tt_cnv, qt_cnv)
+
+    do k = 2, kx
+    	do j = 1, ngp
+    		tt_cnv(j,k) = tt_cnv(j,k)*rps(j)*grdscp(k)
+        	qt_cnv(j,k) = qt_cnv(j,k)*rps(j)*grdsig(k)
+       	end do
     end do
 
-    do j=1,ngp
-        icnv(j)=kx-iptop(j)
+    do j = 1, ngp
+        icnv(j) = kx - iptop(j)
     end do
 
-    ! 2.2 Large-scale condensation
-    call lscond(psg,qg1,qsat,iptop,precls,tt_lsc,qt_lsc)
+    ! Large-scale condensation
+    call lscond(psg, qg1, qsat, iptop, precls, tt_lsc, qt_lsc)
 
     ttend = ttend + tt_cnv + tt_lsc
     qtend = qtend + qt_cnv + qt_lsc
 
-    ! 3. Radiation (shortwave and longwave) and surface fluxes
-    ! 3.1 Compute shortwave tendencies and initialize lw transmissivity
-    ! The sw radiation may be called at selected time steps
+	! =========================================================================
+    ! Radiation (shortwave and longwave) and surface fluxes
+    ! =========================================================================
+
+    ! Compute shortwave tendencies and initialize lw transmissivity
+    ! The shortwave radiation may be called at selected time steps
     if (lradsw) then
-        do j=1,ngp
-            gse(j) = (se(j,kx-1)-se(j,kx))/(phig1(j,kx-1)-phig1(j,kx))
+        do j = 1, ngp
+            gse(j) = (se(j,kx-1) - se(j,kx))/(phig1(j,kx-1) - phig1(j,kx))
         end do
 
-        call cloud(qg1,rh,precnv,precls,iptop,gse,fmask_l,icltop,cloudc,clstr)
+        call cloud(qg1, rh, precnv, precls, iptop, gse, fmask_l, icltop, cloudc, clstr)
 
-        do j=1,ngp
-            cltop(j)=sigh(icltop(j,1)-1)*psg(j)
-            prtop(j)=float(iptop(j))
+        do j = 1, ngp
+            cltop(j) = sigh(icltop(j,1) - 1)*psg(j)
+            prtop(j) = float(iptop(j))
         end do
 
-        call radsw(psg,qg1,icltop,cloudc,clstr,ssrd,ssr,tsr,tt_rsw)
+        call radsw(psg, qg1, icltop, cloudc, clstr, ssrd, ssr, tsr, tt_rsw)
 
-        do k=1,kx
-            do j=1,ngp
-                tt_rsw(j,k)=tt_rsw(j,k)*rps(j)*grdscp(k)
+        do k = 1, kx
+            do j = 1, ngp
+                tt_rsw(j,k) = tt_rsw(j,k)*rps(j)*grdscp(k)
             end do
         end do
     end if
 
-    ! 3.2 Compute downward longwave fluxes
-    call radlw(-1,tg1,ts,slrd,slru(1,3),slr,olr,tt_rlw)
+    ! Compute downward longwave fluxes
+    call radlw(-1, tg1, ts, slrd, slru(:,3), slr, olr, tt_rlw)
 
-    ! 3.3. Compute surface fluxes and land skin temperature
-    call suflux(psg,ug1,vg1,tg1,qg1,rh,phig1,phis0,fmask_l,stl_am,sst_am,&
-        & soilw_am,ssrd,slrd,ustr,vstr,shf,evap,slru,hfluxn,ts,tskin,u0,v0,t0,&
-        & q0,.true.)
+    ! Compute surface fluxes and land skin temperature
+    call suflux(psg, ug1, vg1, tg1, qg1, rh, phig1, phis0, fmask_l, stl_am, sst_am, soilw_am, &
+		& ssrd, slrd, ustr, vstr, shf, evap, slru, hfluxn, ts, tskin, u0, v0, t0, q0, .true.)
 
-    ! 3.3.1. Recompute sea fluxes in case of anomaly coupling
-    if (icsea .gt. 0) then
-       call suflux(psg,ug1,vg1,tg1,qg1,rh,phig1,phis0,fmask_l,stl_am,ssti_om,&
-           & soilw_am,ssrd,slrd,ustr,vstr,shf,evap,slru,hfluxn,ts,tskin,u0,v0,&
-           & t0,q0,.false.)
+    ! Recompute sea fluxes in case of anomaly coupling
+    if (icsea > 0) then
+       call suflux(psg, ug1, vg1, tg1, qg1, rh, phig1, phis0, fmask_l, stl_am, ssti_om, soilw_am, &
+	   	& ssrd, slrd, ustr, vstr, shf, evap, slru, hfluxn, ts, tskin, u0, v0, t0, q0, .false.)
     end if
 
-    ! 3.4 Compute upward longwave fluxes, convert them to tendencies
-    !     and add shortwave tendencies
-    call radlw (1,tg1,ts,slrd,slru(1,3),slr,olr,tt_rlw)
+    ! Compute upward longwave fluxes, convert them to tendencies and add
+	! shortwave tendencies
+    call radlw(1, tg1, ts, slrd, slru(:,3), slr, olr, tt_rlw)
 
-    do k=1,kx
-        do j=1,ngp
+    do k = 1, kx
+        do j = 1, ngp
             tt_rlw(j,k) = tt_rlw(j,k)*rps(j)*grdscp(k)
-            ttend(j,k) = ttend(j,k)+tt_rsw(j,k)+tt_rlw(j,k)
+            ttend(j,k) = ttend(j,k) + tt_rsw(j,k) + tt_rlw(j,k)
         end do
     end do
 
-    ! 4. PBL interactions with lower troposphere
-    ! 4.1 Vertical diffusion and shallow convection
-    call vdifsc(ug1,vg1,se,rh,qg1,qsat,phig1,icnv,ut_pbl,vt_pbl,tt_pbl,qt_pbl)
+	! =========================================================================
+    ! Planetary boundary later interactions with lower troposphere
+    ! =========================================================================
 
-    ! 4.2 Add tendencies due to surface fluxes
+    ! Vertical diffusion and shallow convection
+    call vdifsc(ug1, vg1, se, rh, qg1, qsat, phig1, icnv, ut_pbl, vt_pbl, tt_pbl, qt_pbl)
+
+    ! Add tendencies due to surface fluxes
     do j=1,ngp
-        ut_pbl(j,kx)=ut_pbl(j,kx)+ustr(j,3)*rps(j)*grdsig(kx)
-        vt_pbl(j,kx)=vt_pbl(j,kx)+vstr(j,3)*rps(j)*grdsig(kx)
-        tt_pbl(j,kx)=tt_pbl(j,kx)+ shf(j,3)*rps(j)*grdscp(kx)
-        qt_pbl(j,kx)=qt_pbl(j,kx)+evap(j,3)*rps(j)*grdsig(kx)
+        ut_pbl(j,kx) = ut_pbl(j,kx) + ustr(j,3)*rps(j)*grdsig(kx)
+        vt_pbl(j,kx) = vt_pbl(j,kx) + vstr(j,3)*rps(j)*grdsig(kx)
+        tt_pbl(j,kx) = tt_pbl(j,kx) + shf(j,3)*rps(j)*grdscp(kx)
+        qt_pbl(j,kx) = qt_pbl(j,kx) + evap(j,3)*rps(j)*grdsig(kx)
     end do
 
     utend = utend + ut_pbl
