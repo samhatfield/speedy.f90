@@ -4,8 +4,7 @@ module mod_cpl_land_model
     implicit none
 
     private
-    public rhcapl, cdland, vland_input, vland_output
-    public stlcl_ob, snowdcl_ob, soilwcl_ob, stl_am, snowd_am, soilw_am, stl_lm
+    public stlcl_ob, stl_am, snowd_am, soilw_am
     public land_model_init, ini_land, land_model
     public atm2land, land2atm
 
