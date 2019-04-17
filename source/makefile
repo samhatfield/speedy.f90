@@ -12,7 +12,6 @@ LIB=-lnetcdff -lnetcdf
 
 FILES= \
        cpl_bcinterp.o \
-       cpl_land.o \
        cpl_main_interface.o \
        cpl_sea.o \
        dyn_geop.o \
@@ -85,9 +84,8 @@ clean:
 
 at_gcm.o               : at_gcm.f90 mod_tsteps.o mod_date.o
 cpl_bcinterp.o         : cpl_bcinterp.f90
-cpl_land.o             : cpl_land.f90 mod_cpl_flags.o mod_atparam.o mod_cpl_land_model.o\
- 						 mod_flx_land.o mod_cli_land.o mod_date.o
-mod_cpl_land_model.o   : mod_cpl_land_model.f90 mod_atparam.o
+mod_cpl_land_model.o   : mod_cpl_land_model.f90 mod_atparam.o mod_cpl_flags.o mod_flx_land.o\
+                         mod_cli_land.o mod_date.o
 cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o mod_cpl_land_model.o\
  						 mod_cpl_sea_model.o mod_surfcon.o mod_cli_land.o mod_cli_sea.o
 cpl_sea.o              : cpl_sea.f90 mod_cpl_flags.o mod_atparam.o mod_cplvar_sea.o mod_date.o\

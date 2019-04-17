@@ -1,6 +1,6 @@
 subroutine ini_coupler()
     use mod_atparam
-    use mod_cpl_land_model, only: land_model_init
+    use mod_cpl_land_model, only: land_model_init, ini_land
     use mod_cpl_sea_model, only: sea_model_init
     use mod_surfcon, only: fmask, alb0
     use mod_cli_land, only: fmask_l
@@ -22,9 +22,7 @@ subroutine ini_coupler()
 end
 
 subroutine agcm_to_coupler(jday)
-    !
-    !   subroutine agcm_to_coupler (jday)
-    !
+    use mod_cpl_land_model, only: atm2land
 
     implicit none
 
@@ -38,9 +36,7 @@ subroutine agcm_to_coupler(jday)
 end
 
 subroutine coupler_to_agcm(jday)
-    !
-    !   subroutine coupler_to_agcm (jday)
-    !
+    use mod_cpl_land_model, only: land2atm
 
     implicit none
 
