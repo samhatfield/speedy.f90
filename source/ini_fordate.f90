@@ -13,9 +13,8 @@ subroutine fordate(imode)
     use mod_hdifcon, only: tcorh, qcorh
     use mod_physcon, only: rd
     use mod_surfcon, only: phis0, alb0, sd2sc
-    use mod_cli_land, only: fmask_l
     use mod_date, only: model_datetime, tyear
-    use mod_cpl_land_model, only: stl_am, snowd_am
+    use mod_cpl_land_model, only: stl_am, snowd_am, fmask_l
     use mod_cli_sea, only: fmask_s
     use mod_var_sea, only: sstcl_ob, sst_am, sice_am
     use mod_radcon, only: ablco2, ablco2_ref, albsea, albice, snowc, albsn,&

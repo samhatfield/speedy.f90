@@ -20,7 +20,7 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     use mod_atparam
     use mod_physcon, only: sig, sigh, grdsig, grdscp, cp
     use mod_surfcon, only: phis0
-	use mod_cli_land, only: fmask_l
+    use mod_cpl_land_model, only: fmask_l
     use mod_var_sea, only: sst_am, ssti_om
     use mod_physvar
     use mod_sppt, only: mu, gen_sppt

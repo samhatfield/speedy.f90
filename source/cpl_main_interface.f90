@@ -3,13 +3,12 @@ subroutine ini_coupler()
     use mod_cpl_land_model, only: land_model_init, ini_land
     use mod_cpl_sea_model, only: sea_model_init
     use mod_surfcon, only: fmask, alb0
-    use mod_cli_land, only: fmask_l
     use mod_cli_sea, only: fmask_s, deglat_s
 
     implicit none
 
     ! 1.1 initialize land model constants
-    call land_model_init(fmask_l,alb0)
+    call land_model_init(alb0)
 
     ! 1.2 initialize land model variables
     call ini_land()

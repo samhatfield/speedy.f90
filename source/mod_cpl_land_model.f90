@@ -7,6 +7,7 @@ module mod_cpl_land_model
     public stlcl_ob, stl_am, snowd_am, soilw_am
     public land_model_init, ini_land, land_model
     public atm2land, land2atm
+    public fmask_l, bmask_l, stl12, snowd12, soilw12
 
     ! 1./heat_capacity (land)
     real :: rhcapl(ix,il)
@@ -34,16 +35,29 @@ module mod_cpl_land_model
     ! Land sfc. fields from land model
     real :: stl_lm(ix*il)                 ! land-model sfc. temperature
 
+    ! Land masks
+    ! Fraction of land
+    real :: fmask_l(ix,il)
+
+    ! Binary land mask
+    real :: bmask_l(ix,il)
+
+    ! Monthly-mean climatological fields over land
+    ! Land surface temperature
+    real :: stl12(ix,il,12)
+
+    ! Snow depth (water equiv.)
+    real :: snowd12(ix,il,12)
+
+    ! Soil water availabilityend module
+    real :: soilw12(ix,il,12)
+
     contains
-        subroutine land_model_init(fmask_l,alb0)
-            ! subroutine land_model_init (fmask_l,alb0)
-            !
+        subroutine land_model_init(alb0)
             ! purpose : initialization of land model
             ! initialized common blocks: land_mc
 
-            ! Input variables
-            ! Land mask (fraction of land)
-            real, intent(in) :: fmask_l(ix,il)
+            ! Input variable
             ! Annual-mean albedo
             real, intent(in) :: alb0(ix,il)
 
@@ -114,7 +128,6 @@ module mod_cpl_land_model
         subroutine atm2land(jday)
             use mod_cpl_flags, only: icland
             use mod_flx_land, only: hflux_l
-            use mod_cli_land, only: stl12, snowd12, soilw12
             use mod_date, only: imont1, tmonth
 
             integer, intent(in) :: jday

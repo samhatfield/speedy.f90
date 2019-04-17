@@ -4,7 +4,7 @@ subroutine inbcon
     use mod_tsteps, only: isst0
     use mod_atparam
     use mod_surfcon
-    use mod_cli_land
+    use mod_cpl_land_model, only: fmask_l, bmask_l, stl12, snowd12, soilw12
     use mod_cli_sea
     use mod_dyncon1, only: grav, radang
     use mod_input, only: load_boundary_file
