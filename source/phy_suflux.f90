@@ -1,7 +1,7 @@
-subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tland,tsea,swav,ssrd,slrd,&
+subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
         & ustr,vstr,shf,evap,slru,hfluxn,tsfc,tskin,u0,v0,t0,q0,lfluxland)
     !  subroutine suflux (psa,ua,va,ta,qa,rh,phi,
-    ! &                   phi0,fmask,tland,tsea,swav,ssrd,slrd,
+    ! &                   phi0,fmask,tsea,ssrd,slrd,
     ! &                   ustr,vstr,shf,evap,slru,hfluxn,
     ! &                   tsfc,tskin,u0,v0,t0,q0,lfluxland)
     !
@@ -16,9 +16,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tland,tsea,swav,ssrd,slrd,&
     !           PHI    = geopotential                    (3-dim)
     !           PHI0   = surface geopotential            (2-dim)
     !           FMASK  = fractional land-sea mask        (2-dim)
-    !           TLAND  = land-surface temperature        (2-dim)
     !           TSEA   =  sea-surface temperature        (2-dim)
-    !           SWAV   = soil wetness availability [0-1] (2-dim)
     !           SSRD   = sfc sw radiation (downw. flux)  (2-dim)
     !           SLRD   = sfc lw radiation (downw. flux)  (2-dim)
     !           LFLUXLAND   = Logical related ti flux-correction
@@ -39,13 +37,14 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tland,tsea,swav,ssrd,slrd,&
     use mod_sflcon
     use mod_physcon, only: p0, rd, cp, alhc, sbc, sigl, wvi, clat
     use mod_radcon, only: emisfc, alb_l, alb_s, snowc
+	use mod_var_land, only: stl_am, soilw_am
 
     implicit none
 
     integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
 
     real, dimension(ngp,nlev), intent(in) :: ua, va, ta, qa, rh, phi
-    real, dimension(ngp), intent(in) :: phi0, fmask, tland, tsea, swav, ssrd,&
+    real, dimension(ngp), intent(in) :: phi0, fmask, tsea, ssrd,&
         & slrd
 
     real, dimension(ngp,3), intent(inout) :: ustr, vstr, shf, evap, slru
@@ -141,7 +140,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tland,tsea,swav,ssrd,slrd,&
 	        j0=nlon*(jlat-1)
             sqclat=sqrt(clat(jlat))
             do j=j0+1,j0+nlon
-                tskin(j)=tland(j)+ctday*sqclat*ssrd(j)*(1.-alb_l(j))*psa(j)
+                tskin(j)=stl_am(j)+ctday*sqclat*ssrd(j)*(1.-alb_l(j))*psa(j)
             end do
         end do
 
@@ -199,8 +198,8 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tland,tsea,swav,ssrd,slrd,&
         call shtorh(0,ngp,tskin,psa,1.,qdummy,rdummy,qsat0(1,1))
 
         do j=1,ngp
-            !evap(j,1) = chl*denvvs(j,1)*swav(j)*max(0.,qsat0(j,1)-q1(j,1))
-            evap(j,1) = chl*denvvs(j,1)*max(0.,swav(j)*qsat0(j,1)-q1(j,1))
+            !evap(j,1) = chl*denvvs(j,1)*soilw_am(j)*max(0.,qsat0(j,1)-q1(j,1))
+            evap(j,1) = chl*denvvs(j,1)*max(0.,soilw_am(j)*qsat0(j,1)-q1(j,1))
         end do
 
         ! 3. Compute land-surface energy balance;
@@ -221,7 +220,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tland,tsea,swav,ssrd,slrd,&
             ! Compute net heat flux including flux into ground
             do j=1,ngp
               clamb(j)    = clambda+snowc(j)*dlambda
-              hfluxn(j,1) = hfluxn(j,1)-clamb(j)*(tskin(j)-tland(j))
+              hfluxn(j,1) = hfluxn(j,1)-clamb(j)*(tskin(j)-stl_am(j))
               dtskin(j)   = tskin(j)+1.
             end do
 
@@ -230,7 +229,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tland,tsea,swav,ssrd,slrd,&
 
             do j=1,ngp
                 if (evap(j,1).gt.0) then
-                    qsat0(j,2) = swav(j)*(qsat0(j,2)-qsat0(j,1))
+                    qsat0(j,2) = soilw_am(j)*(qsat0(j,2)-qsat0(j,1))
                 else
                     qsat0(j,2) = 0.
                 endif
@@ -248,7 +247,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tland,tsea,swav,ssrd,slrd,&
                 shf(j,1)    = shf(j,1) +chlcp*denvvs(j,1)*dtskin(j)
                 evap(j,1)   = evap(j,1)+chl*denvvs(j,1)*qsat0(j,2)*dtskin(j)
                 slru(j,1)   = slru(j,1)+dslr(j)*dtskin(j)
-                hfluxn(j,1) = clamb(j)*(tskin(j)-tland(j))
+                hfluxn(j,1) = clamb(j)*(tskin(j)-stl_am(j))
             end do
         end if
 !      ENDIF
@@ -262,8 +261,8 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tland,tsea,swav,ssrd,slrd,&
         !fkdo j=1,ngp
         !fk    if (fmask(j).gt.0.) then
         !fk        dtsea  = tsea(j) -t1(j,2)
-        !fk        dtland = tskin(j)-t1(j,1)
-        !fk        if (dtsea.gt.0.0.and.dtland.lt.0.0) then
+        !fk        dstl_am = tskin(j)-t1(j,1)
+        !fk        if (dtsea.gt.0.0.and.dstl_am.lt.0.0) then
         !fk            dtsea   = dtsea*(1.-fmask(j)**2)
         !fk            t1(j,2) = tsea(j)-dtsea
         !fk        endif
@@ -347,7 +346,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tland,tsea,swav,ssrd,slrd,&
         end do
 
         do j=1,ngp
-          tsfc(j)  = tsea(j)+fmask(j)*(tland(j)-tsea(j))
+          tsfc(j)  = tsea(j)+fmask(j)*(stl_am(j)-tsea(j))
           tskin(j) = tsea(j)+fmask(j)*(tskin(j)-tsea(j))
           t0(j)    = t1(j,2)+fmask(j)*(t1(j,1)- t1(j,2))
           q0(j)    = q1(j,2)+fmask(j)*(q1(j,1)- q1(j,2))

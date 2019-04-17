@@ -21,7 +21,6 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     use mod_physcon, only: sig, sigh, grdsig, grdscp, cp
     use mod_surfcon, only: phis0
 	use mod_cli_land, only: fmask_l
-    use mod_var_land, only: stl_am, soilw_am
     use mod_var_sea, only: sst_am, ssti_om
     use mod_physvar
     use mod_sppt, only: mu, gen_sppt
@@ -142,12 +141,12 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     call radlw(-1, tg1, ts, slrd, slru(:,3), slr, olr, tt_rlw)
 
     ! Compute surface fluxes and land skin temperature
-    call suflux(psg, ug1, vg1, tg1, qg1, rh, phig1, phis0, fmask_l, stl_am, sst_am, soilw_am, &
+    call suflux(psg, ug1, vg1, tg1, qg1, rh, phig1, phis0, fmask_l, sst_am, &
 		& ssrd, slrd, ustr, vstr, shf, evap, slru, hfluxn, ts, tskin, u0, v0, t0, q0, .true.)
 
     ! Recompute sea fluxes in case of anomaly coupling
     if (icsea > 0) then
-       call suflux(psg, ug1, vg1, tg1, qg1, rh, phig1, phis0, fmask_l, stl_am, ssti_om, soilw_am, &
+       call suflux(psg, ug1, vg1, tg1, qg1, rh, phig1, phis0, fmask_l, ssti_om, &
 	   	& ssrd, slrd, ustr, vstr, shf, evap, slru, hfluxn, ts, tskin, u0, v0, t0, q0, .false.)
     end if
 
