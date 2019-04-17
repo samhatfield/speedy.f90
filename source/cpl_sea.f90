@@ -3,6 +3,7 @@ subroutine ini_sea()
     use mod_atparam
     use mod_cli_sea, only: deglat_s
     use mod_var_sea
+    use mod_cpl_sea_model, only: sea_domain
 
     implicit none
 
@@ -119,6 +120,7 @@ subroutine sea2atm(jday)
     use mod_atparam
     use mod_cplvar_sea, only: vsea_output
     use mod_var_sea
+    use mod_cpl_sea_model, only: sea_model
 
     implicit none
 

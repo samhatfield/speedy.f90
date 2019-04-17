@@ -15,7 +15,6 @@ FILES= \
        cpl_land.o \
        cpl_main_interface.o \
        cpl_sea.o \
-       cpl_sea_model.o \
        dyn_geop.o \
        dyn_grtend.o \
        dyn_implic.o \
@@ -38,6 +37,7 @@ FILES= \
 	   mod_cplvar_sea.o \
 	   mod_cpl_flags.o \
        mod_cpl_land_model.o \
+       mod_cpl_sea_model.o \
 	   mod_date.o \
 	   mod_dyncon0.o \
 	   mod_dyncon1.o \
@@ -88,11 +88,11 @@ cpl_bcinterp.o         : cpl_bcinterp.f90
 cpl_land.o             : cpl_land.f90 mod_cpl_flags.o mod_atparam.o mod_cpl_land_model.o\
  						 mod_flx_land.o mod_cli_land.o mod_date.o
 mod_cpl_land_model.o   : mod_cpl_land_model.f90 mod_atparam.o
-cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o mod_cpl_land_model.o mod_surfcon.o\
-	                     mod_cli_land.o mod_cli_sea.o
+cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o mod_cpl_land_model.o\
+ 						 mod_cpl_sea_model.o mod_surfcon.o mod_cli_land.o mod_cli_sea.o
 cpl_sea.o              : cpl_sea.f90 mod_cpl_flags.o mod_atparam.o mod_cplvar_sea.o mod_date.o\
  						 mod_flx_sea.o mod_cli_sea.o mod_var_sea.o mod_input.o
-cpl_sea_model.o        : cpl_sea_model.f90 mod_atparam.o mod_cplcon_sea.o mod_cplvar_sea.o
+mod_cpl_sea_model.o    : mod_cpl_sea_model.f90 mod_atparam.o mod_cplcon_sea.o mod_cplvar_sea.o
 dyn_geop.o             : dyn_geop.f90 mod_atparam.o mod_dynvar.o mod_dyncon1.o
 dyn_grtend.o           : dyn_grtend.f90 mod_atparam.o mod_dynvar.o mod_dyncon1.o mod_dyncon2.o
 dyn_implic.o           : dyn_implic.f90 mod_atparam.o mod_dyncon1.o mod_dyncon1.o mod_dyncon2.o
