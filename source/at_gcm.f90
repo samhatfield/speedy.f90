@@ -1,5 +1,5 @@
 program agcm_main
-    use mod_tsteps, only: nsteps, alph, delt2, nsteps_out, nstrad
+    use mod_tsteps, only: nsteps, delt2, nsteps_out, nstrad
     use mod_date, only: model_datetime, end_datetime, newdate, datetime_equal
     use mod_lflags, only: lradsw
     use mod_output, only: output_step
@@ -27,7 +27,7 @@ program agcm_main
         lradsw = (mod(model_step,nstrad) == 1)
 
         ! Perform one leapfrog time step
-        call step(2, 2, delt2, alph)
+        call step(2, 2, delt2)
 
         ! Do diagnostic, post-processing and I/O tasks
         call diagns(2, model_step)

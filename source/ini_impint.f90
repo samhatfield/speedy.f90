@@ -1,11 +1,9 @@
-subroutine impint(dt,alph)
-    ! subroutine impint(dt,alph)
+subroutine impint(dt)
+    ! subroutine impint(dt)
     !
     ! Purpose : initialize constants for implicit computation of
     !           horizontal diffusion and gravity waves
     ! Input :   dt   = time step
-    !           alph = stepping coefficient for gravity wave scheme
-    !                  (0.0 = forward, 0.5 = centred, 1.0 = backward)
     ! Initialized common blocks : dync5, dync6, hdifc2
 
     ! IMPINT initializes constants for the implicit gravity wave computation.
@@ -23,10 +21,11 @@ subroutine impint(dt,alph)
     use mod_dyncon1, only: akap, rgas, hsg, dhs, fsg, fsgr, grav, rearth
     use mod_dyncon2
     use mod_hdifcon, only: dmp, dmpd, dmps, dmp1, dmp1d, dmp1s
+    use mod_tsteps, only: alph
 
     implicit none
 
-    real, intent(in) :: dt, alph
+    real, intent(in) :: dt
     real :: dsum(kx), ya(kx,kx)
     integer :: indx(kx), m, n, k, k1, k2, l, ll, mm
     real :: rgam, xi, xxi, xxx

@@ -9,7 +9,7 @@ subroutine indyns
     !                            (through routine parmtr) 
     !
 
-    use mod_tsteps, only: nsteps, alph
+    use mod_tsteps, only: nsteps
     use mod_dyncon0
     use mod_dyncon1
     use mod_atparam
@@ -23,11 +23,6 @@ subroutine indyns
 
     ! 1. Definition of constants
     if (mod(nsteps,2) /= 0) stop ' Invalid no. of time steps'
-
-    ! alph = 0 ---- forward step for gravity wave terms
-    ! alph = 1 ---- backward implicit -----------------
-    ! alph = 0.5 -- centered implicit -----------------
-    alph = 0.5 
 
     ! Power of Laplacian in horizontal diffusion
     npowhd = 4

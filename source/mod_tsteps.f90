@@ -45,5 +45,8 @@ module mod_tsteps
     real, parameter :: wil = 0.53
 
     ! Coefficient for semi-implicit computations
-    real :: alph
+    ! alph = 0   -> forward step for gravity wave terms
+    ! alph = 1   -> backward implicit
+    ! alph = 0.5 -> centered implicit
+    real, parameter :: alph = 0.5
 end module

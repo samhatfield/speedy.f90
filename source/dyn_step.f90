@@ -7,20 +7,18 @@
 ! If j1 == 1, j2 == 2 : initial leapfrog time step (eps = 0)
 ! If j1 == 2, j2 == 2 : leapfrog time step with time filter (eps = ROB)
 ! dt = time step
-! alph = 0   : forward step for gravity wave terms
-! alph = 1   : backward implicit step for gravity wave terms
-! alph = 0.5 : centered implicit step for gravity wave terms
-subroutine step(j1, j2, dt, alph)    !
+subroutine step(j1, j2, dt)    !
     use mod_dyncon0, only: tdrs
     use mod_atparam
     use mod_dynvar
     use mod_hdifcon
     use mod_tsteps, only: rob, wil
+    use mod_tsteps, only: alph
 
     implicit none
 
     integer, intent(in) :: j1, j2
-    real, intent(in) :: dt, alph
+    real, intent(in) :: dt
     complex, dimension(mx,nx,kx) ::  vordt, divdt, tdt
     complex :: psdt(mx,nx), trdt(mx,nx,kx,ntr)
     real :: eps, sdrag

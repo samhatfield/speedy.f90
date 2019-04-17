@@ -4,7 +4,7 @@ subroutine stepone
     ! purpose : call initialization of semi-implicit scheme
     !           and perform initial time step
 
-    use mod_tsteps, only: delt, delt2, alph, rob, wil
+    use mod_tsteps, only: delt, delt2
 
     implicit none
 
@@ -12,13 +12,13 @@ subroutine stepone
 
     delth = 0.5 * delt
 
-    call impint(delth, alph)
+    call impint(delth)
 
-    call step(1, 1, delth, alph, rob, wil)
+    call step(1, 1, delth)
 
-    call impint(delt, alph)
+    call impint(delt)
 
-    call step(1, 2, delt, alph, rob, wil)
+    call step(1, 2, delt)
 
-    call impint(delt2, alph)
+    call impint(delt2)
 end
