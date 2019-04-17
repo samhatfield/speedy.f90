@@ -39,7 +39,7 @@ program agcm_main
         call newdate(1)
 
         ! Output
-        if (mod(model_step-1, nsteps_out) == 0) call output_step(model_step)
+        if (mod(model_step-1, nsteps_out) == 0) call output_step(model_step-1)
 
         ! Exchange data with coupler once per day
         if (mod(model_step-1, nsteps) == 0) then

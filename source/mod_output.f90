@@ -8,7 +8,7 @@ contains
         use mod_atparam, only: ix, il, kx, mx, nx
         use mod_dyncon1, only: radang, grav
         use mod_physcon, only: p0, sig
-        use mod_date, only: model_datetime
+        use mod_date, only: model_datetime, start_datetime
         use mod_tsteps, only: nsteps
         use mod_dynvar, only: vor, div, t, ps, tr, phi
 
@@ -32,11 +32,11 @@ contains
         write (filename(11:12),'(i2.2)') model_datetime%minute
 
         ! Construct time string
-        write (time_template(13:16),'(i4.4)') model_datetime%year
-        write (time_template(18:19),'(i2.2)') model_datetime%month
-        write (time_template(21:22),'(i2.2)') model_datetime%day
-        write (time_template(24:25),'(i2.2)') model_datetime%hour
-        write (time_template(27:28),'(i2.2)') model_datetime%minute
+        write (time_template(13:16),'(i4.4)') start_datetime%year
+        write (time_template(18:19),'(i2.2)') start_datetime%month
+        write (time_template(21:22),'(i2.2)') start_datetime%day
+        write (time_template(24:25),'(i2.2)') start_datetime%hour
+        write (time_template(27:28),'(i2.2)') start_datetime%minute
 
         ! Create NetCDF output file
         call check(nf90_create(filename, nf90_clobber, ncid))
