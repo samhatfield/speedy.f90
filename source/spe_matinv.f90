@@ -13,7 +13,7 @@ subroutine ludcmp(a,n,np,indx,d)
     do i=1,n
         aamax=0.
         do j=1,n
-            if(abs(a(i,j)).gt.aamax) aamax=abs(a(i,j)) 
+            if(abs(a(i,j)).gt.aamax) aamax=abs(a(i,j))
         end do
         if(aamax.eq.0.) stop 'singular'
         vv(i)=1./aamax

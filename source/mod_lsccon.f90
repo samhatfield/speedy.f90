@@ -6,7 +6,7 @@ module mod_lsccon
     private
     public trlsc, rhlsc, drhlsc, rhblsc
 
-    ! Relaxation time (in hours) for specific humidity 
+    ! Relaxation time (in hours) for specific humidity
     real, parameter :: trlsc  = 4.0
 
     ! Maximum relative humidity threshold (at sigma=1)

@@ -1,7 +1,7 @@
 subroutine fordate(imode)
     !
     !   subroutine fordate (imode)
-    !   
+    !
     !   purpose :	compute forcing fields for the current date
     !             and correction terms for horiz. diffusion
     !
@@ -38,7 +38,7 @@ subroutine fordate(imode)
     alb_0 = reshape(alb0, (/ngp/))
 
     ! time variables for interpolation are set by newdate
-    
+
     ! 1. time-independent parts of physical parametrizations
     if (imode == 0) then
         call radset
@@ -47,7 +47,7 @@ subroutine fordate(imode)
         ablco2_ref = ablco2
     end if
 
-    ! 2. daily-mean radiative forcing 
+    ! 2. daily-mean radiative forcing
     ! incoming solar radiation
     call sol_oz(tyear)
 
@@ -103,8 +103,8 @@ subroutine fordate(imode)
     call spec(corh,qcorh)
 end
 
-subroutine setgam(tyear,gamlat)  
-    ! aux. routine gamlat : compute reference lapse rate 
+subroutine setgam(tyear,gamlat)
+    ! aux. routine gamlat : compute reference lapse rate
     !                       as a function of latitude and date
 
     use mod_dyncon0, only: gamma
@@ -116,7 +116,7 @@ subroutine setgam(tyear,gamlat)
     real, intent(in) :: tyear
     integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon * nlat
     integer :: j
-                                            
+
     real, intent(inout) :: gamlat(nlat)
 
     gamlat(1) = gamma/(1000. * grav)

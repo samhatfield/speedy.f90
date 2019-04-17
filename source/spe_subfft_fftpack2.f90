@@ -742,7 +742,7 @@ subroutine radf2(ido, l1, cc, ch, wa1)
     implicit none
 
     integer, intent(in) :: ido, l1
-    real, intent(in) :: cc(ido,l1,2), wa1(*) 
+    real, intent(in) :: cc(ido,l1,2), wa1(*)
     real, intent(inout) :: ch(ido,2,*)
     real :: tr2, ti2
     integer :: i, k, idp2, ic

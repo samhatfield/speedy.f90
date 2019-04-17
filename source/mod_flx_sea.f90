@@ -10,7 +10,7 @@ module mod_flx_sea
     ! Fluxes at sea surface (all downward, except evaporation)
     ! Precipitation (sea)
     real :: prec_s(ix*il)
-    
+
     ! Snowfall (sea)
     real :: snowf_s(ix*il)
 

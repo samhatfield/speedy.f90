@@ -3,10 +3,10 @@ subroutine indyns
     !
     ! Purpose : set time-stepping constants and initialize coefficients
     !           and spectral operators for model dynamics
-    ! Initialized common blocks: dync0, dync1,  dync2,  dync3,  dync4, 
+    ! Initialized common blocks: dync0, dync1,  dync2,  dync3,  dync4,
     !                            hdifc1, hdifc3,
-    !                            common blocks for spectral transforms 
-    !                            (through routine parmtr) 
+    !                            common blocks for spectral transforms
+    !                            (through routine parmtr)
     !
 
     use mod_tsteps, only: nsteps
@@ -27,7 +27,7 @@ subroutine indyns
     ! Power of Laplacian in horizontal diffusion
     npowhd = 4
 
-    ! 2. Definition of model levels  
+    ! 2. Definition of model levels
 
     ! 2.1 Half (vertical velocity) levels
     if (kx == 5) then
@@ -60,7 +60,7 @@ subroutine indyns
 
     ! 3. Horizontal functions and spectral operators
 
-    ! 3.1 Initialization of spectral operators 
+    ! 3.1 Initialization of spectral operators
     call parmtr(rearth)
 
     ! 3.2 Latitudes and functions of latitude
@@ -107,10 +107,10 @@ subroutine indyns
     end do
 
     ! 5.2 Orographic correction terms for temperature and humidity
-    !     (vertical component) 
+    !     (vertical component)
     rgam = rgas*gamma/(1000.*grav)
     qexp = hscale/hshum
- 
+
     tcorv(1)=0.
     qcorv(1)=0.
     qcorv(2)=0.

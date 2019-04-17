@@ -14,7 +14,7 @@ module mod_dynvar
     ! Vorticity
     complex :: vor(MX,NX,KX,2)
 
-    ! Divergence 
+    ! Divergence
     complex :: div(MX,NX,KX,2)
 
     ! Absolute temperature

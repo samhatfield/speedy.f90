@@ -27,10 +27,10 @@ module mod_dyncon0
     real, parameter :: thdd = 2.4
 
     ! Max damping time (in hours) for extra diffusion (del^2)
-    ! in the stratosphere 
+    ! in the stratosphere
     real, parameter :: thds = 12.0
 
     ! Damping time (in hours) for drag on zonal-mean wind
-    ! in the stratosphere 
+    ! in the stratosphere
     real, parameter :: tdrs = 24.0 * 30.0
 end module

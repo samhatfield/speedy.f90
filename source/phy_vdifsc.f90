@@ -61,7 +61,7 @@ subroutine vdifsc(ua,va,se,rh,qa,qsat,phi,icnv,utenvd,vtenvd,ttenvd,qtenvd)
     vtenvd = 0.0
     ttenvd = 0.0
     qtenvd = 0.0
-   
+
     ! 2. Shallow convection
     drh0   = rhgrad*(sig(nlev)-sig(nl1))
     fvdiq2 = fvdiq*sigh(nl1)
@@ -73,19 +73,19 @@ subroutine vdifsc(ua,va,se,rh,qa,qsat,phi,icnv,utenvd,vtenvd,ttenvd,qtenvd)
 
         if (dmse.ge.0.0) then
             if (icnv(j).gt.0) fcnv = redshc
-  
+
             fluxse         = fcnv*fshcse*dmse
             ttenvd(j,nl1)  = fluxse*rsig(nl1)
             ttenvd(j,nlev) =-fluxse*rsig(nlev)
-  
+
             if (drh.ge.0.0) then
                 fluxq          = fcnv*fshcq*qsat(j,nlev)*drh
-                qtenvd(j,nl1)  = fluxq*rsig(nl1) 
+                qtenvd(j,nl1)  = fluxq*rsig(nl1)
                 qtenvd(j,nlev) =-fluxq*rsig(nlev)
             end if
         else if (drh.ge.drh0) then
           fluxq          = fvdiq2*qsat(j,nl1)*drh
-          qtenvd(j,nl1)  = fluxq*rsig(nl1) 
+          qtenvd(j,nl1)  = fluxq*rsig(nl1)
           qtenvd(j,nlev) =-fluxq*rsig(nlev)
         end if
     end do
@@ -111,7 +111,7 @@ subroutine vdifsc(ua,va,se,rh,qa,qsat,phi,icnv,utenvd,vtenvd,ttenvd,qtenvd)
     do k=1,nl1
         do j=1,ngp
             se0 = se(j,k+1)+segrad*(phi(j,k)-phi(j,k+1))
-  
+
             if (se(j,k).lt.se0) then
                 fluxse      = fvdise*(se0-se(j,k))
                 ttenvd(j,k) = ttenvd(j,k)+fluxse*rsig(k)

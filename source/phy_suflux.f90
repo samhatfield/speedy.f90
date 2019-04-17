@@ -25,7 +25,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
     !           SHF    = sensible heat flux              (2-dim)
     !           EVAP   = evaporation [g/(m^2 s)]         (2-dim)
     !           SLRU   = sfc lw radiation (upward flux)  (2-dim)
-    !           HFLUXN = net heat flux into land/sea     (2-dim)           
+    !           HFLUXN = net heat flux into land/sea     (2-dim)
     !           TSFC   = surface temperature (clim.)     (2-dim)
     !           TSKIN  = skin surface temperature        (2-dim)
     !           U0     = near-surface u-wind             (2-dim)
@@ -50,7 +50,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
     real, dimension(ngp,3), intent(inout) :: ustr, vstr, shf, evap, slru
     real, intent(inout) :: hfluxn(ngp,2)
     real, dimension(ngp), intent(inout) :: tsfc, tskin, u0, v0, t0, q0
-									
+
     integer :: j, j0, jlat, ks, nl1
     real, dimension(ngp,2), save :: t1, q1
     real, dimension(ngp,2) :: t2, qsat0
@@ -67,7 +67,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
     lscasym = .true.   ! true : use an asymmetric stability coefficient
     lscdrag = .true.   ! true : use stability coef. to compute drag over sea
     lskineb = .true.   ! true : redefine skin temp. from energy balance
-  
+
     !clambda = 7.       ! Heat conductivity in skin layer
     !clambsn = 7.       ! Heat conductivity for snow cover = 1
 
@@ -75,7 +75,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
     esbc4 = 4.*esbc
 
     ghum0 = 1.-fhum0
- 
+
     dlambda = clambsn-clambda
 
     if (lfluxland)  then
@@ -144,7 +144,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
             end do
         end do
 
-        ! 2.2 Stability correction = f[pot.temp.(sfc)-pot.temp.(air)]  
+        ! 2.2 Stability correction = f[pot.temp.(sfc)-pot.temp.(air)]
         rdth  = fstab/dtheta
         astab = 1.
         if (lscasym) astab = 0.5   ! to get smaller ds/dt in stable conditions
@@ -153,13 +153,13 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
             ! Potential temp. difference (land+sea average)
             !fkdth0 = tsea(j)-t2(j,2)
             !fkdth0 = dth0+fmask(j)*((tskin(j)-t2(j,1))-dth0)
-            
+
             !fkif (dth0.gt.0.0) then
             !fk   dthl=min(dtheta,dth0)
             !fkelse
             !fk   dthl=max(-dtheta,astab*dth0)
             !fkendif
-            
+
             !fkdenvvs(j,1)=denvvs(j,0)*(1.+dthl*rdth)
 
             if (tskin(j).gt.t2(j,1)) then
@@ -170,14 +170,14 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
             denvvs(j,1)=denvvs(j,0)*(1.+dthl*rdth)
         end do
 
-        ! 2.3 Wind stress 
+        ! 2.3 Wind stress
         do j=1,ngp
             cdldv     =  cdl*denvvs(j,0)*forog(j)
             ustr(j,1) = -cdldv*ua(j,nlev)
             vstr(j,1) = -cdldv*va(j,nlev)
         end do
 
-        ! 2.4 Sensible heat flux 
+        ! 2.4 Sensible heat flux
         chlcp = chl*cp
 
         do j=1,ngp
@@ -235,7 +235,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
                 endif
             end do
 
-            ! Redefine skin temperature to balance the heat budget 
+            ! Redefine skin temperature to balance the heat budget
             do j=1,ngp
                 dhfdt = clamb(j)+dslr(j)+chl*denvvs(j,1)*(cp+alhc*qsat0(j,2))
                 dtskin(j) = hfluxn(j,1)/dhfdt
@@ -255,7 +255,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
         ! 4. Compute sea surface fluxes:
         !    Note: stability terms and wind stress are NOT re-defined
         !          if LFLUXLAND = .false.
-   
+
         ! 4.1 Correct near-sfc. air temperature over coastal sea points
         !     and compute near-sfc. humidity
         !fkdo j=1,ngp
@@ -308,7 +308,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
     end if
 
     ! Start of sea-sfc. heat fluxes computation
-    ! 4.3 Sensible heat flux 
+    ! 4.3 Sensible heat flux
     !fkks = 1
     ks=2
     chscp = chs*cp
@@ -334,7 +334,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
 
     ! End of sea-sfc. heat fluxes computation
 
-    ! 3. Weighted average of surface fluxes and temperatures 
+    ! 3. Weighted average of surface fluxes and temperatures
     !    according to land-sea mask
     if (lfluxland)  then
         do j=1,ngp

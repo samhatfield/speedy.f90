@@ -53,7 +53,7 @@ subroutine convmf (psa,se,qa,qsat,itop,cbmf,precnv,dfse,dfqa)
     ! Used in exp 566 to 604:
     ! psmin=0.8
     ! rdps=1./(1.-psmin)
-   
+
     dfse = 0.0
     dfqa = 0.0
 
@@ -100,7 +100,7 @@ subroutine convmf (psa,se,qa,qsat,itop,cbmf,precnv,dfse,dfqa)
             mse1=se(j,nl1) +alhc*qa(j,nl1)
             mse1=min(mse0,mse1)
 
-            ! Saturation (or super-saturated) moist static energy in PBL 
+            ! Saturation (or super-saturated) moist static energy in PBL
             mss0=max(mse0,mss(j,nlev))
 
             ktop1=nlev
@@ -108,15 +108,15 @@ subroutine convmf (psa,se,qa,qsat,itop,cbmf,precnv,dfse,dfqa)
 
             do k=nlev-3,3,-1
                 mss2=mss(j,k)+wvi(k,2)*(mss(j,k+1)-mss(j,k))
-    
-                ! Check 1: conditional instability 
+
+                ! Check 1: conditional instability
                 !          (MSS in PBL > MSS at top level)
                 if (mss0.gt.mss2) then
                    ktop1=k
                 end if
-    
-                ! Check 2: gradient of actual moist static energy 
-                !          between lower and upper troposphere                     
+
+                ! Check 2: gradient of actual moist static energy
+                !          between lower and upper troposphere
                 if (mse1.gt.mss2) then
                    ktop2=k
                    msthr=mss2
@@ -128,7 +128,7 @@ subroutine convmf (psa,se,qa,qsat,itop,cbmf,precnv,dfse,dfqa)
                 qthr0=rhbl*qsat(j,nlev)
                 qthr1=rhbl*qsat(j,nl1)
                 lqthr=(qa(j,nlev).gt.qthr0.and.qa(j,nl1).gt.qthr1)
-    
+
                 if (ktop2.lt.nlev) then
                    itop(j)=ktop1
                    qdif(j)=max(qa(j,nlev)-qthr0,(mse0-msthr)*rlhc)
@@ -147,77 +147,77 @@ subroutine convmf (psa,se,qa,qsat,itop,cbmf,precnv,dfse,dfqa)
         ! 3.1 Boundary layer (cloud base)
         k =nlev
         k1=k-1
-    
+
         ! Maximum specific humidity in the PBL
         qmax=max(1.01*qa(j,k),qsat(j,k))
-    
+
         ! Dry static energy and moisture at upper boundary
         sb=se(j,k1)+wvi(k1,2)*(se(j,k)-se(j,k1))
         qb=qa(j,k1)+wvi(k1,2)*(qa(j,k)-qa(j,k1))
         qb=min(qb,qa(j,k))
-    
+
         ! Cloud-base mass flux, computed to satisfy:
         ! fmass*(qmax-qb)*(g/dp)=qdif/trcnv
         fpsa=psa(j)*min(1.,(psa(j)-psmin)*rdps)
         fmass=fm0*fpsa*min(fqmax,qdif(j)/(qmax-qb))
         cbmf(j)=fmass
-    
+
         ! Upward fluxes at upper boundary
         fus=fmass*se(j,k)
         fuq=fmass*qmax
-    
+
         ! Downward fluxes at upper boundary
         fds=fmass*sb
         fdq=fmass*qb
-    
+
         ! Net flux of dry static energy and moisture
         dfse(j,k)=fds-fus
         dfqa(j,k)=fdq-fuq
-    
+
         ! 3.2 Intermediate layers (entrainment)
         do k=nlev-1,itop(j)+1,-1
             k1=k-1
-    
+
             ! Fluxes at lower boundary
             dfse(j,k)=fus-fds
             dfqa(j,k)=fuq-fdq
-    
+
             ! Mass entrainment
             enmass=entr(k)*psa(j)*cbmf(j)
             fmass=fmass+enmass
-    
+
             ! Upward fluxes at upper boundary
             fus=fus+enmass*se(j,k)
             fuq=fuq+enmass*qa(j,k)
-    
+
             ! Downward fluxes at upper boundary
             sb=se(j,k1)+wvi(k1,2)*(se(j,k)-se(j,k1))
             qb=qa(j,k1)+wvi(k1,2)*(qa(j,k)-qa(j,k1))
             fds=fmass*sb
             fdq=fmass*qb
-    
+
             ! Net flux of dry static energy and moisture
             dfse(j,k)=dfse(j,k)+fds-fus
             dfqa(j,k)=dfqa(j,k)+fdq-fuq
-    
+
             ! Secondary moisture flux
             delq=rhil*qsat(j,k)-qa(j,k)
             if (delq.gt.0.0) then
                 fsq=smf*cbmf(j)*delq
-                dfqa(j,k)   =dfqa(j,k)   +fsq 
+                dfqa(j,k)   =dfqa(j,k)   +fsq
                 dfqa(j,nlev)=dfqa(j,nlev)-fsq
             end if
         end do
 
         ! 3.3 Top layer (condensation and detrainment)
         k=itop(j)
-    
+
         ! Flux of convective precipitation
         qsatb=qsat(j,k)+wvi(k,2)*(qsat(j,k+1)-qsat(j,k))
 
         !fk#if !defined(KNMI)
         precnv(j)=max(fuq-fmass*qsatb,0.0)
-    
+
         ! Net flux of dry static energy and moisture
         dfse(j,k)=fus-fds+alhc*precnv(j)
         dfqa(j,k)=fuq-fdq-precnv(j)

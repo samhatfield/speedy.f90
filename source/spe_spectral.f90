@@ -1,11 +1,11 @@
 !******************************************************************
 subroutine gaussl(x,w,m)
-    !   a slightly modified version of a program in Numerical Recipes 
+    !   a slightly modified version of a program in Numerical Recipes
     !       (Cambridge Univ. Press, 1989)
     !   input:
     !      m    = number of gaussian latitudes between pole and equator
     !   output:
-    !      x(m) = sin(gaussian latitude) 
+    !      x(m) = sin(gaussian latitude)
     !      w(m) = weights in gaussian quadrature (sum should equal 1.0)
 
     implicit none
@@ -25,13 +25,13 @@ subroutine gaussl(x,w,m)
         do while (abs(z-z1).gt.eps)
             p1=1.d0
             p2=0.d0
-    
+
             do j=1,n
               p3=p2
               p2=p1
               p1=((2.d0*j-1.d0)*z*p2-(j-1.d0)*p3)/j
             end do
-    
+
             pp=n*(z*p1-p2)/(z*z-1.d0)
             z1=z
             z=z1-p1/pp
@@ -57,7 +57,7 @@ subroutine parmtr(a)
     ! subroutines that manipulate spherical harmonics
     !
     ! input:  A = radius of the sphere
-    ! first compute Gaussian latitudes and weights at the IY points from 
+    ! first compute Gaussian latitudes and weights at the IY points from
     !     pole to equator
     ! SIA(IY) is sin of latitude, WT(IY) are Gaussian weights for quadratures,
     !   saved in mod_spectral
@@ -65,7 +65,7 @@ subroutine parmtr(a)
     am1 = 1./a
     am2=  1./(a*a)
 
-    ! COA(IY) = cos(lat); WGHT needed for transforms, 
+    ! COA(IY) = cos(lat); WGHT needed for transforms,
     !           saved in mod_spectral
     do j=1,iy
         cosqr = 1.0-sia(j)**2
@@ -73,7 +73,7 @@ subroutine parmtr(a)
         wght(j)=wt(j)/(a*cosqr)
     end do
 
-    ! expand cosine and its reciprocal to cover both hemispheres, 
+    ! expand cosine and its reciprocal to cover both hemispheres,
     !    saved in mod_spectral
     do j=1,iy
         jj=il+1-j
@@ -123,7 +123,7 @@ subroutine parmtr(a)
     end do
 
     ! quantities needed to generate and differentiate Legendre polynomials
-    ! all m values up to MXP = ISC*MTRUN+1 are needed by recursion relation 
+    ! all m values up to MXP = ISC*MTRUN+1 are needed by recursion relation
     ! saved in mod_spectral
     do m=1,mxp
         do n=1,nxp
@@ -190,7 +190,7 @@ subroutine parmtr(a)
 end
 !****************************************************************
 subroutine lgndre(j)
-    ! follows Leith Holloways code 
+    ! follows Leith Holloways code
 
     use mod_atparam
     use mod_spectral, only: sia, coa, sqrhlf, consq, repsi, epsi, poly
@@ -205,12 +205,12 @@ subroutine lgndre(j)
     y = coa(j)
     x = sia(j)
 
-    ! start recursion with N=1 (M=L) diagonal 
+    ! start recursion with N=1 (M=L) diagonal
     alp(1,1) = sqrhlf
     do m=2,mxp
         alp(m,1) = consq(m)*y*alp(m-1,1)
     end do
-  
+
     ! continue with other elements
     do m=1,mxp
         alp(m,2)=(x*alp(m,1))*repsi(m,2)
@@ -308,7 +308,7 @@ subroutine vds(ucosm,vcosm,vorm,divm)
     real, dimension(2,mx,nx) :: ucosm, vcosm
     real, dimension(2,mx,nx), intent(inout) :: vorm, divm
     real, dimension(2,mx,nx) :: zc, zp
-    
+
     integer :: n, m, k
 
     do n=1,nx
@@ -333,7 +333,7 @@ subroutine vds(ucosm,vcosm,vorm,divm)
         do n=2,ntrun1
             do m=1,mx
                 vorm(k,m,n)=vddym(m,n)*ucosm(k,m,n-1)-vddyp(m,n)*&
-                    & ucosm(k,m,n+1)+zc(k,m,n)  
+                    & ucosm(k,m,n+1)+zc(k,m,n)
                 divm(k,m,n)=-vddym(m,n)*vcosm(k,m,n-1)+vddyp(m,n)*&
                     & vcosm(k,m,n+1)+zp(k,m,n)
             end do
@@ -355,7 +355,7 @@ subroutine uvspec(vorm,divm,ucosm,vcosm)
     zp(1,:,:) = -uvdx*vorm(2,:,:)
     zc(2,:,:) =  uvdx*divm(1,:,:)
     zc(1,:,:) = -uvdx*divm(2,:,:)
-   
+
     do k=1,2
         do m=1,mx
             ucosm(k,m,1)=zc(k,m,1)-uvdyp(m,1)*vorm(k,m,2)
@@ -369,7 +369,7 @@ subroutine uvspec(vorm,divm,ucosm,vcosm)
         do n=2,ntrun1
             do m=1,mx
               vcosm(k,m,n)=-uvdym(m,n)*divm(k,m,n-1)+uvdyp(m,n)*&
-                  & divm(k,m,n+1)+zp(k,m,n)  
+                  & divm(k,m,n+1)+zp(k,m,n)
               ucosm(k,m,n)= uvdym(m,n)*vorm(k,m,n-1)-uvdyp(m,n)*&
                   & vorm(k,m,n+1)+zc(k,m,n)
             end do

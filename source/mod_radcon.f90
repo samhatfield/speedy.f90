@@ -15,29 +15,29 @@ module mod_radcon
     public qcloud, irhtop
 
     ! Radiation and cloud constants
-    
+
     ! solc   = Solar constant (area averaged) in W/m^2
-    ! albsea = Albedo over sea 
+    ! albsea = Albedo over sea
     ! albice = Albedo over sea ice (for ice fraction = 1)
     ! albsn  = Albedo over snow (for snow cover = 1)
-    
+
     ! rhcl1  = relative hum. threshold corr. to cloud cover = 0
     ! rhcl2  = relative hum. corr. to cloud cover = 1
     ! qacl   = specific hum. threshold for cloud cover
     ! wpcl   = cloud c. weight for the sq. root of precip. (for p = 1 mm/day)
-    ! pmaxcl = max. value of precip. (mm/day) contributing to cloud cover 
-    
+    ! pmaxcl = max. value of precip. (mm/day) contributing to cloud cover
+
     ! clsmax = maximum stratiform cloud cover
     ! clsminl= minimum stratiform cloud cover over land (for RH = 1)
     ! gse_s0 = gradient of dry static energy corresp. to strat.c.c. = 0
     ! gse_s1 = gradient of dry static energy corresp. to strat.c.c. = 1
-    
+
     ! albcl  = cloud albedo (for cloud cover = 1)
     ! albcls = stratiform cloud albedo (for st. cloud cover = 1)
     ! epssw  = fraction of incoming solar radiation absorbed by ozone
     ! epslw  = fraction of blackbody spectrum absorbed/emitted by PBL only
     ! emisfc = longwave surface emissivity
-    
+
     !          shortwave absorptivities (for dp = 10^5 Pa) :
     ! absdry = abs. of dry air      (visible band)
     ! absaer = abs. of aerosols     (visible band)
@@ -45,13 +45,13 @@ module mod_radcon
     ! abswv2 = abs. of water vapour (near IR band, for dq = 1 g/kg)
     ! abscl2 = abs. of clouds       (visible band, for dq_base = 1 g/kg)
     ! abscl1 = abs. of clouds       (visible band, maximum value)
-    
+
     !          longwave absorptivities (per dp = 10^5 Pa) :
     ! ablwin = abs. of air in "window" band
     ! ablco2 = abs. of air in CO2 band
     ! ablwv1 = abs. of water vapour in H2O band 1 (weak),   for dq = 1 g/kg
     ! ablwv2 = abs. of water vapour in H2O band 2 (strong), for dq = 1 g/kg
-    ! ablcl1 = abs. of "thick" clouds in window band (below cloud top) 
+    ! ablcl1 = abs. of "thick" clouds in window band (below cloud top)
     ! ablcl2 = abs. of "thin" upper clouds in window and H2O bands
 
     real :: solc = 342.0
@@ -117,11 +117,11 @@ module mod_radcon
     ! Transmissivity and blackbody rad. (updated in radsw/radlw)
     ! tau2   = transmissivity of atmospheric layers
     ! st4a   = blackbody emission from full and half atmospheric levels
-    ! stratc = stratospheric correction term 
+    ! stratc = stratospheric correction term
     ! flux   = radiative flux in different spectral bands
     real :: tau2(ix*il,kx,4), st4a(ix*il,kx,2), stratc(ix*il,2), flux(ix*il,4)
 
     ! Radiative properties of clouds (updated in cloud)
-    ! qcloud = Equivalent specific humidity of clouds 
+    ! qcloud = Equivalent specific humidity of clouds
     real, dimension(ix*il) :: qcloud, irhtop
 end module

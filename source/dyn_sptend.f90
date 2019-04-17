@@ -7,7 +7,7 @@ subroutine sptend (divdt,tdt,psdt,j4)
     !                  tdt   = temperature tendency (spec.)
     !                  psdt  = tendency of log_surf.pressure (spec.)
     !                  j4    = time level index (1 or 2)
-    
+
     use mod_atparam
     use mod_dynvar
     use mod_dyncon1, only: rgas, dhs, dhsr
@@ -64,4 +64,4 @@ subroutine sptend (divdt,tdt,psdt,j4)
         call lap(dumc(1,1,1),dumc(1,1,2))
         divdt(:,:,k) = divdt(:,:,k) - dumc(:,:,2)
     end do
-end   
+end

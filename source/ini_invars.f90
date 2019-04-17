@@ -27,7 +27,7 @@ subroutine invars
 
     call grid(phis,phis0,1)
 
-    ! 2. Start from reference atmosphere (at rest) 
+    ! 2. Start from reference atmosphere (at rest)
     print*, ' starting from rest'
 
     ! 2.1 Set vorticity, divergence and tracers to zero

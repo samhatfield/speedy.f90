@@ -6,7 +6,7 @@
 !     sea-ice depth : d + (d0-d)*(cos_lat)^2
 !      depth_ice = 1.8
       depth_ice = 2.5              ! High-latitude depth
-      dept0_ice = 1.5              ! Minimum depth 
+      dept0_ice = 1.5              ! Minimum depth
 
 !     Dissipation time (days) for sea-surface temp. anomalies
       tdsst  = 90.

@@ -1,7 +1,7 @@
 subroutine sol_oz(tyear)
     !  subroutine sol_oz (tyear)
     !
-    !  Purpose: Compute zonally-averaged fields to be used 
+    !  Purpose: Compute zonally-averaged fields to be used
     !           in the computation of SW absorption:
     !           fsol   = flux of incoming solar radiation
     !           ozone  = flux absorbed by ozone (lower stratos.)
@@ -50,14 +50,14 @@ subroutine sol_oz(tyear)
         ! Solar radiation at the top
         fsol(j0)=topsr(j)
 
-        ! Ozone depth in upper and lower stratosphere 
+        ! Ozone depth in upper and lower stratosphere
         ozupp(j0)=0.5*epssw
         ozone(j0)=0.4*epssw*(1.0+coz1*slat(j)+coz2*flat2)
 
-        ! Zenith angle correction to (downward) absorptivity 
+        ! Zenith angle correction to (downward) absorptivity
         zenit(j0)=1.+azen*(1.-(clat(j)*czen+slat(j)*szen))**nzen
 
-        ! Ozone absorption in upper and lower stratosphere 
+        ! Ozone absorption in upper and lower stratosphere
         ozupp(j0)=fsol(j0)*ozupp(j0)*zenit(j0)
         ozone(j0)=fsol(j0)*ozone(j0)*zenit(j0)
 
@@ -152,19 +152,19 @@ subroutine cloud(qa,rh,precnv,precls,iptop,gse,fmask,icltop,cloudc,clstr)
 
     integer :: inew, j, k, nl1, nlp
     real :: albcor, cl1, clfact, clstrl, drh, fstab, pr1, rgse, rrcl
-      
+
     nl1  = nlev-1
     nlp  = nlev+1
     rrcl = 1./(rhcl2-rhcl1)
 
     ! 1.  Cloud cover, defined as the sum of:
-    !     - a term proportional to the square-root of precip. rate 
+    !     - a term proportional to the square-root of precip. rate
     !     - a quadratic function of the max. relative humidity
     !       in tropospheric layers above PBL where Q > QACL :
     !       ( = 0 for RHmax < RHCL1, = 1 for RHmax > RHCL2 )
     !     Cloud-top level: defined as the highest (i.e. least sigma)
     !       between the top of convection/condensation and
-    !       the level of maximum relative humidity. 
+    !       the level of maximum relative humidity.
 
     do j=1,ngp
         if (rh(j,nl1).gt.rhcl1) then
@@ -193,7 +193,7 @@ subroutine cloud(qa,rh,precnv,precls,iptop,gse,fmask,icltop,cloudc,clstr)
         icltop(j) = min(iptop(j),icltop(j))
     end do
 
-    ! 2.  Equivalent specific humidity of clouds 
+    ! 2.  Equivalent specific humidity of clouds
     qcloud = qa(:,nl1)
 
     ! 3. Stratiform clouds at the top of PBL
@@ -220,7 +220,7 @@ subroutine cloud(qa,rh,precnv,precls,iptop,gse,fmask,icltop,cloudc,clstr)
         clsmax  = 0.3
         clsminl = 0.1
         albcor  = albcl/0.5
- 
+
         do j=1,ngp
             ! stratocumulus clouds over sea
             clstr(j) = max(clsmax-cloudc(j),0.)
@@ -271,7 +271,7 @@ subroutine radsw(psa,qa,icltop,cloudc,clstr,fsfcd,fsfc,ftop,dfabs)
 
     ! ALBMINL=0.05
     ! ALBCLS = 0.5
-    
+
     ! 1.  Initialization
     tau2 = 0.0
 
@@ -323,8 +323,8 @@ subroutine radsw(psa,qa,icltop,cloudc,clstr,fsfcd,fsfc,ftop,dfabs)
         end do
     end do
 
-    ! 3. Shortwave downward flux 
-    ! 3.1 Initialization of fluxes 
+    ! 3. Shortwave downward flux
+    ! 3.1 Initialization of fluxes
     ftop = fsol
     flux(:,1) = fsol * fband1
     flux(:,2) = fsol * fband2
@@ -363,7 +363,7 @@ subroutine radsw(psa,qa,icltop,cloudc,clstr,fsfcd,fsfc,ftop,dfabs)
         end do
     end do
 
-    ! 4. Shortwave upward flux 
+    ! 4. Shortwave upward flux
     ! 4.1  Absorption and reflection at the surface
     do j=1,ngp
         fsfcd(j)  = flux(j,1)+flux(j,2)
@@ -440,9 +440,9 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
     ! &                  fsfc,ftop,dfabs)
     !
     !  Purpose: Compute the absorption of longwave radiation
-    !  Input:   imode  = index for operation mode 
+    !  Input:   imode  = index for operation mode
     !                    -1 : downward flux only
-    !                     0 : downward + upward flux 
+    !                     0 : downward + upward flux
     !                    +1 : upward flux only
     !           ta     = absolute temperature (3-dim)
     !           ts     = surface temperature                    [if imode=0]
@@ -483,7 +483,7 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
     if (imode.eq.1) go to 410
     ! 1. Blackbody emission from atmospheric levels.
     ! The linearized gradient of the blakbody emission is computed
-    ! from temperatures at layer boundaries, which are interpolated 
+    ! from temperatures at layer boundaries, which are interpolated
     ! assuming a linear dependence of T on log_sigma.
     ! Above the first (top) level, the atmosphere is assumed isothermal.
 
@@ -492,15 +492,15 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
         do j=1,ngp
             st4a(j,k,1)=ta(j,k)+wvi(k,2)*(ta(j,k+1)-ta(j,k))
         end do
-    end do 
+    end do
 
-    ! Mean temperature in stratospheric layers 
+    ! Mean temperature in stratospheric layers
     do j=1,ngp
         st4a(j,1,2)=0.75*ta(j,1)+0.25* st4a(j,1,1)
         st4a(j,2,2)=0.50*ta(j,2)+0.25*(st4a(j,1,1)+st4a(j,2,1))
     end do
 
-    ! Temperature gradient in tropospheric layers 
+    ! Temperature gradient in tropospheric layers
     anis =1.0
     anish=0.5*anis
 
@@ -536,10 +536,10 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
     dfabs = 0.0
 
     ! 3. Emission ad absorption of longwave downward flux.
-    !    For downward emission, a correction term depending on the      
-    !    local temperature gradient and on the layer transmissivity is  
-    !    added to the average (full-level) emission of each layer. 
-	
+    !    For downward emission, a correction term depending on the
+    !    local temperature gradient and on the layer transmissivity is
+    !    added to the average (full-level) emission of each layer.
+
     ! 3.1  Stratosphere
     k=1
     do jb=1,2
@@ -552,7 +552,7 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
     end do
 
     flux(:,3:nband) = 0.0
-	
+
     ! 3.2  Troposphere
     do jb=1,nband
         do k=2,nlev
@@ -583,14 +583,14 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
 
     if (imode.eq.-1) return
 
-    ! 4. Emission ad absorption of longwave upward flux. 
-    !    For upward emission, a correction term depending on the      
-    !    local temperature gradient and on the layer transmissivity is  
-    !    subtracted from the average (full-level) emission of each layer. 
-	
+    ! 4. Emission ad absorption of longwave upward flux.
+    !    For upward emission, a correction term depending on the
+    !    local temperature gradient and on the layer transmissivity is
+    !    subtracted from the average (full-level) emission of each layer.
+
     ! 4.1  Surface
 
-    ! Black-body (or grey-body) emission 
+    ! Black-body (or grey-body) emission
     esbc=emisfc*sbc
     do j=1,ngp
         tsq=ts(j)*ts(j)
@@ -607,7 +607,7 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
             flux(j,jb)=fband(nint(ts(j)),jb)*fsfcu(j)+refsfc*flux(j,jb)
         end do
     end do
-	
+
     ! 4.2  Troposphere
 
     ! Correction for "black" band
@@ -626,7 +626,7 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
             end do
         end do
     end do
-	
+
     ! 4.3  Stratosphere
     k=1
     do jb=1,2
@@ -648,7 +648,7 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
         ftop(j)   =corlw1+corlw2
     end do
 
-    ! 4.4  Outgoing longwave radiation 
+    ! 4.4  Outgoing longwave radiation
     do jb=1,nband
         do j=1,ngp
             ftop(j)=ftop(j)+flux(j,jb)

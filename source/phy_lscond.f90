@@ -4,7 +4,7 @@ subroutine lscond(psa,qa,qsat,itop,precls,dtlsc,dqlsc)
 !fksubroutine lscond (psa,qa,qsat,ts,itop,precls,snowls,dtlsc,dqlsc)
 !fk#endif
     !  subroutine lscond (psa,qa,qsat,
-    ! *                   itop,precls,dtlsc,dqlsc) 
+    ! *                   itop,precls,dtlsc,dqlsc)
     !
     !  Purpose: Compute large-scale precipitation and
     !           associated tendencies of temperature and moisture
@@ -59,8 +59,8 @@ subroutine lscond(psa,qa,qsat,itop,precls,dtlsc,dqlsc)
     end do
 
     ! 2. Tendencies of temperature and moisture
-    !    NB. A maximum heating rate is imposed to avoid 
-    !        grid-point-storm instability 
+    !    NB. A maximum heating rate is imposed to avoid
+    !        grid-point-storm instability
     do k=2,nlev
         sig2=sig(k)*sig(k)
         rhref = rhlsc+drhlsc*(sig2-1.)

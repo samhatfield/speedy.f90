@@ -1,4 +1,4 @@
-subroutine forint(ngp,imon,fmon,for12,for1)  
+subroutine forint(ngp,imon,fmon,for12,for1)
     ! Aux. routine FORINT : linear interpolation of monthly-mean forcing
 
     implicit none
@@ -23,7 +23,7 @@ subroutine forint(ngp,imon,fmon,for12,for1)
 end
 
 subroutine forin5(ngp,imon,fmon,for12,for1)
-    ! Aux. routine FORIN5 : non-linear, mean-conserving interpolation 
+    ! Aux. routine FORIN5 : non-linear, mean-conserving interpolation
     !                       of monthly-mean forcing fields
 
     implicit none
@@ -43,7 +43,7 @@ subroutine forin5(ngp,imon,fmon,for12,for1)
     if (im1.lt.1)  im1 = im1+12
     if (ip1.gt.12) ip1 = ip1-12
     if (ip2.gt.12) ip2 = ip2-12
- 
+
     c0 = 1./12.
     t0 = c0*fmon
     t1 = c0*(1.-fmon)
@@ -51,9 +51,9 @@ subroutine forin5(ngp,imon,fmon,for12,for1)
 
     wm2 =        -t1   +t2
     wm1 =  -c0 +8*t1 -6*t2
-    w0  = 7*c0      +10*t2     
+    w0  = 7*c0      +10*t2
     wp1 =  -c0 +8*t0 -6*t2
-    wp2 =        -t0   +t2 
+    wp2 =        -t0   +t2
 
     for1 = wm2*for12(:,im2) + wm1*for12(:,im1) + w0*for12(:,imon) +&
         & wp1*for12(:,ip1) + wp2*for12(:,ip2)
