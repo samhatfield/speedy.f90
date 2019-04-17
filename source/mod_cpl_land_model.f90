@@ -3,6 +3,11 @@ module mod_cpl_land_model
 
     implicit none
 
+    private
+    public rhcapl, cdland, vland_input, vland_output
+    public stlcl_ob, snowdcl_ob, soilwcl_ob, stl_am, snowd_am, soilw_am, stl_lm
+    public land_model_init, land_model
+
     ! 1./heat_capacity (land)
     real :: rhcapl(ix,il)           
 
@@ -15,6 +20,19 @@ module mod_cpl_land_model
 
     ! Land model output variables
     real :: vland_output(ix*il,2)           
+
+    ! Daily observed climatological fields over land
+    real :: stlcl_ob(ix*il)              ! clim. land sfc. temperature
+    real :: snowdcl_ob(ix*il)              ! clim. snow depth (water equiv)
+    real :: soilwcl_ob(ix*il)              ! clim. soil water availability
+
+    ! Land sfc. fields used by atmospheric model
+    real :: stl_am(ix*il)                   ! land sfc. temperature
+    real :: snowd_am(ix*il)                 ! snow depth (water equiv)
+    real :: soilw_am(ix*il)                 ! soil water availability
+
+    ! Land sfc. fields from land model
+    real :: stl_lm(ix*il)                 ! land-model sfc. temperature
 
     contains
         subroutine land_model_init(fmask_l,alb0) 

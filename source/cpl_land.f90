@@ -1,6 +1,6 @@
 subroutine ini_land()
     use mod_atparam
-    use mod_var_land, only: stlcl_ob, stl_lm
+    use mod_cpl_land_model, only: stlcl_ob, stl_lm
 
     implicit none
 
@@ -17,11 +17,10 @@ end
 subroutine atm2land(jday)
     use mod_cpl_flags, only: icland
     use mod_atparam
-    use mod_cpl_land_model, only: vland_input
+    use mod_cpl_land_model, only: vland_input, stlcl_ob, snowdcl_ob, soilwcl_ob, stl_lm
     use mod_flx_land, only: hflux_l
     use mod_cli_land, only: stl12, snowd12, soilw12
     use mod_date, only: imont1, tmonth
-    use mod_var_land, only: stlcl_ob, snowdcl_ob, soilwcl_ob, stl_lm
 
     implicit none
 
@@ -54,8 +53,8 @@ end
 subroutine land2atm(jday)
     use mod_cpl_flags, only: icland
     use mod_atparam
-    use mod_cpl_land_model, only: land_model, vland_output
-    use mod_var_land
+    use mod_cpl_land_model, only: land_model, vland_output, stl_lm, stl_am, snowd_am, soilw_am, &
+        & stlcl_ob, snowdcl_ob, soilwcl_ob
 
     implicit none
 

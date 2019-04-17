@@ -37,7 +37,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
     use mod_sflcon
     use mod_physcon, only: p0, rd, cp, alhc, sbc, sigl, wvi, clat
     use mod_radcon, only: emisfc, alb_l, alb_s, snowc
-	use mod_var_land, only: stl_am, soilw_am
+	use mod_cpl_land_model, only: stl_am, soilw_am
 
     implicit none
 
