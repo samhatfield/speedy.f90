@@ -1,10 +1,2 @@
 *.swp
-input
-output
-figs
-rpe
 rundir
-animations
-.rsync-filter
-experiments
-data
