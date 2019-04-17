@@ -7,8 +7,8 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
     !
     !   dF/dt = T_dyn(F(J2)) + T_phy(F(J1))
     !
-    !   Input:  j1 = time level index for physical tendencies 
-    !           j2 = time level index for dynamical tendencies 
+    !   Input:  j1 = time level index for physical tendencies
+    !           j2 = time level index for dynamical tendencies
     !   Output: vordt = spectral tendency of vorticity
     !           divdt = spectral tendency of divergence
     !           tdt   = spectral tendency of temperature
@@ -52,7 +52,7 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
     if (iitest.eq.1) print*,'inside GRTEND'
 
     ! -------------
-    ! Grid converts 
+    ! Grid converts
     do k=1,kx
         call grid(vor(:,:,k,j2),vorg(:,:,k),1)
         call grid(div(:,:,k,j2),divg(:,:,k),1)
@@ -92,13 +92,13 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
     call spec(-umean * px - vmean * py,psdt)
     psdt(1,1) = (0.0, 0.0)
 
-    ! Compute "vertical" velocity  
+    ! Compute "vertical" velocity
     sigdt(:,:,1) = 0.0
     sigdt(:,:,kxp) = 0.0
     sigm(:,:,1) = 0.0
     sigm(:,:,kxp) = 0.0
 
-    ! (The following combination of terms is utilized later in the 
+    ! (The following combination of terms is utilized later in the
     !     temperature equation)
     do k=1,kx
         puv(:,:,k) = (ug(:,:,k) - umean) * px + (vg(:,:,k) - vmean) * py
@@ -109,8 +109,8 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
         sigdt(:,:,k+1) = sigdt(:,:,k) - dhs(k)*(puv(:,:,k)+divg(:,:,k)-dmean)
         sigm(:,:,k+1) = sigm(:,:,k) - dhs(k)*puv(:,:,k)
     end do
- 
-    ! Subtract part of temperature field that is used as reference for 
+
+    ! Subtract part of temperature field that is used as reference for
     ! implicit terms
     do k=1,kx
         tgg(:,:,k) = tg(:,:,k) - tref(k)
@@ -149,12 +149,12 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
     end do
 
     ! Tracer tendency
-    do itr=1,ntr 
+    do itr=1,ntr
         do k=2,kx
-            temp(:,:,k) = sigdt(:,:,k)*(trg(:,:,k,itr) - trg(:,:,k-1,itr)) 
+            temp(:,:,k) = sigdt(:,:,k)*(trg(:,:,k,itr) - trg(:,:,k-1,itr))
         end do
 
-        !spj for moisture, vertical advection is not possible between top 
+        !spj for moisture, vertical advection is not possible between top
         !spj two layers
         !kuch three layers
         !if(iinewtrace.eq.1)then
@@ -170,13 +170,14 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
 
     call geop(j1)
 
-    call phypar(ug, vg, tg, trg(:,:,j1,1), phi, ps(:,:,j1), utend, vtend, ttend, trtend)
+    call phypar(vor(:,:,:,j1), div(:,:,:,j1), t(:,:,:,j1), tr(:,:,:,j1,1), phi, ps(:,:,j1), &
+        & utend, vtend, ttend, trtend)
 
     !*********************************************************
 
     do k=1,kx
         !  convert u and v tendencies to vor and div spectral tendencies
-        !  vdspec takes a grid u and a grid v and converts them to 
+        !  vdspec takes a grid u and a grid v and converts them to
         !  spectral vor and div
         call vdspec(utend(:,:,k), vtend(:,:,k), vordt(:,:,k), divdt(:,:,k), 2)
 
@@ -199,4 +200,4 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
             trdt(:,:,k,itr) = trdt(:,:,k,itr) + dumc(:,:,2)
         end do
     end do
-end 
+end
