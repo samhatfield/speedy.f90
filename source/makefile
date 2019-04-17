@@ -4,11 +4,11 @@ FC=gfortran
 # Compiler options
 COMPOPTS=-Ofast -fdefault-real-8 -fconvert=swap
 
-# Include flags
-INC=-I/usr/local/include
+# # Location of NetCDF module (netcdf.mod)
+INC=-I/usr/include
 
 # Library flags
-LIB=-L/usr/local/lib -lnetcdff -lnetcdf
+LIB=-lnetcdff -lnetcdf
 
 FILES= \
        cpl_bcinterp.o \
