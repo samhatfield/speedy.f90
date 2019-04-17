@@ -75,10 +75,10 @@ FILES= \
        spe_subfft_fftpack.o
 
 %.o: %.f90
-	$(FC) $(COMOPTS) -c $< $(INC)
+	$(FC) $(COMPOPTS) -c $< $(INC)
 
 speedy: $(FILES) at_gcm.o
-	$(FC) $(COMOPTS) $(FILES) at_gcm.o -o speedy $(LIB)
+	$(FC) $(COMPOPTS) $(FILES) at_gcm.o -o speedy $(LIB)
 
 .PHONY: clean
 clean:
