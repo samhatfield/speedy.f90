@@ -28,7 +28,7 @@ subroutine agcm_to_coupler(jday)
     integer, intent(in) :: jday
 
     ! 1. send fields to land model
-    call atm2land(jday)
+    call atm2land
 
     ! 2. send fields to sea and ice model
     call atm2sea(jday)

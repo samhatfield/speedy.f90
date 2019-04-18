@@ -15,15 +15,8 @@ module mod_cpl_land_model
     ! 1./dissip_time (land)
     real :: cdland(ix,il)
 
-    ! Input and output land variables exchanged by coupler
-    ! Land model input variables
-    real :: vland_input(ix*il,4)
-
-    ! Land model output variables
-    real :: vland_output(ix*il,2)
-
     ! Daily observed climatological fields over land
-    real :: stlcl_ob(ix*il)              ! clim. land sfc. temperature
+    real :: stlcl_ob(ix*il)                ! clim. land sfc. temperature
     real :: snowdcl_ob(ix*il)              ! clim. snow depth (water equiv)
     real :: soilwcl_ob(ix*il)              ! clim. soil water availability
 
@@ -116,7 +109,7 @@ module mod_cpl_land_model
 
         subroutine ini_land()
             ! 1. Compute climatological fields for initial date
-            call atm2land(0)
+            call atm2land
 
             ! 2. Initialize prognostic variables of land model
             stl_lm(:)  = stlcl_ob(:)      ! land sfc. temperature
@@ -125,15 +118,12 @@ module mod_cpl_land_model
             call land2atm(0)
         end
 
-        subroutine atm2land(jday)
-            use mod_cpl_flags, only: icland
-            use mod_flx_land, only: hflux_l
+        subroutine atm2land
             use mod_date, only: imont1, tmonth
 
-            integer, intent(in) :: jday
-            integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
+            integer, parameter :: ngp=ix*il
 
-            ! 1. Interpolate climatological fields to actual date
+            ! Interpolate climatological fields to actual date
 
             ! Climatological land sfc. temperature
             call forin5(ngp,imont1,tmonth,stl12,stlcl_ob)
@@ -143,17 +133,6 @@ module mod_cpl_land_model
 
             ! Climatological soil water availability
             call forint(ngp,imont1,tmonth,soilw12,soilwcl_ob)
-
-            if (jday.le.0) return
-
-            ! 2. Set input variables for mixed-layer/ocean model
-            if (icland.gt.0) then
-                vland_input(:,1) = stl_lm(:)
-                vland_input(:,2) = hflux_l(:)
-                vland_input(:,3) = stlcl_ob(:)
-            end if
-
-            ! 3. Call message-passing routines to send data (if needed)
         end
 
         subroutine land2atm(jday)
@@ -161,18 +140,14 @@ module mod_cpl_land_model
 
             integer, intent(in) :: jday
 
-            if (jday.gt.0.and.icland.gt.0) then
-                ! 1. Run ocean mixed layer or
-                !    call message-passing routines to receive data from ocean model
+            if (jday > 0.and. icland > 0) then
+                ! Run land model
                 call land_model
-
-                ! 2. Get updated variables for mixed-layer/ocean model
-                stl_lm(:) = vland_output(:,1)      ! land sfc. temperature
             end if
 
             ! 3. Compute land-sfc. fields for atm. model
             ! 3.1 Land sfc. temperature
-            if (icland.le.0) then
+            if (icland <= 0) then
                 ! Use observed climatological field
                 stl_am(:) = stlcl_ob(:)
             else
@@ -185,46 +160,21 @@ module mod_cpl_land_model
             soilw_am(:) = soilwcl_ob(:)
         end
 
+        ! Integrate slab land-surface model for one day
         subroutine land_model
-            ! subroutine land_model
-            !
-            ! purpose : integrate slab land-surface model for one day
+            use mod_flx_land, only: hflux_l
 
-            !real vland_input(ix,il,3), vland_output(ix,il,2)
+            ! Surface temperature anomaly
+            real :: tanom(ix*il)
 
-            ! Input variables:
-            real :: stl0(ix*il)    ! land temp. at initial time
-            real :: hfland(ix*il)    ! land sfc. heat flux between t0 and t1
-            real :: stlcl1(ix*il)    ! clim. land temp. at final time
+            ! Land-surface (soil/ice-sheet) layer
+            ! Anomaly w.r.t. final-time climatological temperature
+            tanom = stl_lm - stlcl_ob
 
-            ! Output variables
-            real :: stl1(ix*il)     ! land temp. at final time
+            ! Time evolution of temperature anomaly
+            tanom = reshape(cdland, (/ ix*il /))*(tanom + reshape(rhcapl, (/ ix*il /))*hflux_l)
 
-            ! Auxiliary variables
-            real :: hflux(ix*il)   ! net sfc. heat flux
-            real :: tanom(ix*il)   ! sfc. temperature anomaly
-
-            ! Initialise variables
-            stl0 = vland_input(:,1)
-            hfland = vland_input(:,2)
-            stlcl1 = vland_input(:,3)
-
-            ! 1. Land-surface (soil/ice-sheet) layer
-
-            ! Net heat flux
-            ! (snow correction to be added?)
-            hflux = hfland
-
-            ! Anomaly w.r.t final-time climatological temp.
-            tanom = stl0 - stlcl1
-
-            ! Time evoloution of temp. anomaly
-            tanom = reshape(cdland, (/ ix*il /))*&
-                & (tanom+reshape(rhcapl, (/ ix*il /))*hflux)
-
-            ! Full SST at final time
-            stl1 = tanom + stlcl1
-
-            vland_output(:,1) = stl1
+            ! Full surface temperature at final time
+            stl_lm = tanom + stlcl_ob
         end
 end
