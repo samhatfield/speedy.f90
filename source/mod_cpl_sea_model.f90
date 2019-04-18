@@ -94,14 +94,11 @@ contains
         ! Dissipation time (days) for sea-surface temp. anomalies
         real :: tdsst  = 90.
 
-        ! Dissipation time (days) for sea-ice temp. anomalies
-        real :: dice = 30.
-
         ! Minimum fraction of sea for the definition of anomalies
         real :: fseamin = 1./3.
 
         ! Dissipation time (days) for sea-ice temp. anomalies
-        real :: tdice
+        real :: tdice = 30.0
 
         ! Geographical domain
         ! note : more than one regional domain may be set .true.
@@ -112,8 +109,8 @@ contains
         l_tropic = .false.         ! Tropics (lat 30S-30N)
         l_indian = .false.         ! Indian Ocean (lat 30S-30N, lon 30-120E)
 
-        ! Reset model parameters
-        include "cls_insea.h"
+        ! Heat flux coefficient at sea/ice interface [(W/m^2)/deg]
+        beta = 1.
 
         ! Heat capacities per m^2 (depth*heat_cap/m^3)
         crad=asin(1.)/90.
@@ -327,8 +324,6 @@ contains
         ticecl1 = reshape(ticecl_ob, (/ix, il/))
 
         sstfr = 273.2-1.8       ! SST at freezing point
-
-        !beta = 1.               ! heat flux coef. at sea-ice bottom
 
         ! 1. Ocean mixed layer
         ! Net heat flux

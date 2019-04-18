@@ -19,7 +19,6 @@ cd $BIN
 
 # Copy source files
 cp $SRC/*.f90    .
-cp $SRC/*.h      .
 cp $SRC/makefile .
 
 # Compile SPEEDY and delete source files
@@ -31,4 +30,4 @@ else
     make -s speedy || { echo "Compilation failed"; exit 1; }
 fi
 
-rm *.f90 *.h *.o makefile *.mod
+rm *.f90 *.o makefile *.mod

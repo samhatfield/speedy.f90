@@ -79,9 +79,6 @@ module mod_cpl_land_model
             ! Minimum fraction of land for the definition of anomalies
             flandmin = 1./3.
 
-            ! Reset model parameters
-            include "cls_inland.h"
-
             ! Heat capacities per m^2 (depth*heat_cap/m^3)
             hcapl  = depth_soil*2.50e+6
             hcapli = depth_lice*1.93e+6
