@@ -25,6 +25,7 @@ subroutine fordate(imode)
 
     integer, intent(in) :: imode
     real, dimension(nlon, nlat) :: corh, tsfc, tref, psfc, qsfc, qref
+    real :: sice_am_copy(ngp)
     real :: gamlat(nlat)
 
     real :: fland(ngp), alb_0(ngp)
@@ -34,6 +35,7 @@ subroutine fordate(imode)
 
     fland = reshape(fmask_l, (/ngp/))
     alb_0 = reshape(alb0, (/ngp/))
+    sice_am_copy = reshape(sice_am, (/ngp/))
 
     ! time variables for interpolation are set by newdate
 
@@ -54,7 +56,7 @@ subroutine fordate(imode)
     do j = 1, ngp
         snowc(j)  = min(1., snowd_am(j)/sd2sc)
         alb_l(j)  = alb_0(j) + snowc(j) * (albsn - alb_0(j))
-        alb_s(j)  = albsea + sice_am(j) * (albice - albsea)
+        alb_s(j)  = albsea + sice_am_copy(j) * (albice - albsea)
         albsfc(j) = alb_s(j) + fland(j) * (alb_l(j) - alb_s(j))
     end do
 
@@ -84,10 +86,7 @@ subroutine fordate(imode)
         pexp = 1./(rd * gamlat(j))
         do i = 1, nlon
             ij = ij + 1
-!            tsfc(i,j) = fmask_l(i,j)*stlcl_ob(ij)
-!     &               +fmask_s(i,j)*sstcl_ob(ij)
-            tsfc(i,j) = fmask_l(i,j) * stl_am(ij)&
-                & + fmask_s(i,j) * sst_am(ij)
+            tsfc(i,j) = fmask_l(i,j) * stl_am(ij) + fmask_s(i,j) * sst_am(i,j)
             tref(i,j) = tsfc(i,j) + corh(i,j)
             psfc(i,j) = (tsfc(i,j)/tref(i,j))**pexp
         end do

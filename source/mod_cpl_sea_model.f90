@@ -33,38 +33,36 @@ module mod_cpl_sea_model
     real :: sstom12(ix,il,12) ! Ocean model SST climatology
 
     ! Daily observed climatological fields over sea
-    real :: sstcl_ob(ix*il) ! Observed clim. SST
-    real :: sicecl_ob(ix*il) ! Clim. sea ice fraction
-    real :: ticecl_ob(ix*il) ! Clim. sea ice temperature
-    real :: sstan_ob(ix*il) ! Daily observed SST anomaly
+    real :: sstcl_ob(ix,il) ! Observed clim. SST
+    real :: sicecl_ob(ix,il) ! Clim. sea ice fraction
+    real :: ticecl_ob(ix,il) ! Clim. sea ice temperature
+    real :: sstan_ob(ix,il) ! Daily observed SST anomaly
 
     ! Daily climatological fields from ocean model
-    real :: sstcl_om(ix*il) ! Ocean model clim. SST
+    real :: sstcl_om(ix,il) ! Ocean model clim. SST
 
     ! Sea sfc. fields used by atmospheric model
-    real :: sst_am(ix*il) ! SST (full-field)
-    real :: sstan_am(ix*il) ! SST anomaly
-    real :: sice_am(ix*il) ! Sea ice fraction
-    real :: tice_am(ix*il) ! Sea ice temperature
+    real :: sst_am(ix,il) ! SST (full-field)
+    real :: sstan_am(ix,il) ! SST anomaly
+    real :: sice_am(ix,il) ! Sea ice fraction
+    real :: tice_am(ix,il) ! Sea ice temperature
 
     ! Sea sfc. fields from ocean/sea-ice model
-    real :: sst_om(ix*il) ! Ocean model SST
-    real :: sice_om(ix*il) ! Model sea ice fraction
-    real :: tice_om(ix*il) ! Model sea ice temperature
-    real :: ssti_om(ix*il) ! Model SST + sea ice temp.
+    real :: sst_om(ix,il) ! Ocean model SST
+    real :: sice_om(ix,il) ! Model sea ice fraction
+    real :: tice_om(ix,il) ! Model sea ice temperature
+    real :: ssti_om(ix,il) ! Model SST + sea ice temp.
 
     ! Weight for obs. SST anomaly in coupled runs
-    real :: wsst_ob(ix*il)
+    real :: wsst_ob(ix,il)
 
     ! Fluxes at sea surface (all downward, except evaporation)
-    real :: hflux_s(ix*il) ! Net heat flux into sea surface
-    real :: hflux_i(ix*il) ! Net heat flux into sea-ice surface
+    real :: hflux_s(ix,il) ! Net heat flux into sea surface
+    real :: hflux_i(ix,il) ! Net heat flux into sea-ice surface
 
 contains
     ! Initialization of sea model
     subroutine sea_model_init
-        integer, parameter :: ngp=ix*il
-
         ! Domain mask
         real :: dmask(ix,il)
 
@@ -162,9 +160,8 @@ contains
         use mod_cpl_bcinterp, only: forin5, forint
 
         integer, intent(in) :: day
-        integer, parameter :: ngp=ix*il
 
-        integer :: j
+        integer :: i, j
         real :: sstcl0, sstfr
 
         ! 1. Interpolate climatological fields and obs. SST anomaly
@@ -192,37 +189,38 @@ contains
         ! SST at freezing point
         sstfr = 273.2-1.8
 
-        do j=1,ngp
-            sstcl0 = sstcl_ob(j)
+        do i = 1, ix
+            do j = 1, il
+                sstcl0 = sstcl_ob(i,j)
 
-            if (sstcl_ob(j).gt.sstfr) then
-                sicecl_ob(j) = min(0.5,sicecl_ob(j))
-                ticecl_ob(j) = sstfr
-                if (sicecl_ob(j).gt.0.) then
-                    sstcl_ob(j) = sstfr+(sstcl_ob(j)-sstfr)/(1.-sicecl_ob(j))
+                if (sstcl_ob(i,j) > sstfr) then
+                    sicecl_ob(i,j) = min(0.5, sicecl_ob(i,j))
+                    ticecl_ob(i,j) = sstfr
+                    if (sicecl_ob(i,j) .gt. 0.0) then
+                        sstcl_ob(i,j) = sstfr + (sstcl_ob(i,j) - sstfr)/(1.0 - sicecl_ob(i,j))
+                    end if
+                else
+                    sicecl_ob(i,j) = max(0.5, sicecl_ob(i,j))
+                    ticecl_ob(i,j) = sstfr + (sstcl_ob(i,j) - sstfr)/sicecl_ob(i,j)
+                    sstcl_ob(i,j)  = sstfr
                 end if
-            else
-                sicecl_ob(j) = max(0.5,sicecl_ob(j))
-                ticecl_ob(j) = sstfr+(sstcl_ob(j)-sstfr)/sicecl_ob(j)
-                !ticecl_ob(j) = sstcl_ob(j)
-                sstcl_ob(j)  = sstfr
-            end if
 
-            if (icsea.ge.3) sstcl_om(j) = sstcl_om(j)+(sstcl_ob(j)-sstcl0)
+                if (icsea >= 3) sstcl_om(i,j) = sstcl_om(i,j) + (sstcl_ob(i,j) - sstcl0)
+            end do
         end do
 
         if (day == 0) then
             ! 2. Initialize prognostic variables of ocean/ice model
             !    in case of no restart or no coupling
-            sst_om(:)  = sstcl_ob(:)      ! SST
-            tice_om(:) = ticecl_ob(:)     ! sea ice temperature
-            sice_om(:) = sicecl_ob(:)     ! sea ice fraction
+            sst_om  = sstcl_ob      ! SST
+            tice_om = ticecl_ob     ! sea ice temperature
+            sice_om = sicecl_ob     ! sea ice fraction
 
-            if (icsea.le.0) sst_om(:) = 0.
+            if (icsea <= 0) sst_om = 0.0
 
             ! 3. Compute additional sea/ice variables
-            wsst_ob(:) = 0.
-            if (icsea.ge.4) call sea_domain('elnino',wsst_ob)
+            wsst_ob = 0.
+            if (icsea >= 4) call sea_domain('elnino',wsst_ob)
         else
             if (icsea > 0 .or. icice > 0) then
                 ! 1. Run ocean mixed layer or
@@ -233,40 +231,40 @@ contains
 
         ! 3. Compute sea-sfc. anomalies and full fields for atm. model
         ! 3.1 SST
-        sstan_am(:) = 0.
+        sstan_am = 0.0
 
-        if (icsea.le.1) then
-            if (isstan.gt.0) sstan_am(:) = sstan_ob(:)
+        if (icsea <= 1) then
+            if (isstan > 0) sstan_am = sstan_ob
 
             ! Use observed SST (climatological or full field)
-            sst_am(:) = sstcl_ob(:) + sstan_am(:)
+            sst_am = sstcl_ob + sstan_am
         else if (icsea.eq.2) then
             ! Use full ocean model SST
-            sst_am(:) = sst_om(:)
-        else if (icsea.ge.3) then
+            sst_am = sst_om
+        else if (icsea >= 3) then
             ! Define SST anomaly from ocean model ouput and climatology
-            sstan_am(:) = sst_om(:) - sstcl_om(:)
+            sstan_am = sst_om - sstcl_om
 
             ! Merge with observed SST anomaly in selected area
-            if (icsea.ge.4) then
-                sstan_am(:) = sstan_am(:) + wsst_ob(:)*(sstan_ob(:)-sstan_am(:))
+            if (icsea >= 4) then
+                sstan_am = sstan_am + wsst_ob*(sstan_ob - sstan_am)
             end if
 
             ! Add observed SST climatology to model SST anomaly
-            sst_am(:) = sstcl_ob(:) + sstan_am(:)
+            sst_am = sstcl_ob + sstan_am
         end if
 
         ! 3.2 Sea ice fraction and temperature
-        if (icice.gt.0) then
-            sice_am(:) = sice_om(:)
-            tice_am(:) = tice_om(:)
+        if (icice > 0) then
+            sice_am = sice_om
+            tice_am = tice_om
         else
-            sice_am(:) = sicecl_ob(:)
-            tice_am(:) = ticecl_ob(:)
+            sice_am = sicecl_ob
+            tice_am = ticecl_ob
         end if
 
-        sst_am(:)  = sst_am(:)+sice_am(:)*(tice_am(:)-sst_am(:))
-        ssti_om(:) = sst_om(:)+sice_am(:)*(tice_am(:)-sst_om(:))
+        sst_am  = sst_am + sice_am*(tice_am - sst_am)
+        ssti_om = sst_om + sice_am*(tice_am - sst_om)
     end subroutine
 
     ! Update observed SST anomaly array
@@ -291,23 +289,6 @@ contains
 
     ! Purpose : Integrate slab ocean and sea-ice models for one day
     subroutine sea_model
-        integer, parameter :: ngp=ix*il
-
-        ! Input variables:
-        real ::  sst0(ix,il)     ! SST at initial time
-        real :: tice0(ix,il)     ! sea ice temp. at initial time
-        real :: sice0(ix,il)     ! sea ice fraction at initial time
-        real :: hfsea(ix,il)     ! sea+ice  sfc. heat flux between t0 and t1
-        real :: hfice(ix,il)     ! ice-only sfc. heat flux between t0 and t1
-
-        real ::  sstcl1(ix,il)   ! clim. SST at final time
-        real :: ticecl1(ix,il)   ! clim. sea ice temp. at final time
-
-        ! Output variables
-        real ::  sst1(ix,il)     ! SST at final time
-        real :: tice1(ix,il)     ! sea ice temp. at final time
-        real :: sice1(ix,il)     ! sea ice fraction at final time
-
         ! Auxiliary variables
         real :: hflux(ix,il)   ! net sfc. heat flux
         real :: tanom(ix,il)   ! sfc. temperature anomaly
@@ -315,36 +296,28 @@ contains
 
         real :: anom0, sstfr
 
-        sst0 = reshape(sst_om, (/ix, il/))
-        tice0 = reshape(tice_om, (/ix, il/))
-        sice0 = reshape(sicecl_ob, (/ix, il/))
-        hfsea = reshape(hflux_s, (/ix, il/))
-        hfice = reshape(hflux_i, (/ix, il/))
-        sstcl1 = reshape(sstcl_ob, (/ix, il/))
-        ticecl1 = reshape(ticecl_ob, (/ix, il/))
-
         sstfr = 273.2-1.8       ! SST at freezing point
 
         ! 1. Ocean mixed layer
         ! Net heat flux
-        hflux = hfsea-hfseacl-sice0*(hfice+beta*(sstfr-tice0))
+        hflux = hflux_s-hfseacl-sicecl_ob*(hflux_i+beta*(sstfr-tice_om))
 
         ! Anomaly at t0 minus climatological temp. tendency
-        tanom = sst0 - sstcl1
+        tanom = sst_om - sstcl_ob
 
         ! Time evoloution of temp. anomaly
         tanom = cdsea*(tanom+rhcaps*hflux)
 
         ! Full SST at final time
-        sst1 = tanom + sstcl1
+        sst_om = tanom + sstcl_ob
 
         ! 2. Sea-ice slab model
 
         ! Net heat flux
-        hflux = hfice + beta*(sstfr-tice0)
+        hflux = hflux_i + beta*(sstfr-tice_om)
 
         ! Anomaly w.r.t final-time climatological temp.
-        tanom = tice0 - ticecl1
+        tanom = tice_om - ticecl_ob
 
         ! Definition of non-linear damping coefficient
         anom0     = 20.
@@ -355,14 +328,10 @@ contains
         tanom = cdis*(tanom+rhcapi*hflux)
 
         ! Full ice temperature at final time
-        tice1 = tanom + ticecl1
+        tice_om = tanom + ticecl_ob
 
         ! Persistence of sea ice fraction
-        sice1 = sice0
-
-        sst_om = reshape(sst1, (/ngp/))
-        tice_om = reshape(tice1, (/ngp/))
-        sice_om = reshape(sice1, (/ngp/))
+        sice_om = sicecl_ob
     end
 
     ! Definition of ocean domains

@@ -20,19 +20,18 @@ subroutine dmflux(iadd)
     integer, intent(in) :: iadd
     integer :: j
 
-    real :: difice(ngp)
+    real :: difice(ix,il)
 
     real :: fland(ngp), esbc, rsteps, sstfr, sstfr4
 
     fland = reshape(fmask_l,(/ngp/))
 
     ! 1. Initialization
-    if (iadd.le.0) then
+    if (iadd <= 0) then
         ! Set all daily-mean arrays to zero
-        hflux_l(:) = 0.
-
-        hflux_s(:) = 0.
-        hflux_i(:) = 0.
+        hflux_l = 0.0
+        hflux_s = 0.0
+        hflux_i = 0.0
         return
     end if
 
@@ -48,11 +47,11 @@ subroutine dmflux(iadd)
     hflux_l(:) = hflux_l(:) + hfluxn(:,1)*rsteps
 
     ! Difference in net (downw.) heat flux between ice and sea surface
-    difice(:) = (albsea-albice)*ssrd(:)+ esbc*(sstfr4-tice_am(:)**4)&
-        & + shf(:,2)+evap(:,2)*alhc
+    difice = (albsea - albice)*reshape(ssrd, (/ ix,il /)) + esbc*(sstfr4 - tice_am**4)&
+        & + reshape(shf(:,2), (/ ix, il /)) + reshape(evap(:,2), (/ ix, il /))*alhc
 
-    hflux_s(:) = hflux_s(:) + rsteps* hfluxn(:,2)
-    hflux_i(:) = hflux_i(:) + rsteps*(hfluxn(:,2)+difice(:)*(1.-sice_am(:)))
+    hflux_s = hflux_s + rsteps*reshape(hfluxn(:,2), (/ ix,il /))
+    hflux_i = hflux_i + rsteps*(reshape(hfluxn(:,2), (/ ix, il /)) + difice*(1.0 - sice_am))
 
     ! Store fluxes for daily-mean output
 
