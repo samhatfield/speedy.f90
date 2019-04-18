@@ -32,17 +32,17 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 
     complex, dimension(mx,nx,kx), intent(in) :: vor1, div1, t1, q1, phi1
     complex, dimension(mx,nx), intent(in) :: psl1
-    real, dimension(ngp,kx), intent(inout) :: utend, vtend, ttend, qtend
+    real, dimension(ix,il,kx), intent(inout) :: utend, vtend, ttend, qtend
 
     complex, dimension(mx,nx) :: ucos, vcos
-    real, dimension(ngp) :: pslg1, rps, gse
-    real, dimension(ngp,kx) :: ug1, vg1, tg1, qg1, phig1, utend_dyn, vtend_dyn, ttend_dyn, qtend_dyn
-    real, dimension(ngp,kx) :: se, rh, qsat
-    real, dimension(ngp) :: psg, ts, tskin, u0, v0, t0, q0, cloudc, clstr, cltop, prtop
-    real, dimension(ngp,kx) :: tt_cnv, qt_cnv, tt_lsc, qt_lsc, tt_rsw, tt_rlw, ut_pbl, vt_pbl,&
+    real, dimension(ix,il) :: pslg1, rps, gse
+    real, dimension(ix,il,kx) :: ug1, vg1, tg1, qg1, phig1, utend_dyn, vtend_dyn, ttend_dyn, qtend_dyn
+    real, dimension(ix,il,kx) :: se, rh, qsat
+    real, dimension(ix,il) :: psg, ts, tskin, u0, v0, t0, q0, cloudc, clstr, cltop, prtop
+    real, dimension(ix,il,kx) :: tt_cnv, qt_cnv, tt_lsc, qt_lsc, tt_rsw, tt_rlw, ut_pbl, vt_pbl,&
         & tt_pbl, qt_pbl
-    integer :: iptop(ngp), icltop(ngp,2), icnv(ngp), j, k
-    real :: sppt(ngp,kx)
+    integer :: iptop(ix,il), icltop(ix,il,2), icnv(ix,il), i, j, k
+    real :: sppt(ix,il,kx)
 
     ! Keep a copy of the original (dynamics only) tendencies
     utend_dyn = utend
@@ -57,11 +57,11 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     ! Convert model spectral variables to grid-point variables
     do k = 1, kx
 		call uvspec(vor1(:,:,k), div1(:,:,k), ucos, vcos)
-		call grid(ucos, ug1(:,k), 2)
-		call grid(vcos, vg1(:,k), 2)
-		call grid(t1(:,:,k), tg1(:,k), 1)
-		call grid(q1(:,:,k), qg1(:,k), 1)
-      	call grid(phi1(:,:,k),phig1(:,k),1)
+		call grid(ucos, ug1(:,:,k), 2)
+		call grid(vcos, vg1(:,:,k), 2)
+		call grid(t1(:,:,k), tg1(:,:,k), 1)
+		call grid(q1(:,:,k), qg1(:,:,k), 1)
+      	call grid(phi1(:,:,k),phig1(:,:,k),1)
     end do
 
     call grid(psl1,pslg1,1)
@@ -70,20 +70,24 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     ! Compute thermodynamic variables
     ! =========================================================================
 
-    do j = 1, ngp
-     psg(j) = exp(pslg1(j))
-     rps(j) = 1.0/psg(j)
+	do i = 1, ix
+    	do j = 1, il
+    		psg(i,j) = exp(pslg1(i,j))
+     		rps(i,j) = 1.0/psg(i,j)
+		end do
     end do
 
     do k = 1, kx
-        do j = 1, ngp
-	        qg1(j,k) = max(qg1(j,k),0.0)
-            se(j,k) = cp*tg1(j,k) + phig1(j,k)
-        end do
+		do i = 1, ix
+	        do j = 1, il
+		        qg1(i,j,k) = max(qg1(i,j,k), 0.0)
+	            se(i,j,k) = cp*tg1(i,j,k) + phig1(i,j,k)
+	        end do
+		end do
     end do
 
     do k = 1, kx
-        call shtorh(1, ngp, tg1(:,k), psg, sig(k), qg1(:,k), rh(:,k), qsat(:,k))
+        call shtorh(1, ngp, tg1(:,:,k), psg, sig(k), qg1(:,:,k), rh(:,:,k), qsat(:,:,k))
     end do
 
     ! =========================================================================
@@ -94,15 +98,11 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     call convmf(psg, se, qg1, qsat, iptop, cbmf, precnv, tt_cnv, qt_cnv)
 
     do k = 2, kx
-    	do j = 1, ngp
-    		tt_cnv(j,k) = tt_cnv(j,k)*rps(j)*grdscp(k)
-        	qt_cnv(j,k) = qt_cnv(j,k)*rps(j)*grdsig(k)
-       	end do
+		tt_cnv(:,:,k) = tt_cnv(:,:,k)*rps*grdscp(k)
+		qt_cnv(:,:,k) = qt_cnv(:,:,k)*rps*grdsig(k)
     end do
 
-    do j = 1, ngp
-        icnv(j) = kx - iptop(j)
-    end do
+    icnv = kx - iptop
 
     ! Large-scale condensation
     call lscond(psg, qg1, qsat, iptop, precls, tt_lsc, qt_lsc)
@@ -117,28 +117,30 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     ! Compute shortwave tendencies and initialize lw transmissivity
     ! The shortwave radiation may be called at selected time steps
     if (lradsw) then
-        do j = 1, ngp
-            gse(j) = (se(j,kx-1) - se(j,kx))/(phig1(j,kx-1) - phig1(j,kx))
+		do i = 1, ix
+			do j = 1, il
+	            gse(i,j) = (se(i,j,kx-1) - se(i,j,kx))/(phig1(i,j,kx-1) - phig1(i,j,kx))
+			end do
         end do
 
         call cloud(qg1, rh, precnv, precls, iptop, gse, fmask_l, icltop, cloudc, clstr)
 
-        do j = 1, ngp
-            cltop(j) = sigh(icltop(j,1) - 1)*psg(j)
-            prtop(j) = float(iptop(j))
-        end do
+		do i = 1, ix
+	        do j = 1, il
+	            cltop(i,j) = sigh(icltop(i,j,1) - 1)*psg(i,j)
+	            prtop(i,j) = float(iptop(i,j))
+	        end do
+		end do
 
         call radsw(psg, qg1, icltop, cloudc, clstr, ssrd, ssr, tsr, tt_rsw)
 
         do k = 1, kx
-            do j = 1, ngp
-                tt_rsw(j,k) = tt_rsw(j,k)*rps(j)*grdscp(k)
-            end do
+			tt_rsw(:,:,k) = tt_rsw(:,:,k)*rps*grdscp(k)
         end do
     end if
 
     ! Compute downward longwave fluxes
-    call radlw(-1, tg1, ts, slrd, slru(:,3), slr, olr, tt_rlw)
+    call radlw(-1, tg1, ts, slrd, slru(:,:,3), slr, olr, tt_rlw)
 
     ! Compute surface fluxes and land skin temperature
     call suflux(psg, ug1, vg1, tg1, qg1, rh, phig1, phis0, fmask_l, sst_am, &
@@ -152,14 +154,13 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 
     ! Compute upward longwave fluxes, convert them to tendencies and add
 	! shortwave tendencies
-    call radlw(1, tg1, ts, slrd, slru(:,3), slr, olr, tt_rlw)
+    call radlw(1, tg1, ts, slrd, slru(:,:,3), slr, olr, tt_rlw)
 
     do k = 1, kx
-        do j = 1, ngp
-            tt_rlw(j,k) = tt_rlw(j,k)*rps(j)*grdscp(k)
-            ttend(j,k) = ttend(j,k) + tt_rsw(j,k) + tt_rlw(j,k)
-        end do
+		tt_rlw(:,:,k) = tt_rlw(:,:,k)*rps*grdscp(k)
     end do
+
+	ttend = ttend + tt_rsw + tt_rlw
 
     ! =========================================================================
     ! Planetary boundary later interactions with lower troposphere
@@ -169,12 +170,10 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     call vdifsc(ug1, vg1, se, rh, qg1, qsat, phig1, icnv, ut_pbl, vt_pbl, tt_pbl, qt_pbl)
 
     ! Add tendencies due to surface fluxes
-    do j=1,ngp
-        ut_pbl(j,kx) = ut_pbl(j,kx) + ustr(j,3)*rps(j)*grdsig(kx)
-        vt_pbl(j,kx) = vt_pbl(j,kx) + vstr(j,3)*rps(j)*grdsig(kx)
-        tt_pbl(j,kx) = tt_pbl(j,kx) + shf(j,3)*rps(j)*grdscp(kx)
-        qt_pbl(j,kx) = qt_pbl(j,kx) + evap(j,3)*rps(j)*grdsig(kx)
-    end do
+	ut_pbl(:,:,kx) = ut_pbl(:,:,kx) + ustr(:,:,3)*rps*grdsig(kx)
+	vt_pbl(:,:,kx) = vt_pbl(:,:,kx) + vstr(:,:,3)*rps*grdsig(kx)
+	tt_pbl(:,:,kx) = tt_pbl(:,:,kx)  + shf(:,:,3)*rps*grdscp(kx)
+	qt_pbl(:,:,kx) = qt_pbl(:,:,kx) + evap(:,:,3)*rps*grdsig(kx)
 
     utend = utend + ut_pbl
     vtend = vtend + vt_pbl
@@ -190,10 +189,14 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 
         ! The physical contribution to the tendency is *tend - *tend_dyn, where * is u, v, t, q
         do k = 1,kx
-            utend(:,k) = (1 + sppt(:,k)*mu(k)) * (utend(:,k) - utend_dyn(:,k)) + utend_dyn(:,k)
-            vtend(:,k) = (1 + sppt(:,k)*mu(k)) * (vtend(:,k) - vtend_dyn(:,k)) + vtend_dyn(:,k)
-            ttend(:,k) = (1 + sppt(:,k)*mu(k)) * (ttend(:,k) - ttend_dyn(:,k)) + ttend_dyn(:,k)
-            qtend(:,k) = (1 + sppt(:,k)*mu(k)) * (qtend(:,k) - qtend_dyn(:,k)) + qtend_dyn(:,k)
+            utend(:,:,k) = (1 + sppt(:,:,k)*mu(k))*(utend(:,:,k) - utend_dyn(:,:,k)) &
+				& + utend_dyn(:,:,k)
+            vtend(:,:,k) = (1 + sppt(:,:,k)*mu(k))*(vtend(:,:,k) - vtend_dyn(:,:,k)) &
+				& + vtend_dyn(:,:,k)
+            ttend(:,:,k) = (1 + sppt(:,:,k)*mu(k))*(ttend(:,:,k) - ttend_dyn(:,:,k)) &
+				& + ttend_dyn(:,:,k)
+            qtend(:,:,k) = (1 + sppt(:,:,k)*mu(k))*(qtend(:,:,k) - qtend_dyn(:,:,k)) &
+				& + qtend_dyn(:,:,k)
         end do
     end if
 end

@@ -42,9 +42,9 @@ module mod_sppt
         !> Generate grid point space SPPT pattern
         !> distribution.
         !> @return sppt_grid the generated grid point pattern
-        function gen_sppt() result(sppt_grid_out)
+        function gen_sppt() result(sppt_grid)
             integer :: m, n, k
-            real :: sppt_grid(ix,il,kx), sppt_grid_out(ix*il,kx)
+            real :: sppt_grid(ix,il,kx)
             complex :: eta(mx,nx,kx)
             real :: f0, randreal, randimag, twn
 
@@ -88,11 +88,10 @@ module mod_sppt
             ! Convert to grid point space
              do k=1,kx
                  call grid(sppt_spec(:,:,k),sppt_grid(:,:,k),1)
-                 sppt_grid_out(:,k) = reshape(sppt_grid(:,:,k), (/ix*il/))
              end do
 
              ! Clip to +/- 1.0
-             sppt_grid_out = min(1.0, abs(sppt_grid_out)) * sign(1.0,sppt_grid_out)
+             sppt_grid = min(1.0, abs(sppt_grid)) * sign(1.0,sppt_grid)
         end function
 
         !> @brief

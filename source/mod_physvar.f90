@@ -27,5 +27,5 @@ module mod_physvar
     ! hfluxn = net heat flux into surf. (1:land, 2:sea, 3: ice-sea dif.)
     real, dimension(ix*il) :: precnv, precls, snowcv, snowls, cbmf, tsr, ssrd,&
         & ssr, slrd, slr, olr
-    real, dimension(ix*il,3) :: slru, ustr, vstr, shf, evap, hfluxn
+    real, dimension(ix,il,3) :: slru, ustr, vstr, shf, evap, hfluxn
 end module

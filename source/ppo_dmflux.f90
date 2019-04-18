@@ -15,16 +15,12 @@ subroutine dmflux(iadd)
 
     implicit none
 
-    integer, parameter :: ngp=ix*il
-
     integer, intent(in) :: iadd
     integer :: j
 
     real :: difice(ix,il)
 
-    real :: fland(ngp), esbc, rsteps, sstfr, sstfr4
-
-    fland = reshape(fmask_l,(/ngp/))
+    real :: esbc, rsteps, sstfr, sstfr4
 
     ! 1. Initialization
     if (iadd <= 0) then
@@ -44,18 +40,18 @@ subroutine dmflux(iadd)
     esbc   = emisfc*sbc
 
     ! Store fluxes over land (SI units, all heat fluxes downw.)
-    hflux_l = hflux_l + reshape(hfluxn(:,1), (/ ix,il /))*rsteps
+    hflux_l = hflux_l + hfluxn(:,:,1)*rsteps
 
     ! Difference in net (downw.) heat flux between ice and sea surface
     difice = (albsea - albice)*reshape(ssrd, (/ ix,il /)) + esbc*(sstfr4 - tice_am**4)&
-        & + reshape(shf(:,2), (/ ix, il /)) + reshape(evap(:,2), (/ ix, il /))*alhc
+        & + shf(:,:,2) + evap(:,:,2)*alhc
 
-    hflux_s = hflux_s + rsteps*reshape(hfluxn(:,2), (/ ix,il /))
-    hflux_i = hflux_i + rsteps*(reshape(hfluxn(:,2), (/ ix, il /)) + difice*(1.0 - sice_am))
+    hflux_s = hflux_s + rsteps*hfluxn(:,:,2)
+    hflux_i = hflux_i + rsteps*(hfluxn(:,:,2) + difice*(1.0 - sice_am))
 
     ! Store fluxes for daily-mean output
 
     ! Multiply net heat fluxes by land or sea fractions
-    hfluxn(:,1) = hfluxn(:,1)*fland(:)
-    hfluxn(:,2) = hfluxn(:,2)*(1.-fland(:))
+    hfluxn(:,:,1) = hfluxn(:,:,1)*fmask_l
+    hfluxn(:,:,2) = hfluxn(:,:,2)*(1.0 - fmask_l)
 end
