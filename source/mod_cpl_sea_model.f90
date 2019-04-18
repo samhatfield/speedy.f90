@@ -101,12 +101,11 @@ contains
             dmask(:,:) = 1.
         else
             dmask(:,:) = 0.
-            if (l_northe) call sea_domain('northe',deglat_s,dmask)
-            !fkif (l_arctic) call sea_domain ('arctic',deglat_s,dmask)
-            if (l_natlan) call sea_domain('natlan',deglat_s,dmask)
-            if (l_npacif) call sea_domain('npacif',deglat_s,dmask)
-            if (l_tropic) call sea_domain('tropic',deglat_s,dmask)
-            if (l_indian) call sea_domain('indian',deglat_s,dmask)
+            if (l_northe) call sea_domain('northe',dmask)
+            if (l_natlan) call sea_domain('natlan',dmask)
+            if (l_npacif) call sea_domain('npacif',dmask)
+            if (l_tropic) call sea_domain('tropic',dmask)
+            if (l_indian) call sea_domain('indian',dmask)
         end if
 
         ! Smooth latitudinal boundaries and blank out land points
@@ -148,7 +147,7 @@ contains
 
         ! 3. Compute additional sea/ice variables
         wsst_ob(:) = 0.
-        if (icsea.ge.4) call sea_domain('elnino',deglat_s,wsst_ob)
+        if (icsea.ge.4) call sea_domain('elnino',wsst_ob)
 
         call sea2atm(0)
     end
@@ -364,9 +363,8 @@ contains
     end
 
     ! Definition of ocean domains
-    subroutine sea_domain(cdomain,rlat,dmask)
+    subroutine sea_domain(cdomain,dmask)
         character(len=6), intent(in) :: cdomain           ! domain name
-        real, intent(in) :: rlat(il)               ! latitudes in degrees
 
         ! Output variables (initialized by calling routine)
         real, intent(inout) :: dmask(ix,il)         ! domain mask
@@ -380,13 +378,13 @@ contains
 
         if (cdomain.eq.'northe') then
             do j=1,il
-                if (rlat(j).gt.20.0) dmask(:,j) = 1.
+                if (deglat_s(j).gt.20.0) dmask(:,j) = 1.
             end do
         end if
 
         if (cdomain.eq.'natlan') then
              do j=1,il
-               if (rlat(j).gt.20.0.and.rlat(j).lt.80.0) then
+               if (deglat_s(j).gt.20.0.and.deglat_s(j).lt.80.0) then
                  do i=1,ix
                    rlon = (i-1)*dlon
                    if (rlon.lt.45.0.or.rlon.gt.260.0) dmask(i,j) = 1.
@@ -397,7 +395,7 @@ contains
 
         if (cdomain.eq.'npacif') then
             do j=1,il
-                if (rlat(j).gt.20.0.and.rlat(j).lt.65.0) then
+                if (deglat_s(j).gt.20.0.and.deglat_s(j).lt.65.0) then
                     do i=1,ix
                         rlon = (i-1)*dlon
                         if (rlon.gt.120.0.and.rlon.lt.260.0) dmask(i,j) = 1.
@@ -408,13 +406,13 @@ contains
 
         if (cdomain.eq.'tropic') then
             do j=1,il
-                if (rlat(j).gt.-30.0.and.rlat(j).lt.30.0) dmask(:,j) = 1.
+                if (deglat_s(j).gt.-30.0.and.deglat_s(j).lt.30.0) dmask(:,j) = 1.
             end do
         end if
 
         if (cdomain.eq.'indian') then
             do j=1,il
-                if (rlat(j).gt.-30.0.and.rlat(j).lt.30.0) then
+                if (deglat_s(j).gt.-30.0.and.deglat_s(j).lt.30.0) then
                     do i=1,ix
                         rlon = (i-1)*dlon
                         if (rlon.gt.30.0.and.rlon.lt.120.0) dmask(i,j) = 1.
@@ -425,11 +423,11 @@ contains
 
         if (cdomain.eq.'elnino') then
             do j=1,il
-                arlat = abs(rlat(j))
+                arlat = abs(deglat_s(j))
                 if (arlat.lt.25.0) then
                     wlat = 1.
                     if (arlat.gt.15.0) wlat = (0.1*(25.-arlat))**2
-                    rlonw = 300.-2*max(rlat(j),0.)
+                    rlonw = 300.-2*max(deglat_s(j),0.)
                     do i=1,ix
                         rlon = (i-1)*dlon
                         if (rlon.gt.165.0.and.rlon.lt.rlonw) then
@@ -441,9 +439,5 @@ contains
                 end if
             end do
         end if
-
-        !do j=1,il
-        !    print *, 'lat = ',rlat(j),' sea model domain  = ',dmask(ix/2,j)
-        !end do
     end
 end module
