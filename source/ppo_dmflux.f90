@@ -8,11 +8,10 @@ subroutine dmflux(iadd)
 
     use mod_tsteps, only: nsteps
     use mod_atparam
-    use mod_flx_land
     use mod_flx_sea
     use mod_physcon, only: alhc, sbc
     use mod_surfcon, only: fmask
-    use mod_cpl_land_model, only: fmask_l
+    use mod_cpl_land_model, only: fmask_l, hflux_l
     use mod_cpl_sea_model, only: tice_am, sice_am
     use mod_physvar
     use mod_radcon, only: albsea, albice, emisfc
@@ -36,9 +35,6 @@ subroutine dmflux(iadd)
         if (model_datetime%hour /= 0) then
             ! Read from flux file
             open (100,file='fluxes.grd',form='unformatted',access='direct',recl=8*ngp)
-            read (100,rec=1) (prec_l(j),j=1,ngp)
-            read (100,rec=2) (snowf_l(j),j=1,ngp)
-            read (100,rec=3) (evap_l(j),j=1,ngp)
             read (100,rec=4) (hflux_l(j),j=1,ngp)
 
             read (100,rec=5) (prec_s(j),j=1,ngp)
@@ -55,10 +51,6 @@ subroutine dmflux(iadd)
             close (100)
         else
             ! Set all daily-mean arrays to zero
-
-            prec_l(:)  = 0.
-            snowf_l(:) = 0.
-            evap_l(:)  = 0.
             hflux_l(:) = 0.
 
             prec_s(:)  = 0.
@@ -90,9 +82,6 @@ subroutine dmflux(iadd)
     prec(:) = precls(:)+precnv(:)
 
     ! 2. Store fluxes over land (SI units, all heat fluxes downw.)
-    prec_l(:) = prec_l(:) + prec(:)  *rstep1
-    evap_l(:) = evap_l(:) + evap(:,1)*rstep1
-
     hflux_l(:) = hflux_l(:) + hfluxn(:,1)*rsteps
 
     ! 3. Store fluxes over sea (SI units, all heat fluxes downw.)

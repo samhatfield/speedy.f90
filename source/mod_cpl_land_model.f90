@@ -7,6 +7,7 @@ module mod_cpl_land_model
     public stlcl_ob, stl_am, snowd_am, soilw_am
     public land_model_init, couple_land_atm, land_model
     public fmask_l, bmask_l, stl12, snowd12, soilw12
+    public hflux_l
 
     ! 1./heat_capacity (land)
     real :: rhcapl(ix,il)
@@ -43,6 +44,9 @@ module mod_cpl_land_model
 
     ! Soil water availabilityend module
     real :: soilw12(ix,il,12)
+
+    ! Net heat flux into land surface
+    real :: hflux_l(ix*il)
 
     contains
         subroutine land_model_init(alb0)
@@ -148,8 +152,6 @@ module mod_cpl_land_model
 
         ! Integrate slab land-surface model for one day
         subroutine land_model
-            use mod_flx_land, only: hflux_l
-
             ! Surface temperature anomaly
             real :: tanom(ix*il)
 

@@ -50,7 +50,6 @@ FILES= \
 	   mod_dyncon1.o \
 	   mod_dyncon2.o \
 	   mod_dynvar.o \
-	   mod_flx_land.o \
 	   mod_flx_sea.o \
 	   mod_hdifcon.o \
 	   mod_lflags.o \
@@ -90,7 +89,7 @@ clean:
 	rm -f *.o *.mod
 
 at_gcm.o               : at_gcm.f90 mod_tsteps.o mod_date.o
-mod_cpl_land_model.o   : mod_cpl_land_model.f90 mod_atparam.o mod_cpl_flags.o mod_flx_land.o\
+mod_cpl_land_model.o   : mod_cpl_land_model.f90 mod_atparam.o mod_cpl_flags.o \
                          mod_date.o mod_cpl_bcinterp.o
 cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o mod_cpl_land_model.o\
  						 mod_cpl_sea_model.o mod_surfcon.o
@@ -128,7 +127,6 @@ mod_dyncon0.o          : mod_dyncon0.f90
 mod_dyncon1.o          : mod_dyncon1.f90 mod_atparam.o
 mod_dyncon2.o          : mod_dyncon2.f90 mod_atparam.o
 mod_dynvar.o           : mod_dynvar.f90 mod_atparam.o
-mod_flx_land.o         : mod_flx_land.f90 mod_atparam.o
 mod_flx_sea.o          : mod_flx_sea.f90 mod_atparam.o
 mod_hdifcon.o          : mod_hdifcon.f90 mod_atparam.o
 mod_lflags.o           : mod_lflags.f90
@@ -154,7 +152,7 @@ phy_shtorh.o           : phy_shtorh.f90
 phy_suflux.o           : phy_suflux.f90 mod_atparam.o mod_sflcon.o mod_physcon.o mod_radcon.o
 phy_vdifsc.o           : phy_vdifsc.f90 mod_atparam.o mod_vdicon.o mod_physcon.o
 ppo_diagns.o           : ppo_diagns.f90 mod_tsteps.o mod_atparam.o mod_dynvar.o mod_date.o
-ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_flx_land.o mod_physcon.o\
+ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_physcon.o\
 						 mod_surfcon.o mod_flx_sea.o mod_physvar.o mod_radcon.o
 spe_matinv.o           : spe_matinv.f90
 spe_spectral.o         : spe_spectral.f90 mod_atparam.o mod_spectral.o
