@@ -4,8 +4,7 @@ module mod_cpl_sea_model
     implicit none
 
     private
-    public sea_model_init
-    public ini_sea, atm2sea, sea2atm
+    public sea_model_init, couple_sea_atm
     public fmask_s, bmask_s, deglat_s, sst12, sice12, sstan3, hfseacl, sstom12
     public sstcl_ob, sst_am, sice_am, tice_am, ssti_om
 
@@ -155,34 +154,13 @@ contains
         cdice = dmask*tdice/(1.+dmask*tdice)
     end
 
-    subroutine ini_sea
-        use mod_cpl_flags, only: icsea
-
-        ! 1. Compute climatological fields for initial date
-        call atm2sea(0)
-
-        ! 2. Initialize prognostic variables of ocean/ice model
-        !    in case of no restart or no coupling
-        sst_om(:)  = sstcl_ob(:)      ! SST
-        tice_om(:) = ticecl_ob(:)     ! sea ice temperature
-        sice_om(:) = sicecl_ob(:)     ! sea ice fraction
-
-        if (icsea.le.0) sst_om(:) = 0.
-
-        ! 3. Compute additional sea/ice variables
-        wsst_ob(:) = 0.
-        if (icsea.ge.4) call sea_domain('elnino',wsst_ob)
-
-        call sea2atm(0)
-    end
-
-    subroutine atm2sea(jday)
+    subroutine couple_sea_atm(day)
         use mod_cpl_flags, only: icsea, icice, isstan
         use mod_date, only: model_datetime, imont1
         use mod_flx_sea, only: hflux_s, hflux_i
         use mod_cpl_bcinterp, only: forin5, forint
 
-        integer, intent(in) :: jday
+        integer, intent(in) :: day
         integer, parameter :: ngp=ix*il
 
         integer :: j
@@ -199,7 +177,7 @@ contains
 
         ! SST anomaly
         if (isstan.gt.0) then
-            if (model_datetime%day.eq.1.and.jday.gt.0) call OBS_SSTA
+            if (model_datetime%day.eq.1.and.day.gt.0) call obs_ssta
             call forint (2,sstan3,sstan_ob)
         end if
 
@@ -231,17 +209,25 @@ contains
 
             if (icsea.ge.3) sstcl_om(j) = sstcl_om(j)+(sstcl_ob(j)-sstcl0)
         end do
-    end
 
-    subroutine sea2atm(jday)
-        use mod_cpl_flags, only: icsea, icice, isstan
+        if (day == 0) then
+            ! 2. Initialize prognostic variables of ocean/ice model
+            !    in case of no restart or no coupling
+            sst_om(:)  = sstcl_ob(:)      ! SST
+            tice_om(:) = ticecl_ob(:)     ! sea ice temperature
+            sice_om(:) = sicecl_ob(:)     ! sea ice fraction
 
-        integer, intent(in) :: jday
+            if (icsea.le.0) sst_om(:) = 0.
 
-        if (jday.gt.0.and.(icsea.gt.0.or.icice.gt.0)) then
-            ! 1. Run ocean mixed layer or
-            !    call message-passing routines to receive data from ocean model
-            call sea_model
+            ! 3. Compute additional sea/ice variables
+            wsst_ob(:) = 0.
+            if (icsea.ge.4) call sea_domain('elnino',wsst_ob)
+        else
+            if (icsea > 0 .or. icice > 0) then
+                ! 1. Run ocean mixed layer or
+                !    call message-passing routines to receive data from ocean model
+                call sea_model
+            end if
         end if
 
         ! 3. Compute sea-sfc. anomalies and full fields for atm. model
@@ -280,7 +266,7 @@ contains
 
         sst_am(:)  = sst_am(:)+sice_am(:)*(tice_am(:)-sst_am(:))
         ssti_om(:) = sst_om(:)+sice_am(:)*(tice_am(:)-sst_om(:))
-    end
+    end subroutine
 
     ! Update observed SST anomaly array
     subroutine obs_ssta
