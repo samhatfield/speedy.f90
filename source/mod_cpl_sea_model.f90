@@ -14,18 +14,25 @@ module mod_cpl_sea_model
     ! Ocean model output variables
     real :: vsea_output(ix*il,3)
 
+    ! Constant parameters and fields in sea/ice model
+    ! 1./heat_capacity (sea)
+    real :: rhcaps(ix,il)
+
+    ! 1./heat_capacity (ice)
+    real :: rhcapi(ix,il)
+
+    ! 1./dissip_time (sea)
+    real :: cdsea(ix,il)
+
+    ! 1./dissip_time (ice)
+    real :: cdice(ix,il)
+
+    ! Heat flux coef. at sea/ice int.
+    real :: beta = 1.0
+
 contains
+    ! Initialization of sea model
     subroutine sea_model_init(fmask_s,rlat)
-        !  subroutine sea_model_init (fmask_s,rlat)
-        !
-        !  Purpose : Initialization of sea model
-        !  Initialized common blocks: sea_mc
-
-        use mod_atparam
-        use mod_cplcon_sea
-
-        implicit none
-
         integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
 
         ! Input variables
@@ -137,8 +144,6 @@ contains
         use mod_cli_sea, only: deglat_s
         use mod_var_sea
 
-        implicit none
-
         ! 1. Compute climatological fields for initial date
         call atm2sea(0)
 
@@ -158,8 +163,6 @@ contains
     end
 
     subroutine atm2sea(jday)
-        ! subroutine atm2sea(jday)
-
         use mod_cpl_flags, only: icsea, icice, isstan
         use mod_atparam
         use mod_date, only: model_datetime, imont1
@@ -246,13 +249,9 @@ contains
     end
 
     subroutine sea2atm(jday)
-        ! subroutine sea2atm(jday)
-
         use mod_cpl_flags, only: icsea, icice, isstan
         use mod_atparam
         use mod_var_sea
-
-        implicit none
 
         integer, intent(in) :: jday
 
@@ -314,8 +313,6 @@ contains
         use mod_tsteps, only: issty0
         use mod_input, only: load_boundary_file
 
-        implicit none
-
         integer :: i, j, next_month
 
         sstan3(:,:,1) = sstan3(:,:,2)
@@ -330,19 +327,9 @@ contains
         call forchk(bmask_s, 1, -50.0, 50.0, 0.0, sstan3(:,:,3))
     end
 
+    ! Purpose : Integrate slab ocean and sea-ice models for one day
     subroutine sea_model
-        ! subroutine sea_model
-
-        ! Purpose : Integrate slab ocean and sea-ice models for one day
-
-        use mod_atparam
-        use mod_cplcon_sea
-
-        implicit none
-
         integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
-
-        !real vsea_input(nlon,nlat,8), vsea_output(nlon,nlat,3)
 
         ! Input variables:
         real ::  sst0(nlon,nlat)     ! SST at initial time
@@ -420,15 +407,8 @@ contains
         vsea_output(:,3) = reshape(sice1, (/ngp/))
     end
 
+    ! Definition of ocean domains
     subroutine sea_domain(cdomain,rlat,dmask)
-        ! subroutine sea_domain (cdomain,rlat,dmask)
-
-        ! Purpose : Definition of ocean domains
-
-        use mod_atparam
-
-        implicit none
-
         integer, parameter :: nlon=ix, nlat=il
 
         ! Input variables
