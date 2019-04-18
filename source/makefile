@@ -1,8 +1,21 @@
 # Fortran compiler
 FC=gfortran
 
-# Compiler options
-COMPOPTS=-Ofast -fdefault-real-8 -fconvert=swap
+# Set variables depending on target
+speedy : COMPOPTS = $(OPT) $(BASE)
+profile : COMPOPTS = -pg $(BASE)
+
+# Default
+speedy : main
+
+# For profiling
+profile : main
+
+# Base compiler options (always used)
+BASE=-fdefault-real-8 -fconvert=swap
+
+# Optimisation flags (disabled for debugging, profiling etc.)
+OPT=-Ofast
 
 # # Location of NetCDF module (netcdf.mod)
 INC=-I$(NETCDF)
@@ -74,7 +87,7 @@ FILES= \
 %.o: %.f90
 	$(FC) $(COMPOPTS) -c $< $(INC)
 
-speedy: $(FILES) at_gcm.o
+main: $(FILES) at_gcm.o
 	$(FC) $(COMPOPTS) $(FILES) at_gcm.o -o speedy $(LIB)
 
 .PHONY: clean

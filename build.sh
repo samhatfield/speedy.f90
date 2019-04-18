@@ -23,7 +23,12 @@ cp $SRC/*.h      .
 cp $SRC/makefile .
 
 # Compile SPEEDY and delete source files
-echo 'Compiling SPEEDY'
 make -s clean
-make -s speedy || { echo "Compilation failed"; exit 1; }
+echo 'Compiling SPEEDY'
+if [ "$1" = "--profile" ]; then
+    make profile || { echo "Compilation failed"; exit 1; }
+else
+    make speedy || { echo "Compilation failed"; exit 1; }
+fi
+
 rm *.f90 *.h *.o makefile *.mod
