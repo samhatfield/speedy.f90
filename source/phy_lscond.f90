@@ -1,22 +1,14 @@
-!fk#if !defined(KNMI)
-subroutine lscond(psa,qa,qsat,itop,precls,dtlsc,dqlsc)
-!fk#else
-!fksubroutine lscond (psa,qa,qsat,ts,itop,precls,snowls,dtlsc,dqlsc)
-!fk#endif
-    !  subroutine lscond (psa,qa,qsat,
-    ! *                   itop,precls,dtlsc,dqlsc)
-    !
-    !  Purpose: Compute large-scale precipitation and
-    !           associated tendencies of temperature and moisture
-    !  Input:   psa    = norm. surface pressure [p/p0]           (2-dim)
-    !           qa     = specific humidity [g/kg]                (3-dim)
-    !           qsat   = saturation spec. hum. [g/kg]            (3-dim)
-    !           itop   = top of convection (layer index)         (2-dim)
-    !  Output:  itop   = top of conv+l.s.condensat.(layer index) (2-dim)
-    !           precls = large-scale precipitation [g/(m^2 s)]   (2-dim)
-    !           dtlsc  = temperature tendency from l.s. cond     (3-dim)
-    !           dqlsc  = hum. tendency [g/(kg s)] from l.s. cond (3-dim)
-
+! Compute large-scale precipitation and associated tendencies of temperature
+! and moisture
+! Input:   psa    = norm. surface pressure [p/p0]           (2-dim)
+!          qa     = specific humidity [g/kg]                (3-dim)
+!          qsat   = saturation spec. hum. [g/kg]            (3-dim)
+!          itop   = top of convection (layer index)         (2-dim)
+! Output:  itop   = top of conv+l.s.condensat.(layer index) (2-dim)
+!          precls = large-scale precipitation [g/(m^2 s)]   (2-dim)
+!          dtlsc  = temperature tendency from l.s. cond     (3-dim)
+!          dqlsc  = hum. tendency [g/(kg s)] from l.s. cond (3-dim)
+subroutine lscond(psa, qa, qsat, itop, precls, dtlsc, dqlsc)
     use mod_lsccon
     use mod_atparam
     use mod_physcon, only: p0, cp, alhc, alhs, sig, dsig
@@ -24,87 +16,56 @@ subroutine lscond(psa,qa,qsat,itop,precls,dtlsc,dqlsc)
 
     implicit none
 
-    integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
+    real, intent(in) :: psa(ix,il), qa(ix,il,kx), qsat(ix,il,kx)
 
-    real, intent(in) :: psa(ngp), qa(ngp,nlev), qsat(ngp,nlev)
+    integer, intent(inout) :: itop(ix,il)
+    real, intent(inout) :: precls(ix,il), dtlsc(ix,il,kx), dqlsc(ix,il,kx)
 
-    integer, intent(inout) :: itop(ngp)
-    real, intent(inout) :: precls(ngp), dtlsc(ngp,nlev), dqlsc(ngp,nlev)
-    !fk#if defined(KNMI)
-    !fkreal, intent(in) :: ts(ngp)
-    !fkreal, intent(inout) :: snowls(ngp)
-    !fk#endif
-
-    integer :: j, k
-    real :: psa2(ngp), dqa, dqmax, pfact, prg, qsmax, rhref, rtlsc, sig2, tfact
+    integer :: i, j, k
+    real :: psa2(ix,il), dqa, dqmax, pfact, prg, qsmax, rhref, rtlsc, sig2, tfact
 
     ! 1. Initialization
-    qsmax = 10.
+    qsmax = 10.0
 
-    rtlsc = 1./(trlsc*3600.)
+    rtlsc = 1.0/(trlsc*3600.0)
     tfact = alhc/cp
-    !fk#if defined(KNMI)
-    !fktfacts= alhs/cp
-    !fk#endif
     prg = p0/grav
 
-    dtlsc(:,1) = 0.
-    dqlsc(:,1) = 0.
-    precls  = 0.
-   !fk#if defined(KNMI)
-   !fksnowls = 0.
-   !fk#endif
-    do j=1,ngp
-        psa2(j) = psa(j)*psa(j)
-    end do
+    dtlsc(:,:,1) = 0.0
+    dqlsc(:,:,1) = 0.0
+    precls  = 0.0
 
-    ! 2. Tendencies of temperature and moisture
-    !    NB. A maximum heating rate is imposed to avoid
-    !        grid-point-storm instability
-    do k=2,nlev
-        sig2=sig(k)*sig(k)
-        rhref = rhlsc+drhlsc*(sig2-1.)
-        if (k.eq.nlev) rhref = max(rhref,rhblsc)
+    psa2 = psa**2.0
+
+    ! Tendencies of temperature and moisture
+    ! NB. A maximum heating rate is imposed to avoid grid-point-storm
+    ! instability
+    do k = 2, kx
+        sig2 = sig(k)**2.0
+        rhref = rhlsc + drhlsc*(sig2 - 1.0)
+        if (k == kx) rhref = max(rhref, rhblsc)
         dqmax = qsmax*sig2*rtlsc
 
-        do j=1,ngp
-            dqa = rhref*qsat(j,k)-qa(j,k)
-            if (dqa.lt.0.0) then
-                itop(j)    = min(k,itop(j))
-                dqlsc(j,k) = dqa*rtlsc
-                !fk#if !defined(KNMI)
-                dtlsc(j,k) = tfact*min(-dqlsc(j,k),dqmax*psa2(j))
-                !fk#else
-                !fkif (ts(j).gt.273.15) then
-                !fk    dtlsc(j,k) = tfact*min(-dqlsc(j,k),dqmax*psa2(j))
-                !fkelse
-                !fk    dtlsc(j,k) = tfacts*min(-dqlsc(j,k),dqmax*psa2(j))
-                !fkend if
-                !fk#endif
-            else
-                dqlsc(j,k) = 0.
-                dtlsc(j,k) = 0.
-            endif
+        do i = 1, ix
+            do j = 1, il
+                dqa = rhref*qsat(i,j,k) - qa(i,j,k)
+                if (dqa < 0.0) then
+                    itop(i,j)    = min(k,itop(i,j))
+                    dqlsc(i,j,k) = dqa*rtlsc
+                    dtlsc(i,j,k) = tfact*min(-dqlsc(i,j,k), dqmax*psa2(i,j))
+                else
+                    dqlsc(i,j,k) = 0.0
+                    dtlsc(i,j,k) = 0.0
+                end if
+            end do
         end do
     end do
 
-    ! 3. Large-scale precipitation
-    do k=2,nlev
+    ! Large-scale precipitation
+    do k = 2, kx
         pfact = dsig(k)*prg
-        do j=1,ngp
-            precls(j) = precls(j)-pfact*dqlsc(j,k)
-            !fk#if defined(KNMI)
-            !fkif (ts(j).lt.273.15) then
-            !fk    snowls(j) = snowls(j)-pfact*dqlsc(j,k)
-            !fkendif
-            !fk#endif
-        end do
+        precls = precls - pfact*dqlsc(:,:,k)
     end do
 
-    do j=1,ngp
-        precls(j) = precls(j)*psa(j)
-        !fk#if defined(KNMI)
-        !fksnowls(j) = snowls(j)*psa(j)
-        !fk#endif
-    end do
+    precls = precls*psa
 end
