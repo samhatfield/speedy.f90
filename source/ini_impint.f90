@@ -4,7 +4,6 @@ subroutine impint(dt)
     ! Purpose : initialize constants for implicit computation of
     !           horizontal diffusion and gravity waves
     ! Input :   dt   = time step
-    ! Initialized common blocks : dync5, dync6, hdifc2
 
     ! IMPINT initializes constants for the implicit gravity wave computation.
     ! It is assumed that that all implicit steps are of length DELT2 and use

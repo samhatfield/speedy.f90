@@ -8,7 +8,6 @@ subroutine sol_oz(tyear)
     !           ozupp  = flux absorbed by ozone (upper stratos.)
     !           zenit  = function of solar zenith angle
     !  Input:   tyear  = time as fraction of year (0-1, 0 = 1jan.h00)
-    !  Updated common blocks: radzon
 
     use mod_atparam
     use mod_physcon, only: slat, clat

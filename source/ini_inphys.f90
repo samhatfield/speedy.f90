@@ -1,4 +1,4 @@
-! Initialize common blocks for physical parametrization routines
+! Initialize physical parametrization routines
 subroutine inphys
     use mod_atparam
     use mod_physcon

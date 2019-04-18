@@ -359,7 +359,6 @@ subroutine sflset(phi0)
     !
     ! Purpose: compute orographic factor for land surface drag
     ! Input:   phi0   = surface geopotential            (2-dim)
-    !          Initialized common blocks: sflfix
 
     use mod_atparam
     use mod_sflcon

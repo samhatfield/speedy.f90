@@ -4,7 +4,6 @@ subroutine geop(jj)
     ! Purpose : compute spectral geopotential from spectral temperature T
     !           and spectral topography PHIS, as in GFDL Climate Group GCM
     ! Input :   jj = time level index (1 or 2)
-    ! Modified common blocks : DYNSP2
 
     use mod_atparam
     use mod_dynvar

@@ -51,7 +51,6 @@ module mod_cpl_land_model
     contains
         subroutine land_model_init(alb0)
             ! purpose : initialization of land model
-            ! initialized common blocks: land_mc
 
             ! Input variable
             ! Annual-mean albedo

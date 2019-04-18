@@ -3,11 +3,6 @@ subroutine indyns
     !
     ! Purpose : set time-stepping constants and initialize coefficients
     !           and spectral operators for model dynamics
-    ! Initialized common blocks: dync0, dync1,  dync2,  dync3,  dync4,
-    !                            hdifc1, hdifc3,
-    !                            common blocks for spectral transforms
-    !                            (through routine parmtr)
-    !
 
     use mod_tsteps, only: nsteps
     use mod_dyncon0
