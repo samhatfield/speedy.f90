@@ -1,27 +1,23 @@
-subroutine shtorh(imode,ngp,ta,ps,sig,qa,rh,qsat)
-    ! subroutine shtorh (imode,ngp,ta,ps,sig,qa,rh,qsat)
-    !
-    ! Purpose: compute saturation specific humidity and
-    !          relative hum. from specific hum. (or viceversa)
-    ! Input:   imode  : mode of operation
-    !          ngp    : no. of grid-points
-    !          ta     : abs. temperature
-    !          ps     : normalized pressure   (=  p/1000_hPa) [if sig < 0]
-    !                 : normalized sfc. pres. (= ps/1000_hPa) [if sig > 0]
-    !          sig    : sigma level
-    !          qa     : specific humidity in g/kg [if imode > 0]
-    !          rh     : relative humidity         [if imode < 0]
-    !          qsat   : saturation spec. hum. in g/kg
-    ! Output:  rh     : relative humidity         [if imode > 0]
-    !          qa     : specific humidity in g/kg [if imode < 0]
-    !
+! Compute saturation specific humidity and relative hum. from specific hum. (or viceversa)
+! Input:   imode  : mode of operation
+!          ta     : abs. temperature
+!          ps     : normalized pressure   (=  p/1000_hPa) [if sig < 0]
+!                 : normalized sfc. pres. (= ps/1000_hPa) [if sig > 0]
+!          sig    : sigma level
+!          qa     : specific humidity in g/kg [if imode > 0]
+!          rh     : relative humidity         [if imode < 0]
+!          qsat   : saturation spec. hum. in g/kg
+! Output:  rh     : relative humidity         [if imode > 0]
+!          qa     : specific humidity in g/kg [if imode < 0]
+subroutine shtorh(imode,ta,ps,sig,qa,rh,qsat)    !
+    use mod_atparam, only: ix, il
 
     implicit none
 
-    integer, intent(in) :: imode, ngp
-    real, intent(in) :: ta(ngp), ps(*), sig
-    real :: qsat(ngp), e0, c1, c2, t0, t1, t2
-    real, intent(inout) :: qa(ngp), rh(ngp)
+    integer, intent(in) :: imode
+    real, intent(in) :: ta(ix*il), ps(*), sig
+    real :: qsat(ix*il), e0, c1, c2, t0, t1, t2
+    real, intent(inout) :: qa(ix*il), rh(ix*il)
 
     integer :: j
 
@@ -34,7 +30,7 @@ subroutine shtorh(imode,ngp,ta,ps,sig,qa,rh,qsat)
     t1 = 35.86
     t2 = 7.66
 
-    do j=1,ngp
+    do j=1,ix*il
         if (ta(j).ge.t0) then
           qsat(j)=e0*exp(c1*(ta(j)-t0)/(ta(j)-t1))
         else
@@ -43,22 +39,22 @@ subroutine shtorh(imode,ngp,ta,ps,sig,qa,rh,qsat)
     end do
 
     if (sig.le.0.0) then
-        do j=1,ngp
+        do j=1,ix*il
             qsat(j)=622.*qsat(j)/(ps(1)-0.378*qsat(j))
         end do
     else
-        do j=1,ngp
+        do j=1,ix*il
             qsat(j)=622.*qsat(j)/(sig*ps(j)-0.378*qsat(j))
         end do
     end if
 
     ! 2. Compute rel.hum. RH=Q/Qsat (imode>0), or Q=RH*Qsat (imode<0)
     if (imode.gt.0) then
-        do j=1,ngp
+        do j=1,ix*il
             rh(j)=qa(j)/qsat(j)
         end do
     else if (imode.lt.0) then
-        do j=1,ngp
+        do j=1,ix*il
             qa(j)=rh(j)*qsat(j)
         end do
     end if

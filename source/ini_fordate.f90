@@ -21,11 +21,9 @@ subroutine fordate(imode)
 
     implicit none
 
-    integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon * nlat
-
     integer, intent(in) :: imode
-    real, dimension(nlon, nlat) :: corh, tsfc, tref, psfc, qsfc, qref
-    real :: gamlat(nlat)
+    real, dimension(ix, il) :: corh, tsfc, tref, psfc, qsfc, qref
+    real :: gamlat(il)
 
     real :: del_co2, dummy, pexp
     integer :: i, j, iyear_ref
@@ -67,8 +65,8 @@ subroutine fordate(imode)
     ! 3. temperature correction term for horizontal diffusion
     call setgam(tyear,gamlat)
 
-    do j = 1, nlat
-        do i = 1, nlon
+    do j = 1, il
+        do i = 1, ix
             corh(i,j) = gamlat(j) * phis0(i,j)
         end do
     end do
@@ -76,17 +74,17 @@ subroutine fordate(imode)
     call spec(corh,tcorh)
 
     ! 4. humidity correction term for horizontal diffusion
-    do j = 1, nlat
+    do j = 1, il
         pexp = 1./(rd * gamlat(j))
-        do i = 1, nlon
+        do i = 1, ix
             tsfc(i,j) = fmask_l(i,j) * stl_am(i,j) + fmask_s(i,j) * sst_am(i,j)
             tref(i,j) = tsfc(i,j) + corh(i,j)
             psfc(i,j) = (tsfc(i,j)/tref(i,j))**pexp
         end do
     end do
 
-    call shtorh(0, ngp, tref,   1., -1., dummy, dummy, qref)
-    call shtorh(0, ngp, tsfc, psfc,  1., dummy, dummy, qsfc)
+    call shtorh(0, tref,   1., -1., dummy, dummy, qref)
+    call shtorh(0, tsfc, psfc,  1., dummy, dummy, qsfc)
 
     corh = refrh1 * (qref - qsfc)
 

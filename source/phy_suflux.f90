@@ -127,7 +127,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
         ! 1.3 Spec. humidity
         !ghum0 = 1.-fhum0
 
-        !call shtorh(-1,ngp,t0,psa,1.,q0,rh(1,nlev),qsat0)
+        !call shtorh(-1,t0,psa,1.,q0,rh(1,nlev),qsat0)
 
         !do j=1,ngp
         !    q0(j)=fhum0*q0(j)+ghum0*qa(j,nlev)
@@ -195,7 +195,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
 
         ! 2.5 Evaporation
         if (fhum0.gt.0.) then
-            call shtorh(-1,ngp,t1(1,1),psa,1.,q1(1,1),rh(1,nlev),qsat0(1,1))
+            call shtorh(-1,t1(1,1),psa,1.,q1(1,1),rh(1,nlev),qsat0(1,1))
 
             do j=1,ngp
               q1(j,1) = fhum0*q1(j,1)+ghum0*qa(j,nlev)
@@ -204,7 +204,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
             q1(:,1) = qa(:,nlev)
         end if
 
-        call shtorh(0,ngp,tskin,psa,1.,qdummy,rdummy,qsat0(1,1))
+        call shtorh(0,tskin,psa,1.,qdummy,rdummy,qsat0(1,1))
 
         do j=1,ngp
             !evap(j,1) = chl*denvvs(j,1)*soilw_am_copy(j)*max(0.,qsat0(j,1)-q1(j,1))
@@ -234,7 +234,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
             end do
 
             ! Compute d(Evap) for a 1-degree increment of Tskin
-            call shtorh(0,ngp,dtskin,psa,1.,qdummy,rdummy,qsat0(1,2))
+            call shtorh(0,dtskin,psa,1.,qdummy,rdummy,qsat0(1,2))
 
             do j=1,ngp
                 if (evap(j,1).gt.0) then
@@ -292,7 +292,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
         end do
 
         if (fhum0.gt.0.) then
-            call shtorh(-1,ngp,t1(1,2),psa,1.,q1(1,2),rh(1,nlev),qsat0(1,2))
+            call shtorh(-1,t1(1,2),psa,1.,q1(1,2),rh(1,nlev),qsat0(1,2))
 
             do j=1,ngp
               q1(j,2) = fhum0*q1(j,2)+ghum0*qa(j,nlev)
@@ -327,7 +327,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
     end do
 
     ! 4.4 Evaporation
-    call shtorh(0,ngp,tsea,psa,1.,qdummy,rdummy,qsat0(1,2))
+    call shtorh(0,tsea,psa,1.,qdummy,rdummy,qsat0(1,2))
 
     do j=1,ngp
         evap(j,2) = chs*denvvs(j,ks)*(qsat0(j,2)-q1(j,2))

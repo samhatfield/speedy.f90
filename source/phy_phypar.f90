@@ -87,7 +87,7 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
     end do
 
     do k = 1, kx
-        call shtorh(1, ngp, tg1(:,:,k), psg, sig(k), qg1(:,:,k), rh(:,:,k), qsat(:,:,k))
+        call shtorh(1, tg1(:,:,k), psg, sig(k), qg1(:,:,k), rh(:,:,k), qsat(:,:,k))
     end do
 
     ! =========================================================================
