@@ -7,6 +7,7 @@ module mod_cpl_sea_model
     public sea_model_init, couple_sea_atm
     public fmask_s, bmask_s, deglat_s, sst12, sice12, sstan3, hfseacl, sstom12
     public sstcl_ob, sst_am, sice_am, tice_am, ssti_om
+    public hflux_s, hflux_i
 
     ! Constant parameters and fields in sea/ice model
     real :: rhcaps(ix,il) ! 1./heat_capacity (sea)
@@ -54,6 +55,10 @@ module mod_cpl_sea_model
 
     ! Weight for obs. SST anomaly in coupled runs
     real :: wsst_ob(ix*il)
+
+    ! Fluxes at sea surface (all downward, except evaporation)
+    real :: hflux_s(ix*il) ! Net heat flux into sea surface
+    real :: hflux_i(ix*il) ! Net heat flux into sea-ice surface
 
 contains
     ! Initialization of sea model
@@ -157,7 +162,6 @@ contains
     subroutine couple_sea_atm(day)
         use mod_cpl_flags, only: icsea, icice, isstan
         use mod_date, only: model_datetime, imont1
-        use mod_flx_sea, only: hflux_s, hflux_i
         use mod_cpl_bcinterp, only: forin5, forint
 
         integer, intent(in) :: day
@@ -290,8 +294,6 @@ contains
 
     ! Purpose : Integrate slab ocean and sea-ice models for one day
     subroutine sea_model
-        use mod_flx_sea
-
         integer, parameter :: ngp=ix*il
 
         ! Input variables:

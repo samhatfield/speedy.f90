@@ -50,7 +50,6 @@ FILES= \
 	   mod_dyncon1.o \
 	   mod_dyncon2.o \
 	   mod_dynvar.o \
-	   mod_flx_sea.o \
 	   mod_hdifcon.o \
 	   mod_lflags.o \
 	   mod_lsccon.o \
@@ -93,9 +92,8 @@ mod_cpl_land_model.o   : mod_cpl_land_model.f90 mod_atparam.o mod_cpl_flags.o \
                          mod_date.o mod_cpl_bcinterp.o
 cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o mod_cpl_land_model.o\
  						 mod_cpl_sea_model.o mod_surfcon.o
-cpl_sea.o              : cpl_sea.f90 mod_cpl_flags.o mod_atparam.o mod_date.o\
- 						 mod_flx_sea.o mod_input.o
-mod_cpl_sea_model.o    : mod_cpl_sea_model.f90 mod_atparam.o mod_flx_sea.o mod_input.o
+cpl_sea.o              : cpl_sea.f90 mod_cpl_flags.o mod_atparam.o mod_date.o mod_input.o
+mod_cpl_sea_model.o    : mod_cpl_sea_model.f90 mod_atparam.o mod_input.o
 dyn_geop.o             : dyn_geop.f90 mod_atparam.o mod_dynvar.o mod_dyncon1.o
 dyn_grtend.o           : dyn_grtend.f90 mod_atparam.o mod_dynvar.o mod_dyncon1.o mod_dyncon2.o
 dyn_implic.o           : dyn_implic.f90 mod_atparam.o mod_dyncon1.o mod_dyncon1.o mod_dyncon2.o
@@ -127,7 +125,6 @@ mod_dyncon0.o          : mod_dyncon0.f90
 mod_dyncon1.o          : mod_dyncon1.f90 mod_atparam.o
 mod_dyncon2.o          : mod_dyncon2.f90 mod_atparam.o
 mod_dynvar.o           : mod_dynvar.f90 mod_atparam.o
-mod_flx_sea.o          : mod_flx_sea.f90 mod_atparam.o
 mod_hdifcon.o          : mod_hdifcon.f90 mod_atparam.o
 mod_lflags.o           : mod_lflags.f90
 mod_lsccon.o           : mod_lsccon.f90
@@ -153,7 +150,7 @@ phy_suflux.o           : phy_suflux.f90 mod_atparam.o mod_sflcon.o mod_physcon.o
 phy_vdifsc.o           : phy_vdifsc.f90 mod_atparam.o mod_vdicon.o mod_physcon.o
 ppo_diagns.o           : ppo_diagns.f90 mod_tsteps.o mod_atparam.o mod_dynvar.o mod_date.o
 ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_physcon.o\
-						 mod_surfcon.o mod_flx_sea.o mod_physvar.o mod_radcon.o
+						 mod_surfcon.o mod_physvar.o mod_radcon.o
 spe_matinv.o           : spe_matinv.f90
 spe_spectral.o         : spe_spectral.f90 mod_atparam.o mod_spectral.o
 spe_subfft_fftpack.o   : spe_subfft_fftpack.f90 mod_atparam.o mod_spectral.o
