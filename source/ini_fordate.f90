@@ -102,13 +102,12 @@ subroutine setgam(tyear,gamlat)
     implicit none
 
     real, intent(in) :: tyear
-    integer, parameter :: nlon = ix, nlat = il, nlev = kx, ngp = nlon * nlat
     integer :: j
 
-    real, intent(inout) :: gamlat(nlat)
+    real, intent(inout) :: gamlat(il)
 
     gamlat(1) = gamma/(1000. * grav)
-    do j = 2, nlat
+    do j = 2, il
         gamlat(j) = gamlat(1)
     end do
 end

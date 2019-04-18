@@ -28,8 +28,6 @@ subroutine phypar(vor1,div1,t1,q1,phi1,psl1,utend,vtend,ttend,qtend)
 
     implicit none
 
-    integer, parameter :: ngp=ix*il
-
     complex, dimension(mx,nx,kx), intent(in) :: vor1, div1, t1, q1, phi1
     complex, dimension(mx,nx), intent(in) :: psl1
     real, dimension(ix,il,kx), intent(inout) :: utend, vtend, ttend, qtend
