@@ -27,7 +27,7 @@ echo 'Compiling SPEEDY'
 if [ "$1" = "--profile" ]; then
     make -s profile || { echo "Compilation failed"; exit 1; }
 else
-    make -s speedy || { echo "Compilation failed"; exit 1; }
+    make || { echo "Compilation failed"; exit 1; }
 fi
 
 rm *.f90 *.o makefile *.mod

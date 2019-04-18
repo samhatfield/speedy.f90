@@ -2,14 +2,14 @@
 FC=gfortran
 
 # Set variables depending on target
-speedy : COMPOPTS = $(OPT) $(BASE)
+default : COMPOPTS = $(OPT) $(BASE)
 profile : COMPOPTS = -pg $(BASE)
 
 # Default
-speedy : main
+default : base_target
 
 # For profiling
-profile : main
+profile : base_target
 
 # Base compiler options (always used)
 BASE=-fdefault-real-8 -fconvert=swap
@@ -80,14 +80,14 @@ FILES= \
 %.o: %.f90
 	$(FC) $(COMPOPTS) -c $< $(INC)
 
-main: $(FILES) at_gcm.o
-	$(FC) $(COMPOPTS) $(FILES) at_gcm.o -o speedy $(LIB)
+base_target: $(FILES) speedy.o
+	$(FC) $(COMPOPTS) $(FILES) speedy.o -o speedy $(LIB)
 
 .PHONY: clean
 clean:
 	rm -f *.o *.mod
 
-at_gcm.o               : at_gcm.f90 mod_tsteps.o mod_date.o
+speedy.o               : speedy.f90 mod_tsteps.o mod_date.o mod_lflags.o mod_output.o
 mod_cpl_land_model.o   : mod_cpl_land_model.f90 mod_atparam.o mod_cpl_flags.o \
                          mod_date.o mod_cpl_bcinterp.o
 cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o mod_cpl_land_model.o\

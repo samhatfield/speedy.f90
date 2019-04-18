@@ -1,4 +1,4 @@
-program agcm_main
+program speedy
     use mod_tsteps, only: nsteps, delt2, nsteps_out, nstrad
     use mod_date, only: model_datetime, end_datetime, newdate, datetime_equal
     use mod_lflags, only: lradsw
