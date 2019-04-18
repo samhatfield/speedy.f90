@@ -262,6 +262,9 @@ subroutine radsw(psa,qa,icltop,cloudc,clstr,fsfcd,fsfc,ftop,dfabs)
     integer :: j, k, nl1
     real :: acloud(ngp), psaz(ngp), abs1, acloud1, deltap, eps1
     real :: fband1, fband2
+    real :: albsfc_copy(ngp)
+
+    albsfc_copy = reshape(albsfc, (/ngp/))
 
     nl1 = nlev-1
 
@@ -366,7 +369,7 @@ subroutine radsw(psa,qa,icltop,cloudc,clstr,fsfcd,fsfc,ftop,dfabs)
     ! 4.1  Absorption and reflection at the surface
     do j=1,ngp
         fsfcd(j)  = flux(j,1)+flux(j,2)
-        flux(j,1) = flux(j,1)*albsfc(j)
+        flux(j,1) = flux(j,1)*albsfc_copy(j)
         fsfc(j)   = fsfcd(j)-flux(j,1)
     end do
 

@@ -112,7 +112,7 @@ module mod_radcon
     ! alb_s  = daily-mean albedo over sea  (open sea + sea ice)
     ! albsfc = combined surface albedo (land + sea)
     ! snowc  = effective snow cover (fraction)
-    real, dimension(ix*il) :: alb_l, alb_s, albsfc, snowc
+    real, dimension(ix,il) :: alb_l, alb_s, albsfc, snowc
 
     ! Transmissivity and blackbody rad. (updated in radsw/radlw)
     ! tau2   = transmissivity of atmospheric layers

@@ -65,8 +65,13 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
 
     real :: psa(ngp)
 
+	real, dimension(ngp) :: alb_l_copy, alb_s_copy, snowc_copy
+
 	stl_am_copy = reshape(stl_am, (/ngp/))
 	soilw_am_copy = reshape(soilw_am, (/ngp/))
+	alb_l_copy = reshape(alb_l, (/ngp/))
+	alb_s_copy = reshape(alb_s, (/ngp/))
+	snowc_copy = reshape(snowc, (/ngp/))
 
     lscasym = .true.   ! true : use an asymmetric stability coefficient
     lscdrag = .true.   ! true : use stability coef. to compute drag over sea
@@ -144,7 +149,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
 	        j0=nlon*(jlat-1)
             sqclat=sqrt(clat(jlat))
             do j=j0+1,j0+nlon
-                tskin(j)=stl_am_copy(j)+ctday*sqclat*ssrd(j)*(1.-alb_l(j))*psa(j)
+                tskin(j)=stl_am_copy(j)+ctday*sqclat*ssrd(j)*(1.-alb_l_copy(j))*psa(j)
             end do
         end do
 
@@ -215,7 +220,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
             tsk3        = tskin(j)**3
             dslr(j)     = esbc4*tsk3
             slru(j,1)   = esbc *tsk3*tskin(j)
-            hfluxn(j,1) = ssrd(j)*(1.-alb_l(j))+slrd(j)-&
+            hfluxn(j,1) = ssrd(j)*(1.-alb_l_copy(j))+slrd(j)-&
                 & (slru(j,1)+shf(j,1)+alhc*evap(j,1))
         end do
 
@@ -223,7 +228,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
         if (lskineb) then
             ! Compute net heat flux including flux into ground
             do j=1,ngp
-              clamb(j)    = clambda+snowc(j)*dlambda
+              clamb(j)    = clambda+snowc_copy(j)*dlambda
               hfluxn(j,1) = hfluxn(j,1)-clamb(j)*(tskin(j)-stl_am_copy(j))
               dtskin(j)   = tskin(j)+1.
             end do
@@ -332,7 +337,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
     !     and net heat fluxes into sea surface
     do j=1,ngp
         slru(j,2)   = esbc*tsea(j)**4
-        hfluxn(j,2) = ssrd(j)*(1.-alb_s(j))+slrd(j)-&
+        hfluxn(j,2) = ssrd(j)*(1.-alb_s_copy(j))+slrd(j)-&
             & (slru(j,2)+shf(j,2)+alhc*evap(j,2))
     end do
 

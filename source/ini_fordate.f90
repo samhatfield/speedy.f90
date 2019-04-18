@@ -25,18 +25,12 @@ subroutine fordate(imode)
 
     integer, intent(in) :: imode
     real, dimension(nlon, nlat) :: corh, tsfc, tref, psfc, qsfc, qref
-    real :: sice_am_copy(ngp), snowd_am_copy(ngp)
     real :: gamlat(nlat)
 
-    real :: fland(ngp), alb_0(ngp)
+    real :: alb_0(ngp)
 
     real :: del_co2, dummy, pexp
     integer :: i, j, iyear_ref
-
-    fland = reshape(fmask_l, (/ngp/))
-    alb_0 = reshape(alb0, (/ngp/))
-    sice_am_copy = reshape(sice_am, (/ngp/))
-    snowd_am_copy = reshape(snowd_am, (/ngp/))
 
     ! time variables for interpolation are set by newdate
 
@@ -54,11 +48,13 @@ subroutine fordate(imode)
 
     ! total surface albedo
 
-    do j = 1, ngp
-        snowc(j)  = min(1., snowd_am_copy(j)/sd2sc)
-        alb_l(j)  = alb_0(j) + snowc(j) * (albsn - alb_0(j))
-        alb_s(j)  = albsea + sice_am_copy(j) * (albice - albsea)
-        albsfc(j) = alb_s(j) + fland(j) * (alb_l(j) - alb_s(j))
+    do i = 1, ix
+        do j = 1, il
+            snowc(i,j)  = min(1.0, snowd_am(i,j)/sd2sc)
+            alb_l(i,j)  = alb0(i,j) + snowc(i,j) * (albsn - alb0(i,j))
+            alb_s(i,j)  = albsea + sice_am(i,j) * (albice - albsea)
+            albsfc(i,j) = alb_s(i,j) + fmask_l(i,j) * (alb_l(i,j) - alb_s(i,j))
+        end do
     end do
 
     ! linear trend of co2 absorptivity (del_co2: rate of change per year)
