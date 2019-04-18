@@ -26,9 +26,9 @@ cp $SRC/makefile .
 make -s clean
 echo 'Compiling SPEEDY'
 if [ "$1" = "--profile" ]; then
-    make profile || { echo "Compilation failed"; exit 1; }
+    make -s profile || { echo "Compilation failed"; exit 1; }
 else
-    make speedy || { echo "Compilation failed"; exit 1; }
+    make -s speedy || { echo "Compilation failed"; exit 1; }
 fi
 
 rm *.f90 *.h *.o makefile *.mod
