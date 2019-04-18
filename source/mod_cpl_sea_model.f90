@@ -7,6 +7,13 @@ module mod_cpl_sea_model
     public sea_model_init
     public ini_sea, atm2sea, sea2atm
 
+    ! Input and output sea variables exchanged by coupler
+    ! Ocean model input variables
+    real :: vsea_input(ix*il,8)
+
+    ! Ocean model output variables
+    real :: vsea_output(ix*il,3)
+
 contains
     subroutine sea_model_init(fmask_s,rlat)
         !  subroutine sea_model_init (fmask_s,rlat)
@@ -155,7 +162,6 @@ contains
 
         use mod_cpl_flags, only: icsea, icice, isstan
         use mod_atparam
-        use mod_cplvar_sea, only: vsea_input
         use mod_date, only: model_datetime, imont1
         use mod_flx_sea, only: hflux_s, hflux_i
         use mod_cli_sea, only: fmask_s, sst12, sice12, sstan3, hfseacl, sstom12
@@ -244,7 +250,6 @@ contains
 
         use mod_cpl_flags, only: icsea, icice, isstan
         use mod_atparam
-        use mod_cplvar_sea, only: vsea_output
         use mod_var_sea
 
         implicit none
@@ -332,7 +337,6 @@ contains
 
         use mod_atparam
         use mod_cplcon_sea
-        use mod_cplvar_sea
 
         implicit none
 
