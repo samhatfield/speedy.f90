@@ -5,7 +5,7 @@ FC=gfortran
 COMPOPTS=-Ofast -fdefault-real-8 -fconvert=swap
 
 # # Location of NetCDF module (netcdf.mod)
-INC=-I/usr/include
+INC=-I$(NETCDF)
 
 # Library flags
 LIB=-lnetcdff -lnetcdf
