@@ -1,9 +1,6 @@
+! Add up fluxes to provide daily averages used in sea/land models
 subroutine dmflux(iadd)
-    ! subroutine dmflux (iadd)
-    !
-    ! Purpose: Add up fluxes to provide daily averages
-    !          used in sea/land models
-    ! Input: IADD = 0 to initialize storage arrays to 0
+    ! Input: iadd = 0 to initialize storage arrays to 0
     !             > 0 to increment arrays with current flux values
 
     use mod_tsteps, only: nsteps
@@ -18,14 +15,14 @@ subroutine dmflux(iadd)
 
     implicit none
 
-    integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
+    integer, parameter :: ngp=ix*il
 
     integer, intent(in) :: iadd
     integer :: j
 
-    real :: prec(ngp), difice(ngp)
+    real :: difice(ngp)
 
-    real :: fland(ngp), esbc, rstep1, rstep2, rsteps, sstfr, sstfr4
+    real :: fland(ngp), esbc, rsteps, sstfr, sstfr4
 
     fland = reshape(fmask_l,(/ngp/))
 
@@ -50,8 +47,6 @@ subroutine dmflux(iadd)
     end if
 
     rsteps = 1./real(nsteps)
-    rstep1 = rsteps*0.001
-    rstep2 = rsteps*alhc
 
     ! SST at freezing point
     sstfr  = 273.2-1.8
@@ -59,10 +54,7 @@ subroutine dmflux(iadd)
     sstfr4 = sstfr**4
     esbc   = emisfc*sbc
 
-    ! Total precipitation
-    prec(:) = precls(:)+precnv(:)
-
-    ! 2. Store fluxes over land (SI units, all heat fluxes downw.)
+    ! Store fluxes over land (SI units, all heat fluxes downw.)
     hflux_l(:) = hflux_l(:) + hfluxn(:,1)*rsteps
 
     ! Difference in net (downw.) heat flux between ice and sea surface
@@ -72,11 +64,9 @@ subroutine dmflux(iadd)
     hflux_s(:) = hflux_s(:) + rsteps* hfluxn(:,2)
     hflux_i(:) = hflux_i(:) + rsteps*(hfluxn(:,2)+difice(:)*(1.-sice_am(:)))
 
-    ! 4.1 Store fluxes for daily-mean output
+    ! Store fluxes for daily-mean output
 
     ! Multiply net heat fluxes by land or sea fractions
     hfluxn(:,1) = hfluxn(:,1)*fland(:)
     hfluxn(:,2) = hfluxn(:,2)*(1.-fland(:))
-
-    ! End of flux increment
 end
