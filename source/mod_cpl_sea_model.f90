@@ -7,6 +7,7 @@ module mod_cpl_sea_model
     public sea_model_init
     public ini_sea, atm2sea, sea2atm
     public fmask_s, bmask_s, deglat_s, sst12, sice12, sstan3, hfseacl, sstom12
+    public sstcl_ob, sst_am, sice_am, tice_am, ssti_om
 
     ! Constant parameters and fields in sea/ice model
     real :: rhcaps(ix,il) ! 1./heat_capacity (sea)
@@ -30,6 +31,30 @@ module mod_cpl_sea_model
     ! Climatological fields from model output
     real :: hfseacl(ix,il) ! Annual-mean heat flux into sea sfc.
     real :: sstom12(ix,il,12) ! Ocean model SST climatology
+
+    ! Daily observed climatological fields over sea
+    real :: sstcl_ob(ix*il) ! Observed clim. SST
+    real :: sicecl_ob(ix*il) ! Clim. sea ice fraction
+    real :: ticecl_ob(ix*il) ! Clim. sea ice temperature
+    real :: sstan_ob(ix*il) ! Daily observed SST anomaly
+
+    ! Daily climatological fields from ocean model
+    real :: sstcl_om(ix*il) ! Ocean model clim. SST
+
+    ! Sea sfc. fields used by atmospheric model
+    real :: sst_am(ix*il) ! SST (full-field)
+    real :: sstan_am(ix*il) ! SST anomaly
+    real :: sice_am(ix*il) ! Sea ice fraction
+    real :: tice_am(ix*il) ! Sea ice temperature
+
+    ! Sea sfc. fields from ocean/sea-ice model
+    real :: sst_om(ix*il) ! Ocean model SST
+    real :: sice_om(ix*il) ! Model sea ice fraction
+    real :: tice_om(ix*il) ! Model sea ice temperature
+    real :: ssti_om(ix*il) ! Model SST + sea ice temp.
+
+    ! Weight for obs. SST anomaly in coupled runs
+    real :: wsst_ob(ix*il)
 
 contains
     ! Initialization of sea model
@@ -132,7 +157,6 @@ contains
 
     subroutine ini_sea
         use mod_cpl_flags, only: icsea
-        use mod_var_sea
 
         ! 1. Compute climatological fields for initial date
         call atm2sea(0)
@@ -156,8 +180,6 @@ contains
         use mod_cpl_flags, only: icsea, icice, isstan
         use mod_date, only: model_datetime, imont1
         use mod_flx_sea, only: hflux_s, hflux_i
-        use mod_var_sea, only: sstcl_ob, sicecl_ob, ticecl_ob, sstan_ob, sstcl_om,&
-            & sst_om, tice_om
         use mod_cpl_bcinterp, only: forin5, forint
 
         integer, intent(in) :: jday
@@ -213,7 +235,6 @@ contains
 
     subroutine sea2atm(jday)
         use mod_cpl_flags, only: icsea, icice, isstan
-        use mod_var_sea
 
         integer, intent(in) :: jday
 
@@ -283,7 +304,6 @@ contains
 
     ! Purpose : Integrate slab ocean and sea-ice models for one day
     subroutine sea_model
-        use mod_var_sea
         use mod_flx_sea
 
         integer, parameter :: ngp=ix*il

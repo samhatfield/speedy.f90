@@ -13,7 +13,7 @@ subroutine dmflux(iadd)
     use mod_physcon, only: alhc, sbc
     use mod_surfcon, only: fmask
     use mod_cpl_land_model, only: fmask_l
-    use mod_var_sea, only: tice_am, sice_am
+    use mod_cpl_sea_model, only: tice_am, sice_am
     use mod_physvar
     use mod_radcon, only: albsea, albice, emisfc
     use mod_date, only: model_datetime
