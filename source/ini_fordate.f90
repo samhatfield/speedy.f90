@@ -27,8 +27,6 @@ subroutine fordate(imode)
     real, dimension(nlon, nlat) :: corh, tsfc, tref, psfc, qsfc, qref
     real :: gamlat(nlat)
 
-    real :: alb_0(ngp)
-
     real :: del_co2, dummy, pexp
     integer :: i, j, iyear_ref
 
