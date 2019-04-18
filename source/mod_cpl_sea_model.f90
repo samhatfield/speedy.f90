@@ -6,6 +6,7 @@ module mod_cpl_sea_model
     private
     public sea_model_init
     public ini_sea, atm2sea, sea2atm
+    public fmask_s, bmask_s, deglat_s, sst12, sice12, sstan3, hfseacl, sstom12
 
     ! Input and output sea variables exchanged by coupler
     ! Ocean model input variables
@@ -15,31 +16,32 @@ module mod_cpl_sea_model
     real :: vsea_output(ix*il,3)
 
     ! Constant parameters and fields in sea/ice model
-    ! 1./heat_capacity (sea)
-    real :: rhcaps(ix,il)
+    real :: rhcaps(ix,il) ! 1./heat_capacity (sea)
+    real :: rhcapi(ix,il) ! 1./heat_capacity (ice)
+    real :: cdsea(ix,il) ! 1./dissip_time (sea)
+    real :: cdice(ix,il) ! 1./dissip_time (ice)
+    real :: beta = 1.0 ! Heat flux coef. at sea/ice int.
 
-    ! 1./heat_capacity (ice)
-    real :: rhcapi(ix,il)
+    ! Sea masks
+    real :: fmask_s(ix,il) ! Fraction of sea
+    real :: bmask_s(ix,il) ! Binary sea mask
+    real :: deglat_s(il) ! Grid latitudes
 
-    ! 1./dissip_time (sea)
-    real :: cdsea(ix,il)
+    ! Monthly-mean climatological fields over sea
+    real :: sst12(ix,il,12) ! Sea/ice surface temperature
+    real :: sice12(ix,il,12) ! Sea ice fraction
 
-    ! 1./dissip_time (ice)
-    real :: cdice(ix,il)
+    ! SST anomaly fields
+    real :: sstan3(ix,il,3) ! SST anomaly in 3 consecutive months
 
-    ! Heat flux coef. at sea/ice int.
-    real :: beta = 1.0
+    ! Climatological fields from model output
+    real :: hfseacl(ix,il) ! Annual-mean heat flux into sea sfc.
+    real :: sstom12(ix,il,12) ! Ocean model SST climatology
 
 contains
     ! Initialization of sea model
-    subroutine sea_model_init(fmask_s,rlat)
+    subroutine sea_model_init
         integer, parameter :: nlon=ix, nlat=il, ngp=nlon*nlat
-
-        ! Input variables
-        real fmask_s(nlon,nlat)            ! sea mask (fraction of sea)
-        real rlat(nlat)                    ! latitudes in degrees
-
-        ! Auxiliary variables
 
         ! Domain mask
         real :: dmask(nlon,nlat)
@@ -96,7 +98,7 @@ contains
         ! Heat capacities per m^2 (depth*heat_cap/m^3)
         crad=asin(1.)/90.
         do j=1,nlat
-            coslat   = cos(crad*rlat(j))
+            coslat   = cos(crad*deglat_s(j))
             hcaps(j) = 4.18e+6*(depth_ml +(dept0_ml -depth_ml) *coslat**3)
             hcapi(j) = 1.93e+6*(depth_ice+(dept0_ice-depth_ice)*coslat**2)
         end do
@@ -108,12 +110,12 @@ contains
             dmask(:,:) = 1.
         else
             dmask(:,:) = 0.
-            if (l_northe) call sea_domain('northe',rlat,dmask)
-            !fkif (l_arctic) call sea_domain ('arctic',rlat,dmask)
-            if (l_natlan) call sea_domain('natlan',rlat,dmask)
-            if (l_npacif) call sea_domain('npacif',rlat,dmask)
-            if (l_tropic) call sea_domain('tropic',rlat,dmask)
-            if (l_indian) call sea_domain('indian',rlat,dmask)
+            if (l_northe) call sea_domain('northe',deglat_s,dmask)
+            !fkif (l_arctic) call sea_domain ('arctic',deglat_s,dmask)
+            if (l_natlan) call sea_domain('natlan',deglat_s,dmask)
+            if (l_npacif) call sea_domain('npacif',deglat_s,dmask)
+            if (l_tropic) call sea_domain('tropic',deglat_s,dmask)
+            if (l_indian) call sea_domain('indian',deglat_s,dmask)
         end if
 
         ! Smooth latitudinal boundaries and blank out land points
@@ -141,7 +143,6 @@ contains
     subroutine ini_sea
         use mod_cpl_flags, only: icsea
         use mod_atparam
-        use mod_cli_sea, only: deglat_s
         use mod_var_sea
 
         ! 1. Compute climatological fields for initial date
@@ -167,7 +168,6 @@ contains
         use mod_atparam
         use mod_date, only: model_datetime, imont1
         use mod_flx_sea, only: hflux_s, hflux_i
-        use mod_cli_sea, only: fmask_s, sst12, sice12, sstan3, hfseacl, sstom12
         use mod_var_sea, only: sstcl_ob, sicecl_ob, ticecl_ob, sstan_ob, sstcl_om,&
             & sst_om, tice_om
         use mod_cpl_bcinterp, only: forin5, forint
@@ -308,7 +308,6 @@ contains
 
     ! Update observed SST anomaly array
     subroutine obs_ssta
-        use mod_cli_sea, only: sstan3, bmask_s
         use mod_date, only: model_datetime, start_datetime
         use mod_tsteps, only: issty0
         use mod_input, only: load_boundary_file

@@ -2,8 +2,7 @@ subroutine ini_coupler()
     use mod_atparam
     use mod_cpl_land_model, only: land_model_init, couple_land_atm
     use mod_cpl_sea_model, only: sea_model_init, ini_sea
-    use mod_surfcon, only: fmask, alb0
-    use mod_cli_sea, only: fmask_s, deglat_s
+    use mod_surfcon, only: alb0
 
     implicit none
 
@@ -14,7 +13,7 @@ subroutine ini_coupler()
     call couple_land_atm(0)
 
     ! 2.1 initialize sea and ice model constants
-    call sea_model_init(fmask_s,deglat_s)
+    call sea_model_init
 
     ! 2.2 initialize sea and ice model variables
     call ini_sea
