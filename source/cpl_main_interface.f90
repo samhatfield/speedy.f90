@@ -1,6 +1,6 @@
 subroutine ini_coupler()
     use mod_atparam
-    use mod_cpl_land_model, only: land_model_init, ini_land
+    use mod_cpl_land_model, only: land_model_init, couple_land_atm
     use mod_cpl_sea_model, only: sea_model_init
     use mod_surfcon, only: fmask, alb0
     use mod_cli_sea, only: fmask_s, deglat_s
@@ -11,7 +11,7 @@ subroutine ini_coupler()
     call land_model_init(alb0)
 
     ! 1.2 initialize land model variables
-    call ini_land()
+    call couple_land_atm(0)
 
     ! 2.1 initialize sea and ice model constants
     call sea_model_init(fmask_s,deglat_s)
@@ -21,17 +21,13 @@ subroutine ini_coupler()
 end
 
 subroutine coupler(day)
-    use mod_cpl_land_model, only: atm2land, land2atm
+    use mod_cpl_land_model, only: couple_land_atm
 
     implicit none
 
     integer, intent(in) :: day
 
-    ! 1. send fields to land model
-    call atm2land
-
-    ! 1. get updated fields from land model
-    call land2atm(day)
+    call couple_land_atm(day)
 
     ! 2. send fields to sea and ice model
     call atm2sea(day)

@@ -5,8 +5,7 @@ module mod_cpl_land_model
 
     private
     public stlcl_ob, stl_am, snowd_am, soilw_am
-    public land_model_init, ini_land, land_model
-    public atm2land, land2atm
+    public land_model_init, couple_land_atm, land_model
     public fmask_l, bmask_l, stl12, snowd12, soilw12
 
     ! 1./heat_capacity (land)
@@ -107,24 +106,16 @@ module mod_cpl_land_model
             cdland(:,:) = dmask(:,:)*tdland/(1.+dmask(:,:)*tdland)
         end
 
-        subroutine ini_land()
-            ! 1. Compute climatological fields for initial date
-            call atm2land
-
-            ! 2. Initialize prognostic variables of land model
-            stl_lm(:)  = stlcl_ob(:)      ! land sfc. temperature
-
-            ! 3. Compute additional land variables
-            call land2atm(0)
-        end
-
-        subroutine atm2land
+        subroutine couple_land_atm(day)
+            use mod_cpl_flags, only: icland
             use mod_date, only: imont1
-            use mod_cpl_bcinterp, only: forint, forin5
+            use mod_cpl_bcinterp, only: forin5, forint
+
+            integer, intent(in) :: day
 
             ! Interpolate climatological fields to actual date
 
-            ! Climatological land sfc. temperature
+            ! Climatological land surface temperature
             call forin5(imont1, stl12, stlcl_ob)
 
             ! Climatological snow depth
@@ -132,32 +123,28 @@ module mod_cpl_land_model
 
             ! Climatological soil water availability
             call forint(imont1, soilw12, soilwcl_ob)
-        end
 
-        subroutine land2atm(jday)
-            use mod_cpl_flags, only: icland
-
-            integer, intent(in) :: jday
-
-            if (jday > 0.and. icland > 0) then
-                ! Run land model
-                call land_model
-            end if
-
-            ! 3. Compute land-sfc. fields for atm. model
-            ! 3.1 Land sfc. temperature
-            if (icland <= 0) then
-                ! Use observed climatological field
-                stl_am(:) = stlcl_ob(:)
+            ! If it's the first day then initialise the land surface
+            ! temperature from climatology
+            if (day == 0) then
+                stl_lm = stlcl_ob
+                stl_am = stlcl_ob
             else
-                ! Use land model sfc. temperature
-                stl_am(:) = stl_lm(:)
+                ! Run the land model if the land model flags is switched on
+                if (icland == 1) then
+                    call land_model
+
+                    stl_am = stl_lm
+                ! Otherwise get the land surface from climatology
+                else
+                    stl_am = stlcl_ob
+                end if
             end if
 
-            ! 3.2 Snow depth and soil water availability
-            snowd_am(:) = snowdcl_ob(:)
-            soilw_am(:) = soilwcl_ob(:)
-        end
+            ! Always get snow depth and soil water availability from climatology
+            snowd_am = snowdcl_ob
+            soilw_am = soilwcl_ob
+        end subroutine
 
         ! Integrate slab land-surface model for one day
         subroutine land_model
