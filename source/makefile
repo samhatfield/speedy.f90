@@ -11,7 +11,6 @@ INC=-I/usr/include
 LIB=-lnetcdff -lnetcdf
 
 FILES= \
-       cpl_bcinterp.o \
        cpl_main_interface.o \
        cpl_sea.o \
        dyn_geop.o \
@@ -33,6 +32,7 @@ FILES= \
 	   mod_cnvcon.o \
 	   mod_cplcon_sea.o \
 	   mod_cplvar_sea.o \
+	   mod_cpl_bcinterp.o \
 	   mod_cpl_flags.o \
        mod_cpl_land_model.o \
        mod_cpl_sea_model.o \
@@ -82,9 +82,8 @@ clean:
 	rm -f *.o *.mod
 
 at_gcm.o               : at_gcm.f90 mod_tsteps.o mod_date.o
-cpl_bcinterp.o         : cpl_bcinterp.f90
 mod_cpl_land_model.o   : mod_cpl_land_model.f90 mod_atparam.o mod_cpl_flags.o mod_flx_land.o\
-                         mod_date.o
+                         mod_date.o mod_cpl_bcinterp.o
 cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o mod_cpl_land_model.o\
  						 mod_cpl_sea_model.o mod_surfcon.o mod_cli_sea.o
 cpl_sea.o              : cpl_sea.f90 mod_cpl_flags.o mod_atparam.o mod_cplvar_sea.o mod_date.o\
@@ -117,6 +116,7 @@ mod_cli_sea.o          : mod_cli_sea.f90 mod_atparam.o
 mod_cnvcon.o           : mod_cnvcon.f90
 mod_cplcon_sea.o       : mod_cplcon_sea.f90 mod_atparam.o
 mod_cplvar_sea.o       : mod_cplvar_sea.f90 mod_atparam.o
+mod_cpl_bcinterp.o     : mod_cpl_bcinterp.f90
 mod_cpl_flags.o        : mod_cpl_flags.f90
 mod_date.o             : mod_date.f90 mod_atparam.o mod_tsteps.o
 mod_dyncon0.o          : mod_dyncon0.f90

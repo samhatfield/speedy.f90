@@ -31,11 +31,12 @@ subroutine atm2sea(jday)
     use mod_cpl_flags, only: icsea, icice, isstan
     use mod_atparam
     use mod_cplvar_sea, only: vsea_input
-    use mod_date, only: model_datetime, imont1, tmonth
+    use mod_date, only: model_datetime, imont1
     use mod_flx_sea, only: hflux_s, hflux_i
     use mod_cli_sea, only: fmask_s, sst12, sice12, sstan3, hfseacl, sstom12
     use mod_var_sea, only: sstcl_ob, sicecl_ob, ticecl_ob, sstan_ob, sstcl_om,&
         & sst_om, tice_om
+    use mod_cpl_bcinterp, only: forin5, forint
 
     implicit none
 
@@ -51,20 +52,20 @@ subroutine atm2sea(jday)
     !    to actual date
 
     ! Climatological SST
-    call forin5(ngp,imont1,tmonth,sst12,sstcl_ob)
+    call forin5(imont1,sst12,sstcl_ob)
 
     ! Climatological sea ice fraction
-    call forint(ngp,imont1,tmonth,sice12,sicecl_ob)
+    call forint(imont1,sice12,sicecl_ob)
 
     ! SST anomaly
     if (isstan.gt.0) then
         if (model_datetime%day.eq.1.and.jday.gt.0) call OBS_SSTA
-        call forint (ngp,2,tmonth,sstan3,sstan_ob)
+        call forint (2,sstan3,sstan_ob)
     end if
 
     ! Ocean model climatological SST
     if (icsea.ge.3) then
-        call forin5 (ngp,imont1,tmonth,sstom12,sstcl_om)
+        call forin5 (imont1,sstom12,sstcl_om)
     end if
 
     ! Adjust climatological fields over sea ice

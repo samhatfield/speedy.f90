@@ -119,20 +119,19 @@ module mod_cpl_land_model
         end
 
         subroutine atm2land
-            use mod_date, only: imont1, tmonth
-
-            integer, parameter :: ngp=ix*il
+            use mod_date, only: imont1
+            use mod_cpl_bcinterp, only: forint, forin5
 
             ! Interpolate climatological fields to actual date
 
             ! Climatological land sfc. temperature
-            call forin5(ngp,imont1,tmonth,stl12,stlcl_ob)
+            call forin5(imont1, stl12, stlcl_ob)
 
             ! Climatological snow depth
-            call forint(ngp,imont1,tmonth,snowd12,snowdcl_ob)
+            call forint(imont1, snowd12, snowdcl_ob)
 
             ! Climatological soil water availability
-            call forint(ngp,imont1,tmonth,soilw12,soilwcl_ob)
+            call forint(imont1, soilw12, soilwcl_ob)
         end
 
         subroutine land2atm(jday)
