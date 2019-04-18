@@ -43,8 +43,7 @@ program agcm_main
 
         ! Exchange data with coupler once per day
         if (mod(model_step-1, nsteps) == 0) then
-            call agcm_to_coupler(1+model_step/nsteps)
-            call coupler_to_agcm(1+model_step/nsteps)
+            call coupler(1+model_step/nsteps)
         end if
     enddo
 end

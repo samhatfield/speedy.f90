@@ -20,30 +20,22 @@ subroutine ini_coupler()
     call ini_sea()
 end
 
-subroutine agcm_to_coupler(jday)
-    use mod_cpl_land_model, only: atm2land
+subroutine coupler(day)
+    use mod_cpl_land_model, only: atm2land, land2atm
 
     implicit none
 
-    integer, intent(in) :: jday
+    integer, intent(in) :: day
 
     ! 1. send fields to land model
     call atm2land
 
-    ! 2. send fields to sea and ice model
-    call atm2sea(jday)
-end
-
-subroutine coupler_to_agcm(jday)
-    use mod_cpl_land_model, only: land2atm
-
-    implicit none
-
-    integer, intent(in) :: jday
-
     ! 1. get updated fields from land model
-    call land2atm(jday)
+    call land2atm(day)
+
+    ! 2. send fields to sea and ice model
+    call atm2sea(day)
 
     ! 2. get updated fields from sea and ice model
-    call sea2atm(jday)
+    call sea2atm(day)
 end
