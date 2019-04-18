@@ -13,7 +13,6 @@ subroutine diagns(jj,istep)
     implicit none
 
     integer, intent(in) :: jj, istep
-    integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
 
     integer :: k, m, n, kk
     complex :: temp(mx,nx)
