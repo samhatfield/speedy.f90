@@ -58,11 +58,15 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
     real :: dslr(ngp), dtskin(ngp), clamb(ngp), astab, cdldv, cdsdv, chlcp
     real :: chscp, dhfdt, dlambda, dt1, dthl, dths, esbc, esbc4, ghum0, gtemp0
     real :: prd, qdummy, rcp, rdphi0, rdth, rdummy, sqclat, tsk3, vg2
+    real :: stl_am_copy(ngp), soilw_am_copy(ngp)
 
     logical lscasym, lscdrag, lskineb
     logical lfluxland
 
     real :: psa(ngp)
+
+	stl_am_copy = reshape(stl_am, (/ngp/))
+	soilw_am_copy = reshape(soilw_am, (/ngp/))
 
     lscasym = .true.   ! true : use an asymmetric stability coefficient
     lscdrag = .true.   ! true : use stability coef. to compute drag over sea
@@ -140,7 +144,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
 	        j0=nlon*(jlat-1)
             sqclat=sqrt(clat(jlat))
             do j=j0+1,j0+nlon
-                tskin(j)=stl_am(j)+ctday*sqclat*ssrd(j)*(1.-alb_l(j))*psa(j)
+                tskin(j)=stl_am_copy(j)+ctday*sqclat*ssrd(j)*(1.-alb_l(j))*psa(j)
             end do
         end do
 
@@ -198,8 +202,8 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
         call shtorh(0,ngp,tskin,psa,1.,qdummy,rdummy,qsat0(1,1))
 
         do j=1,ngp
-            !evap(j,1) = chl*denvvs(j,1)*soilw_am(j)*max(0.,qsat0(j,1)-q1(j,1))
-            evap(j,1) = chl*denvvs(j,1)*max(0.,soilw_am(j)*qsat0(j,1)-q1(j,1))
+            !evap(j,1) = chl*denvvs(j,1)*soilw_am_copy(j)*max(0.,qsat0(j,1)-q1(j,1))
+            evap(j,1) = chl*denvvs(j,1)*max(0.,soilw_am_copy(j)*qsat0(j,1)-q1(j,1))
         end do
 
         ! 3. Compute land-surface energy balance;
@@ -220,7 +224,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
             ! Compute net heat flux including flux into ground
             do j=1,ngp
               clamb(j)    = clambda+snowc(j)*dlambda
-              hfluxn(j,1) = hfluxn(j,1)-clamb(j)*(tskin(j)-stl_am(j))
+              hfluxn(j,1) = hfluxn(j,1)-clamb(j)*(tskin(j)-stl_am_copy(j))
               dtskin(j)   = tskin(j)+1.
             end do
 
@@ -229,7 +233,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
 
             do j=1,ngp
                 if (evap(j,1).gt.0) then
-                    qsat0(j,2) = soilw_am(j)*(qsat0(j,2)-qsat0(j,1))
+                    qsat0(j,2) = soilw_am_copy(j)*(qsat0(j,2)-qsat0(j,1))
                 else
                     qsat0(j,2) = 0.
                 endif
@@ -247,7 +251,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
                 shf(j,1)    = shf(j,1) +chlcp*denvvs(j,1)*dtskin(j)
                 evap(j,1)   = evap(j,1)+chl*denvvs(j,1)*qsat0(j,2)*dtskin(j)
                 slru(j,1)   = slru(j,1)+dslr(j)*dtskin(j)
-                hfluxn(j,1) = clamb(j)*(tskin(j)-stl_am(j))
+                hfluxn(j,1) = clamb(j)*(tskin(j)-stl_am_copy(j))
             end do
         end if
 !      ENDIF
@@ -346,7 +350,7 @@ subroutine suflux (psa,ua,va,ta,qa,rh,phi,phi0,fmask,tsea,ssrd,slrd,&
         end do
 
         do j=1,ngp
-          tsfc(j)  = tsea(j)+fmask(j)*(stl_am(j)-tsea(j))
+          tsfc(j)  = tsea(j)+fmask(j)*(stl_am_copy(j)-tsea(j))
           tskin(j) = tsea(j)+fmask(j)*(tskin(j)-tsea(j))
           t0(j)    = t1(j,2)+fmask(j)*(t1(j,1)- t1(j,2))
           q0(j)    = q1(j,2)+fmask(j)*(q1(j,1)- q1(j,2))

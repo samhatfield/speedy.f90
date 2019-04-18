@@ -25,17 +25,18 @@ subroutine fordate(imode)
 
     integer, intent(in) :: imode
     real, dimension(nlon, nlat) :: corh, tsfc, tref, psfc, qsfc, qref
-    real :: sice_am_copy(ngp)
+    real :: sice_am_copy(ngp), snowd_am_copy(ngp)
     real :: gamlat(nlat)
 
     real :: fland(ngp), alb_0(ngp)
 
     real :: del_co2, dummy, pexp
-    integer :: i, j, ij, iyear_ref
+    integer :: i, j, iyear_ref
 
     fland = reshape(fmask_l, (/ngp/))
     alb_0 = reshape(alb0, (/ngp/))
     sice_am_copy = reshape(sice_am, (/ngp/))
+    snowd_am_copy = reshape(snowd_am, (/ngp/))
 
     ! time variables for interpolation are set by newdate
 
@@ -54,7 +55,7 @@ subroutine fordate(imode)
     ! total surface albedo
 
     do j = 1, ngp
-        snowc(j)  = min(1., snowd_am(j)/sd2sc)
+        snowc(j)  = min(1., snowd_am_copy(j)/sd2sc)
         alb_l(j)  = alb_0(j) + snowc(j) * (albsn - alb_0(j))
         alb_s(j)  = albsea + sice_am_copy(j) * (albice - albsea)
         albsfc(j) = alb_s(j) + fland(j) * (alb_l(j) - alb_s(j))
@@ -80,13 +81,11 @@ subroutine fordate(imode)
 
     call spec(corh,tcorh)
 
-!   4. humidity correction term for horizontal diffusion
-    ij = 0
+    ! 4. humidity correction term for horizontal diffusion
     do j = 1, nlat
         pexp = 1./(rd * gamlat(j))
         do i = 1, nlon
-            ij = ij + 1
-            tsfc(i,j) = fmask_l(i,j) * stl_am(ij) + fmask_s(i,j) * sst_am(i,j)
+            tsfc(i,j) = fmask_l(i,j) * stl_am(i,j) + fmask_s(i,j) * sst_am(i,j)
             tref(i,j) = tsfc(i,j) + corh(i,j)
             psfc(i,j) = (tsfc(i,j)/tref(i,j))**pexp
         end do

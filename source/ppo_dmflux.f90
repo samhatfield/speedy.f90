@@ -44,7 +44,7 @@ subroutine dmflux(iadd)
     esbc   = emisfc*sbc
 
     ! Store fluxes over land (SI units, all heat fluxes downw.)
-    hflux_l(:) = hflux_l(:) + hfluxn(:,1)*rsteps
+    hflux_l = hflux_l + reshape(hfluxn(:,1), (/ ix,il /))*rsteps
 
     ! Difference in net (downw.) heat flux between ice and sea surface
     difice = (albsea - albice)*reshape(ssrd, (/ ix,il /)) + esbc*(sstfr4 - tice_am**4)&

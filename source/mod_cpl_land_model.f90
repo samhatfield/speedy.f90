@@ -16,17 +16,17 @@ module mod_cpl_land_model
     real :: cdland(ix,il)
 
     ! Daily observed climatological fields over land
-    real :: stlcl_ob(ix*il)                ! clim. land sfc. temperature
-    real :: snowdcl_ob(ix*il)              ! clim. snow depth (water equiv)
-    real :: soilwcl_ob(ix*il)              ! clim. soil water availability
+    real :: stlcl_ob(ix,il)                ! clim. land sfc. temperature
+    real :: snowdcl_ob(ix,il)              ! clim. snow depth (water equiv)
+    real :: soilwcl_ob(ix,il)              ! clim. soil water availability
 
     ! Land sfc. fields used by atmospheric model
-    real :: stl_am(ix*il)                   ! land sfc. temperature
-    real :: snowd_am(ix*il)                 ! snow depth (water equiv)
-    real :: soilw_am(ix*il)                 ! soil water availability
+    real :: stl_am(ix,il)                   ! land sfc. temperature
+    real :: snowd_am(ix,il)                 ! snow depth (water equiv)
+    real :: soilw_am(ix,il)                 ! soil water availability
 
     ! Land sfc. fields from land model
-    real :: stl_lm(ix*il)                 ! land-model sfc. temperature
+    real :: stl_lm(ix,il)                 ! land-model sfc. temperature
 
     ! Land masks
     ! Fraction of land
@@ -46,7 +46,7 @@ module mod_cpl_land_model
     real :: soilw12(ix,il,12)
 
     ! Net heat flux into land surface
-    real :: hflux_l(ix*il)
+    real :: hflux_l(ix,il)
 
     contains
         subroutine land_model_init(alb0)
@@ -149,14 +149,14 @@ module mod_cpl_land_model
         ! Integrate slab land-surface model for one day
         subroutine land_model
             ! Surface temperature anomaly
-            real :: tanom(ix*il)
+            real :: tanom(ix,il)
 
             ! Land-surface (soil/ice-sheet) layer
             ! Anomaly w.r.t. final-time climatological temperature
             tanom = stl_lm - stlcl_ob
 
             ! Time evolution of temperature anomaly
-            tanom = reshape(cdland, (/ ix*il /))*(tanom + reshape(rhcapl, (/ ix*il /))*hflux_l)
+            tanom = cdland*(tanom + rhcapl*hflux_l)
 
             ! Full surface temperature at final time
             stl_lm = tanom + stlcl_ob
