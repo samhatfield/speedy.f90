@@ -1,7 +1,7 @@
 subroutine ini_coupler()
     use mod_atparam
     use mod_cpl_land_model, only: land_model_init, couple_land_atm
-    use mod_cpl_sea_model, only: sea_model_init
+    use mod_cpl_sea_model, only: sea_model_init, ini_sea
     use mod_surfcon, only: fmask, alb0
     use mod_cli_sea, only: fmask_s, deglat_s
 
@@ -17,11 +17,12 @@ subroutine ini_coupler()
     call sea_model_init(fmask_s,deglat_s)
 
     ! 2.2 initialize sea and ice model variables
-    call ini_sea()
+    call ini_sea
 end
 
 subroutine coupler(day)
     use mod_cpl_land_model, only: couple_land_atm
+    use mod_cpl_sea_model, only: atm2sea, sea2atm
 
     implicit none
 

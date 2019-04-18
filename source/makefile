@@ -25,7 +25,6 @@ LIB=-lnetcdff -lnetcdf
 
 FILES= \
        cpl_main_interface.o \
-       cpl_sea.o \
        dyn_geop.o \
        dyn_grtend.o \
        dyn_implic.o \
@@ -101,7 +100,8 @@ cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o mod_cpl_land_model
  						 mod_cpl_sea_model.o mod_surfcon.o mod_cli_sea.o
 cpl_sea.o              : cpl_sea.f90 mod_cpl_flags.o mod_atparam.o mod_cplvar_sea.o mod_date.o\
  						 mod_flx_sea.o mod_cli_sea.o mod_var_sea.o mod_input.o
-mod_cpl_sea_model.o    : mod_cpl_sea_model.f90 mod_atparam.o mod_cplcon_sea.o mod_cplvar_sea.o
+mod_cpl_sea_model.o    : mod_cpl_sea_model.f90 mod_atparam.o mod_cplcon_sea.o mod_cplvar_sea.o\
+                         mod_cli_sea.o mod_var_sea.o mod_flx_sea.o mod_input.o
 dyn_geop.o             : dyn_geop.f90 mod_atparam.o mod_dynvar.o mod_dyncon1.o
 dyn_grtend.o           : dyn_grtend.f90 mod_atparam.o mod_dynvar.o mod_dyncon1.o mod_dyncon2.o
 dyn_implic.o           : dyn_implic.f90 mod_atparam.o mod_dyncon1.o mod_dyncon1.o mod_dyncon2.o
