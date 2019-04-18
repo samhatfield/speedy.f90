@@ -8,13 +8,6 @@ module mod_cpl_sea_model
     public ini_sea, atm2sea, sea2atm
     public fmask_s, bmask_s, deglat_s, sst12, sice12, sstan3, hfseacl, sstom12
 
-    ! Input and output sea variables exchanged by coupler
-    ! Ocean model input variables
-    real :: vsea_input(ix*il,8)
-
-    ! Ocean model output variables
-    real :: vsea_output(ix*il,3)
-
     ! Constant parameters and fields in sea/ice model
     real :: rhcaps(ix,il) ! 1./heat_capacity (sea)
     real :: rhcapi(ix,il) ! 1./heat_capacity (ice)
@@ -171,8 +164,6 @@ contains
         integer, intent(in) :: jday
         integer, parameter :: ngp=ix*il
 
-        real :: fmasks(ngp)                  ! sea fraction
-        real :: hfyearm(ngp)                 ! annual mean heat flux into the ocean
         integer :: j
         real :: sstcl0, sstfr
 
@@ -219,27 +210,6 @@ contains
 
             if (icsea.ge.3) sstcl_om(j) = sstcl_om(j)+(sstcl_ob(j)-sstcl0)
         end do
-
-        hfyearm = reshape(hfseacl, (/ngp/))
-        fmasks = reshape(fmask_s, (/ngp/))
-
-        if (jday.le.0) return
-            ! 2. Set input variables for mixed-layer/ocean model
-            if (icsea.gt.0.or.icice.gt.0) then
-                vsea_input(:,1) = sst_om(:)
-                vsea_input(:,2) = tice_om(:)
-                vsea_input(:,3) = sicecl_ob(:)
-                !vsea_input(:,4) = hflux_s(:)*fmasks(:)
-                !vsea_input(:,5) = hflux_i(:)*fmasks(:)
-                vsea_input(:,4) = hflux_s(:)
-                vsea_input(:,5) = hflux_i(:)
-                vsea_input(:,6) = sstcl_ob(:)
-                vsea_input(:,7) = ticecl_ob(:)
-                !vsea_input(:,8) = hfyearm(:)*fmasks(:)
-                vsea_input(:,8) = hfyearm(:)
-            end if
-
-            ! 3. Call message-passing routines to send data (if needed)
     end
 
     subroutine sea2atm(jday)
@@ -252,13 +222,6 @@ contains
             ! 1. Run ocean mixed layer or
             !    call message-passing routines to receive data from ocean model
             call sea_model
-
-            ! 2. Get updated variables for mixed-layer/ocean model
-            sst_om(:)   = vsea_output(:,1)      ! sst
-            tice_om(:)  = vsea_output(:,2)      ! sea ice temperature
-            sice_om(:)  = vsea_output(:,3)      ! sea ice fraction
-
-            !sice_om(:)  = sicecl_ob(:)
         end if
 
         ! 3. Compute sea-sfc. anomalies and full fields for atm. model
@@ -321,6 +284,9 @@ contains
 
     ! Purpose : Integrate slab ocean and sea-ice models for one day
     subroutine sea_model
+        use mod_var_sea
+        use mod_flx_sea
+
         integer, parameter :: ngp=ix*il
 
         ! Input variables:
@@ -332,7 +298,6 @@ contains
 
         real ::  sstcl1(ix,il)   ! clim. SST at final time
         real :: ticecl1(ix,il)   ! clim. sea ice temp. at final time
-        real :: hfseacl(ix,il)   ! clim. heat flux due to advection/upwelling
 
         ! Output variables
         real ::  sst1(ix,il)     ! SST at final time
@@ -346,14 +311,13 @@ contains
 
         real :: anom0, sstfr
 
-        sst0 = reshape(vsea_input(:,1), (/ix, il/))
-        tice0 = reshape(vsea_input(:,2), (/ix, il/))
-        sice0 = reshape(vsea_input(:,3), (/ix, il/))
-        hfsea = reshape(vsea_input(:,4), (/ix, il/))
-        hfice = reshape(vsea_input(:,5), (/ix, il/))
-        sstcl1 = reshape(vsea_input(:,6), (/ix, il/))
-        ticecl1 = reshape(vsea_input(:,7), (/ix, il/))
-        hfseacl = reshape(vsea_input(:,8), (/ix, il/))
+        sst0 = reshape(sst_om, (/ix, il/))
+        tice0 = reshape(tice_om, (/ix, il/))
+        sice0 = reshape(sicecl_ob, (/ix, il/))
+        hfsea = reshape(hflux_s, (/ix, il/))
+        hfice = reshape(hflux_i, (/ix, il/))
+        sstcl1 = reshape(sstcl_ob, (/ix, il/))
+        ticecl1 = reshape(ticecl_ob, (/ix, il/))
 
         sstfr = 273.2-1.8       ! SST at freezing point
 
@@ -394,9 +358,9 @@ contains
         ! Persistence of sea ice fraction
         sice1 = sice0
 
-        vsea_output(:,1) = reshape(sst1, (/ngp/))
-        vsea_output(:,2) = reshape(tice1, (/ngp/))
-        vsea_output(:,3) = reshape(sice1, (/ngp/))
+        sst_om = reshape(sst1, (/ngp/))
+        tice_om = reshape(tice1, (/ngp/))
+        sice_om = reshape(sice1, (/ngp/))
     end
 
     ! Definition of ocean domains
