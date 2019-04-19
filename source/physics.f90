@@ -51,6 +51,7 @@ contains
         use mod_cpl_sea_model, only: sst_am, ssti_om
         use mod_sppt, only: mu, gen_sppt
         use mod_tsteps, only: sppt_on
+        use surface_fluxes, only: get_surface_fluxes
 
         complex, dimension(mx,nx,kx), intent(in) :: vor, div, t, q, phi
         complex, dimension(mx,nx), intent(in) :: psl
@@ -151,12 +152,12 @@ contains
         call radlw(-1, tg, ts, slrd, slru(:,:,3), slr, olr, tt_rlw)
 
         ! Compute surface fluxes and land skin temperature
-        call suflux(psg, ug, vg, tg, qg, rh, phig, phis0, fmask_l, sst_am, &
+        call get_surface_fluxes(psg, ug, vg, tg, qg, rh, phig, phis0, fmask_l, sst_am, &
     		& ssrd, slrd, ustr, vstr, shf, evap, slru, hfluxn, ts, tskin, u0, v0, t0, q0, .true.)
 
         ! Recompute sea fluxes in case of anomaly coupling
         if (icsea > 0) then
-           call suflux(psg, ug, vg, tg, qg, rh, phig, phis0, fmask_l, ssti_om, &
+           call get_surface_fluxes(psg, ug, vg, tg, qg, rh, phig, phis0, fmask_l, ssti_om, &
     	   	& ssrd, slrd, ustr, vstr, shf, evap, slru, hfluxn, ts, tskin, u0, v0, t0, q0, .false.)
         end if
 

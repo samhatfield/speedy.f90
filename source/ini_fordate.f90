@@ -13,6 +13,7 @@ subroutine fordate(imode)
     use mod_hdifcon, only: tcorh, qcorh
     use mod_physcon, only: rd
     use mod_surfcon, only: phis0, alb0, sd2sc
+    use surface_fluxes, only: set_orog_land_sfc_drag
     use mod_date, only: model_datetime, tyear
     use mod_cpl_land_model, only: stl_am, snowd_am, fmask_l
     use mod_cpl_sea_model, only: fmask_s, sstcl_ob, sst_am, sice_am
@@ -33,7 +34,7 @@ subroutine fordate(imode)
     ! 1. time-independent parts of physical parametrizations
     if (imode == 0) then
         call radset
-        call sflset(phis0)
+        call set_orog_land_sfc_drag(phis0)
 
         ablco2_ref = ablco2
     end if
