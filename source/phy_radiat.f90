@@ -630,37 +630,30 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
     end do
 end
 
+! Compute energy fractions in longwave bands as a function of temperature
 subroutine radset
-    ! subroutine radset
-    !
-    ! Purpose: compute energy fractions in LW bands
-    !          as a function of temperature
-
-    use mod_atparam
     use mod_radcon, only: epslw, fband
 
     implicit none
 
-    integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
     integer :: jb, jtemp
     real :: eps1
 
-    eps1=1.-epslw
+    eps1 = 1.0 - epslw
 
-    do jtemp=200,320
-        fband(jtemp,2)=(0.148-3.0e-6*(jtemp-247)**2)*eps1
-        fband(jtemp,3)=(0.356-5.2e-6*(jtemp-282)**2)*eps1
-        fband(jtemp,4)=(0.314+1.0e-5*(jtemp-315)**2)*eps1
-        fband(jtemp,1)=eps1-(fband(jtemp,2)+fband(jtemp,3)+fband(jtemp,4))
+    do jtemp = 200, 320
+        fband(jtemp,2) = (0.148 - 3.0e-6*(jtemp - 247)**2)*eps1
+        fband(jtemp,3) = (0.356 - 5.2e-6*(jtemp - 282)**2)*eps1
+        fband(jtemp,4) = (0.314 + 1.0e-5*(jtemp - 315)**2)*eps1
+        fband(jtemp,1) = eps1 - (fband(jtemp,2) + fband(jtemp,3) + fband(jtemp,4))
     end do
 
-    do jb=1,4
-        do jtemp=100,199
-            fband(jtemp,jb)=fband(200,jb)
+    do jb = 1, 4
+        do jtemp = 100, 199
+            fband(jtemp,jb) = fband(200,jb)
         end do
-        do jtemp=321,400
-            fband(jtemp,jb)=fband(320,jb)
+        do jtemp = 321, 400
+            fband(jtemp,jb) = fband(320,jb)
         end do
     end do
 end
