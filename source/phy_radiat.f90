@@ -15,62 +15,55 @@ subroutine sol_oz(tyear)
 
     implicit none
 
-    integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
-
     real, intent(in) :: tyear
-    real :: topsr(nlat), alpha, azen, coz1, coz2, czen, dalpha, flat2, fs0
-    real :: nzen, rzen, szen
-    integer :: i, j, j0
+    real :: topsr(ix), alpha, azen, coz1, coz2, dalpha, flat2, fs0
+    real :: nzen, rzen
+    integer :: j
+    real, dimension(ix,il) :: fsol_copy, ozone_copy, ozupp_copy, zenit_copy, stratz_copy
 
     ! alpha = year phase ( 0 - 2pi, 0 = winter solstice = 22dec.h00 )
-    alpha=4.*asin(1.)*(tyear+10./365.)
-    dalpha=0.
-    !DALPHA=ASIN(0.5)
+    alpha = 4.0*asin(1.0)*(tyear + 10.0/365.0)
+    dalpha = 0.0
 
-    coz1= 1.0*max(0.,cos(alpha-dalpha))
-    coz2= 1.8
+    coz1 = 1.0*max(0.0, cos(alpha - dalpha))
+    coz2 = 1.8
 
-    azen=1.0
-    nzen=2
+    azen = 1.0
+    nzen = 2
 
-    rzen=-cos(alpha)*23.45*asin(1.)/90.
-    czen=cos(rzen)
-    szen=sin(rzen)
+    rzen = -cos(alpha)*23.45*asin(1.0)/90.0
 
-    fs0=6.
+    fs0 = 6.0
 
     ! Solar radiation at the top
-    call solar(tyear,4.*solc,nlat,clat,slat,topsr)
+    call solar(tyear, 4.0*solc, ix, clat, slat, topsr)
 
-    do j=1,nlat
-        j0=1+nlon*(j-1)
-        flat2=1.5*slat(j)**2-0.5
+    do j = 1, il
+        flat2 = 1.5*slat(j)**2 - 0.5
 
         ! Solar radiation at the top
-        fsol(j0)=topsr(j)
+        fsol_copy(:,j) = topsr(j)
 
         ! Ozone depth in upper and lower stratosphere
-        ozupp(j0)=0.5*epssw
-        ozone(j0)=0.4*epssw*(1.0+coz1*slat(j)+coz2*flat2)
+        ozupp_copy(:,j) = 0.5*epssw
+        ozone_copy(:,j) = 0.4*epssw*(1.0 + coz1*slat(j) + coz2*flat2)
 
         ! Zenith angle correction to (downward) absorptivity
-        zenit(j0)=1.+azen*(1.-(clat(j)*czen+slat(j)*szen))**nzen
+        zenit_copy(:,j) = 1.0 + azen*(1.0 - (clat(j)*cos(rzen) + slat(j)*sin(rzen)))**nzen
 
         ! Ozone absorption in upper and lower stratosphere
-        ozupp(j0)=fsol(j0)*ozupp(j0)*zenit(j0)
-        ozone(j0)=fsol(j0)*ozone(j0)*zenit(j0)
+        ozupp_copy(:,j) = fsol_copy(:,j)*ozupp_copy(:,j)*zenit_copy(:,j)
+        ozone_copy(:,j) = fsol_copy(:,j)*ozone_copy(:,j)*zenit_copy(:,j)
 
         ! Polar night cooling in the stratosphere
-        stratz(j0)=max(fs0-fsol(j0),0.)
-
-        do i=1,nlon-1
-            fsol  (i+j0) = fsol  (j0)
-            ozone (i+j0) = ozone (j0)
-            ozupp (i+j0) = ozupp (j0)
-            zenit (i+j0) = zenit (j0)
-            stratz(i+j0) = stratz(j0)
-        end do
+        stratz_copy(:,j) = max(fs0 - fsol_copy(:,j), 0.0)
     end do
+
+    fsol = reshape(fsol_copy, (/ ix*il /))
+    ozone = reshape(ozone_copy, (/ ix*il /))
+    ozupp = reshape(ozupp_copy, (/ ix*il /))
+    zenit = reshape(zenit_copy, (/ ix*il /))
+    stratz = reshape(stratz_copy, (/ ix*il /))
 end
 
 subroutine solar(tyear,csol,nlat,clat,slat,topsr)
