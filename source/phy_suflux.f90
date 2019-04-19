@@ -36,8 +36,7 @@ subroutine suflux (psa, ua, va, ta, qa, rh, phi, phi0, fmask, tsea, ssrd, slrd, 
     implicit none
 
     real, dimension(ix,il,kx), intent(in) :: ua, va, ta, qa, rh, phi
-    real, dimension(ix,il), intent(in) :: phi0, fmask, tsea, ssrd,&
-        & slrd
+    real, dimension(ix,il), intent(in) :: phi0, fmask, tsea, ssrd, slrd
 
     real, dimension(ix,il,3), intent(inout) :: ustr, vstr, shf, evap, slru
     real, intent(inout) :: hfluxn(ix,il,2)
@@ -48,8 +47,8 @@ subroutine suflux (psa, ua, va, ta, qa, rh, phi, phi0, fmask, tsea, ssrd, slrd, 
     real, dimension(ix,il,2) :: t2, qsat0
     real, save :: denvvs(ix,il,0:2)
     real :: dslr(ix,il), dtskin(ix,il), clamb(ix,il), astab, cdldv, cdsdv(ix,il), chlcp
-    real :: dlambda, dt1, dthl, dths, esbc, ghum0, gtemp0
-    real :: prd, qdummy, rcp, rdphi0, rdth, rdummy, tsk3(ix,il), vg2
+    real :: dt1, dthl, dths, esbc, ghum0, gtemp0
+    real :: qdummy, rcp, rdth, rdummy, tsk3(ix,il)
 
     logical lscasym, lskineb
     logical lfluxland
@@ -62,8 +61,6 @@ subroutine suflux (psa, ua, va, ta, qa, rh, phi, phi0, fmask, tsea, ssrd, slrd, 
     esbc  = emisfc*sbc
 
     ghum0 = 1.0 - fhum0
-
-    dlambda = clambsn - clambda
 
     ! =========================================================================
     ! Land surface
@@ -79,7 +76,6 @@ subroutine suflux (psa, ua, va, ta, qa, rh, phi, phi0, fmask, tsea, ssrd, slrd, 
         ! 1.2 Temperature
         gtemp0 = 1.0 - ftemp0
         rcp = 1.0/cp
-        rdphi0 = -1.0/(rd*288.0*sigl(kx))
         nl1 = kx-1
 
         do i = 1, ix
@@ -89,7 +85,7 @@ subroutine suflux (psa, ua, va, ta, qa, rh, phi, phi0, fmask, tsea, ssrd, slrd, 
 
                 ! Extrapolated temperature using actual lapse rate (1:land, 2:sea)
                 t1(i,j,1) = ta(i,j,kx) + dt1
-                t1(i,j,2) = t1(i,j,1) + phi0(i,j)*dt1*rdphi0
+                t1(i,j,2) = t1(i,j,1) - phi0(i,j)*dt1/(rd*288.0*sigl(kx))
 
                 ! Extrapolated temperature using dry-adiab. lapse rate (1:land, 2:sea)
                 t2(i,j,2) = ta(i,j,kx) + rcp*phi(i,j,kx)
@@ -113,10 +109,7 @@ subroutine suflux (psa, ua, va, ta, qa, rh, phi, phi0, fmask, tsea, ssrd, slrd, 
         end do
 
         ! 1.3 Density * wind speed (including gustiness factor)
-        prd = p0/rd
-        vg2 = vgust**2.0
-
-        denvvs(:,:,0) = (prd*psa/t0)*sqrt(u0**2.0 + v0**2.0 + vg2)
+        denvvs(:,:,0) = (p0*psa/(rd*t0))*sqrt(u0**2.0 + v0**2.0 + vgust**2.0)
 
         ! 2. Compute land-sfc. fluxes using prescribed skin temperature
 
@@ -181,7 +174,7 @@ subroutine suflux (psa, ua, va, ta, qa, rh, phi, phi0, fmask, tsea, ssrd, slrd, 
         ! 3.2 Re-definition of skin temperature from energy balance
         if (lskineb) then
             ! Compute net heat flux including flux into ground
-            clamb = clambda + snowc*dlambda
+            clamb = clambda + snowc*(clambsn - clambda)
             hfluxn(:,:,1) = hfluxn(:,:,1) - clamb*(tskin - stl_am)
             dtskin = tskin + 1.0
 
