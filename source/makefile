@@ -30,6 +30,7 @@ FILES= \
        dyn_implic.o \
        dyn_sptend.o \
        dyn_step.o \
+	   humidity.o \
        ini_agcm_init.o \
        ini_impint.o \
        ini_indyns.o \
@@ -60,7 +61,6 @@ FILES= \
 	   mod_tsteps.o \
 	   physics.o \
        phy_radiat.o \
-       phy_shtorh.o \
        ppo_diagns.o \
        ppo_dmflux.o \
 	   precipitation.o \
@@ -96,6 +96,7 @@ dyn_implic.o           : dyn_implic.f90 mod_atparam.o mod_dyncon1.o mod_dyncon1.
 dyn_sptend.o           : dyn_sptend.f90 mod_atparam.o prognostics.o mod_dyncon1.o mod_dyncon2.o
 dyn_step.o             : dyn_step.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o prognostics.o\
  					     mod_hdifcon.o
+humidity.o             : humidity.f90 mod_atparam.o
 ini_agcm_init.o        : ini_agcm_init.f90 mod_cpl_flags.o mod_tsteps.o mod_atparam.o mod_date.o
 ini_impint.o           : ini_impint.f90 mod_dyncon0.o mod_atparam.o mod_dyncon1.o mod_dyncon2.o\
  					     mod_hdifcon.o
@@ -136,10 +137,8 @@ physics.o              : physics.f90 mod_atparam.o mod_cpl_flags.o mod_lflags.o 
 						 mod_tsteps.o precipitation.o surface_fluxes.o vertical_diffusion.o\
 						 shortwave_radiation.o
 phy_radiat.o           : phy_radiat.f90 mod_atparam.o mod_physcon.o mod_radcon.o
-phy_shtorh.o           : phy_shtorh.f90
 shortwave_radiation.o  : shortwave_radiation.f90 mod_atparam.o mod_physcon.o mod_radcon.o
-surface_fluxes.o       : surface_fluxes.f90 mod_atparam.o mod_physcon.o mod_radcon.o
-
+surface_fluxes.o       : surface_fluxes.f90 mod_atparam.o mod_physcon.o mod_radcon.o humidity.o
 ppo_diagns.o           : ppo_diagns.f90 mod_tsteps.o mod_atparam.o prognostics.o mod_date.o
 ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_physcon.o\
 						 mod_surfcon.o mod_radcon.o

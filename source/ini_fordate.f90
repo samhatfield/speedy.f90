@@ -19,6 +19,7 @@ subroutine fordate(imode)
     use mod_cpl_sea_model, only: fmask_s, sstcl_ob, sst_am, sice_am
     use mod_radcon, only: ablco2_ref, albsea, albice, snowc, albsn, alb_l, alb_s, albsfc
     use shortwave_radiation, only: get_zonal_average_fields, ablco2
+    use humidity, only: get_qsat
 
     implicit none
 
@@ -84,8 +85,8 @@ subroutine fordate(imode)
         end do
     end do
 
-    call shtorh(0, tref,   1., -1., dummy, dummy, qref)
-    call shtorh(0, tsfc, psfc,  1., dummy, dummy, qsfc)
+    qref = get_qsat(tref, psfc/psfc, -1.0)
+    qsfc = get_qsat(tsfc, psfc, 1.0)
 
     corh = refrh1 * (qref - qsfc)
 

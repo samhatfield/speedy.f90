@@ -55,6 +55,7 @@ contains
         use shortwave_radiation, only: get_shortwave_rad_fluxes, clouds
         use surface_fluxes, only: get_surface_fluxes
         use vertical_diffusion, only: get_vertical_diffusion_tend
+        use humidity, only: spec_hum_to_rel_hum
 
         complex, dimension(mx,nx,kx), intent(in) :: vor, div, t, q, phi
         complex, dimension(mx,nx), intent(in) :: psl
@@ -103,7 +104,7 @@ contains
     	se = cp*tg + phig
 
         do k = 1, kx
-            call shtorh(1, tg(:,:,k), psg, sig(k), qg(:,:,k), rh(:,:,k), qsat(:,:,k))
+            call spec_hum_to_rel_hum(tg(:,:,k), psg, sig(k), qg(:,:,k), rh(:,:,k), qsat(:,:,k))
         end do
 
         ! =========================================================================

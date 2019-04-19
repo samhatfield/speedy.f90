@@ -68,6 +68,7 @@ contains
         use mod_physcon, only: p0, rd, cp, alhc, sbc, sigl, wvi, clat
         use mod_radcon, only: emisfc, alb_l, alb_s, snowc
     	use mod_cpl_land_model, only: stl_am, soilw_am
+        use humidity, only: get_qsat, rel_hum_to_spec_hum
 
         real, dimension(ix,il,kx), intent(in) :: ua, va, ta, qa, rh, phi
         real, dimension(ix,il), intent(in) :: phi0, fmask, tsea, ssrd, slrd
@@ -82,7 +83,7 @@ contains
         real, save :: denvvs(ix,il,0:2)
         real :: dslr(ix,il), dtskin(ix,il), clamb(ix,il), astab, cdldv, cdsdv(ix,il), chlcp
         real :: dt1, dthl, dths, esbc, ghum0, gtemp0
-        real :: qdummy, rcp, rdth, rdummy, tsk3(ix,il)
+        real :: rcp, rdth, tsk3(ix,il)
 
         logical lscasym, lskineb
         logical lfluxland
@@ -185,14 +186,14 @@ contains
 
             ! 2.5 Evaporation
             if (fhum0 > 0.0) then
-                call shtorh(-1, t1, psa, 1.0, q1, rh(:,:,kx), qsat0(:,:,1))
+                call rel_hum_to_spec_hum(t1, psa, 1.0, rh(:,:,kx), q1, qsat0(:,:,1))
 
                 q1(:,:,1) = fhum0*q1(:,:,1) + ghum0*qa(:,:,kx)
             else
                 q1(:,:,1) = qa(:,:,kx)
             end if
 
-            call shtorh(0, tskin, psa, 1.0, qdummy, rdummy, qsat0)
+            qsat0(:,:,1) = get_qsat(tskin, psa, 1.0)
             evap(:,:,1) = chl*denvvs(:,:,1)*max(0.0, soilw_am*qsat0(:,:,1) - q1(:,:,1))
 
             ! 3. Compute land-surface energy balance;
@@ -213,7 +214,7 @@ contains
                 dtskin = tskin + 1.0
 
                 ! Compute d(Evap) for a 1-degree increment of Tskin
-                call shtorh(0, dtskin, psa, 1.0, qdummy, rdummy, qsat0(:,:,2))
+                qsat0(:,:,2) = get_qsat(dtskin, psa, 1.0)
 
                 do i = 1, ix
                     do j = 1, il
@@ -252,7 +253,7 @@ contains
             end do
 
             if (fhum0 > 0.0) then
-                call shtorh(-1, t1(:,:,2), psa, 1.0, q1(:,:,2), rh(:,:,kx), qsat0(:,:,2))
+                call rel_hum_to_spec_hum(t1(:,:,2), psa, 1.0, rh(:,:,kx), q1(:,:,2), qsat0(:,:,2))
 
                 q1(:,:,2) = fhum0*q1(:,:,2) + ghum0*qa(:,:,kx)
             else
@@ -275,7 +276,7 @@ contains
         shf(:,:,2) = chs*cp*denvvs(:,:,ks)*(tsea - t1(:,:,2))
 
         ! 4.4 Evaporation
-        call shtorh(0, tsea, psa, 1.0, qdummy, rdummy, qsat0(:,:,2))
+        qsat0(:,:,2) = get_qsat(tsea, psa, 1.0)
         evap(:,:,2) = chs*denvvs(:,:,ks)*(qsat0(:,:,2) - q1(:,:,2))
 
         ! 4.5 Emission of lw radiation from the surface
