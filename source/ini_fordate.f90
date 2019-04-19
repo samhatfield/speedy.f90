@@ -19,6 +19,7 @@ subroutine fordate(imode)
     use mod_cpl_sea_model, only: fmask_s, sstcl_ob, sst_am, sice_am
     use mod_radcon, only: ablco2, ablco2_ref, albsea, albice, snowc, albsn,&
         & alb_l, alb_s, albsfc
+    use shortwave_radiation, only: get_zonal_average_fields
 
     implicit none
 
@@ -41,7 +42,7 @@ subroutine fordate(imode)
 
     ! 2. daily-mean radiative forcing
     ! incoming solar radiation
-    call sol_oz(tyear)
+    call get_zonal_average_fields(tyear)
 
     ! total surface albedo
 

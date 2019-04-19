@@ -65,6 +65,7 @@ FILES= \
        ppo_dmflux.o \
 	   precipitation.o \
 	   prognostics.o \
+	   shortwave_radiation.o \
        spe_matinv.o \
        spe_spectral.o \
        spe_subfft_fftpack.o \
@@ -132,9 +133,11 @@ mod_surfcon.o          : mod_surfcon.f90 mod_atparam.o
 mod_tsteps.o           : mod_tsteps.f90
 physics.o              : physics.f90 mod_atparam.o mod_cpl_flags.o mod_lflags.o mod_physcon.o\
 					     mod_surfcon.o mod_cpl_land_model.o mod_cpl_sea_model.o mod_sppt.o\
-						 mod_tsteps.o precipitation.o surface_fluxes.o vertical_diffusion.o
+						 mod_tsteps.o precipitation.o surface_fluxes.o vertical_diffusion.o\
+						 shortwave_radiation.o
 phy_radiat.o           : phy_radiat.f90 mod_atparam.o mod_physcon.o mod_radcon.o
 phy_shtorh.o           : phy_shtorh.f90
+shortwave_radiation.o  : shortwave_radiation.f90 mod_atparam.o mod_physcon.o mod_radcon.o
 surface_fluxes.o       : surface_fluxes.f90 mod_atparam.o mod_physcon.o mod_radcon.o
 
 ppo_diagns.o           : ppo_diagns.f90 mod_tsteps.o mod_atparam.o prognostics.o mod_date.o

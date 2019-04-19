@@ -52,6 +52,7 @@ contains
         use mod_sppt, only: mu, gen_sppt
         use mod_tsteps, only: sppt_on
         use precipitation, only: convective_precipitation, large_scale_precipitation
+        use shortwave_radiation, only: get_shortwave_rad_fluxes, clouds
         use surface_fluxes, only: get_surface_fluxes
         use vertical_diffusion, only: get_vertical_diffusion_tend
 
@@ -134,7 +135,7 @@ contains
         if (lradsw) then
     		gse = (se(:,:,kx-1) - se(:,:,kx))/(phig(:,:,kx-1) - phig(:,:,kx))
 
-            call cloud(qg, rh, precnv, precls, iptop, gse, fmask_l, icltop, cloudc, clstr)
+            call clouds(qg, rh, precnv, precls, iptop, gse, fmask_l, icltop, cloudc, clstr)
 
     		do i = 1, ix
     	        do j = 1, il
@@ -143,7 +144,7 @@ contains
     	        end do
     		end do
 
-            call radsw(psg, qg, icltop, cloudc, clstr, ssrd, ssr, tsr, tt_rsw)
+            call get_shortwave_rad_fluxes(psg, qg, icltop, cloudc, clstr, ssrd, ssr, tsr, tt_rsw)
 
             do k = 1, kx
     			tt_rsw(:,:,k) = tt_rsw(:,:,k)*rps*grdscp(k)
