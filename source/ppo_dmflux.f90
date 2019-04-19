@@ -9,7 +9,7 @@ subroutine dmflux(iadd)
     use mod_surfcon, only: fmask
     use mod_cpl_land_model, only: fmask_l, hflux_l
     use mod_cpl_sea_model, only: tice_am, sice_am, hflux_s, hflux_i
-    use mod_physvar
+    use physics, only: hfluxn, shf, evap, ssrd
     use mod_radcon, only: albsea, albice, emisfc
     use mod_date, only: model_datetime
 
@@ -43,8 +43,7 @@ subroutine dmflux(iadd)
     hflux_l = hflux_l + hfluxn(:,:,1)*rsteps
 
     ! Difference in net (downw.) heat flux between ice and sea surface
-    difice = (albsea - albice)*reshape(ssrd, (/ ix,il /)) + esbc*(sstfr4 - tice_am**4)&
-        & + shf(:,:,2) + evap(:,:,2)*alhc
+    difice = (albsea - albice)*ssrd + esbc*(sstfr4 - tice_am**4) + shf(:,:,2) + evap(:,:,2)*alhc
 
     hflux_s = hflux_s + rsteps*hfluxn(:,:,2)
     hflux_i = hflux_i + rsteps*(hfluxn(:,:,2) + difice*(1.0 - sice_am))
