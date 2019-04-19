@@ -51,6 +51,7 @@ contains
         use mod_cpl_sea_model, only: sst_am, ssti_om
         use mod_sppt, only: mu, gen_sppt
         use mod_tsteps, only: sppt_on
+        use precipitation, only: convective_precipitation, large_scale_precipitation
         use surface_fluxes, only: get_surface_fluxes
 
         complex, dimension(mx,nx,kx), intent(in) :: vor, div, t, q, phi
@@ -108,7 +109,7 @@ contains
         ! =========================================================================
 
         ! Deep convection
-        call convmf(psg, se, qg, qsat, iptop, cbmf, precnv, tt_cnv, qt_cnv)
+        call convective_precipitation(psg, se, qg, qsat, iptop, cbmf, precnv, tt_cnv, qt_cnv)
 
         do k = 2, kx
     		tt_cnv(:,:,k) = tt_cnv(:,:,k)*rps*grdscp(k)
@@ -118,7 +119,7 @@ contains
         icnv = kx - iptop
 
         ! Large-scale condensation
-        call lscond(psg, qg, qsat, iptop, precls, tt_lsc, qt_lsc)
+        call large_scale_precipitation(psg, qg, qsat, iptop, precls, tt_lsc, qt_lsc)
 
         ttend = ttend + tt_cnv + tt_lsc
         qtend = qtend + qt_cnv + qt_lsc
