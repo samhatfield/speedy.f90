@@ -134,19 +134,17 @@ subroutine cloud(qa,rh,precnv,precls,iptop,gse,fmask,icltop,cloudc,clstr)
 
     implicit none
 
-    integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
+    integer :: iptop(ix,il)
+    real, intent(in) :: qa(ix,il,kx), rh(ix,il,kx), precnv(ix,il), precls(ix,il), gse(ix,il),&
+        & fmask(ix,il)
+    real, intent(inout) :: cloudc(ix,il), clstr(ix,il)
+    integer, intent(inout) :: icltop(ix,il)
 
-    integer :: iptop(ngp)
-    real, intent(in) :: qa(ngp,nlev), rh(ngp,nlev), precnv(ngp), precls(ngp), gse(ngp),&
-        & fmask(ngp)
-    real, intent(inout) :: cloudc(ngp), clstr(ngp)
-    integer, intent(inout) :: icltop(ngp)
+    integer :: inew, i, j, k, nl1, nlp
+    real :: clfact, clstrl, drh, fstab, pr1, rgse, rrcl
 
-    integer :: inew, j, k, nl1, nlp
-    real :: albcor, cl1, clfact, clstrl, drh, fstab, pr1, rgse, rrcl
-
-    nl1  = nlev-1
-    nlp  = nlev+1
+    nl1  = kx-1
+    nlp  = kx+1
     rrcl = 1./(rhcl2-rhcl1)
 
     ! 1.  Cloud cover, defined as the sum of:
@@ -158,69 +156,71 @@ subroutine cloud(qa,rh,precnv,precls,iptop,gse,fmask,icltop,cloudc,clstr)
     !       between the top of convection/condensation and
     !       the level of maximum relative humidity.
 
-    do j=1,ngp
-        if (rh(j,nl1).gt.rhcl1) then
-            cloudc(j) = rh(j,nl1)-rhcl1
-            icltop(j) = nl1
-        else
-            cloudc(j) = 0.
-            icltop(j) = nlp
-        end if
-    end do
-
-    do k=3,nlev-2
-        do j=1,ngp
-            drh = rh(j,k)-rhcl1
-            if (drh.gt.cloudc(j).and.qa(j,k).gt.qacl) then
-                cloudc(j) = drh
-                icltop(j) = k
+    do i = 1, ix
+        do j = 1, il
+            if (rh(i,j,nl1) > rhcl1) then
+                cloudc(i,j) = rh(i,j,nl1) - rhcl1
+                icltop(i,j) = nl1
+            else
+                cloudc(i,j) = 0.0
+                icltop(i,j) = nlp
             end if
         end do
     end do
 
-    do j=1,ngp
-        cl1 = min(1.,cloudc(j)*rrcl)
-        pr1 = min(pmaxcl,86.4*(precnv(j)+precls(j)))
-        cloudc(j) = min(1.,wpcl*sqrt(pr1)+cl1*cl1)
-        icltop(j) = min(iptop(j),icltop(j))
+    do k = 3, kx - 2
+        do i = 1, ix
+            do j = 1, il
+                drh = rh(i,j,k) - rhcl1
+                if (drh > cloudc(i,j) .and. qa(i,j,k) > qacl) then
+                    cloudc(i,j) = drh
+                    icltop(i,j) = k
+                end if
+            end do
+        end do
+    end do
+
+    do i = 1, ix
+        do j = 1, il
+            pr1 = min(pmaxcl, 86.4*(precnv(i,j) + precls(i,j)))
+            cloudc(i,j) = min(1.0, wpcl*sqrt(pr1) + min(1.0, cloudc(i,j)*rrcl)**2.0)
+            icltop(i,j) = min(iptop(i,j), icltop(i,j))
+        end do
     end do
 
     ! 2.  Equivalent specific humidity of clouds
-    qcloud = qa(:,nl1)
+    qcloud = reshape(qa(:,:,nl1), (/ ix*il /))
 
     ! 3. Stratiform clouds at the top of PBL
     inew = 1
 
-    if (inew.gt.0) then
-        !        CLSMAX  = 0.6
-        !        CLSMINL = 0.15
-        !        GSE_S0  = 0.25
-        !        GSE_S1  = 0.40
-
+    if (inew > 0) then
         clfact = 1.2
-        rgse   = 1./(gse_s1-gse_s0)
+        rgse   = 1.0/(gse_s1 - gse_s0)
 
-        do j=1,ngp
-            ! Stratocumulus clouds over sea
-            fstab    = max(0.,min(1.,rgse*(gse(j)-gse_s0)))
-            clstr(j) = fstab*max(clsmax-clfact*cloudc(j),0.)
-            ! Stratocumulus clouds over land
-            clstrl   = max(clstr(j),clsminl)*rh(j,nlev)
-            clstr(j) = clstr(j)+fmask(j)*(clstrl-clstr(j))
+        do i = 1, ix
+            do j = 1, il
+                ! Stratocumulus clouds over sea
+                fstab    = max(0.0, min(1.0, rgse*(gse(i,j) - gse_s0)))
+                clstr(i,j) = fstab*max(clsmax - clfact*cloudc(i,j), 0.0)
+
+                ! Stratocumulus clouds over land
+                clstrl     = max(clstr(i,j), clsminl)*rh(i,j,kx)
+                clstr(i,j) = clstr(i,j) + fmask(i,j)*(clstrl - clstr(i,j))
+            end do
         end do
     else
         clsmax  = 0.3
         clsminl = 0.1
-        albcor  = albcl/0.5
 
-        do j=1,ngp
-            ! stratocumulus clouds over sea
-            clstr(j) = max(clsmax-cloudc(j),0.)
-            ! rescale for consistency with previous albedo values
-            clstr(j) = clstr(j)*albcor
-            ! correction for aerosols over land
-            clstr(j) = clstr(j)+fmask(j)*(clsminl-clstr(j))
-        end do
+        ! Stratocumulus clouds over sea
+        clstr = max(clsmax - cloudc, 0.0)
+
+        ! Rescale for consistency with previous albedo values
+        clstr = clstr*albcl/0.5
+
+        ! Correction for aerosols over land
+        clstr = clstr + fmask*(clsminl - clstr)
     end if
 end
 
