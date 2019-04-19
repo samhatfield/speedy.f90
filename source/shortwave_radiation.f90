@@ -4,7 +4,51 @@ module shortwave_radiation
     implicit none
 
     private
+    public ablco2
     public get_shortwave_rad_fluxes, get_zonal_average_fields, clouds
+
+    ! Shortwave radiation and cloud constants
+    real :: solc   = 342.0 ! Solar constant (area averaged) in W/m^2
+    real :: rhcl1  =  0.30 ! Relative humidity threshold corresponding to cloud cover = 0
+    real :: rhcl2  =  1.00 ! Relative humidity correponding to cloud cover = 1
+    real :: qacl   =  0.20 ! Specific humidity threshold for cloud cover
+    real :: wpcl   =  0.2  ! Cloud cover weight for the square-root of precipitation
+                           ! (for p = 1 mm/day)
+    real :: pmaxcl = 10.0  ! Maximum value of precipitation (mm/day) contributing to cloud cover
+    real :: clsmax  = 0.60 ! Maximum stratiform cloud cover
+    real :: clsminl = 0.15 ! Minimum stratiform cloud cover over land (for RH = 1)
+    real :: gse_s0  = 0.25 ! Gradient of dry static energy corresponding to stratiform
+                           ! cloud cover = 0
+    real :: gse_s1  = 0.40 ! Gradient of dry static energy corresponding to stratiform
+                           ! cloud cover = 1
+   real :: albcl  =  0.43  ! Cloud albedo (for cloud cover = 1)
+   real :: albcls =  0.50  ! Stratiform cloud albedo (for st. cloud cover = 1)
+   real :: epssw  =  0.020 ! Fraction of incoming solar radiation absorbed by ozone
+
+   ! Shortwave absorptivities (for dp = 10^5 Pa)
+   real :: absdry =  0.033 ! Absorptivity of dry air (visible band)
+   real :: absaer =  0.033 ! Absorptivity of aerosols (visible band)
+   real :: abswv1 =  0.022 ! Absorptivity of water vapour (visible band, for dq = 1 g/kg)
+   real :: abswv2 = 15.000 ! Absorptivity of water vapour (near IR band, for dq = 1 g/kg)
+   real :: abscl1 =  0.015 ! Absorptivity of clouds (visible band, maximum value)
+   real :: abscl2 =  0.15  ! Absorptivity of clouds (visible band, for dq_base = 1 g/kg)
+
+   ! Longwave absorptivities (per dp = 10^5 Pa)
+   real :: ablwin =  0.3 ! Absorptivity of air in "window" band
+   real :: ablco2 =  6.0 ! Absorptivity of air in CO2 band
+   real :: ablwv1 =  0.7 ! Absorptivity of water vapour in H2O band 1 (weak),   for dq = 1 g/kg
+   real :: ablwv2 = 50.0 ! Absorptivity of water vapour in H2O band 2 (strong), for dq = 1 g/kg
+   real :: ablcl1 = 12.0 ! Absorptivity of "thick" clouds in window band (below cloud top)
+   real :: ablcl2 =  0.6 ! Absorptivity of "thin" upper clouds in window and H2O bands
+
+   ! Zonally-averaged fields for SW/LW scheme (updated in sol_oz)
+   real, dimension(ix,il) :: fsol   ! Flux of incoming solar radiation
+   real, dimension(ix,il) :: ozone  ! Flux absorbed by ozone (lower stratosphere)
+   real, dimension(ix,il) :: ozupp  ! Flux absorbed by ozone (upper stratosphere)
+   real, dimension(ix,il) :: zenit  ! Optical depth ratio (function of solar zenith angle)
+   real, dimension(ix,il) :: stratz ! Stratospheric correction for polar night
+
+   real, dimension(ix,il) :: qcloud ! Equivalent specific humidity of clouds
 
 contains
     ! Compute the absorption of shortwave radiation and initialize arrays
@@ -171,7 +215,6 @@ contains
     ! Input:   tyear  = time as fraction of year (0-1, 0 = 1jan.h00)
     subroutine get_zonal_average_fields(tyear)
         use mod_physcon, only: slat, clat
-        use mod_radcon, only: solc, epssw, fsol, ozone, ozupp, zenit, stratz
 
         real, intent(in) :: tyear
         real :: topsr(ix), alpha, azen, coz1, coz2, dalpha, flat2, fs0
@@ -272,9 +315,6 @@ contains
     !           cloudc = total cloud cover                       (2-dim)
     !           clstr  = stratiform cloud cover                  (2-dim)
     subroutine clouds(qa,rh,precnv,precls,iptop,gse,fmask,icltop,cloudc,clstr)
-        use mod_radcon, only: rhcl1, rhcl2, qacl, wpcl, pmaxcl, clsmax, clsminl,&
-            & gse_s0, gse_s1, albcl, qcloud
-
         integer :: iptop(ix,il)
         real, intent(in) :: qa(ix,il,kx), rh(ix,il,kx), precnv(ix,il), precls(ix,il), gse(ix,il),&
             & fmask(ix,il)
