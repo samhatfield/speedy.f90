@@ -4,7 +4,7 @@ subroutine invars
 
     use mod_dyncon0, only: gamma, hscale, hshum, refrh1
     use mod_atparam
-    use mod_dynvar
+    use prognostics
     use mod_dyncon1, only: grav, rgas, fsg
     use mod_surfcon, only: phi0, phis0
 

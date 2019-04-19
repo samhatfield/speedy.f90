@@ -8,7 +8,7 @@ subroutine diagns(jj,istep)
 
     use mod_tsteps, only: nstdia
     use mod_atparam
-    use mod_dynvar
+    use prognostics, only: vor, div, t
 
     implicit none
 

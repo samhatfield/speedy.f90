@@ -9,7 +9,7 @@ subroutine sptend (divdt,tdt,psdt,j4)
     !                  j4    = time level index (1 or 2)
 
     use mod_atparam
-    use mod_dynvar
+    use prognostics, only: div, phi, ps
     use mod_dyncon1, only: rgas, dhs, dhsr
     use mod_dyncon2, only: tref, tref2, tref3
 

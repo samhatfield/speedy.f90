@@ -10,7 +10,7 @@
 subroutine step(j1, j2, dt)    !
     use mod_dyncon0, only: tdrs
     use mod_atparam
-    use mod_dynvar
+    use prognostics
     use mod_hdifcon
     use mod_tsteps, only: rob, wil
     use mod_tsteps, only: alph

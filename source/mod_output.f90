@@ -10,7 +10,7 @@ contains
         use mod_physcon, only: p0, sig
         use mod_date, only: model_datetime, start_datetime
         use mod_tsteps, only: nsteps
-        use mod_dynvar, only: vor, div, t, ps, tr, phi
+        use prognostics, only: vor, div, t, ps, tr, phi
 
         integer, intent(in) :: timestep
         complex, dimension(mx,nx) :: ucos, vcos

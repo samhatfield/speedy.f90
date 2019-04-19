@@ -6,7 +6,7 @@ subroutine geop(jj)
     ! Input :   jj = time level index (1 or 2)
 
     use mod_atparam
-    use mod_dynvar
+    use prognostics, only: phi, t, phis
     use mod_dyncon1, only: xgeop1, xgeop2, hsg, fsg
 
     implicit none
