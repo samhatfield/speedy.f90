@@ -6,7 +6,7 @@ module physics
     private
     public precnv, precls, snowcv, snowls, cbmf, tsr, ssrd, ssr, slrd, slr,&
         & olr, slru, ustr, vstr, shf, evap, hfluxn
-    public compute_physical_tendencies
+    public get_physical_tendencies
 
     ! Physical variables shared among all physics schemes
     real, dimension(ix,il)   :: precnv ! Convective precipitation  [g/(m^2 s)], total
@@ -42,7 +42,7 @@ contains
     !                          vtend  : v-wind tendency (gp)
     !                          ttend  : temp. tendency (gp)
     !                          qtend  : spec. hum. tendency (gp)
-    subroutine compute_physical_tendencies(vor, div, t, q, phi, psl, utend, vtend, ttend, qtend)
+    subroutine get_physical_tendencies(vor, div, t, q, phi, psl, utend, vtend, ttend, qtend)
         use mod_cpl_flags, only: icsea
         use mod_lflags, only: lradsw
         use mod_physcon, only: sig, sigh, grdsig, grdscp, cp
