@@ -246,187 +246,166 @@ subroutine radsw(psa,qa,icltop,cloudc,clstr,fsfcd,fsfc,ftop,dfabs)
 
     implicit none
 
-    integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
+    integer, intent(in) :: icltop(ix,il)
+    real, intent(in) :: psa(ix,il), qa(ix,il,kx), cloudc(ix,il), clstr(ix,il)
+    real, intent(inout) :: ftop(ix,il), fsfc(ix,il), fsfcd(ix,il), dfabs(ix,il,kx)
 
-    integer, intent(in) :: icltop(ngp)
-    real, intent(in) :: psa(ngp), qa(ngp,nlev), cloudc(ngp), clstr(ngp)
-    real, intent(inout) :: ftop(ngp), fsfc(ngp), fsfcd(ngp), dfabs(ngp,nlev)
-
-    integer :: j, k, nl1
-    real :: acloud(ngp), psaz(ngp), abs1, acloud1, deltap, eps1
+    integer :: i, j, k, nl1
+    real :: acloud(ix,il), psaz(ix,il), abs1, acloud1, deltap, eps1
     real :: fband1, fband2
-    real :: albsfc_copy(ngp)
+    real :: zenit_copy(ix,il), tau2_copy(ix,il,kx,4), qcloud_copy(ix,il), fsol_copy(ix,il),&
+        & flux_copy(ix,il,4), ozupp_copy(ix,il), stratz_copy(ix,il), ozone_copy(ix,il),&
+        & stratc_copy(ix,il,2)
 
-    albsfc_copy = reshape(albsfc, (/ngp/))
+    zenit_copy = reshape(zenit, (/ ix,il /))
+    tau2_copy = reshape(tau2, (/ ix, il, kx, 4 /))
+    qcloud_copy = reshape(qcloud, (/ ix, il /))
+    fsol_copy = reshape(fsol, (/ ix, il /))
+    flux_copy = reshape(flux, (/ ix, il, 4 /))
+    ozupp_copy = reshape(ozupp, (/ ix, il /))
+    stratz_copy = reshape(stratz, (/ ix, il /))
+    ozone_copy = reshape(ozone, (/ ix, il /))
+    stratc_copy = reshape(stratc, (/ ix, il, 2 /))
 
-    nl1 = nlev-1
+    nl1 = kx - 1
 
     fband2 = 0.05
-    fband1 = 1.-fband2
-
-    ! ALBMINL=0.05
-    ! ALBCLS = 0.5
+    fband1 = 1.0 - fband2
 
     ! 1.  Initialization
-    tau2 = 0.0
+    tau2_copy = 0.0
 
-    do j=1,ngp
-        !fk-- change to ensure only icltop <= nlev used
-        if(icltop(j) .le. nlev) then
-          tau2(j,icltop(j),3)= albcl*cloudc(j)
-        endif
-        !fk-- end change
-        tau2(j,nlev,3)     = albcls*clstr(j)
+    do i = 1, ix
+        do j = 1, il
+            if (icltop(i,j) <= kx) then
+                tau2_copy(i,j,icltop(i,j),3) = albcl*cloudc(i,j)
+            end if
+            tau2_copy(i,j,kx,3) = albcls*clstr(i,j)
+        end do
     end do
 
     ! 2. Shortwave transmissivity:
     ! function of layer mass, ozone (in the statosphere),
     ! abs. humidity and cloud cover (in the troposphere)
+    psaz = psa*zenit_copy
+    acloud = cloudc*min(abscl1*qcloud_copy, abscl2)
+    tau2_copy(:,:,1,1) = exp(-psaz*dsig(1)*absdry)
 
-    do j=1,ngp
-        psaz(j)=psa(j)*zenit(j)
-        acloud(j)=cloudc(j)*min(abscl1*qcloud(j),abscl2)
+    do k = 2, nl1
+        abs1 = absdry + absaer*sig(k)**2
+
+        if (k >= icltop(i,j)) then
+            tau2_copy(:,:,k,1) = exp(-psaz*dsig(k)*(abs1 + abswv1*qa(:,:,k) + acloud))
+        else
+            tau2_copy(:,:,k,1) = exp(-psaz*dsig(k)*(abs1 + abswv1*qa(:,:,k)))
+        endif
     end do
 
-    do j=1,ngp
-        deltap=psaz(j)*dsig(1)
-        tau2(j,1,1)=exp(-deltap*absdry)
-    end do
+    abs1 = absdry + absaer*sig(kx)**2
+    tau2_copy(:,:,kx,1) = exp(-psaz*dsig(kx)*(abs1 + abswv1*qa(:,:,kx)))
 
-    do k=2,nl1
-        abs1=absdry+absaer*sig(k)**2
-        do j=1,ngp
-            deltap=psaz(j)*dsig(k)
-            if (k.ge.icltop(j)) then
-                tau2(j,k,1)=exp(-deltap*(abs1+abswv1*qa(j,k)+acloud(j)))
-            else
-              tau2(j,k,1)=exp(-deltap*(abs1+abswv1*qa(j,k)))
-            endif
-        end do
-    end do
-
-    abs1=absdry+absaer*sig(nlev)**2
-    do j=1,ngp
-        deltap=psaz(j)*dsig(nlev)
-        tau2(j,nlev,1)=exp(-deltap*(abs1+abswv1*qa(j,nlev)))
-    end do
-
-    do k=2,nlev
-        do j=1,ngp
-          deltap=psaz(j)*dsig(k)
-          tau2(j,k,2)=exp(-deltap*abswv2*qa(j,k))
-        end do
+    do k = 2, kx
+        tau2_copy(:,:,k,2) = exp(-psaz*dsig(k)*abswv2*qa(:,:,k))
     end do
 
     ! 3. Shortwave downward flux
     ! 3.1 Initialization of fluxes
-    ftop = fsol
-    flux(:,1) = fsol * fband1
-    flux(:,2) = fsol * fband2
+    ftop = fsol_copy
+    flux_copy(:,:,1) = fsol_copy*fband1
+    flux_copy(:,:,2) = fsol_copy*fband2
 
     ! 3.2 Ozone and dry-air absorption in the stratosphere
-    K=1
-    do j=1,ngp
-        dfabs(j,k)=flux(j,1)
-        flux (j,1)=tau2(j,k,1)*(flux(j,1)-ozupp(j)*psa(j))
-        dfabs(j,k)=dfabs(j,k)-flux(j,1)
-    end do
+    k = 1
+    dfabs(:,:,k) = flux_copy(:,:,1)
+    flux_copy(:,:,1)  = tau2_copy(:,:,k,1)*(flux_copy(:,:,1) - ozupp_copy*psa)
+    dfabs(:,:,k) = dfabs(:,:,k) - flux_copy(:,:,1)
 
-    k=2
-    do j=1,ngp
-        dfabs(j,k)=flux(j,1)
-        flux (j,1)=tau2(j,k,1)*(flux(j,1)-ozone(j)*psa(j))
-        dfabs(j,k)=dfabs(j,k)-flux(j,1)
-    end do
+    k = 2
+    dfabs(:,:,k) = flux_copy(:,:,1)
+    flux_copy(:,:,1)  = tau2_copy(:,:,k,1)*(flux_copy(:,:,1) - ozone_copy*psa)
+    dfabs(:,:,k) = dfabs(:,:,k) - flux_copy(:,:,1)
 
     ! 3.3  Absorption and reflection in the troposphere
-    do k=3,nlev
-        do j=1,ngp
-            tau2(j,k,3)=flux(j,1)*tau2(j,k,3)
-            flux (j,1)=flux(j,1)-tau2(j,k,3)
-            dfabs(j,k)=flux(j,1)
-            flux (j,1)=tau2(j,k,1)*flux(j,1)
-            dfabs(j,k)=dfabs(j,k)-flux(j,1)
-        end do
+    do k = 3, kx
+        tau2_copy(:,:,k,3) = flux_copy(:,:,1)*tau2_copy(:,:,k,3)
+        flux_copy (:,:,1)  = flux_copy(:,:,1) - tau2_copy(:,:,k,3)
+        dfabs(:,:,k)  = flux_copy(:,:,1)
+        flux_copy (:,:,1)  = tau2_copy(:,:,k,1)*flux_copy(:,:,1)
+        dfabs(:,:,k)  = dfabs(:,:,k) - flux_copy(:,:,1)
     end do
 
-    do k=2,nlev
-        do j=1,ngp
-          dfabs(j,k)=dfabs(j,k)+flux(j,2)
-          flux (j,2)=tau2(j,k,2)*flux(j,2)
-          dfabs(j,k)=dfabs(j,k)-flux(j,2)
-        end do
+    do k = 2, kx
+        dfabs(:,:,k) = dfabs(:,:,k) + flux_copy(:,:,2)
+        flux_copy(:,:,2)  = tau2_copy(:,:,k,2)*flux_copy(:,:,2)
+        dfabs(:,:,k) = dfabs(:,:,k) - flux_copy(:,:,2)
     end do
 
     ! 4. Shortwave upward flux
     ! 4.1  Absorption and reflection at the surface
-    do j=1,ngp
-        fsfcd(j)  = flux(j,1)+flux(j,2)
-        flux(j,1) = flux(j,1)*albsfc_copy(j)
-        fsfc(j)   = fsfcd(j)-flux(j,1)
-    end do
+    fsfcd       = flux_copy(:,:,1) + flux_copy(:,:,2)
+    flux_copy(:,:,1) = flux_copy(:,:,1)*albsfc
+    fsfc        = fsfcd - flux_copy(:,:,1)
 
     ! 4.2  Absorption of upward flux
-    do k=nlev,1,-1
-        do j=1,ngp
-            dfabs(j,k)=dfabs(j,k)+flux(j,1)
-            flux (j,1)=tau2(j,k,1)*flux(j,1)
-            dfabs(j,k)=dfabs(j,k)-flux(j,1)
-            flux (j,1)=flux(j,1)+tau2(j,k,3)
-        end do
+    do k=kx,1,-1
+        dfabs(:,:,k) = dfabs(:,:,k) + flux_copy(:,:,1)
+        flux_copy(:,:,1)  = tau2_copy(:,:,k,1)*flux_copy(:,:,1)
+        dfabs(:,:,k) = dfabs(:,:,k) - flux_copy(:,:,1)
+        flux_copy(:,:,1)  = flux_copy(:,:,1) + tau2_copy(:,:,k,3)
     end do
 
     ! 4.3  Net solar radiation = incoming - outgoing
-    ftop = ftop - flux(:,1)
+    ftop = ftop - flux_copy(:,:,1)
 
     ! 5.  Initialization of longwave radiation model
     ! 5.1  Longwave transmissivity:
     ! function of layer mass, abs. humidity and cloud cover.
 
     ! Cloud-free levels (stratosphere + PBL)
-    k=1
-    do j=1,ngp
-        deltap=psa(j)*dsig(k)
-        tau2(j,k,1)=exp(-deltap*ablwin)
-        tau2(j,k,2)=exp(-deltap*ablco2)
-        tau2(j,k,3)=1.
-        tau2(j,k,4)=1.
-    end do
+    k = 1
+    tau2_copy(:,:,k,1) = exp(-psa*dsig(k)*ablwin)
+    tau2_copy(:,:,k,2) = exp(-psa*dsig(k)*ablco2)
+    tau2_copy(:,:,k,3) = 1.0
+    tau2_copy(:,:,k,4) = 1.0
 
-    do k=2,nlev,nlev-2
-        do j=1,ngp
-            deltap=psa(j)*dsig(k)
-            tau2(j,k,1)=exp(-deltap*ablwin)
-            tau2(j,k,2)=exp(-deltap*ablco2)
-            tau2(j,k,3)=exp(-deltap*ablwv1*qa(j,k))
-            tau2(j,k,4)=exp(-deltap*ablwv2*qa(j,k))
-        end do
+    do k = 2, kx, kx - 2
+        tau2_copy(:,:,k,1) = exp(-psa*dsig(k)*ablwin)
+        tau2_copy(:,:,k,2) = exp(-psa*dsig(k)*ablco2)
+        tau2_copy(:,:,k,3) = exp(-psa*dsig(k)*ablwv1*qa(:,:,k))
+        tau2_copy(:,:,k,4) = exp(-psa*dsig(k)*ablwv2*qa(:,:j,k))
     end do
 
     ! Cloudy layers (free troposphere)
     acloud = cloudc * ablcl2
 
-    do k=3,nl1
-       do j=1,ngp
-         deltap=psa(j)*dsig(k)
-         if (k.lt.icltop(j)) then
-           acloud1=acloud(j)
-         else
-           acloud1=ablcl1*cloudc(j)
-         endif
-         tau2(j,k,1)=exp(-deltap*(ablwin+acloud1))
-         tau2(j,k,2)=exp(-deltap*ablco2)
-         tau2(j,k,3)=exp(-deltap*max(ablwv1*qa(j,k),acloud(j)))
-         tau2(j,k,4)=exp(-deltap*max(ablwv2*qa(j,k),acloud(j)))
-       end do
+    do k = 3, nl1
+        do i = 1, ix
+            do j = 1, il
+                 deltap = psa(i,j)*dsig(k)
+
+                 if (k < icltop(i,j)) then
+                   acloud1 = acloud(i,j)
+                 else
+                   acloud1 = ablcl1*cloudc(i,j)
+                 endif
+
+                 tau2_copy(i,j,k,1) = exp(-deltap*(ablwin+acloud1))
+                 tau2_copy(i,j,k,2) = exp(-deltap*ablco2)
+                 tau2_copy(i,j,k,3) = exp(-deltap*max(ablwv1*qa(i,j,k), acloud(i,j)))
+                 tau2_copy(i,j,k,4) = exp(-deltap*max(ablwv2*qa(i,j,k), acloud(i,j)))
+            end do
+        end do
     end do
 
     ! 5.2  Stratospheric correction terms
-    eps1=epslw/(dsig(1)+dsig(2))
-    do j=1,ngp
-        stratc(j,1)=stratz(j)*psa(j)
-        stratc(j,2)=eps1*psa(j)
-    end do
+    eps1 = epslw/(dsig(1) + dsig(2))
+    stratc_copy(:,:,1) = stratz_copy*psa
+    stratc_copy(:,:,2) = eps1*psa
+
+    tau2 = reshape(tau2_copy, (/ ix*il, kx, 4 /))
+    qcloud = reshape(qcloud_copy, (/ ix*il /))
+    flux = reshape(flux_copy, (/ ix*il, 4 /))
+    stratc = reshape(stratc_copy, (/ ix*il, 2/))
 end
 
 subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
