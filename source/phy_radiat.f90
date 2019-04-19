@@ -19,7 +19,6 @@ subroutine sol_oz(tyear)
     real :: topsr(ix), alpha, azen, coz1, coz2, dalpha, flat2, fs0
     real :: nzen, rzen
     integer :: j
-    real, dimension(ix,il) :: fsol_copy, ozone_copy, ozupp_copy, zenit_copy, stratz_copy
 
     ! alpha = year phase ( 0 - 2pi, 0 = winter solstice = 22dec.h00 )
     alpha = 4.0*asin(1.0)*(tyear + 10.0/365.0)
@@ -42,28 +41,22 @@ subroutine sol_oz(tyear)
         flat2 = 1.5*slat(j)**2 - 0.5
 
         ! Solar radiation at the top
-        fsol_copy(:,j) = topsr(j)
+        fsol(:,j) = topsr(j)
 
         ! Ozone depth in upper and lower stratosphere
-        ozupp_copy(:,j) = 0.5*epssw
-        ozone_copy(:,j) = 0.4*epssw*(1.0 + coz1*slat(j) + coz2*flat2)
+        ozupp(:,j) = 0.5*epssw
+        ozone(:,j) = 0.4*epssw*(1.0 + coz1*slat(j) + coz2*flat2)
 
         ! Zenith angle correction to (downward) absorptivity
-        zenit_copy(:,j) = 1.0 + azen*(1.0 - (clat(j)*cos(rzen) + slat(j)*sin(rzen)))**nzen
+        zenit(:,j) = 1.0 + azen*(1.0 - (clat(j)*cos(rzen) + slat(j)*sin(rzen)))**nzen
 
         ! Ozone absorption in upper and lower stratosphere
-        ozupp_copy(:,j) = fsol_copy(:,j)*ozupp_copy(:,j)*zenit_copy(:,j)
-        ozone_copy(:,j) = fsol_copy(:,j)*ozone_copy(:,j)*zenit_copy(:,j)
+        ozupp(:,j) = fsol(:,j)*ozupp(:,j)*zenit(:,j)
+        ozone(:,j) = fsol(:,j)*ozone(:,j)*zenit(:,j)
 
         ! Polar night cooling in the stratosphere
-        stratz_copy(:,j) = max(fs0 - fsol_copy(:,j), 0.0)
+        stratz(:,j) = max(fs0 - fsol(:,j), 0.0)
     end do
-
-    fsol = reshape(fsol_copy, (/ ix*il /))
-    ozone = reshape(ozone_copy, (/ ix*il /))
-    ozupp = reshape(ozupp_copy, (/ ix*il /))
-    zenit = reshape(zenit_copy, (/ ix*il /))
-    stratz = reshape(stratz_copy, (/ ix*il /))
 end
 
 subroutine solar(tyear,csol,nlat,clat,slat,topsr)
@@ -189,7 +182,7 @@ subroutine cloud(qa,rh,precnv,precls,iptop,gse,fmask,icltop,cloudc,clstr)
     end do
 
     ! 2.  Equivalent specific humidity of clouds
-    qcloud = reshape(qa(:,:,nl1), (/ ix*il /))
+    qcloud = qa(:,:,nl1)
 
     ! 3. Stratiform clouds at the top of PBL
     inew = 1
@@ -253,19 +246,6 @@ subroutine radsw(psa,qa,icltop,cloudc,clstr,fsfcd,fsfc,ftop,dfabs)
     integer :: i, j, k, nl1
     real :: acloud(ix,il), psaz(ix,il), abs1, acloud1, deltap, eps1
     real :: fband1, fband2
-    real :: zenit_copy(ix,il), tau2_copy(ix,il,kx,4), qcloud_copy(ix,il), fsol_copy(ix,il),&
-        & flux_copy(ix,il,4), ozupp_copy(ix,il), stratz_copy(ix,il), ozone_copy(ix,il),&
-        & stratc_copy(ix,il,2)
-
-    zenit_copy = reshape(zenit, (/ ix,il /))
-    tau2_copy = reshape(tau2, (/ ix, il, kx, 4 /))
-    qcloud_copy = reshape(qcloud, (/ ix, il /))
-    fsol_copy = reshape(fsol, (/ ix, il /))
-    flux_copy = reshape(flux, (/ ix, il, 4 /))
-    ozupp_copy = reshape(ozupp, (/ ix, il /))
-    stratz_copy = reshape(stratz, (/ ix, il /))
-    ozone_copy = reshape(ozone, (/ ix, il /))
-    stratc_copy = reshape(stratc, (/ ix, il, 2 /))
 
     nl1 = kx - 1
 
@@ -273,89 +253,89 @@ subroutine radsw(psa,qa,icltop,cloudc,clstr,fsfcd,fsfc,ftop,dfabs)
     fband1 = 1.0 - fband2
 
     ! 1.  Initialization
-    tau2_copy = 0.0
+    tau2 = 0.0
 
     do i = 1, ix
         do j = 1, il
             if (icltop(i,j) <= kx) then
-                tau2_copy(i,j,icltop(i,j),3) = albcl*cloudc(i,j)
+                tau2(i,j,icltop(i,j),3) = albcl*cloudc(i,j)
             end if
-            tau2_copy(i,j,kx,3) = albcls*clstr(i,j)
+            tau2(i,j,kx,3) = albcls*clstr(i,j)
         end do
     end do
 
     ! 2. Shortwave transmissivity:
     ! function of layer mass, ozone (in the statosphere),
     ! abs. humidity and cloud cover (in the troposphere)
-    psaz = psa*zenit_copy
-    acloud = cloudc*min(abscl1*qcloud_copy, abscl2)
-    tau2_copy(:,:,1,1) = exp(-psaz*dsig(1)*absdry)
+    psaz = psa*zenit
+    acloud = cloudc*min(abscl1*qcloud, abscl2)
+    tau2(:,:,1,1) = exp(-psaz*dsig(1)*absdry)
 
     do k = 2, nl1
         abs1 = absdry + absaer*sig(k)**2
 
         if (k >= icltop(i,j)) then
-            tau2_copy(:,:,k,1) = exp(-psaz*dsig(k)*(abs1 + abswv1*qa(:,:,k) + acloud))
+            tau2(:,:,k,1) = exp(-psaz*dsig(k)*(abs1 + abswv1*qa(:,:,k) + acloud))
         else
-            tau2_copy(:,:,k,1) = exp(-psaz*dsig(k)*(abs1 + abswv1*qa(:,:,k)))
+            tau2(:,:,k,1) = exp(-psaz*dsig(k)*(abs1 + abswv1*qa(:,:,k)))
         endif
     end do
 
     abs1 = absdry + absaer*sig(kx)**2
-    tau2_copy(:,:,kx,1) = exp(-psaz*dsig(kx)*(abs1 + abswv1*qa(:,:,kx)))
+    tau2(:,:,kx,1) = exp(-psaz*dsig(kx)*(abs1 + abswv1*qa(:,:,kx)))
 
     do k = 2, kx
-        tau2_copy(:,:,k,2) = exp(-psaz*dsig(k)*abswv2*qa(:,:,k))
+        tau2(:,:,k,2) = exp(-psaz*dsig(k)*abswv2*qa(:,:,k))
     end do
 
     ! 3. Shortwave downward flux
     ! 3.1 Initialization of fluxes
-    ftop = fsol_copy
-    flux_copy(:,:,1) = fsol_copy*fband1
-    flux_copy(:,:,2) = fsol_copy*fband2
+    ftop = fsol
+    flux(:,:,1) = fsol*fband1
+    flux(:,:,2) = fsol*fband2
 
     ! 3.2 Ozone and dry-air absorption in the stratosphere
     k = 1
-    dfabs(:,:,k) = flux_copy(:,:,1)
-    flux_copy(:,:,1)  = tau2_copy(:,:,k,1)*(flux_copy(:,:,1) - ozupp_copy*psa)
-    dfabs(:,:,k) = dfabs(:,:,k) - flux_copy(:,:,1)
+    dfabs(:,:,k) = flux(:,:,1)
+    flux(:,:,1)  = tau2(:,:,k,1)*(flux(:,:,1) - ozupp*psa)
+    dfabs(:,:,k) = dfabs(:,:,k) - flux(:,:,1)
 
     k = 2
-    dfabs(:,:,k) = flux_copy(:,:,1)
-    flux_copy(:,:,1)  = tau2_copy(:,:,k,1)*(flux_copy(:,:,1) - ozone_copy*psa)
-    dfabs(:,:,k) = dfabs(:,:,k) - flux_copy(:,:,1)
+    dfabs(:,:,k) = flux(:,:,1)
+    flux(:,:,1)  = tau2(:,:,k,1)*(flux(:,:,1) - ozone*psa)
+    dfabs(:,:,k) = dfabs(:,:,k) - flux(:,:,1)
 
     ! 3.3  Absorption and reflection in the troposphere
     do k = 3, kx
-        tau2_copy(:,:,k,3) = flux_copy(:,:,1)*tau2_copy(:,:,k,3)
-        flux_copy (:,:,1)  = flux_copy(:,:,1) - tau2_copy(:,:,k,3)
-        dfabs(:,:,k)  = flux_copy(:,:,1)
-        flux_copy (:,:,1)  = tau2_copy(:,:,k,1)*flux_copy(:,:,1)
-        dfabs(:,:,k)  = dfabs(:,:,k) - flux_copy(:,:,1)
+        tau2(:,:,k,3) = flux(:,:,1)*tau2(:,:,k,3)
+        flux (:,:,1)  = flux(:,:,1) - tau2(:,:,k,3)
+        dfabs(:,:,k)  = flux(:,:,1)
+        flux (:,:,1)  = tau2(:,:,k,1)*flux(:,:,1)
+        dfabs(:,:,k)  = dfabs(:,:,k) - flux(:,:,1)
     end do
 
     do k = 2, kx
-        dfabs(:,:,k) = dfabs(:,:,k) + flux_copy(:,:,2)
-        flux_copy(:,:,2)  = tau2_copy(:,:,k,2)*flux_copy(:,:,2)
-        dfabs(:,:,k) = dfabs(:,:,k) - flux_copy(:,:,2)
+        dfabs(:,:,k) = dfabs(:,:,k) + flux(:,:,2)
+        flux(:,:,2)  = tau2(:,:,k,2)*flux(:,:,2)
+        dfabs(:,:,k) = dfabs(:,:,k) - flux(:,:,2)
     end do
 
     ! 4. Shortwave upward flux
     ! 4.1  Absorption and reflection at the surface
-    fsfcd       = flux_copy(:,:,1) + flux_copy(:,:,2)
-    flux_copy(:,:,1) = flux_copy(:,:,1)*albsfc
-    fsfc        = fsfcd - flux_copy(:,:,1)
+    fsfcd       = flux(:,:,1) + flux(:,:,2)
+    flux(:,:,1) = flux(:,:,1)*albsfc
+    fsfc        = fsfcd - flux(:,:,1)
 
     ! 4.2  Absorption of upward flux
     do k=kx,1,-1
-        dfabs(:,:,k) = dfabs(:,:,k) + flux_copy(:,:,1)
-        flux_copy(:,:,1)  = tau2_copy(:,:,k,1)*flux_copy(:,:,1)
-        dfabs(:,:,k) = dfabs(:,:,k) - flux_copy(:,:,1)
-        flux_copy(:,:,1)  = flux_copy(:,:,1) + tau2_copy(:,:,k,3)
+        dfabs(:,:,k) = dfabs(:,:,k) + flux(:,:,1)
+        flux(:,:,1)  = tau2(:,:,k,1)*flux(:,:,1)
+        dfabs(:,:,k) = dfabs(:,:,k) - flux(:,:,1)
+        flux(:,:,1)  = flux(:,:,1) + tau2(:,:,k,3)
     end do
 
     ! 4.3  Net solar radiation = incoming - outgoing
-    ftop = ftop - flux_copy(:,:,1)
+    ftop = ftop - flux(:,:,1)
 
     ! 5.  Initialization of longwave radiation model
     ! 5.1  Longwave transmissivity:
@@ -363,16 +343,16 @@ subroutine radsw(psa,qa,icltop,cloudc,clstr,fsfcd,fsfc,ftop,dfabs)
 
     ! Cloud-free levels (stratosphere + PBL)
     k = 1
-    tau2_copy(:,:,k,1) = exp(-psa*dsig(k)*ablwin)
-    tau2_copy(:,:,k,2) = exp(-psa*dsig(k)*ablco2)
-    tau2_copy(:,:,k,3) = 1.0
-    tau2_copy(:,:,k,4) = 1.0
+    tau2(:,:,k,1) = exp(-psa*dsig(k)*ablwin)
+    tau2(:,:,k,2) = exp(-psa*dsig(k)*ablco2)
+    tau2(:,:,k,3) = 1.0
+    tau2(:,:,k,4) = 1.0
 
     do k = 2, kx, kx - 2
-        tau2_copy(:,:,k,1) = exp(-psa*dsig(k)*ablwin)
-        tau2_copy(:,:,k,2) = exp(-psa*dsig(k)*ablco2)
-        tau2_copy(:,:,k,3) = exp(-psa*dsig(k)*ablwv1*qa(:,:,k))
-        tau2_copy(:,:,k,4) = exp(-psa*dsig(k)*ablwv2*qa(:,:j,k))
+        tau2(:,:,k,1) = exp(-psa*dsig(k)*ablwin)
+        tau2(:,:,k,2) = exp(-psa*dsig(k)*ablco2)
+        tau2(:,:,k,3) = exp(-psa*dsig(k)*ablwv1*qa(:,:,k))
+        tau2(:,:,k,4) = exp(-psa*dsig(k)*ablwv2*qa(:,:j,k))
     end do
 
     ! Cloudy layers (free troposphere)
@@ -389,23 +369,18 @@ subroutine radsw(psa,qa,icltop,cloudc,clstr,fsfcd,fsfc,ftop,dfabs)
                    acloud1 = ablcl1*cloudc(i,j)
                  endif
 
-                 tau2_copy(i,j,k,1) = exp(-deltap*(ablwin+acloud1))
-                 tau2_copy(i,j,k,2) = exp(-deltap*ablco2)
-                 tau2_copy(i,j,k,3) = exp(-deltap*max(ablwv1*qa(i,j,k), acloud(i,j)))
-                 tau2_copy(i,j,k,4) = exp(-deltap*max(ablwv2*qa(i,j,k), acloud(i,j)))
+                 tau2(i,j,k,1) = exp(-deltap*(ablwin+acloud1))
+                 tau2(i,j,k,2) = exp(-deltap*ablco2)
+                 tau2(i,j,k,3) = exp(-deltap*max(ablwv1*qa(i,j,k), acloud(i,j)))
+                 tau2(i,j,k,4) = exp(-deltap*max(ablwv2*qa(i,j,k), acloud(i,j)))
             end do
         end do
     end do
 
     ! 5.2  Stratospheric correction terms
     eps1 = epslw/(dsig(1) + dsig(2))
-    stratc_copy(:,:,1) = stratz_copy*psa
-    stratc_copy(:,:,2) = eps1*psa
-
-    tau2 = reshape(tau2_copy, (/ ix*il, kx, 4 /))
-    qcloud = reshape(qcloud_copy, (/ ix*il /))
-    flux = reshape(flux_copy, (/ ix*il, 4 /))
-    stratc = reshape(stratc_copy, (/ ix*il, 2/))
+    stratc(:,:,1) = stratz*psa
+    stratc(:,:,2) = eps1*psa
 end
 
 subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
@@ -437,24 +412,23 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
     implicit none
 
     integer, intent(in) :: imode
-    integer, parameter :: nlon=ix, nlat=il, nlev=kx, ngp=nlon*nlat
 
     ! Number of radiation bands with tau < 1
-    integer, parameter :: nband=4
+    integer, parameter :: nband = 4
 
-    real, intent(in) :: ta(ngp,nlev), ts(ngp)
-    real, intent(inout) :: fsfcd(ngp), fsfcu(ngp), ftop(ngp), fsfc(ngp)
-    real, intent(inout) :: dfabs(ngp,nlev)
+    real, intent(in) :: ta(ix,il,kx), ts(ix,il)
+    real, intent(inout) :: fsfcd(ix,il), fsfcu(ix,il), ftop(ix,il), fsfc(ix,il)
+    real, intent(inout) :: dfabs(ix,il,kx)
 
-    integer :: j, jb, k, nl1
-    real :: anis, anish, brad, corlw, corlw1, corlw2, emis, eps1, esbc, refsfc
-    real :: st3a, tsq
+    integer :: i, j, jb, k, nl1
+    real :: anis, brad, corlw(ix,il), corlw1(ix,il), corlw2(ix,il), emis, refsfc
+    real :: st3a(ix,il), tsq
 
-    nl1=nlev-1
+    nl1 = kx - 1
 
-    refsfc=1.-emisfc
+    refsfc = 1.0 - emisfc
 
-    if (imode.eq.1) go to 410
+    if (imode == 1) go to 410
     ! 1. Blackbody emission from atmospheric levels.
     ! The linearized gradient of the blakbody emission is computed
     ! from temperatures at layer boundaries, which are interpolated
@@ -462,47 +436,34 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
     ! Above the first (top) level, the atmosphere is assumed isothermal.
 
     ! Temperature at level boundaries
-    do k=1,nl1
-        do j=1,ngp
-            st4a(j,k,1)=ta(j,k)+wvi(k,2)*(ta(j,k+1)-ta(j,k))
-        end do
+    do k = 1, nl1
+        st4a(:,:,k,1) = ta(:,:,k) + wvi(k,2)*(ta(:,:,k+1) - ta(:,:,k))
     end do
 
     ! Mean temperature in stratospheric layers
-    do j=1,ngp
-        st4a(j,1,2)=0.75*ta(j,1)+0.25* st4a(j,1,1)
-        st4a(j,2,2)=0.50*ta(j,2)+0.25*(st4a(j,1,1)+st4a(j,2,1))
-    end do
+    st4a(:,:,1,2) = 0.75*ta(:,:,1) + 0.25*st4a(:,:,1,1)
+    st4a(:,:,2,2) = 0.50*ta(:,:,2) + 0.25*(st4a(:,:,1,1) + st4a(:,:,2,1))
 
     ! Temperature gradient in tropospheric layers
-    anis =1.0
-    anish=0.5*anis
+    anis  = 1.0
 
-    do k=3,nl1
-        do j=1,ngp
-            st4a(j,k,2)=anish*max(st4a(j,k,1)-st4a(j,k-1,1),0.)
-        end do
+    do k = 3, nl1
+        st4a(:,:,k,2) = 0.5*anis*max(st4a(:,:,k,1) - st4a(:,:,k-1,1), 0.0)
     end do
 
-    do j=1,ngp
-        st4a(j,nlev,2)=anis*max(ta(j,nlev)-st4a(j,nl1,1),0.)
-    end do
+    st4a(:,:,kx,2) = anis*max(ta(:,:,kx) - st4a(:,:,nl1,1), 0.0)
 
     ! Blackbody emission in the stratosphere
-    do k=1,2
-        do j=1,ngp
-            st4a(j,k,1)=sbc*st4a(j,k,2)**4
-            st4a(j,k,2)=0.
-        end do
+    do k = 1, 2
+        st4a(:,:,k,1) = sbc*st4a(:,:,k,2)**4.0
+        st4a(:,:,k,2) = 0.0
     end do
 
     ! Blackbody emission in the troposphere
-    do k=3,nlev
-        do j=1,ngp
-            st3a=sbc*ta(j,k)**3
-            st4a(j,k,1)=st3a*ta(j,k)
-            st4a(j,k,2)=4.*st3a*st4a(j,k,2)
-        end do
+    do k = 3, kx
+        st3a = sbc*ta(:,:,k)**3.0
+        st4a(:,:,k,1) = st3a*ta(:,:,k)
+        st4a(:,:,k,2) = 4.0*st3a*st4a(:,:,k,2)
     end do
 
     ! 2. Initialization of fluxes
@@ -516,46 +477,45 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
 
     ! 3.1  Stratosphere
     k=1
-    do jb=1,2
-        do j=1,ngp
-            emis=1.-tau2(j,k,jb)
-            brad=fband(nint(ta(j,k)),jb)*(st4a(j,k,1)+emis*st4a(j,k,2))
-            flux(j,jb)=emis*brad
-            dfabs(j,k)=dfabs(j,k)-flux(j,jb)
+    do jb = 1, 2
+        do i = 1, ix
+            do j = 1, il
+                emis = 1.0 - tau2(i,j,k,jb)
+                brad = fband(nint(ta(i,j,k)),jb)*(st4a(i,j,k,1) + emis*st4a(i,j,k,2))
+                flux(i,j,jb) = emis*brad
+                dfabs(i,j,k) = dfabs(i,j,k) - flux(i,j,jb)
+            end do
         end do
     end do
 
-    flux(:,3:nband) = 0.0
+    flux(:,:,3:nband) = 0.0
 
     ! 3.2  Troposphere
-    do jb=1,nband
-        do k=2,nlev
-            do j=1,ngp
-                emis=1.-tau2(j,k,jb)
-                brad=fband(nint(ta(j,k)),jb)*(st4a(j,k,1)+emis*st4a(j,k,2))
-                dfabs(j,k)=dfabs(j,k)+flux(j,jb)
-                flux(j,jb)=tau2(j,k,jb)*flux(j,jb)+emis*brad
-                dfabs(j,k)=dfabs(j,k)-flux(j,jb)
+    do jb = 1, nband
+        do k = 2, kx
+            do i = 1, ix
+                do j = 1, il
+                    emis = 1.0 - tau2(i,j,k,jb)
+                    brad = fband(nint(ta(i,j,k)),jb)*(st4a(i,j,k,1) + emis*st4a(i,j,k,2))
+                    dfabs(i,j,k) = dfabs(i,j,k) + flux(i,j,jb)
+                    flux(i,j,jb) = tau2(i,j,k,jb)*flux(i,j,jb) + emis*brad
+                    dfabs(i,j,k) = dfabs(i,j,k) - flux(i,j,jb)
+                end do
             end do
         end do
     end do
 
     ! 3.3 Surface downward flux
-    do jb=1,nband
-        do j=1,ngp
-            fsfcd(j)=fsfcd(j)+emisfc*flux(j,jb)
-        end do
+    do jb = 1, nband
+        fsfcd = fsfcd + emisfc*flux(:,:,jb)
     end do
 
     ! 3.4 Correction for "black" band (incl. surface reflection)
-    eps1=epslw*emisfc
-    do j=1,ngp
-        corlw=eps1*st4a(j,nlev,1)
-        dfabs(j,nlev)=dfabs(j,nlev)-corlw
-        fsfcd(j)     =fsfcd(j)     +corlw
-    end do
+    corlw = epslw*emisfc*st4a(:,:,kx,1)
+    dfabs(:,:,kx) = dfabs(:,:,kx) - corlw
+    fsfcd = fsfcd + corlw
 
-    if (imode.eq.-1) return
+    if (imode == -1) return
 
     ! 4. Emission ad absorption of longwave upward flux.
     !    For upward emission, a correction term depending on the
@@ -565,68 +525,64 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
     ! 4.1  Surface
 
     ! Black-body (or grey-body) emission
-    esbc=emisfc*sbc
-    do j=1,ngp
-        tsq=ts(j)*ts(j)
-        fsfcu(j)=esbc*tsq*tsq
-    end do
+    fsfcu = emisfc*sbc*ts**4.0
 
-    ! Entry point for upward-only mode (IMODE=1)
+    ! Entry point for upward-only mode (imode = 1)
  410  continue
 
     fsfc = fsfcu - fsfcd
 
-    do jb=1,nband
-        do j=1,ngp
-            flux(j,jb)=fband(nint(ts(j)),jb)*fsfcu(j)+refsfc*flux(j,jb)
+    do jb = 1, nband
+        do i = 1, ix
+            do j = 1, il
+                flux(i,j,jb) = fband(nint(ts(i,j)),jb)*fsfcu(i,j) + refsfc*flux(i,j,jb)
+            end do
         end do
     end do
 
     ! 4.2  Troposphere
 
     ! Correction for "black" band
-    do j=1,ngp
-        dfabs(j,nlev)=dfabs(j,nlev)+epslw*fsfcu(j)
-    end do
+    dfabs(:,:,kx) = dfabs(:,:,kx) + epslw*fsfcu
 
-    do jb=1,nband
-        do k=nlev,2,-1
-            do j=1,ngp
-                emis=1.-tau2(j,k,jb)
-                brad=fband(nint(ta(j,k)),jb)*(st4a(j,k,1)-emis*st4a(j,k,2))
-                dfabs(j,k)=dfabs(j,k)+flux(j,jb)
-                flux(j,jb)=tau2(j,k,jb)*flux(j,jb)+emis*brad
-                dfabs(j,k)=dfabs(j,k)-flux(j,jb)
+    do jb = 1, nband
+        do k = kx, 2, -1
+            do i = 1, ix
+                do j = 1, il
+                    emis = 1.0 - tau2(i,j,k,jb)
+                    brad = fband(nint(ta(i,j,k)),jb)*(st4a(i,j,k,1) - emis*st4a(i,j,k,2))
+                    dfabs(i,j,k) = dfabs(i,j,k) + flux(i,j,jb)
+                    flux(i,j,jb) = tau2(i,j,k,jb)*flux(i,j,jb) + emis*brad
+                    dfabs(i,j,k) = dfabs(i,j,k) - flux(i,j,jb)
+                end do
             end do
         end do
     end do
 
     ! 4.3  Stratosphere
-    k=1
-    do jb=1,2
-        do j=1,ngp
-            emis=1.-tau2(j,k,jb)
-            brad=fband(nint(ta(j,k)),jb)*(st4a(j,k,1)-emis*st4a(j,k,2))
-            dfabs(j,k)=dfabs(j,k)+flux(j,jb)
-            flux(j,jb)=tau2(j,k,jb)*flux(j,jb)+emis*brad
-            dfabs(j,k)=dfabs(j,k)-flux(j,jb)
+    k = 1
+    do jb = 1, 2
+        do i = 1, ix
+            do j = 1, il
+                emis = 1.0 - tau2(i,j,k,jb)
+                brad = fband(nint(ta(i,j,k)),jb)*(st4a(i,j,k,1) - emis*st4a(i,j,k,2))
+                dfabs(i,j,k) = dfabs(i,j,k) + flux(i,j,jb)
+                flux(i,j,jb) = tau2(i,j,k,jb)*flux(i,j,jb) + emis*brad
+                dfabs(i,j,k) = dfabs(i,j,k) - flux(i,j,jb)
+            end do
         end do
     end do
 
     ! Correction for "black" band and polar night cooling
-    do j=1,ngp
-        corlw1=dsig(1)*stratc(j,2)*st4a(j,1,1)+stratc(j,1)
-        corlw2=dsig(2)*stratc(j,2)*st4a(j,2,1)
-        dfabs(j,1)=dfabs(j,1)-corlw1
-        dfabs(j,2)=dfabs(j,2)-corlw2
-        ftop(j)   =corlw1+corlw2
-    end do
+    corlw1 = dsig(1)*stratc(:,:,2)*st4a(:,:,1,1) + stratc(:,:,1)
+    corlw2 = dsig(2)*stratc(:,:,2)*st4a(:,:,2,1)
+    dfabs(:,:,1) = dfabs(:,:,1) - corlw1
+    dfabs(:,:,2) = dfabs(:,:,2) - corlw2
+    ftop = corlw1 + corlw2
 
     ! 4.4  Outgoing longwave radiation
-    do jb=1,nband
-        do j=1,ngp
-            ftop(j)=ftop(j)+flux(j,jb)
-        end do
+    do jb = 1, nband
+        ftop = ftop + flux(:,:,jb)
     end do
 end
 

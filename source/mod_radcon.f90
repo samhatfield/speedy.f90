@@ -57,7 +57,7 @@ module mod_radcon
     real :: solc = 342.0
 
     real :: albsea = 0.07
-    real :: albice = 0.60!0.75
+    real :: albice = 0.60
     real :: albsn  = 0.60
 
     real :: rhcl1  =  0.30
@@ -66,7 +66,7 @@ module mod_radcon
     real :: wpcl   =  0.2
     real :: pmaxcl = 10.0
 
-    real :: clsmax  = 0.60!0.50
+    real :: clsmax  = 0.60
     real :: clsminl = 0.15
     real :: gse_s0  = 0.25
     real :: gse_s1  = 0.40
@@ -74,7 +74,7 @@ module mod_radcon
     real :: albcl  =  0.43
     real :: albcls =  0.50
 
-    real :: epssw  =  0.020!0.025
+    real :: epssw  =  0.020
     real :: epslw  =  0.05
     real :: emisfc =  0.98
 
@@ -87,7 +87,7 @@ module mod_radcon
     real :: abscl2 =  0.15
 
     real :: ablwin =  0.3
-    real :: ablco2 =  6.0!5.0
+    real :: ablco2 =  6.0
     real :: ablwv1 =  0.7
     real :: ablwv2 = 50.0
 
@@ -105,7 +105,7 @@ module mod_radcon
     ! ozupp  = flux absorbed by ozone (upper stratos.)
     ! zenit  = optical depth ratio (function of solar zenith angle)
     ! stratz = stratospheric correction for polar night
-    real, dimension(ix*il) :: fsol, ozone, ozupp, zenit, stratz
+    real, dimension(ix,il) :: fsol, ozone, ozupp, zenit, stratz
 
     ! Radiative properties of the surface (updated in fordate)
     ! alb_l  = daily-mean albedo over land (bare-land + snow)
@@ -119,9 +119,9 @@ module mod_radcon
     ! st4a   = blackbody emission from full and half atmospheric levels
     ! stratc = stratospheric correction term
     ! flux   = radiative flux in different spectral bands
-    real :: tau2(ix*il,kx,4), st4a(ix*il,kx,2), stratc(ix*il,2), flux(ix*il,4)
+    real :: tau2(ix,il,kx,4), st4a(ix,il,kx,2), stratc(ix,il,2), flux(ix,il,4)
 
     ! Radiative properties of clouds (updated in cloud)
     ! qcloud = Equivalent specific humidity of clouds
-    real, dimension(ix*il) :: qcloud, irhtop
+    real, dimension(ix,il) :: qcloud, irhtop
 end module
