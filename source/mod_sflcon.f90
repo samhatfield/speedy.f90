@@ -58,5 +58,5 @@ module mod_sflcon
     real :: clambsn = 7.0
 
     ! Time-invariant fields (initial. in SFLSET)
-    real :: forog(ix*il)
+    real :: forog(ix,il)
 end module
