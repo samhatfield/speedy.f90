@@ -53,6 +53,7 @@ contains
         use mod_tsteps, only: sppt_on
         use precipitation, only: convective_precipitation, large_scale_precipitation
         use surface_fluxes, only: get_surface_fluxes
+        use vertical_diffusion, only: get_vertical_diffusion_tend
 
         complex, dimension(mx,nx,kx), intent(in) :: vor, div, t, q, phi
         complex, dimension(mx,nx), intent(in) :: psl
@@ -177,7 +178,8 @@ contains
         ! =========================================================================
 
         ! Vertical diffusion and shallow convection
-        call vdifsc(ug, vg, se, rh, qg, qsat, phig, icnv, ut_pbl, vt_pbl, tt_pbl, qt_pbl)
+        call get_vertical_diffusion_tend(ug, vg, se, rh, qg, qsat, phig, icnv, ut_pbl, vt_pbl, &
+            & tt_pbl, qt_pbl)
 
         ! Add tendencies due to surface fluxes
     	ut_pbl(:,:,kx) = ut_pbl(:,:,kx) + ustr(:,:,3)*rps*grdsig(kx)

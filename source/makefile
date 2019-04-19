@@ -59,11 +59,9 @@ FILES= \
 	   mod_sppt.o \
 	   mod_surfcon.o \
 	   mod_tsteps.o \
-	   mod_vdicon.o \
 	   physics.o \
        phy_radiat.o \
        phy_shtorh.o \
-       phy_vdifsc.o \
        ppo_diagns.o \
        ppo_dmflux.o \
 	   precipitation.o \
@@ -71,6 +69,7 @@ FILES= \
        spe_spectral.o \
        spe_subfft_fftpack.o \
 	   surface_fluxes.o \
+	   vertical_diffusion.o
 
 %.o: %.f90
 	$(FC) $(COMPOPTS) -c $< $(INC)
@@ -131,14 +130,13 @@ mod_spectral.o         : mod_spectral.f90 mod_atparam.o
 mod_sppt.o             : mod_atparam.o mod_tsteps.o mod_dyncon1.o mod_spectral.o
 mod_surfcon.o          : mod_surfcon.f90 mod_atparam.o
 mod_tsteps.o           : mod_tsteps.f90
-mod_vdicon.o           : mod_vdicon.f90
 physics.o              : physics.f90 mod_atparam.o mod_cpl_flags.o mod_lflags.o mod_physcon.o\
 					     mod_surfcon.o mod_cpl_land_model.o mod_cpl_sea_model.o mod_sppt.o\
-						 mod_tsteps.o precipitation.o surface_fluxes.o
+						 mod_tsteps.o precipitation.o surface_fluxes.o vertical_diffusion.o
 phy_radiat.o           : phy_radiat.f90 mod_atparam.o mod_physcon.o mod_radcon.o
 phy_shtorh.o           : phy_shtorh.f90
 surface_fluxes.o       : surface_fluxes.f90 mod_atparam.o mod_physcon.o mod_radcon.o
-phy_vdifsc.o           : phy_vdifsc.f90 mod_atparam.o mod_vdicon.o mod_physcon.o
+
 ppo_diagns.o           : ppo_diagns.f90 mod_tsteps.o mod_atparam.o mod_dynvar.o mod_date.o
 ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_physcon.o\
 						 mod_surfcon.o mod_radcon.o
@@ -146,3 +144,4 @@ precipitation.o        : precipitation.f90 mod_atparam.o mod_physcon.o
 spe_matinv.o           : spe_matinv.f90
 spe_spectral.o         : spe_spectral.f90 mod_atparam.o mod_spectral.o
 spe_subfft_fftpack.o   : spe_subfft_fftpack.f90 mod_atparam.o mod_spectral.o
+vertical_diffusion     : phy_vdifsc.f90 mod_atparam.o mod_physcon.o
