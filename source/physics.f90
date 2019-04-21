@@ -6,7 +6,7 @@ module physics
     private
     public precnv, precls, snowcv, snowls, cbmf, tsr, ssrd, ssr, slrd, slr,&
         & olr, slru, ustr, vstr, shf, evap, hfluxn
-    public get_physical_tendencies
+    public initialize_physics, get_physical_tendencies
 
     ! Physical variables shared among all physics schemes
     real, dimension(ix,il)   :: precnv ! Convective precipitation  [g/(m^2 s)], total
@@ -30,6 +30,43 @@ module physics
     real, dimension(ix,il,3) :: hfluxn ! Net heat flux into surface
 
 contains
+    ! Initialize physical parametrization routines
+    subroutine initialize_physics
+        use mod_physcon
+        use mod_dyncon1, only: grav, hsg, radang
+
+        integer :: j, k
+
+        ! 1.2 Functions of sigma and latitude
+        sigh(0) = hsg(1)
+
+        do k = 1, kx
+            sig(k)  = 0.5*(hsg(k+1)+hsg(k))
+            sigl(k) = log(sig(k))
+            sigh(k) = hsg(k+1)
+            dsig(k) = hsg(k+1)-hsg(k)
+            grdsig(k) = grav/(dsig(k)*p0)
+            grdscp(k) = grdsig(k)/cp
+        end do
+
+        ! Weights for vertical interpolation at half-levels(1,kx) and surface
+        ! Note that for phys.par. half-lev(k) is between full-lev k and k+1
+        ! Fhalf(k) = Ffull(k)+WVI(K,2)*(Ffull(k+1)-Ffull(k))
+        ! Fsurf = Ffull(kx)+WVI(kx,2)*(Ffull(kx)-Ffull(kx-1))
+        do k = 1, kx-1
+            wvi(k,1) = 1./(sigl(k+1)-sigl(k))
+            wvi(k,2) = (log(sigh(k))-sigl(k))*wvi(k,1)
+        end do
+
+        wvi(kx,1) = 0.
+        wvi(kx,2) = (log(0.99)-sigl(kx))*wvi(kx-1,1)
+
+        do j = 1, il
+            slat(j) = sin(radang(j))
+            clat(j) = cos(radang(j))
+        end do
+    end
+
     ! Compute physical parametrization tendencies for u, v, t, q and add them to
     ! dynamical grid-point tendencies
     ! Input-only  arguments:   vor   : vorticity (sp)

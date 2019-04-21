@@ -2,6 +2,7 @@
 subroutine ini_atm()
     use mod_spectral, only: inifft
     use mod_output, only: output_step
+    use physics, only: initialize_physics
 
     implicit none
 
@@ -12,7 +13,7 @@ subroutine ini_atm()
     call indyns
 
     ! Initialize constants for physical parametrization
-    call inphys
+    call initialize_physics
 
     ! Initialize forcing fields (boundary cond. + random forcing)
     call inbcon

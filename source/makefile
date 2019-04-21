@@ -37,7 +37,6 @@ FILES= \
        ini_indyns.o \
        ini_inbcon.o \
        ini_iniatm.o \
-       ini_inphys.o \
        ini_invars.o \
        ini_stepone.o \
        ini_fordate.o \
@@ -100,7 +99,6 @@ ini_inbcon.o           : ini_inbcon.f90 coupler.o mod_tsteps.o mod_dyncon0.o mod
                          mod_dyncon1.o mod_surfcon.o mod_input.o
 ini_iniatm.o           : ini_iniatm.f90 mod_tsteps.o mod_atparam.o mod_dyncon1.o date.o\
  						 mod_spectral.o mod_output.o
-ini_inphys.o           : ini_inphys.f90 mod_atparam.o mod_physcon.o
 ini_invars.o           : ini_invars.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o prognostics.o\
                          mod_dyncon1.o mod_surfcon.o date.o
 ini_stepone.o          : ini_stepone.f90 mod_tsteps.o
