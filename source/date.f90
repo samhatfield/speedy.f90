@@ -1,4 +1,4 @@
-module mod_date
+module date
     implicit none
 
     private

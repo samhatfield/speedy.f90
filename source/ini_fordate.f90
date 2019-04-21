@@ -13,7 +13,7 @@ subroutine fordate(imode)
     use mod_physcon, only: rd
     use mod_surfcon, only: phis0, alb0, sd2sc
     use surface_fluxes, only: set_orog_land_sfc_drag
-    use mod_date, only: model_datetime, tyear
+    use date, only: model_datetime, tyear
     use land_model, only: stl_am, snowd_am, fmask_l
     use sea_model, only: fmask_s, sstcl_ob, sst_am, sice_am
     use mod_radcon, only: ablco2_ref, albsea, albice, snowc, albsn, alb_l, alb_s, albsfc

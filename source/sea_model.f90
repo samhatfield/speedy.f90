@@ -173,7 +173,7 @@ contains
     end
 
     subroutine couple_sea_atm(day)
-        use mod_date, only: model_datetime, imont1
+        use date, only: model_datetime, imont1
         use mod_cpl_bcinterp, only: forin5, forint
 
         integer, intent(in) :: day
@@ -286,7 +286,7 @@ contains
 
     ! Update observed SST anomaly array
     subroutine obs_ssta
-        use mod_date, only: model_datetime, start_datetime
+        use date, only: model_datetime, start_datetime
         use mod_tsteps, only: issty0
         use mod_input, only: load_boundary_file
 

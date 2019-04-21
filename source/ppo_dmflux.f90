@@ -11,7 +11,7 @@ subroutine dmflux(iadd)
     use sea_model, only: tice_am, sice_am, hflux_s, hflux_i
     use physics, only: hfluxn, shf, evap, ssrd
     use mod_radcon, only: albsea, albice, emisfc
-    use mod_date, only: model_datetime
+    use date, only: model_datetime
 
     implicit none
 

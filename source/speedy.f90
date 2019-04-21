@@ -1,6 +1,6 @@
 program speedy
     use mod_tsteps, only: nsteps, delt2, nsteps_out, nstrad
-    use mod_date, only: model_datetime, end_datetime, newdate, datetime_equal
+    use date, only: model_datetime, end_datetime, newdate, datetime_equal
     use shortwave_radiation, only: compute_shortwave
     use mod_output, only: output_step
     use coupler, only: couple_sea_land
