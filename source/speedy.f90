@@ -4,6 +4,7 @@ program speedy
     use shortwave_radiation, only: compute_shortwave
     use mod_output, only: output_step
     use coupler, only: couple_sea_land
+    use initialization, only: initialize
 
     implicit none
 
@@ -11,7 +12,7 @@ program speedy
     integer :: model_step = 1
 
     ! Initialization
-    call agcm_init()
+    call initialize
 
     ! Model main loop
     do while (.not. datetime_equal(model_datetime, end_datetime))
