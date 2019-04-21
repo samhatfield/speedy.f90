@@ -4,6 +4,9 @@ subroutine agcm_init()
     use date, only: newdate, model_datetime, start_datetime, end_datetime
     use coupler, only: initialize_coupler
     use sea_model, only: sea_coupling_flag, sst_anomaly_coupling_flag
+    use mod_spectral, only: inifft
+    use physics, only: initialize_physics
+    use mod_output, only: output_step
 
     implicit none
 
@@ -34,11 +37,40 @@ subroutine agcm_init()
     ! Check consistency of coupling and prescribed SST anomaly flags
     if (sea_coupling_flag >= 4) sst_anomaly_coupling_flag = 1
 
+    ! =========================================================================
     ! Initialization of atmospheric model constants and variables
-    call ini_atm
+    ! =========================================================================
 
+    ! Initialize ffts
+    call inifft
+
+    ! Initialize dynamical constants and operators
+    call indyns
+
+    ! Initialize constants for physical parametrization
+    call initialize_physics
+
+    ! Initialize forcing fields (boundary cond. + random forcing)
+    call inbcon
+
+    ! Initialize model variables
+    call invars
+
+    ! Initialize time-mean arrays for surface fluxes and output fields
+    call dmflux(0)
+
+    ! =========================================================================
     ! Initialization of coupled modules (land, sea, ice)
+    ! =========================================================================
+
     call initialize_coupler
+
+    ! =========================================================================
+    ! Initialization of first time step
+    ! =========================================================================
+
+    ! Write initial data
+    call output_step(0)
 
     ! Set up the forcing fields for the first time step
     call fordate(0)

@@ -36,7 +36,6 @@ FILES= \
        ini_impint.o \
        ini_indyns.o \
        ini_inbcon.o \
-       ini_iniatm.o \
        ini_invars.o \
        ini_stepone.o \
        ini_fordate.o \
@@ -90,15 +89,13 @@ dyn_sptend.o           : dyn_sptend.f90 mod_atparam.o prognostics.o mod_dyncon1.
 dyn_step.o             : dyn_step.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o prognostics.o\
  					     mod_hdifcon.o
 humidity.o             : humidity.f90 mod_atparam.o
-ini_agcm_init.o        : ini_agcm_init.f90 coupler.o mod_tsteps.o mod_atparam.o date.o
+ini_agcm_init.o        : ini_agcm_init.f90 coupler.o mod_tsteps.o mod_atparam.o date.o mod_output.o
 ini_impint.o           : ini_impint.f90 mod_dyncon0.o mod_atparam.o mod_dyncon1.o mod_dyncon2.o\
  					     mod_hdifcon.o
 ini_indyns.o           : ini_indyns.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o\
  						 mod_hdifcon.o mod_spectral.o
 ini_inbcon.o           : ini_inbcon.f90 coupler.o mod_tsteps.o mod_dyncon0.o mod_atparam.o\
                          mod_dyncon1.o mod_surfcon.o mod_input.o
-ini_iniatm.o           : ini_iniatm.f90 mod_tsteps.o mod_atparam.o mod_dyncon1.o date.o\
- 						 mod_spectral.o mod_output.o
 ini_invars.o           : ini_invars.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o prognostics.o\
                          mod_dyncon1.o mod_surfcon.o date.o
 ini_stepone.o          : ini_stepone.f90 mod_tsteps.o
