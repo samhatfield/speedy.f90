@@ -49,7 +49,6 @@ FILES= \
 	   mod_dyncon1.o \
 	   mod_dyncon2.o \
 	   mod_hdifcon.o \
-	   mod_lflags.o \
 	   mod_input.o \
 	   mod_output.o \
 	   mod_physcon.o \
@@ -82,7 +81,7 @@ base_target: $(FILES) speedy.o
 clean:
 	rm -f *.o *.mod
 
-speedy.o               : speedy.f90 mod_tsteps.o mod_date.o mod_lflags.o mod_output.o
+speedy.o               : speedy.f90 mod_tsteps.o mod_date.o mod_output.o shortwave_radiation.o
 coupler.o              : coupler.f90 mod_atparam.o land_model.o sea_model.o mod_surfcon.o
 cpl_sea.o              : cpl_sea.f90 mod_cpl_flags.o mod_atparam.o mod_date.o mod_input.o
 dyn_geop.o             : dyn_geop.f90 mod_atparam.o prognostics.o mod_dyncon1.o
@@ -106,9 +105,9 @@ ini_inphys.o           : ini_inphys.f90 mod_atparam.o mod_physcon.o
 ini_invars.o           : ini_invars.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o prognostics.o\
                          mod_dyncon1.o mod_surfcon.o mod_date.o
 ini_stepone.o          : ini_stepone.f90 mod_tsteps.o
-ini_fordate.o          : ini_fordate.f90 mod_dyncon0.o mod_lflags.o mod_atparam.o mod_hdifcon.o\
-                         mod_physcon.o mod_surfcon.o mod_date.o land_model.o mod_radcon.o\
-						 surface_fluxes.o
+ini_fordate.o          : ini_fordate.f90 mod_dyncon0.o shortwave_radiation.o mod_atparam.o\
+ 						 mod_hdifcon.o mod_physcon.o mod_surfcon.o mod_date.o land_model.o\
+						 mod_radcon.o surface_fluxes.o
 land_model.o           : land_model.f90 mod_atparam.o mod_cpl_flags.o mod_date.o mod_cpl_bcinterp.o
 mod_atparam.o          : mod_atparam.f90
 mod_cpl_bcinterp.o     : mod_cpl_bcinterp.f90
@@ -119,7 +118,6 @@ mod_dyncon1.o          : mod_dyncon1.f90 mod_atparam.o
 mod_dyncon2.o          : mod_dyncon2.f90 mod_atparam.o
 prognostics.o          : prognostics.f90 mod_atparam.o
 mod_hdifcon.o          : mod_hdifcon.f90 mod_atparam.o
-mod_lflags.o           : mod_lflags.f90
 mod_input.o            : mod_input.f90 mod_atparam.o
 mod_output.o           : mod_output.f90 mod_atparam.o mod_dyncon1.o mod_physcon.o mod_date.o\
                          mod_tsteps.o prognostics.o
@@ -129,7 +127,7 @@ mod_spectral.o         : mod_spectral.f90 mod_atparam.o
 mod_sppt.o             : mod_atparam.o mod_tsteps.o mod_dyncon1.o mod_spectral.o
 mod_surfcon.o          : mod_surfcon.f90 mod_atparam.o
 mod_tsteps.o           : mod_tsteps.f90
-physics.o              : physics.f90 mod_atparam.o mod_cpl_flags.o mod_lflags.o mod_physcon.o\
+physics.o              : physics.f90 mod_atparam.o mod_cpl_flags.o mod_physcon.o\
 					     mod_surfcon.o land_model.o sea_model.o mod_sppt.o mod_tsteps.o\
 						 precipitation.o surface_fluxes.o vertical_diffusion.o shortwave_radiation.o
 sea_model.o            : sea_model.f90 mod_atparam.o mod_input.o

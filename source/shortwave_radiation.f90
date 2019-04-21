@@ -6,6 +6,7 @@ module shortwave_radiation
     private
     public ablco2
     public get_shortwave_rad_fluxes, get_zonal_average_fields, clouds
+    public increase_co2, compute_shortwave
 
     ! Shortwave radiation and cloud constants
     real :: solc   = 342.0 ! Solar constant (area averaged) in W/m^2
@@ -49,6 +50,12 @@ module shortwave_radiation
    real, dimension(ix,il) :: stratz ! Stratospheric correction for polar night
 
    real, dimension(ix,il) :: qcloud ! Equivalent specific humidity of clouds
+
+   ! Logical flags to control shortwave radiation behaviour
+   logical, parameter :: increase_co2 = .false. ! Flag for CO2 optical thickness increase
+   logical :: compute_shortwave       = .true.  ! Flag for shortwave radiation routine (turned on
+                                                ! and off in main loop depending on the value of
+                                                ! nstrad)
 
 contains
     ! Compute the absorption of shortwave radiation and initialize arrays

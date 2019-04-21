@@ -7,7 +7,6 @@ subroutine fordate(imode)
     !
     !   input : imode : 0 = initialization step, 1 = daily update
 
-    use mod_lflags, only: lco2
     use mod_dyncon0, only: refrh1
     use mod_atparam
     use mod_hdifcon, only: tcorh, qcorh
@@ -18,7 +17,7 @@ subroutine fordate(imode)
     use land_model, only: stl_am, snowd_am, fmask_l
     use sea_model, only: fmask_s, sstcl_ob, sst_am, sice_am
     use mod_radcon, only: ablco2_ref, albsea, albice, snowc, albsn, alb_l, alb_s, albsfc
-    use shortwave_radiation, only: get_zonal_average_fields, ablco2
+    use shortwave_radiation, only: get_zonal_average_fields, ablco2, increase_co2
     use humidity, only: get_qsat
 
     implicit none
@@ -60,7 +59,7 @@ subroutine fordate(imode)
     del_co2   = 0.005
     ! del_co2   = 0.0033
 
-    if (lco2) then
+    if (increase_co2) then
         ablco2 = ablco2_ref * exp(del_co2 * (model_datetime%year + tyear - iyear_ref))
     end if
 

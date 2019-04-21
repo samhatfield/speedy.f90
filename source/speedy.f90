@@ -1,7 +1,7 @@
 program speedy
     use mod_tsteps, only: nsteps, delt2, nsteps_out, nstrad
     use mod_date, only: model_datetime, end_datetime, newdate, datetime_equal
-    use mod_lflags, only: lradsw
+    use shortwave_radiation, only: compute_shortwave
     use mod_output, only: output_step
     use coupler, only: couple_sea_land
 
@@ -24,8 +24,8 @@ program speedy
             call dmflux(0)
         end if
 
-        ! Set logical flags
-        lradsw = (mod(model_step,nstrad) == 1)
+        ! Determine whether to compute shortwave radiation on this time step
+        compute_shortwave = mod(model_step, nstrad) == 1
 
         ! Perform one leapfrog time step
         call step(2, 2, delt2)

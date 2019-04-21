@@ -44,7 +44,6 @@ contains
     !                          qtend  : spec. hum. tendency (gp)
     subroutine get_physical_tendencies(vor, div, t, q, phi, psl, utend, vtend, ttend, qtend)
         use mod_cpl_flags, only: icsea
-        use mod_lflags, only: lradsw
         use mod_physcon, only: sig, sigh, grdsig, grdscp, cp
         use mod_surfcon, only: phis0
         use land_model, only: fmask_l
@@ -52,7 +51,7 @@ contains
         use mod_sppt, only: mu, gen_sppt
         use mod_tsteps, only: sppt_on
         use precipitation, only: convective_precipitation, large_scale_precipitation
-        use shortwave_radiation, only: get_shortwave_rad_fluxes, clouds
+        use shortwave_radiation, only: get_shortwave_rad_fluxes, clouds, compute_shortwave
         use surface_fluxes, only: get_surface_fluxes
         use vertical_diffusion, only: get_vertical_diffusion_tend
         use humidity, only: spec_hum_to_rel_hum
@@ -133,7 +132,7 @@ contains
 
         ! Compute shortwave tendencies and initialize lw transmissivity
         ! The shortwave radiation may be called at selected time steps
-        if (lradsw) then
+        if (compute_shortwave) then
     		gse = (se(:,:,kx-1) - se(:,:,kx))/(phig(:,:,kx-1) - phig(:,:,kx))
 
             call clouds(qg, rh, precnv, precls, iptop, gse, fmask_l, icltop, cloudc, clstr)
