@@ -37,6 +37,7 @@ FILES= \
        ini_invars.o \
        ini_fordate.o \
 	   land_model.o \
+	   longwave_radiation.o \
 	   mod_atparam.o \
 	   mod_cpl_bcinterp.o \
 	   mod_dyncon0.o \
@@ -51,7 +52,6 @@ FILES= \
 	   mod_tsteps.o \
 	   physics.o \
 	   physical_constants.o \
-       phy_radiat.o \
        ppo_diagns.o \
        ppo_dmflux.o \
 	   precipitation.o \
@@ -118,9 +118,10 @@ mod_surfcon.o          : mod_surfcon.f90 mod_atparam.o
 mod_tsteps.o           : mod_tsteps.f90
 physics.o              : physics.f90 mod_atparam.o coupler.o physical_constants.o\
 					     mod_surfcon.o land_model.o sea_model.o sppt.o mod_tsteps.o\
-						 precipitation.o surface_fluxes.o vertical_diffusion.o shortwave_radiation.o
+						 precipitation.o surface_fluxes.o vertical_diffusion.o\
+						 shortwave_radiation.o longwave_radiation.o
 sea_model.o            : sea_model.f90 mod_atparam.o mod_input.o
-phy_radiat.o           : phy_radiat.f90 mod_atparam.o physical_constants.o mod_radcon.o
+longwave_radiation.o   : longwave_radiation.f90 mod_atparam.o physical_constants.o mod_radcon.o
 shortwave_radiation.o  : shortwave_radiation.f90 mod_atparam.o physical_constants.o mod_radcon.o
 surface_fluxes.o       : surface_fluxes.f90 mod_atparam.o physical_constants.o mod_radcon.o humidity.o
 ppo_diagns.o           : ppo_diagns.f90 mod_tsteps.o mod_atparam.o prognostics.o date.o

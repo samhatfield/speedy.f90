@@ -88,6 +88,7 @@ contains
         use mod_tsteps, only: sppt_on
         use precipitation, only: convective_precipitation, large_scale_precipitation
         use shortwave_radiation, only: get_shortwave_rad_fluxes, clouds, compute_shortwave
+        use longwave_radiation, only: get_longwave_rad_fluxes
         use surface_fluxes, only: get_surface_fluxes
         use vertical_diffusion, only: get_vertical_diffusion_tend
         use humidity, only: spec_hum_to_rel_hum
@@ -188,7 +189,7 @@ contains
         end if
 
         ! Compute downward longwave fluxes
-        call radlw(-1, tg, ts, slrd, slru(:,:,3), slr, olr, tt_rlw)
+        call get_longwave_rad_fluxes(-1, tg, ts, slrd, slru(:,:,3), slr, olr, tt_rlw)
 
         ! Compute surface fluxes and land skin temperature
         call get_surface_fluxes(psg, ug, vg, tg, qg, rh, phig, phis0, fmask_l, sst_am, &
@@ -202,7 +203,7 @@ contains
 
         ! Compute upward longwave fluxes, convert them to tendencies and add
     	! shortwave tendencies
-        call radlw(1, tg, ts, slrd, slru(:,:,3), slr, olr, tt_rlw)
+        call get_longwave_rad_fluxes(1, tg, ts, slrd, slru(:,:,3), slr, olr, tt_rlw)
 
         do k = 1, kx
     		tt_rlw(:,:,k) = tt_rlw(:,:,k)*rps*grdscp(k)
