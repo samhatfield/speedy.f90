@@ -32,7 +32,7 @@ contains
     !          qtenvd = sp. humidity tendency [g/(kg s)] (3-dim)
     subroutine get_vertical_diffusion_tend(ua, va, se, rh, qa, qsat, phi, icnv, utenvd, vtenvd, &
         & ttenvd, qtenvd)
-        use mod_physcon, only: cp, alhc, sig, sigh, dsig
+        use physical_constants, only: cp, alhc, sig, sigh, dsig
 
         real, dimension(ix,il,kx), intent(in) :: ua, va, se, rh, qa, qsat, phi
         integer, intent(in) :: icnv(ix,il)

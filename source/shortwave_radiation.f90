@@ -70,7 +70,7 @@ contains
     !          ftop   = net (downw.) flux of sw rad. at the atm. top (2-dim)
     !          dfabs  = flux of sw rad. absorbed by each atm. layer  (3-dim)
     subroutine get_shortwave_rad_fluxes(psa, qa, icltop, cloudc, clstr, fsfcd, fsfc, ftop, dfabs)
-        use mod_physcon, only: sig, dsig
+        use physical_constants, only: sig, dsig
         use mod_radcon
 
         integer, intent(in) :: icltop(ix,il)
@@ -221,7 +221,7 @@ contains
     ! absorption
     ! Input:   tyear  = time as fraction of year (0-1, 0 = 1jan.h00)
     subroutine get_zonal_average_fields(tyear)
-        use mod_physcon, only: slat, clat
+        use physical_constants, only: slat, clat
 
         real, intent(in) :: tyear
         real :: topsr(ix), alpha, azen, coz1, coz2, dalpha, flat2, fs0

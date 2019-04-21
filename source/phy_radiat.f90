@@ -21,7 +21,7 @@ subroutine radlw(imode,ta,ts,fsfcd,fsfcu,fsfc,ftop,dfabs)
     !
 
     use mod_atparam
-    use mod_physcon, only: sbc, dsig, wvi
+    use physical_constants, only: sbc, dsig, wvi
     use mod_radcon, only: epslw, emisfc, fband, tau2, st4a, stratc, flux
 
     implicit none

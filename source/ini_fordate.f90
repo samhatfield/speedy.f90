@@ -10,7 +10,7 @@ subroutine fordate(imode)
     use mod_dyncon0, only: refrh1
     use mod_atparam
     use mod_hdifcon, only: tcorh, qcorh
-    use mod_physcon, only: rd
+    use physical_constants, only: rd
     use mod_surfcon, only: phis0, alb0, sd2sc
     use surface_fluxes, only: set_orog_land_sfc_drag
     use date, only: model_datetime, tyear

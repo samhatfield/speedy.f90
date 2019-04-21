@@ -32,7 +32,7 @@ module physics
 contains
     ! Initialize physical parametrization routines
     subroutine initialize_physics
-        use mod_physcon
+        use physical_constants
         use mod_dyncon1, only: grav, hsg, radang
 
         integer :: j, k
@@ -80,7 +80,7 @@ contains
     !                          ttend  : temp. tendency (gp)
     !                          qtend  : spec. hum. tendency (gp)
     subroutine get_physical_tendencies(vor, div, t, q, phi, psl, utend, vtend, ttend, qtend)
-        use mod_physcon, only: sig, sigh, grdsig, grdscp, cp
+        use physical_constants, only: sig, sigh, grdsig, grdscp, cp
         use mod_surfcon, only: phis0
         use land_model, only: fmask_l
         use sea_model, only: sst_am, ssti_om, sea_coupling_flag

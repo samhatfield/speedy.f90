@@ -5,7 +5,7 @@ subroutine dmflux(iadd)
 
     use mod_tsteps, only: nsteps
     use mod_atparam
-    use mod_physcon, only: alhc, sbc
+    use physical_constants, only: alhc, sbc
     use mod_surfcon, only: fmask
     use land_model, only: fmask_l, hflux_l
     use sea_model, only: tice_am, sice_am, hflux_s, hflux_i

@@ -7,7 +7,7 @@ contains
     subroutine output_step(timestep)
         use mod_atparam, only: ix, il, kx, mx, nx
         use mod_dyncon1, only: radang, grav
-        use mod_physcon, only: p0, sig
+        use physical_constants, only: p0, sig
         use date, only: model_datetime, start_datetime
         use mod_tsteps, only: nsteps
         use prognostics, only: vor, div, t, ps, tr, phi
