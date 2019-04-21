@@ -2,11 +2,11 @@ module time_stepping
     implicit none
 
     private
-    public initialize_time_stepping, step
+    public first_step, step
 
 contains
     ! Call initialization of semi-implicit scheme and perform initial time step
-    subroutine initialize_time_stepping
+    subroutine first_step
         use mod_tsteps, only: delt, delt2
 
         call impint(0.5*delt)

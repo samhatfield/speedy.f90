@@ -14,7 +14,7 @@ contains
         use mod_spectral, only: inifft
         use physics, only: initialize_physics
         use mod_output, only: output_step
-        use time_stepping, only: initialize_time_stepping
+        use time_stepping, only: first_step
 
         ! Read start and end dates from fort.2 file
         read (2,*) start_datetime%year
@@ -82,6 +82,6 @@ contains
         call fordate(0)
 
         ! Do the initial (2nd-order) time step, initialize the semi-implicit scheme
-        call initialize_time_stepping
+        call first_step
     end subroutine
 end module
