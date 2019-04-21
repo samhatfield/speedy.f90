@@ -30,14 +30,12 @@ FILES= \
        dyn_grtend.o \
        dyn_implic.o \
        dyn_sptend.o \
-       dyn_step.o \
 	   humidity.o \
        initialization.o \
        ini_impint.o \
        ini_indyns.o \
        ini_inbcon.o \
        ini_invars.o \
-       ini_stepone.o \
        ini_fordate.o \
 	   land_model.o \
 	   mod_atparam.o \
@@ -66,6 +64,7 @@ FILES= \
        spe_subfft_fftpack.o \
 	   sppt.o \
 	   surface_fluxes.o \
+	   time_stepping.o \
 	   vertical_diffusion.o
 
 %.o: %.f90
@@ -78,7 +77,8 @@ base_target: $(FILES) speedy.o
 clean:
 	rm -f *.o *.mod
 
-speedy.o               : speedy.f90 mod_tsteps.o date.o mod_output.o shortwave_radiation.o
+speedy.o               : speedy.f90 mod_tsteps.o date.o mod_output.o shortwave_radiation.o\
+ 						 time_stepping.o
 coupler.o              : coupler.f90 mod_atparam.o land_model.o sea_model.o mod_surfcon.o
 cpl_sea.o              : cpl_sea.f90 coupler.o mod_atparam.o date.o mod_input.o
 dyn_geop.o             : dyn_geop.f90 mod_atparam.o prognostics.o mod_dyncon1.o
@@ -86,10 +86,9 @@ dyn_grtend.o           : dyn_grtend.f90 mod_atparam.o prognostics.o mod_dyncon1.
                          physics.o
 dyn_implic.o           : dyn_implic.f90 mod_atparam.o mod_dyncon1.o mod_dyncon1.o mod_dyncon2.o
 dyn_sptend.o           : dyn_sptend.f90 mod_atparam.o prognostics.o mod_dyncon1.o mod_dyncon2.o
-dyn_step.o             : dyn_step.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o prognostics.o\
- 					     mod_hdifcon.o
 humidity.o             : humidity.f90 mod_atparam.o
-initialization.o       : initialization.f90 coupler.o mod_tsteps.o mod_atparam.o date.o mod_output.o
+initialization.o       : initialization.f90 coupler.o mod_tsteps.o mod_atparam.o date.o\
+ 					     mod_output.o time_stepping.o
 ini_impint.o           : ini_impint.f90 mod_dyncon0.o mod_atparam.o mod_dyncon1.o mod_dyncon2.o\
  					     mod_hdifcon.o
 ini_indyns.o           : ini_indyns.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o\
@@ -98,7 +97,6 @@ ini_inbcon.o           : ini_inbcon.f90 coupler.o mod_tsteps.o mod_dyncon0.o mod
                          mod_dyncon1.o mod_surfcon.o mod_input.o
 ini_invars.o           : ini_invars.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o prognostics.o\
                          mod_dyncon1.o mod_surfcon.o date.o
-ini_stepone.o          : ini_stepone.f90 mod_tsteps.o
 ini_fordate.o          : ini_fordate.f90 mod_dyncon0.o shortwave_radiation.o mod_atparam.o\
  						 mod_hdifcon.o mod_physcon.o mod_surfcon.o date.o land_model.o\
 						 mod_radcon.o surface_fluxes.o
@@ -134,4 +132,6 @@ spe_matinv.o           : spe_matinv.f90
 spe_spectral.o         : spe_spectral.f90 mod_atparam.o mod_spectral.o
 spe_subfft_fftpack.o   : spe_subfft_fftpack.f90 mod_atparam.o mod_spectral.o
 sppt.o                 : sppt.f90 mod_atparam.o mod_tsteps.o mod_dyncon1.o mod_spectral.o
+time_stepping.o        : time_stepping.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o prognostics.o\
+ 					     mod_hdifcon.o
 vertical_diffusion     : phy_vdifsc.f90 mod_atparam.o mod_physcon.o

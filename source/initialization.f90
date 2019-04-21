@@ -1,80 +1,87 @@
-! Initialization of atmospheric model and coupling interface
-subroutine agcm_init()
-    use mod_tsteps
-    use date, only: newdate, model_datetime, start_datetime, end_datetime
-    use coupler, only: initialize_coupler
-    use sea_model, only: sea_coupling_flag, sst_anomaly_coupling_flag
-    use mod_spectral, only: inifft
-    use physics, only: initialize_physics
-    use mod_output, only: output_step
-
+module initialization
     implicit none
 
-    ! Read start and end dates from fort.2 file
-    read (2,*) start_datetime%year
-    read (2,*) start_datetime%month
-    read (2,*) start_datetime%day
-    read (2,*) start_datetime%hour
-    read (2,*) start_datetime%minute
-    read (2,*) end_datetime%year
-    read (2,*) end_datetime%month
-    read (2,*) end_datetime%day
-    read (2,*) end_datetime%hour
-    read (2,*) end_datetime%minute
-    model_datetime = start_datetime
+    private
+    public initialize
 
-    call newdate(0)
+contains
+    ! Initialization of atmospheric model and coupling interface
+    subroutine initialize
+        use mod_tsteps
+        use date, only: newdate, model_datetime, start_datetime, end_datetime
+        use coupler, only: initialize_coupler
+        use sea_model, only: sea_coupling_flag, sst_anomaly_coupling_flag
+        use mod_spectral, only: inifft
+        use physics, only: initialize_physics
+        use mod_output, only: output_step
+        use time_stepping, only: initialize_time_stepping
 
-    write(*,'(A12,I4,A,I0.2,A,I0.2,A,I0.2,A,I0.2)') 'Start date: ', &
-        & start_datetime%year,'/',start_datetime%month,'/',start_datetime%day,' ', &
-        & start_datetime%hour,':',start_datetime%minute
-    write(*,'(A12,I4,A,I0.2,A,I0.2,A,I0.2,A,I0.2)') 'End date: ', &
-        & end_datetime%year,'/',end_datetime%month,'/',end_datetime%day,' ', &
-        & end_datetime%hour,':',end_datetime%minute
+        ! Read start and end dates from fort.2 file
+        read (2,*) start_datetime%year
+        read (2,*) start_datetime%month
+        read (2,*) start_datetime%day
+        read (2,*) start_datetime%hour
+        read (2,*) start_datetime%minute
+        read (2,*) end_datetime%year
+        read (2,*) end_datetime%month
+        read (2,*) end_datetime%day
+        read (2,*) end_datetime%hour
+        read (2,*) end_datetime%minute
+        model_datetime = start_datetime
 
-    isst0 = (start_datetime%year - issty0) * 12 + start_datetime%month
+        call newdate(0)
 
-    ! Check consistency of coupling and prescribed SST anomaly flags
-    if (sea_coupling_flag >= 4) sst_anomaly_coupling_flag = 1
+        write(*,'(A12,I4,A,I0.2,A,I0.2,A,I0.2,A,I0.2)') 'Start date: ', &
+            & start_datetime%year,'/',start_datetime%month,'/',start_datetime%day,' ', &
+            & start_datetime%hour,':',start_datetime%minute
+        write(*,'(A12,I4,A,I0.2,A,I0.2,A,I0.2,A,I0.2)') 'End date: ', &
+            & end_datetime%year,'/',end_datetime%month,'/',end_datetime%day,' ', &
+            & end_datetime%hour,':',end_datetime%minute
 
-    ! =========================================================================
-    ! Initialization of atmospheric model constants and variables
-    ! =========================================================================
+        isst0 = (start_datetime%year - issty0) * 12 + start_datetime%month
 
-    ! Initialize ffts
-    call inifft
+        ! Check consistency of coupling and prescribed SST anomaly flags
+        if (sea_coupling_flag >= 4) sst_anomaly_coupling_flag = 1
 
-    ! Initialize dynamical constants and operators
-    call indyns
+        ! =========================================================================
+        ! Initialization of atmospheric model constants and variables
+        ! =========================================================================
 
-    ! Initialize constants for physical parametrization
-    call initialize_physics
+        ! Initialize ffts
+        call inifft
 
-    ! Initialize forcing fields (boundary cond. + random forcing)
-    call inbcon
+        ! Initialize dynamical constants and operators
+        call indyns
 
-    ! Initialize model variables
-    call invars
+        ! Initialize constants for physical parametrization
+        call initialize_physics
 
-    ! Initialize time-mean arrays for surface fluxes and output fields
-    call dmflux(0)
+        ! Initialize forcing fields (boundary cond. + random forcing)
+        call inbcon
 
-    ! =========================================================================
-    ! Initialization of coupled modules (land, sea, ice)
-    ! =========================================================================
+        ! Initialize model variables
+        call invars
 
-    call initialize_coupler
+        ! Initialize time-mean arrays for surface fluxes and output fields
+        call dmflux(0)
 
-    ! =========================================================================
-    ! Initialization of first time step
-    ! =========================================================================
+        ! =========================================================================
+        ! Initialization of coupled modules (land, sea, ice)
+        ! =========================================================================
 
-    ! Write initial data
-    call output_step(0)
+        call initialize_coupler
 
-    ! Set up the forcing fields for the first time step
-    call fordate(0)
+        ! =========================================================================
+        ! Initialization of first time step
+        ! =========================================================================
 
-    ! Do the initial (2nd-order) time step, initialize the semi-implicit scheme
-    call stepone
-end subroutine
+        ! Write initial data
+        call output_step(0)
+
+        ! Set up the forcing fields for the first time step
+        call fordate(0)
+
+        ! Do the initial (2nd-order) time step, initialize the semi-implicit scheme
+        call initialize_time_stepping
+    end subroutine
+end module

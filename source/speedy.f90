@@ -5,6 +5,7 @@ program speedy
     use mod_output, only: output_step
     use coupler, only: couple_sea_land
     use initialization, only: initialize
+    use time_stepping, only: step
 
     implicit none
 
