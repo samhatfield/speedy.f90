@@ -28,11 +28,10 @@ FILES= \
 	   date.o \
        dyn_geop.o \
        dyn_grtend.o \
-       dyn_implic.o \
        dyn_sptend.o \
 	   humidity.o \
+	   implicit.o \
        initialization.o \
-       ini_impint.o \
        ini_indyns.o \
        ini_inbcon.o \
        ini_invars.o \
@@ -87,10 +86,10 @@ dyn_grtend.o           : dyn_grtend.f90 mod_atparam.o prognostics.o mod_dyncon1.
 dyn_implic.o           : dyn_implic.f90 mod_atparam.o mod_dyncon1.o mod_dyncon1.o mod_dyncon2.o
 dyn_sptend.o           : dyn_sptend.f90 mod_atparam.o prognostics.o mod_dyncon1.o mod_dyncon2.o
 humidity.o             : humidity.f90 mod_atparam.o
+implicit.o             : implicit.f90 mod_atparam.o mod_dyncon0.o mod_dyncon1.o mod_dyncon2.o\
+                         mod_hdifcon.o mod_tsteps.o
 initialization.o       : initialization.f90 coupler.o mod_tsteps.o mod_atparam.o date.o\
  					     mod_output.o time_stepping.o
-ini_impint.o           : ini_impint.f90 mod_dyncon0.o mod_atparam.o mod_dyncon1.o mod_dyncon2.o\
- 					     mod_hdifcon.o
 ini_indyns.o           : ini_indyns.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o\
  						 mod_hdifcon.o mod_spectral.o
 ini_inbcon.o           : ini_inbcon.f90 coupler.o mod_tsteps.o mod_dyncon0.o mod_atparam.o\

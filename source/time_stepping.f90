@@ -8,16 +8,17 @@ contains
     ! Call initialization of semi-implicit scheme and perform initial time step
     subroutine first_step
         use mod_tsteps, only: delt, delt2
+        use implicit, only: initialize_implicit
 
-        call impint(0.5*delt)
+        call initialize_implicit(0.5*delt)
 
         call step(1, 1, 0.5*delt)
 
-        call impint(delt)
+        call initialize_implicit(delt)
 
         call step(1, 2, delt)
 
-        call impint(delt2)
+        call initialize_implicit(delt2)
     end
 
     ! Perform one time step starting from F(1) and F(2) and using the following scheme:
@@ -36,6 +37,7 @@ contains
         use mod_hdifcon
         use mod_tsteps, only: rob, wil
         use mod_tsteps, only: alph
+        use implicit, only: implicit_terms
 
         integer, intent(in) :: j1, j2
         real, intent(in) :: dt
@@ -63,7 +65,7 @@ contains
             call sptend(divdt, tdt, psdt, 1)
 
             ! Implicit correction
-            call implic(divdt, tdt, psdt)
+            call implicit_terms(divdt, tdt, psdt)
         endif
 
         ! =========================================================================

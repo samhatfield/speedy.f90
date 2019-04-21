@@ -7,7 +7,7 @@ module mod_dyncon2
     public :: tref, tref1, tref2, tref3
     public :: xa, xb, xc, xd, xe, xf, xg, xh, xj, dhsx, elz
 
-    ! Temp. profile for semi-imp. scheme (initial. in IMPINT)
+    ! Temp. profile for semi-imp. scheme (initialized in initialize_implicit)
     real, dimension(kx) :: tref, tref1, tref2, tref3
 
     real, dimension(kx,kx) :: xa, xb, xc, xd, xe
