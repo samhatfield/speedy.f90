@@ -43,11 +43,10 @@ contains
     !                          ttend  : temp. tendency (gp)
     !                          qtend  : spec. hum. tendency (gp)
     subroutine get_physical_tendencies(vor, div, t, q, phi, psl, utend, vtend, ttend, qtend)
-        use mod_cpl_flags, only: icsea
         use mod_physcon, only: sig, sigh, grdsig, grdscp, cp
         use mod_surfcon, only: phis0
         use land_model, only: fmask_l
-        use sea_model, only: sst_am, ssti_om
+        use sea_model, only: sst_am, ssti_om, sea_coupling_flag
         use mod_sppt, only: mu, gen_sppt
         use mod_tsteps, only: sppt_on
         use precipitation, only: convective_precipitation, large_scale_precipitation
@@ -159,7 +158,7 @@ contains
     		& ssrd, slrd, ustr, vstr, shf, evap, slru, hfluxn, ts, tskin, u0, v0, t0, q0, .true.)
 
         ! Recompute sea fluxes in case of anomaly coupling
-        if (icsea > 0) then
+        if (sea_coupling_flag > 0) then
            call get_surface_fluxes(psg, ug, vg, tg, qg, rh, phig, phis0, fmask_l, ssti_om, &
     	   	& ssrd, slrd, ustr, vstr, shf, evap, slru, hfluxn, ts, tskin, u0, v0, t0, q0, .false.)
         end if

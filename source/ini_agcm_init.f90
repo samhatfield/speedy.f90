@@ -1,9 +1,9 @@
 ! Initialization of atmospheric model and coupling interface
 subroutine agcm_init()
-    use mod_cpl_flags, only: icsea, isstan
     use mod_tsteps
     use mod_date, only: newdate, model_datetime, start_datetime, end_datetime
     use coupler, only: initialize_coupler
+    use sea_model, only: sea_coupling_flag, sst_anomaly_coupling_flag
 
     implicit none
 
@@ -32,7 +32,7 @@ subroutine agcm_init()
     isst0 = (start_datetime%year - issty0) * 12 + start_datetime%month
 
     ! Check consistency of coupling and prescribed SST anomaly flags
-    if (icsea >= 4) isstan = 1
+    if (sea_coupling_flag >= 4) sst_anomaly_coupling_flag = 1
 
     ! Initialization of atmospheric model constants and variables
     call ini_atm

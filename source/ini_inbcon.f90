@@ -1,11 +1,11 @@
 ! Read topography and climatological boundary conditions
 subroutine inbcon
-    use mod_cpl_flags, only: icsea, isstan
     use mod_tsteps, only: isst0
     use mod_atparam
     use mod_surfcon
     use land_model, only: fmask_l, bmask_l, stl12, snowd12, soilw12
-    use sea_model, only: fmask_s, bmask_s, deglat_s, sst12, sice12, sstan3, hfseacl, sstom12
+    use sea_model, only: fmask_s, bmask_s, deglat_s, sst12, sice12, sstan3, hfseacl, sstom12, &
+        & sea_coupling_flag, sst_anomaly_coupling_flag
     use mod_dyncon1, only: grav, radang
     use mod_input, only: load_boundary_file
 
@@ -145,7 +145,7 @@ subroutine inbcon
     call forchk(bmask_s, 12, 0.0, 1.0, 0.0, sice12)
 
     ! SST anomalies for initial and prec./following months
-    if (isstan > 0) then
+    if (sst_anomaly_coupling_flag > 0) then
         print *, 'isst0 = ', isst0
         do it=1,3
             if ((isst0 <= 1 .and. it /= 2) .or. isst0 > 1) then
@@ -162,7 +162,7 @@ subroutine inbcon
     ! Annual-mean heat flux into sea-surface`
     hfseacl = 0.0
 
-    if (icsea >= 1) then
+    if (sea_coupling_flag >= 1) then
         irecl = 4*ix*il
         irec = 0
 
@@ -197,7 +197,7 @@ subroutine inbcon
     ! defined by adding SST model bias to obs. climatology
     ! (bias may be defined in a different period from climatology)
 
-    if (icsea >= 3) then
+    if (sea_coupling_flag >= 3) then
         do it = 1,12
             read (32) r4inp
 

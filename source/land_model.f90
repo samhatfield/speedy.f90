@@ -8,6 +8,7 @@ module land_model
     public land_model_init, couple_land_atm
     public fmask_l, bmask_l, stl12, snowd12, soilw12
     public hflux_l
+    public land_coupling_flag
 
     ! 1./heat_capacity (land)
     real :: rhcapl(ix,il)
@@ -47,6 +48,11 @@ module land_model
 
     ! Net heat flux into land surface
     real :: hflux_l(ix,il)
+
+    ! Flag for land-coupling
+    ! 0 = no coupling
+    ! 1 = land-model)
+    integer :: land_coupling_flag = 1
 
     contains
         subroutine land_model_init(alb0)
@@ -107,7 +113,6 @@ module land_model
         end
 
         subroutine couple_land_atm(day)
-            use mod_cpl_flags, only: icland
             use mod_date, only: imont1
             use mod_cpl_bcinterp, only: forin5, forint
 
@@ -131,7 +136,7 @@ module land_model
                 stl_am = stlcl_ob
             else
                 ! Run the land model if the land model flags is switched on
-                if (icland == 1) then
+                if (land_coupling_flag == 1) then
                     call run_land_model
 
                     stl_am = stl_lm

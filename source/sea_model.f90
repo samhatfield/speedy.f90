@@ -8,6 +8,7 @@ module sea_model
     public fmask_s, bmask_s, deglat_s, sst12, sice12, sstan3, hfseacl, sstom12
     public sstcl_ob, sst_am, sice_am, tice_am, ssti_om
     public hflux_s, hflux_i
+    public sea_coupling_flag, ice_coupling_flag, sst_anomaly_coupling_flag
 
     ! Constant parameters and fields in sea/ice model
     real :: rhcaps(ix,il) ! 1./heat_capacity (sea)
@@ -59,6 +60,23 @@ module sea_model
     ! Fluxes at sea surface (all downward, except evaporation)
     real :: hflux_s(ix,il) ! Net heat flux into sea surface
     real :: hflux_i(ix,il) ! Net heat flux into sea-ice surface
+
+    ! Flag for sea-surface temperature coupling
+    ! 0 = precribed SST, no coupling
+    ! 1 = precribed SST, ocean model forced by atmosphere
+    ! 2 = full (uncorrected) SST from coupled ocean model
+    ! 3 = SST anomaly from coupled ocean model + observed SST climatology
+    ! 4 = as 3 with prescribed SST anomaly in ElNino region
+    integer :: sea_coupling_flag  = 0
+
+    ! Flag for sea-ice coupling
+    integer :: ice_coupling_flag  = 1
+
+    ! Flag for observed SST anomaly
+    ! 0 = climatological SST
+    ! 1 = observed anomaly
+    ! (active if sea_coupling_flag = 0, 1; set to 1 if sea_coupling_flag = 4)
+    integer :: sst_anomaly_coupling_flag = 1
 
 contains
     ! Initialization of sea model
@@ -155,7 +173,6 @@ contains
     end
 
     subroutine couple_sea_atm(day)
-        use mod_cpl_flags, only: icsea, icice, isstan
         use mod_date, only: model_datetime, imont1
         use mod_cpl_bcinterp, only: forin5, forint
 
@@ -174,13 +191,13 @@ contains
         call forint(imont1,sice12,sicecl_ob)
 
         ! SST anomaly
-        if (isstan.gt.0) then
+        if (sst_anomaly_coupling_flag.gt.0) then
             if (model_datetime%day.eq.1.and.day.gt.0) call obs_ssta
             call forint (2,sstan3,sstan_ob)
         end if
 
         ! Ocean model climatological SST
-        if (icsea.ge.3) then
+        if (sea_coupling_flag.ge.3) then
             call forin5 (imont1,sstom12,sstcl_om)
         end if
 
@@ -205,7 +222,7 @@ contains
                     sstcl_ob(i,j)  = sstfr
                 end if
 
-                if (icsea >= 3) sstcl_om(i,j) = sstcl_om(i,j) + (sstcl_ob(i,j) - sstcl0)
+                if (sea_coupling_flag >= 3) sstcl_om(i,j) = sstcl_om(i,j) + (sstcl_ob(i,j) - sstcl0)
             end do
         end do
 
@@ -216,13 +233,13 @@ contains
             tice_om = ticecl_ob     ! sea ice temperature
             sice_om = sicecl_ob     ! sea ice fraction
 
-            if (icsea <= 0) sst_om = 0.0
+            if (sea_coupling_flag <= 0) sst_om = 0.0
 
             ! 3. Compute additional sea/ice variables
             wsst_ob = 0.
-            if (icsea >= 4) call sea_domain('elnino',wsst_ob)
+            if (sea_coupling_flag >= 4) call sea_domain('elnino',wsst_ob)
         else
-            if (icsea > 0 .or. icice > 0) then
+            if (sea_coupling_flag > 0 .or. ice_coupling_flag > 0) then
                 ! 1. Run ocean mixed layer or
                 !    call message-passing routines to receive data from ocean model
                 call run_sea_model
@@ -233,20 +250,20 @@ contains
         ! 3.1 SST
         sstan_am = 0.0
 
-        if (icsea <= 1) then
-            if (isstan > 0) sstan_am = sstan_ob
+        if (sea_coupling_flag <= 1) then
+            if (sst_anomaly_coupling_flag > 0) sstan_am = sstan_ob
 
             ! Use observed SST (climatological or full field)
             sst_am = sstcl_ob + sstan_am
-        else if (icsea.eq.2) then
+        else if (sea_coupling_flag.eq.2) then
             ! Use full ocean model SST
             sst_am = sst_om
-        else if (icsea >= 3) then
+        else if (sea_coupling_flag >= 3) then
             ! Define SST anomaly from ocean model ouput and climatology
             sstan_am = sst_om - sstcl_om
 
             ! Merge with observed SST anomaly in selected area
-            if (icsea >= 4) then
+            if (sea_coupling_flag >= 4) then
                 sstan_am = sstan_am + wsst_ob*(sstan_ob - sstan_am)
             end if
 
@@ -255,7 +272,7 @@ contains
         end if
 
         ! 3.2 Sea ice fraction and temperature
-        if (icice > 0) then
+        if (ice_coupling_flag > 0) then
             sice_am = sice_om
             tice_am = tice_om
         else
