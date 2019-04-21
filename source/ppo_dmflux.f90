@@ -7,8 +7,8 @@ subroutine dmflux(iadd)
     use mod_atparam
     use mod_physcon, only: alhc, sbc
     use mod_surfcon, only: fmask
-    use mod_cpl_land_model, only: fmask_l, hflux_l
-    use mod_cpl_sea_model, only: tice_am, sice_am, hflux_s, hflux_i
+    use land_model, only: fmask_l, hflux_l
+    use sea_model, only: tice_am, sice_am, hflux_s, hflux_i
     use physics, only: hfluxn, shf, evap, ssrd
     use mod_radcon, only: albsea, albice, emisfc
     use mod_date, only: model_datetime

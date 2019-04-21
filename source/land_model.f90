@@ -1,11 +1,11 @@
-module mod_cpl_land_model
+module land_model
     use mod_atparam
 
     implicit none
 
     private
     public stlcl_ob, stl_am, snowd_am, soilw_am
-    public land_model_init, couple_land_atm, land_model
+    public land_model_init, couple_land_atm
     public fmask_l, bmask_l, stl12, snowd12, soilw12
     public hflux_l
 
@@ -132,7 +132,7 @@ module mod_cpl_land_model
             else
                 ! Run the land model if the land model flags is switched on
                 if (icland == 1) then
-                    call land_model
+                    call run_land_model
 
                     stl_am = stl_lm
                 ! Otherwise get the land surface from climatology
@@ -147,7 +147,7 @@ module mod_cpl_land_model
         end subroutine
 
         ! Integrate slab land-surface model for one day
-        subroutine land_model
+        subroutine run_land_model
             ! Surface temperature anomaly
             real :: tanom(ix,il)
 

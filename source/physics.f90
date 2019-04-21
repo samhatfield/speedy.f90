@@ -47,8 +47,8 @@ contains
         use mod_lflags, only: lradsw
         use mod_physcon, only: sig, sigh, grdsig, grdscp, cp
         use mod_surfcon, only: phis0
-        use mod_cpl_land_model, only: fmask_l
-        use mod_cpl_sea_model, only: sst_am, ssti_om
+        use land_model, only: fmask_l
+        use sea_model, only: sst_am, ssti_om
         use mod_sppt, only: mu, gen_sppt
         use mod_tsteps, only: sppt_on
         use precipitation, only: convective_precipitation, large_scale_precipitation

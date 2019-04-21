@@ -1,4 +1,4 @@
-module mod_cpl_sea_model
+module sea_model
     use mod_atparam
 
     implicit none
@@ -225,7 +225,7 @@ contains
             if (icsea > 0 .or. icice > 0) then
                 ! 1. Run ocean mixed layer or
                 !    call message-passing routines to receive data from ocean model
-                call sea_model
+                call run_sea_model
             end if
         end if
 
@@ -288,7 +288,7 @@ contains
     end
 
     ! Purpose : Integrate slab ocean and sea-ice models for one day
-    subroutine sea_model
+    subroutine run_sea_model
         ! Auxiliary variables
         real :: hflux(ix,il)   ! net sfc. heat flux
         real :: tanom(ix,il)   ! sfc. temperature anomaly

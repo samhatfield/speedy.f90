@@ -1,7 +1,7 @@
 subroutine ini_coupler()
     use mod_atparam
-    use mod_cpl_land_model, only: land_model_init, couple_land_atm
-    use mod_cpl_sea_model, only: sea_model_init, couple_sea_atm
+    use land_model, only: land_model_init, couple_land_atm
+    use sea_model, only: sea_model_init, couple_sea_atm
     use mod_surfcon, only: alb0
 
     implicit none
@@ -20,8 +20,8 @@ subroutine ini_coupler()
 end
 
 subroutine coupler(day)
-    use mod_cpl_land_model, only: couple_land_atm
-    use mod_cpl_sea_model, only: couple_sea_atm
+    use land_model, only: couple_land_atm
+    use sea_model, only: couple_sea_atm
 
     implicit none
 

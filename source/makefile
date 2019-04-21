@@ -40,11 +40,10 @@ FILES= \
        ini_invars.o \
        ini_stepone.o \
        ini_fordate.o \
+	   land_model.o \
 	   mod_atparam.o \
 	   mod_cpl_bcinterp.o \
 	   mod_cpl_flags.o \
-       mod_cpl_land_model.o \
-       mod_cpl_sea_model.o \
 	   mod_date.o \
 	   mod_dyncon0.o \
 	   mod_dyncon1.o \
@@ -65,6 +64,7 @@ FILES= \
        ppo_dmflux.o \
 	   precipitation.o \
 	   prognostics.o \
+	   sea_model.o \
 	   shortwave_radiation.o \
        spe_matinv.o \
        spe_spectral.o \
@@ -83,12 +83,8 @@ clean:
 	rm -f *.o *.mod
 
 speedy.o               : speedy.f90 mod_tsteps.o mod_date.o mod_lflags.o mod_output.o
-mod_cpl_land_model.o   : mod_cpl_land_model.f90 mod_atparam.o mod_cpl_flags.o \
-                         mod_date.o mod_cpl_bcinterp.o
-cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o mod_cpl_land_model.o\
- 						 mod_cpl_sea_model.o mod_surfcon.o
+cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o land_model.o sea_model.o mod_surfcon.o
 cpl_sea.o              : cpl_sea.f90 mod_cpl_flags.o mod_atparam.o mod_date.o mod_input.o
-mod_cpl_sea_model.o    : mod_cpl_sea_model.f90 mod_atparam.o mod_input.o
 dyn_geop.o             : dyn_geop.f90 mod_atparam.o prognostics.o mod_dyncon1.o
 dyn_grtend.o           : dyn_grtend.f90 mod_atparam.o prognostics.o mod_dyncon1.o mod_dyncon2.o\
                          physics.o
@@ -111,8 +107,9 @@ ini_invars.o           : ini_invars.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o
                          mod_dyncon1.o mod_surfcon.o mod_date.o
 ini_stepone.o          : ini_stepone.f90 mod_tsteps.o
 ini_fordate.o          : ini_fordate.f90 mod_dyncon0.o mod_lflags.o mod_atparam.o mod_hdifcon.o\
-                         mod_physcon.o mod_surfcon.o mod_date.o mod_cpl_land_model.o\
-						 mod_radcon.o surface_fluxes.o
+                         mod_physcon.o mod_surfcon.o mod_date.o land_model.o mod_radcon.o\
+						 surface_fluxes.o
+land_model.o           : land_model.f90 mod_atparam.o mod_cpl_flags.o mod_date.o mod_cpl_bcinterp.o
 mod_atparam.o          : mod_atparam.f90
 mod_cpl_bcinterp.o     : mod_cpl_bcinterp.f90
 mod_cpl_flags.o        : mod_cpl_flags.f90
@@ -133,15 +130,15 @@ mod_sppt.o             : mod_atparam.o mod_tsteps.o mod_dyncon1.o mod_spectral.o
 mod_surfcon.o          : mod_surfcon.f90 mod_atparam.o
 mod_tsteps.o           : mod_tsteps.f90
 physics.o              : physics.f90 mod_atparam.o mod_cpl_flags.o mod_lflags.o mod_physcon.o\
-					     mod_surfcon.o mod_cpl_land_model.o mod_cpl_sea_model.o mod_sppt.o\
-						 mod_tsteps.o precipitation.o surface_fluxes.o vertical_diffusion.o\
-						 shortwave_radiation.o
+					     mod_surfcon.o land_model.o sea_model.o mod_sppt.o mod_tsteps.o\
+						 precipitation.o surface_fluxes.o vertical_diffusion.o shortwave_radiation.o
+sea_model.o            : sea_model.f90 mod_atparam.o mod_input.o
 phy_radiat.o           : phy_radiat.f90 mod_atparam.o mod_physcon.o mod_radcon.o
 shortwave_radiation.o  : shortwave_radiation.f90 mod_atparam.o mod_physcon.o mod_radcon.o
 surface_fluxes.o       : surface_fluxes.f90 mod_atparam.o mod_physcon.o mod_radcon.o humidity.o
 ppo_diagns.o           : ppo_diagns.f90 mod_tsteps.o mod_atparam.o prognostics.o mod_date.o
-ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_physcon.o\
-						 mod_surfcon.o mod_radcon.o
+ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o mod_physcon.o mod_surfcon.o\
+                         mod_radcon.o
 precipitation.o        : precipitation.f90 mod_atparam.o mod_physcon.o
 spe_matinv.o           : spe_matinv.f90
 spe_spectral.o         : spe_spectral.f90 mod_atparam.o mod_spectral.o

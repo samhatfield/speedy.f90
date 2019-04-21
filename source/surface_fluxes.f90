@@ -67,7 +67,7 @@ contains
             & ustr, vstr, shf, evap, slru, hfluxn, tsfc, tskin, u0, v0, t0, q0, lfluxland)
         use mod_physcon, only: p0, rd, cp, alhc, sbc, sigl, wvi, clat
         use mod_radcon, only: emisfc, alb_l, alb_s, snowc
-    	use mod_cpl_land_model, only: stl_am, soilw_am
+    	use land_model, only: stl_am, soilw_am
         use humidity, only: get_qsat, rel_hum_to_spec_hum
 
         real, dimension(ix,il,kx), intent(in) :: ua, va, ta, qa, rh, phi
