@@ -3,6 +3,7 @@ subroutine agcm_init()
     use mod_cpl_flags, only: icsea, isstan
     use mod_tsteps
     use mod_date, only: newdate, model_datetime, start_datetime, end_datetime
+    use coupler, only: initialize_coupler
 
     implicit none
 
@@ -34,10 +35,10 @@ subroutine agcm_init()
     if (icsea >= 4) isstan = 1
 
     ! Initialization of atmospheric model constants and variables
-    call ini_atm()
+    call ini_atm
 
     ! Initialization of coupled modules (land, sea, ice)
-    call ini_coupler()
+    call initialize_coupler
 
     ! Set up the forcing fields for the first time step
     call fordate(0)

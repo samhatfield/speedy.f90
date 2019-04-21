@@ -3,6 +3,7 @@ program speedy
     use mod_date, only: model_datetime, end_datetime, newdate, datetime_equal
     use mod_lflags, only: lradsw
     use mod_output, only: output_step
+    use coupler, only: couple_sea_land
 
     implicit none
 
@@ -43,7 +44,7 @@ program speedy
 
         ! Exchange data with coupler once per day
         if (mod(model_step-1, nsteps) == 0) then
-            call coupler(1+model_step/nsteps)
+            call couple_sea_land(1+model_step/nsteps)
         end if
     enddo
 end

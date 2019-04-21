@@ -24,7 +24,7 @@ INC=-I$(NETCDF)
 LIB=-lnetcdff -lnetcdf
 
 FILES= \
-       cpl_main_interface.o \
+       coupler.o \
        dyn_geop.o \
        dyn_grtend.o \
        dyn_implic.o \
@@ -83,7 +83,7 @@ clean:
 	rm -f *.o *.mod
 
 speedy.o               : speedy.f90 mod_tsteps.o mod_date.o mod_lflags.o mod_output.o
-cpl_main_interface.o   : cpl_main_interface.f90 mod_atparam.o land_model.o sea_model.o mod_surfcon.o
+coupler.o              : coupler.f90 mod_atparam.o land_model.o sea_model.o mod_surfcon.o
 cpl_sea.o              : cpl_sea.f90 mod_cpl_flags.o mod_atparam.o mod_date.o mod_input.o
 dyn_geop.o             : dyn_geop.f90 mod_atparam.o prognostics.o mod_dyncon1.o
 dyn_grtend.o           : dyn_grtend.f90 mod_atparam.o prognostics.o mod_dyncon1.o mod_dyncon2.o\
