@@ -2,7 +2,7 @@ program speedy
     use mod_tsteps, only: nsteps, delt2, nsteps_out, nstrad
     use date, only: model_datetime, end_datetime, newdate, datetime_equal
     use shortwave_radiation, only: compute_shortwave
-    use mod_output, only: output_step
+    use input_output, only: output
     use coupler, only: couple_sea_land
     use initialization, only: initialize
     use time_stepping, only: step
@@ -42,7 +42,7 @@ program speedy
         call newdate(1)
 
         ! Output
-        if (mod(model_step-1, nsteps_out) == 0) call output_step(model_step-1)
+        if (mod(model_step-1, nsteps_out) == 0) call output(model_step-1)
 
         ! Exchange data with coupler once per day
         if (mod(model_step-1, nsteps) == 0) then

@@ -45,7 +45,7 @@ FILES= \
 	   mod_dyncon2.o \
 	   mod_hdifcon.o \
 	   mod_input.o \
-	   mod_output.o \
+	   input_output.o \
 	   mod_radcon.o \
 	   mod_spectral.o \
 	   mod_surfcon.o \
@@ -76,7 +76,7 @@ base_target: $(FILES) speedy.o
 clean:
 	rm -f *.o *.mod
 
-speedy.o               : speedy.f90 mod_tsteps.o date.o mod_output.o shortwave_radiation.o\
+speedy.o               : speedy.f90 mod_tsteps.o date.o input_output.o shortwave_radiation.o\
  						 time_stepping.o
 coupler.o              : coupler.f90 mod_atparam.o land_model.o sea_model.o mod_surfcon.o
 cpl_sea.o              : cpl_sea.f90 coupler.o mod_atparam.o date.o mod_input.o
@@ -89,7 +89,7 @@ humidity.o             : humidity.f90 mod_atparam.o
 implicit.o             : implicit.f90 mod_atparam.o mod_dyncon0.o mod_dyncon1.o mod_dyncon2.o\
                          mod_hdifcon.o mod_tsteps.o
 initialization.o       : initialization.f90 coupler.o mod_tsteps.o mod_atparam.o date.o\
- 					     mod_output.o time_stepping.o
+ 					     input_output.o time_stepping.o
 ini_indyns.o           : ini_indyns.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o\
  						 mod_hdifcon.o mod_spectral.o
 ini_inbcon.o           : ini_inbcon.f90 coupler.o mod_tsteps.o mod_dyncon0.o mod_atparam.o\
@@ -109,9 +109,9 @@ mod_dyncon2.o          : mod_dyncon2.f90 mod_atparam.o
 prognostics.o          : prognostics.f90 mod_atparam.o
 mod_hdifcon.o          : mod_hdifcon.f90 mod_atparam.o
 mod_input.o            : mod_input.f90 mod_atparam.o
-mod_output.o           : mod_output.f90 mod_atparam.o mod_dyncon1.o physical_constants.o date.o\
+input_output.o         : input_output.f90 mod_atparam.o mod_dyncon1.o physical_constants.o date.o\
                          mod_tsteps.o prognostics.o
-physical_constants.o          : physical_constants.f90 mod_atparam.o
+physical_constants.o   : physical_constants.f90 mod_atparam.o
 mod_radcon.o           : mod_radcon.f90 mod_atparam.o
 mod_spectral.o         : mod_spectral.f90 mod_atparam.o
 mod_surfcon.o          : mod_surfcon.f90 mod_atparam.o

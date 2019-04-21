@@ -13,7 +13,7 @@ contains
         use sea_model, only: sea_coupling_flag, sst_anomaly_coupling_flag
         use mod_spectral, only: inifft
         use physics, only: initialize_physics
-        use mod_output, only: output_step
+        use input_output, only: output
         use time_stepping, only: first_step
 
         ! Read start and end dates from fort.2 file
@@ -76,7 +76,7 @@ contains
         ! =========================================================================
 
         ! Write initial data
-        call output_step(0)
+        call output(0)
 
         ! Set up the forcing fields for the first time step
         call fordate(0)

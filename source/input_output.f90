@@ -1,10 +1,10 @@
-module mod_output
+module input_output
     use netcdf
 
     implicit none
 
 contains
-    subroutine output_step(timestep)
+    subroutine output(timestep)
         use mod_atparam, only: ix, il, kx, mx, nx
         use mod_dyncon1, only: radang, grav
         use physical_constants, only: p0, sig
