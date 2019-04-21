@@ -4,7 +4,7 @@
 !> A module for computing SPPT patterns to be used as multiplicative noise applied to physical tendencies
 !> Stochastically Perturbed Parametrization Tendencies (SPPT) is a parametrization of model error.
 !> See ECMWF Tech. Memo. #598 (Palmer et al. 2009)
-module mod_sppt
+module sppt
     use mod_atparam
     use mod_tsteps, only: nsteps
     use mod_dyncon1, only: rearth
