@@ -8,7 +8,6 @@ subroutine invars
     use mod_dyncon1, only: grav, rgas, fsg
     use boundaries, only: phi0, phis0
     use diagnostics, only: check_diagnostics
-    use spectral, only: spec_to_grid
 
     implicit none
 
@@ -22,10 +21,7 @@ subroutine invars
     ccon = (1.,0.)*sqrt(2.)
 
     ! 1. Compute spectral surface geopotential
-    call spec(phi0,phis)
-    if (ix.eq.iy*4) call trunct(phis)
-
-    phis0 = spec_to_grid(phis, 1)
+    call spec(phis0,phis)
 
     ! 2. Start from reference atmosphere (at rest)
     print*, ' starting from rest'
