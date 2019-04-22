@@ -288,7 +288,7 @@ contains
     subroutine obs_ssta
         use date, only: model_datetime, start_datetime
         use mod_tsteps, only: issty0
-        use mod_input, only: load_boundary_file
+        use input_output, only: load_boundary_file
 
         integer :: i, j, next_month
 
@@ -299,7 +299,8 @@ contains
         next_month = (start_datetime%year - issty0) * 12 + model_datetime%month
 
         ! Read next month SST anomalies
-        sstan3(:,:,3) = load_boundary_file(30,next_month-1)
+        sstan3(:,:,3) = load_boundary_file("sea_surface_temperature_anomaly.nc", "ssta", &
+            & next_month, 420)
 
         call forchk(bmask_s, 1, -50.0, 50.0, 0.0, sstan3(:,:,3))
     end

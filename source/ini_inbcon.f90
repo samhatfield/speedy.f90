@@ -7,29 +7,26 @@ subroutine inbcon
     use sea_model, only: fmask_s, bmask_s, deglat_s, sst12, sice12, sstan3, hfseacl, sstom12, &
         & sea_coupling_flag, sst_anomaly_coupling_flag
     use mod_dyncon1, only: grav, radang
-    use mod_input, only: load_boundary_file
+    use input_output, only: load_boundary_file, load_boundary_file_old
 
     implicit none
 
-    real*4 :: r4inp(ix,il)
-    real   :: inp(ix,il)
-    real   :: veg(ix,il), swl1(ix,il), swl2(ix,il)
-
-    integer :: i, idep2, irec, irecl, it, j, jrec
-    real :: rad2deg, rsw, sdep1, sdep2, swroot, swwil2, thrsh
+    real, dimension(ix,il) :: veg_low, veg_high, veg, swl1, swl2
+    integer :: i, idep2, month, j, jrec
+    real :: rsw, sdep1, sdep2, swroot, swwil2, thrsh
 
     ! Set threshold for land-sea mask definition
     ! (ie minimum fraction of either land or sea)
     thrsh = 0.1
 
     ! Read surface geopotential (i.e. orography)
-    phi0 = grav*load_boundary_file(20,0)
+    phi0 = grav*load_boundary_file("surface.nc", "orog")
 
     ! Also store spectrally truncated surface geopotential
     call truncg (ntrun,phi0,phis0)
 
     ! Read land-sea mask
-    fmask = load_boundary_file(20,1)
+    fmask = load_boundary_file("surface.nc", "lsm")
 
     ! Initialize land-sfc boundary conditions
 
@@ -48,55 +45,51 @@ subroutine inbcon
     end do
 
     ! Annual-mean surface albedo
-    alb0 = load_boundary_file(20,2)
+    alb0 = load_boundary_file("surface.nc", "alb")
 
     ! Land-surface temp.
-    do it = 1,12
-        inp = load_boundary_file(23,it-1)
+    do month = 1,12
+        stl12(:,:,month) = load_boundary_file("land.nc", "stl", month)
 
-        call fillsf(inp,ix,il,0.)
-
-       stl12(1:ix,1:il,it) = inp
+        call fillsf(stl12(:,:,month), ix, il, 0.0)
     end do
 
     call forchk(bmask_l, 12, 0.0, 400.0, 273.0, stl12)
 
     ! Snow depth
-    do it = 1,12
-        snowd12(1:ix,1:il,it) = load_boundary_file(24,it-1)
+    do month = 1,12
+        snowd12(:,:,month) = load_boundary_file("snow.nc", "snowd", month)
     end do
 
-    CALL forchk(bmask_l, 12, 0.0, 20000.0, 0.0, snowd12)
+    call forchk(bmask_l, 12, 0.0, 20000.0, 0.0, snowd12)
 
     ! Read soil moisture and compute soil water availability using vegetation fraction
     ! Read vegetation fraction
-    veg = load_boundary_file(20,3)
-    inp = load_boundary_file(20,4)
+    veg_high = load_boundary_file("surface.nc", "vegh")
+    veg_low  = load_boundary_file("surface.nc", "vegl")
 
     ! Combine high and low vegetation fractions
-    veg = max(0.,veg+0.8*inp)
+    veg = max(0.,veg_high+0.8*veg_low)
 
     ! Read soil moisture
     sdep1 = 70.
     idep2 = 3
     sdep2 = idep2*sdep1
 
-    swwil2= idep2*swwil
-    rsw   = 1./(swcap+idep2*(swcap-swwil))
+    swwil2 = idep2*swwil
+    rsw    = 1.0/(swcap+idep2*(swcap-swwil))
 
-    do it = 1,12
-        swl1 = load_boundary_file(26,3*it-3)
-        swl2 = load_boundary_file(26,3*it-2)
-
+    do month = 1,12
         ! Combine soil water content from two top layers
+        swl1 = load_boundary_file("soil.nc", "swl1", month)
+        swl2 = load_boundary_file("soil.nc", "swl2", month)
+
         do j = 1,il
             do i = 1,ix
                 swroot = idep2*swl2(i,j)
-                inp(i,j) = min(1.,rsw*(swl1(i,j)+veg(i,j)*max(0.,swroot-swwil2)))
+                soilw12(i,j,month) = min(1.0, rsw*(swl1(i,j) + veg(i,j)*max(0.0, swroot - swwil2)))
             end do
         end do
-
-        soilw12(1:ix,1:il,it) = inp
     end do
 
     call forchk(bmask_l, 12, 0.0, 10.0, 0.0, soilw12)
@@ -119,27 +112,20 @@ subroutine inbcon
     end do
 
     ! Grid latitudes for sea-surface variables
-    rad2deg = 90.0/asin(1.)
-    deglat_s = rad2deg*radang
+    deglat_s =  radang*90.0/asin(1.0)
 
     ! SST
-    do it = 1,12
-        inp = load_boundary_file(21,it-1)
+    do month = 1,12
+        sst12(:,:,month) = load_boundary_file("sea_surface_temperature.nc", "sst", month)
 
-        call fillsf(inp,ix,il,0.)
-
-        sst12(1:ix,1:il,it) = inp
+        call fillsf(sst12(:,:,month), ix, il, 0.0)
     end do
 
     call forchk(bmask_s, 12, 100.0, 400.0, 273.0, sst12)
 
     ! Sea ice concentration
-    do it = 1,12
-        inp = load_boundary_file(22,it-1)
-
-        inp = max(inp,0.)
-
-        sice12(1:ix,1:il,it) = inp
+    do month = 1,12
+        sice12(:,:,month) = max(load_boundary_file("sea_ice.nc", "icec", month), 0.0)
     end do
 
     call forchk(bmask_s, 12, 0.0, 1.0, 0.0, sice12)
@@ -147,12 +133,11 @@ subroutine inbcon
     ! SST anomalies for initial and prec./following months
     if (sst_anomaly_coupling_flag > 0) then
         print *, 'isst0 = ', isst0
-        do it=1,3
-            if ((isst0 <= 1 .and. it /= 2) .or. isst0 > 1) then
-                inp = load_boundary_file(30,isst0-2+it-1)
+        do month=1,3
+            if ((isst0 <= 1 .and. month /= 2) .or. isst0 > 1) then
+                sstan3(:,:,month) = load_boundary_file("sea_surface_temperature_anomaly.nc", &
+                    & "ssta", isst0-2+month-1, 420)
             end if
-
-            sstan3(1:ix,1:il,it) = inp
         end do
 
         call forchk(bmask_s, 3, -50.0, 50.0, 0.0, sstan3)
@@ -163,34 +148,7 @@ subroutine inbcon
     hfseacl = 0.0
 
     if (sea_coupling_flag >= 1) then
-        irecl = 4*ix*il
-        irec = 0
-
-        open ( unit=31, file='fort.31', status='old',&
-            & form='unformatted', access='direct', recl=irecl )
-
-        do it = 1,12
-            irec=irec+2
-            read (31,rec=irec) r4inp
-
-            do j = 1,il
-                do i = 1,ix
-                    hfseacl(i,j) = hfseacl(i,j)+r4inp(i,j)
-                end do
-            end do
-        end do
-
-        do j = 1,il
-            do i = 1,ix
-                if (bmask_s(i,j).gt.0.) then
-                    hfseacl(i,j) = hfseacl(i,j)/(12.*fmask_s(i,j))
-                else
-                    hfseacl(i,j) = 0.
-                end if
-            end do
-        end do
-
-        call forchk (bmask_s, 1, -1000.0, 1000.0, 0.0, hfseacl)
+        stop "Model behaviour when sea_coupling_flag >= 1 not implemented yet"
     end if
 
     ! Ocean model SST climatology:
@@ -198,17 +156,7 @@ subroutine inbcon
     ! (bias may be defined in a different period from climatology)
 
     if (sea_coupling_flag >= 3) then
-        do it = 1,12
-            read (32) r4inp
-
-            do j = 1,il
-                do i = 1,ix
-                    sstom12(i,j,it) = sst12(i,j,it)+r4inp(i,j)
-                end do
-            end do
-        end do
-
-        call forchk (bmask_s, 12, 100.0, 400.0, 273.0, sstom12)
+        stop "Model behaviour when sea_coupling_flag >= 3 not implemented yet"
     end if
 end
 

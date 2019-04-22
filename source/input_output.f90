@@ -1,11 +1,103 @@
 module input_output
     use netcdf
+    use mod_atparam
 
     implicit none
 
+    private
+    public output, load_boundary_file, load_boundary_file_old
+
+    interface load_boundary_file
+        module procedure load_boundary_file_2d
+        module procedure load_boundary_file_one_month_from_year
+        module procedure load_boundary_file_one_month_from_long
+    end interface
+
 contains
+    function load_boundary_file_old(iunit,offset) result(field)
+        integer, intent(in) :: iunit, offset
+        real     :: field(ix,il)
+        real(4) :: inp(ix,il)
+        integer :: i
+
+        open(unit=iunit, form='unformatted', access='direct', recl=ix*4, convert='little_endian')
+
+        do i = 1, il
+            read(iunit,rec=offset*il+i) inp(:,il+1-i)
+        end do
+
+        field = inp
+
+        ! Fix undefined values
+        where (field <= -999) field = 0.0
+
+        close(unit=iunit)
+    end
+
+    function load_boundary_file_2d(file_name, field_name) result(field)
+        character(len=*), intent(in) :: file_name, field_name
+
+        integer :: i, ncid, varid
+        real(4), dimension(ix,il) :: raw_input
+        real, dimension(ix,il) :: field
+
+        write (*,'(A,A,A,A)') 'Reading ', field_name, ' from ', file_name
+
+        ! Open boundary file, read variable and then close
+        call check(nf90_open(file_name, nf90_nowrite, ncid))
+        call check(nf90_inq_varid(ncid, field_name, varid))
+        call check(nf90_get_var(ncid, varid, raw_input, start = (/ 1, 1 /), count =  (/ ix, il /)))
+        call check(nf90_close(ncid))
+        field = raw_input(:,il:1:-1)
+
+        ! Fix undefined values
+        where (field <= -999) field = 0.0
+    end
+
+    function load_boundary_file_one_month_from_year(file_name, field_name, month) result(field)
+        character(len=*), intent(in) :: file_name, field_name
+        integer, intent(in) :: month
+
+        integer :: ncid, varid
+        real(4), dimension(ix,il,12) :: raw_input
+        real, dimension(ix,il) :: field
+
+        write (*,'(A,A,A,I0.2,A,A)') 'Reading ', field_name, ' (month ', month, ') from ', file_name
+
+        ! Open boundary file, read variable and then close
+        call check(nf90_open(file_name, nf90_nowrite, ncid))
+        call check(nf90_inq_varid(ncid, field_name, varid))
+        call check(nf90_get_var(ncid, varid, raw_input))
+        call check(nf90_close(ncid))
+        field = raw_input(:,il:1:-1,month)
+
+        ! Fix undefined values
+        where (field <= -999) field = 0.0
+    end
+
+    function load_boundary_file_one_month_from_long(file_name, field_name, month, length) &
+        & result(field)
+        character(len=*), intent(in) :: file_name, field_name
+        integer, intent(in) :: month, length
+
+        integer :: ncid, varid
+        real(4), dimension(ix,il,length) :: raw_input
+        real, dimension(ix,il) :: field
+
+        write (*,'(A,A,A,I0.2,A,A)') 'Reading ', field_name, ' (month ', month, ') from ', file_name
+
+        ! Open boundary file, read variable and then close
+        call check(nf90_open(file_name, nf90_nowrite, ncid))
+        call check(nf90_inq_varid(ncid, field_name, varid))
+        call check(nf90_get_var(ncid, varid, raw_input))
+        call check(nf90_close(ncid))
+        field = raw_input(:,il:1:-1,month)
+
+        ! Fix undefined values
+        where (field <= -999) field = 0.0
+    end
+
     subroutine output(timestep)
-        use mod_atparam, only: ix, il, kx, mx, nx
         use mod_dyncon1, only: radang, grav
         use physical_constants, only: p0, sig
         use date, only: model_datetime, start_datetime
@@ -18,18 +110,18 @@ contains
         real, dimension(ix,il) :: ps_grid
         real(4), dimension(ix,il,kx) :: u_out, v_out, t_out, q_out, phi_out
         real(4), dimension(ix,il) :: ps_out
-        character(len=15) :: filename = 'yyyymmddhhmm.nc'
+        character(len=15) :: file_name = 'yyyymmddhhmm.nc'
         character(len=32) :: time_template = 'hours since yyyy-mm-dd hh:mm:0.0'
         integer :: k, ncid
         integer :: timedim, latdim, londim, levdim
         integer :: timevar, latvar, lonvar, levvar, uvar, vvar, tvar, qvar, phivar, psvar
 
-        ! Construct filename
-        write (filename(1:4),'(i4.4)') model_datetime%year
-        write (filename(5:6),'(i2.2)') model_datetime%month
-        write (filename(7:8),'(i2.2)') model_datetime%day
-        write (filename(9:10),'(i2.2)') model_datetime%hour
-        write (filename(11:12),'(i2.2)') model_datetime%minute
+        ! Construct file_name
+        write (file_name(1:4),'(i4.4)') model_datetime%year
+        write (file_name(5:6),'(i2.2)') model_datetime%month
+        write (file_name(7:8),'(i2.2)') model_datetime%day
+        write (file_name(9:10),'(i2.2)') model_datetime%hour
+        write (file_name(11:12),'(i2.2)') model_datetime%minute
 
         ! Construct time string
         write (time_template(13:16),'(i4.4)') start_datetime%year
@@ -39,7 +131,7 @@ contains
         write (time_template(27:28),'(i2.2)') start_datetime%minute
 
         ! Create NetCDF output file
-        call check(nf90_create(filename, nf90_clobber, ncid))
+        call check(nf90_create(file_name, nf90_clobber, ncid))
 
         ! Define time
         call check(nf90_def_dim(ncid, "time", nf90_unlimited, timedim))
@@ -129,6 +221,7 @@ contains
 
         if (ierr /= nf90_noerr) then
             print *, trim(adjustl(nf90_strerror(ierr)))
+            stop
         end if
     end subroutine
 end module

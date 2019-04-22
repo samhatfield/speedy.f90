@@ -22,13 +22,13 @@ cd $RUNDIR
 cp $BIN/speedy .
 
 # Link input files
-ln -s $CLIM/sfc.grd   fort.20
-ln -s $CLIM/sst.grd   fort.21
-ln -s $CLIM/icec.grd  fort.22
-ln -s $CLIM/stl.grd   fort.23
-ln -s $CLIM/snowd.grd fort.24
-ln -s $CLIM/swet.grd  fort.26
-ln -s $ANOM/ssta.grd  fort.30
+ln -s $CLIM/surface.nc .
+ln -s $CLIM/sea_surface_temperature.nc .
+ln -s $CLIM/sea_ice.nc .
+ln -s $CLIM/land.nc .
+ln -s $CLIM/snow.nc .
+ln -s $CLIM/soil.nc .
+ln -s $ANOM/sea_surface_temperature_anomaly.nc .
 
 # Write date input file
 cat << EOF >> fort.2
@@ -39,7 +39,7 @@ cat << EOF >> fort.2
 00
 1982
 01
-02
+10
 00
 00
 EOF
