@@ -1,4 +1,4 @@
-module mod_spectral
+module spectral
     use mod_atparam
 
     implicit none
@@ -8,39 +8,164 @@ module mod_spectral
         & cosgr, cosgr2, gradx, gradym, gradyp, sqrhlf, consq, epsi, repsi,&
         & emm, ell, poly, cpol, uvdx, uvdym, uvdyp, vddym, vddyp
     public wsave
-    public inifft
+    public initialize_spectral
 
-    ! Initial. in parmtr
     real, dimension(mx,nx) :: el2, elm2, el4, trfilt
     integer :: l2(mx,nx), ll(mx,nx), mm(mx), nsh2(nx)
-
-    ! Initial. in parmtr
     real, dimension(iy) :: sia, coa, wt, wght
     real, dimension(il) :: cosg, cosgr, cosgr2
-
-    ! Initial. in parmtr
     real :: gradx(mx), gradym(mx,nx), gradyp(mx,nx)
-
-    ! Initial. in parmtr
     real :: sqrhlf, consq(mxp), epsi(mxp,nxp), repsi(mxp,nxp), emm(mxp), ell(mxp,nxp)
-
-    ! Initial. in parmtr
     real :: poly(mx,nx)
-
-    ! Initial. in parmtr
     real :: cpol(mx2,nx,iy)
-
-    ! Initial. in parmtr
     real, dimension(mx,nx) :: uvdx, uvdym, uvdyp
-
-    ! Initial. in parmtr
     real, dimension(mx,nx) :: vddym, vddyp
 
     real, dimension(2*ix+15) :: wsave(2*ix+15)
 
 contains
-    ! Initialize FFTs
-    subroutine inifft
+    ! Initialize spectral transforms
+    subroutine initialize_spectral
+        use mod_dyncon1, only: rearth
+
+        real :: am1, am2, cosqr, el1, ell2, emm2
+
+        integer :: j, jj, m, m1, m2, n
+
         call rffti(ix,wsave)
+
+        ! Initializes Legendre transforms and constants used for other
+        ! subroutines that manipulate spherical harmonics
+        !
+        ! first compute Gaussian latitudes and weights at the IY points from
+        !     pole to equator
+        ! SIA(IY) is sin of latitude, WT(IY) are Gaussian weights for quadratures,
+        !   saved in spectral
+        call gaussl(sia,wt,iy)
+        am1 = 1./rearth
+        am2=  1./(rearth*rearth)
+
+        ! COA(IY) = cos(lat); WGHT needed for transforms,
+        !           saved in spectral
+        do j=1,iy
+            cosqr = 1.0-sia(j)**2
+            coa(j)=sqrt(cosqr)
+            wght(j)=wt(j)/(rearth*cosqr)
+        end do
+
+        ! expand cosine and its reciprocal to cover both hemispheres,
+        !    saved in spectral
+        do j=1,iy
+            jj=il+1-j
+            cosg(j)=coa(j)
+            cosg(jj)=coa(j)
+            cosgr(j)=1./coa(j)
+            cosgr(jj)=1./coa(j)
+            cosgr2(j)=1./(coa(j)*coa(j))
+            cosgr2(jj)=1./(coa(j)*coa(j))
+        end do
+
+        !  MM = zonal wavenumber = m
+        !     ISC=3 implies that only wavenumber 0,3,6,9,etc are included in model
+        !  LL = total wavenumber of spherical harmonic = l
+        !  L2 = l*(l+1)
+        !  EL2 = l*(l+1)/(a**2)
+        !  EL4 = EL2*EL2 ; for biharmonic diffusion
+        !  ELM2 = 1./EL2
+        !  TRFILT used to filter out "non-triangular" part of rhomboidal truncation
+        !   saved in spectral
+        do n=1,nx
+            nsh2(n)=0
+            do m=1,mx
+                mm(m)=isc*(m-1)
+                ll(m,n)=mm(m)+n-1
+                l2(m,n)=ll(m,n)*(ll(m,n)+1)
+                el2(m,n)=float(l2(m,n))*am2
+                el4(m,n)=el2(m,n)*el2(m,n)
+                if (ll(m,n).le.ntrun1.or.ix.ne.4*iy) nsh2(n)=nsh2(n)+2
+                if (ll(m,n).le.ntrun) then
+                  trfilt(m,n)=1.
+                else
+                  trfilt(m,n)=0.
+                end if
+            end do
+        end do
+
+        elm2(1,1)=0.
+        do m=2,mx
+            do n=1,nx
+                elm2(m,n)=1./el2(m,n)
+            end do
+        end do
+
+        do n=2,nx
+            elm2(1,n)=1./el2(1,n)
+        end do
+
+        ! quantities needed to generate and differentiate Legendre polynomials
+        ! all m values up to MXP = ISC*MTRUN+1 are needed by recursion relation
+        ! saved in spectral
+        do m=1,mxp
+            do n=1,nxp
+                emm(m)=float(m-1)
+                ell(m,n)=float(n+m-2)
+                emm2=emm(m)**2
+                ell2=ell(m,n)**2
+                if(n.eq.nxp) then
+                  epsi(m,n)=0.0
+                else if(n.eq.1.and.m.eq.1) then
+                  epsi(m,n)=0.0
+                else
+                  epsi(m,n)=sqrt((ell2-emm2)/(4.*ell2-1.))
+                end if
+                repsi(m,n)=0.0
+                if(epsi(m,n).gt.0.) repsi(m,n)=1./epsi(m,n)
+            end do
+        end do
+
+        sqrhlf=sqrt(.5)
+        do m=2,mxp
+            consq(m) = sqrt(.5*(2.*emm(m)+1.)/emm(m))
+        end do
+
+        ! quantities required by subroutines GRAD, UVSPEC, and VDS
+        ! saved in spectral
+        do m=1,mx
+            do n=1,nx
+                m1=mm(m)
+                m2=m1+1
+                el1=float(ll(m,n))
+                if(n.eq.1) then
+                    gradx(m)=float(m1)/rearth
+                    uvdx(m,1)=-rearth/float(m1+1)
+                    uvdym(m,1)=0.0
+                    vddym(m,1)=0.0
+                else
+                    uvdx(m,n)=-rearth*float(m1)/(el1*(el1+1))
+                    gradym(m,n)=(el1-1.)*epsi(m2,n)/rearth
+                    uvdym(m,n)=-rearth*epsi(m2,n)/el1
+                    vddym(m,n)=(el1+1)*epsi(m2,n)/rearth
+                end if
+                gradyp(m,n)=(el1+2.)*epsi(m2,n+1)/rearth
+                uvdyp(m,n)=-rearth*epsi(m2,n+1)/(el1+1.)
+                vddyp(m,n)=el1*epsi(m2,n+1)/rearth
+            end do
+        end do
+
+        !  generate associated Legendre polynomial
+        !  LGNDRE computes the polynomials at a particular latitiude, POLY(MX,NX), and stores
+        !  them in spectral
+        !  polynomials and 'clones' stored in spectral
+        do j=1,iy
+            call lgndre(j)
+            do n=1,nx
+                do m=1,mx
+                    m1=2*m-1
+                    m2=2*m
+                    cpol(m1,n,j)=poly(m,n)
+                    cpol(m2,n,j)=poly(m,n)
+                end do
+            end do
+        end do
     end
 end module
