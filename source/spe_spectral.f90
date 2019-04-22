@@ -178,24 +178,9 @@ subroutine uvspec(vorm,divm,ucosm,vcosm)
     end do
 end
 !*********************************************************************
-subroutine spec(vorg,vorm)
-    use mod_atparam
-
-    implicit none
-
-    real, intent(in) :: vorg(ix,il)
-    complex, intent(out) :: vorm(mx,nx)
-
-    real :: vorm_r(mx2,nx), varm(mx2,il)
-
-    call specx(vorg,varm)
-    call legendre_dir(varm,vorm_r)
-    vorm = reshape(transfer(vorm_r, vorm), (/ mx, nx /))
-end
-!*********************************************************************
 subroutine vdspec(ug,vg,vorm,divm,kcos)
     use mod_atparam
-    use spectral, only: cosgr, cosgr2
+    use spectral, only: cosgr, cosgr2, grid_to_spec
 
     implicit none
 
@@ -222,8 +207,8 @@ subroutine vdspec(ug,vg,vorm,divm,kcos)
         end do
     end if
 
-    call spec(ug1,specu)
-    call spec(vg1,specv)
+    specu = grid_to_spec(ug1)
+    specv = grid_to_spec(vg1)
     call vds(specu,specv,vorm,divm)
 end
 !*********************************************************************

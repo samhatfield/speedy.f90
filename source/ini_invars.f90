@@ -8,6 +8,7 @@ subroutine invars
     use mod_dyncon1, only: grav, rgas, fsg
     use boundaries, only: phi0, phis0
     use diagnostics, only: check_diagnostics
+    use spectral, only: grid_to_spec
 
     implicit none
 
@@ -21,7 +22,7 @@ subroutine invars
     ccon = (1.,0.)*sqrt(2.)
 
     ! 1. Compute spectral surface geopotential
-    call spec(phis0,phis)
+    phis = grid_to_spec(phis0)
 
     ! 2. Start from reference atmosphere (at rest)
     print*, ' starting from rest'
@@ -65,7 +66,7 @@ subroutine invars
         end do
     end do
 
-    call spec(surfg,ps)
+    ps(:,:,1) = grid_to_spec(surfg)
     if (ix.eq.iy*4) call trunct(ps)
 
     ! 2.4 Set tropospheric spec. humidity in g/kg
@@ -82,7 +83,7 @@ subroutine invars
         print *, ' q0 jlat = ', j, surfg(1,j)
     end do
 
-    call spec(surfg,surfs)
+    surfs = grid_to_spec(surfg)
     if (ix.eq.iy*4) call trunct (surfs)
 
     ! Spec. humidity at tropospheric levels

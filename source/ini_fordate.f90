@@ -20,6 +20,7 @@ subroutine fordate(imode)
     use shortwave_radiation, only: get_zonal_average_fields, ablco2, increase_co2
     use longwave_radiation, only: radset
     use humidity, only: get_qsat
+    use spectral, only: grid_to_spec
 
     implicit none
 
@@ -73,7 +74,7 @@ subroutine fordate(imode)
         end do
     end do
 
-    call spec(corh,tcorh)
+    tcorh = grid_to_spec(corh)
 
     ! 4. humidity correction term for horizontal diffusion
     do j = 1, il
@@ -90,7 +91,7 @@ subroutine fordate(imode)
 
     corh = refrh1 * (qref - qsfc)
 
-    call spec(corh,qcorh)
+    qcorh = grid_to_spec(corh)
 end
 
 subroutine setgam(tyear,gamlat)

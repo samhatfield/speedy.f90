@@ -9,7 +9,7 @@ module spectral
         & emm, ell, poly, cpol, uvdx, uvdym, uvdyp, vddym, vddyp
     public wsave
     public initialize_spectral
-    public laplacian, inverse_laplacian, spec_to_grid
+    public laplacian, inverse_laplacian, spec_to_grid, grid_to_spec
 
     real, dimension(mx,nx) :: el2, elm2, el4, trfilt
     integer :: l2(mx,nx), ll(mx,nx), mm(mx), nsh2(nx)
@@ -194,5 +194,15 @@ contains
         vorm_r = reshape(transfer(vorm, vorm_r), (/ mx2, nx /))
         call legendre_inv(vorm_r,varm)
         call gridx(varm,vorg,kcos)
+    end function
+
+    function grid_to_spec(vorg) result(vorm)
+        real, intent(in) :: vorg(ix,il)
+        complex :: vorm(mx,nx)
+        real :: vorm_r(mx2,nx), varm(mx2,il)
+
+        call specx(vorg,varm)
+        call legendre_dir(varm,vorm_r)
+        vorm = reshape(transfer(vorm_r, vorm), (/ mx, nx /))
     end function
 end module

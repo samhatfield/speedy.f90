@@ -20,7 +20,7 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
     use mod_dyncon1, only: akap, rgas, dhs, fsg, dhsr, fsgr, coriol
     use mod_dyncon2, only: tref, tref3
     use physics, only: get_physical_tendencies
-    use spectral, only: spec_to_grid, laplacian
+    use spectral, only: grid_to_spec, spec_to_grid, laplacian
 
     implicit none
 
@@ -91,7 +91,7 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
     px = spec_to_grid(dumc(:,:,1), 2)
     py = spec_to_grid(dumc(:,:,2), 2)
 
-    call spec(-umean * px - vmean * py,psdt)
+    psdt = grid_to_spec(-umean*px - vmean*py)
     psdt(1,1) = (0.0, 0.0)
 
     ! Compute "vertical" velocity
@@ -185,20 +185,20 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
 
         !  divergence tendency
         !  add -lapl(0.5*(u**2+v**2)) to div tendency,
-        call spec(0.5 * (ug(:,:,k)*ug(:,:,k) + vg(:,:,k)*vg(:,:,k)), dumc(:,:,1))
+        dumc(:,:,1) = grid_to_spec(0.5*(ug(:,:,k)*ug(:,:,k) + vg(:,:,k)*vg(:,:,k)))
         dumc(:,:,2) = laplacian(dumc(:,:,1))
         divdt(:,:,k) = divdt(:,:,k) - dumc(:,:,2)
 
         !  temperature tendency
         !  and add div(vT) to spectral t tendency
         call vdspec(-ug(:,:,k)*tgg(:,:,k), -vg(:,:,k)*tgg(:,:,k), dumc(:,:,1), tdt(:,:,k), 2)
-        call spec(ttend(:,:,k), dumc(:,:,2))
+        dumc(:,:,2) = grid_to_spec(ttend(:,:,k))
         tdt(:,:,k) = tdt(:,:,k) + dumc(:,:,2)
 
         ! tracer tendency
         do itr=1,ntr
             call vdspec(-ug(:,:,k)*trg(:,:,k,itr), -vg(:,:,k)*trg(:,:,k,itr), dumc(:,:,1), trdt(:,:,k,itr), 2)
-            call spec(trtend(:,:,k,itr), dumc(:,:,2))
+            dumc(:,:,2) = grid_to_spec(trtend(:,:,k,itr))
             trdt(:,:,k,itr) = trdt(:,:,k,itr) + dumc(:,:,2)
         end do
     end do

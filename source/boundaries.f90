@@ -75,13 +75,13 @@ contains
     ! Input   : fg1 : original grid-point field
     ! Output  : fg2 : filtered grid-point field
     subroutine spectral_truncation(fg1, fg2)
-        use spectral, only: spec_to_grid
+        use spectral, only: grid_to_spec, spec_to_grid
 
         real, dimension(ix,il), intent(inout) :: fg1(ix,il), fg2(ix,il)
         complex :: fsp(mx,nx)
         integer :: n, m, total_wavenumber
 
-        call spec(fg1,fsp)
+        fsp = grid_to_spec(fg1)
 
         do n = 1, nx
             do m = 1, mx
