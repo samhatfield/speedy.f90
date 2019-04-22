@@ -8,10 +8,9 @@ contains
     subroutine initialize_coupler
         use land_model, only: land_model_init, couple_land_atm
         use sea_model, only: sea_model_init, couple_sea_atm
-        use mod_surfcon, only: alb0
 
         ! Initialize land model constants
-        call land_model_init(alb0)
+        call land_model_init
 
         ! Initialize land model variables
         call couple_land_atm(0)

@@ -6,7 +6,7 @@ subroutine invars
     use mod_atparam
     use prognostics
     use mod_dyncon1, only: grav, rgas, fsg
-    use mod_surfcon, only: phi0, phis0
+    use boundaries, only: phi0, phis0
 
     implicit none
 

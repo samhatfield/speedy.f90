@@ -9,6 +9,7 @@ module land_model
     public fmask_l, bmask_l, stl12, snowd12, soilw12
     public hflux_l
     public land_coupling_flag
+    public sd2sc
 
     ! 1./heat_capacity (land)
     real :: rhcapl(ix,il)
@@ -54,21 +55,104 @@ module land_model
     ! 1 = land-model)
     integer :: land_coupling_flag = 1
 
-    contains
-        subroutine land_model_init(alb0)
-            ! purpose : initialization of land model
+    ! Snow depth (mm water) corresponding to snow cover = 1
+    real :: sd2sc = 60.0
 
-            ! Input variable
-            ! Annual-mean albedo
-            real, intent(in) :: alb0(ix,il)
+    contains
+        subroutine land_model_init
+            ! purpose : initialization of land model
+            use input_output, only: load_boundary_file
+            use boundaries, only: forchk, fmask, alb0, fillsf, forchk
 
             ! Auxiliary variables
-            integer :: i, j
+            integer :: i, j, month
             real :: dmask(ix,il)           ! domain mask
             real :: depth_soil, depth_lice, tdland, hcapl, hcapli, flandmin
 
-            ! 1. Set heat capacities and dissipation times for
-            !    soil and ice-sheet layers
+            ! Soil moisture parameters
+            ! Soil wetness at field capacity (volume fraction)
+            real :: swcap = 0.30
+
+            ! Soil wetness at wilting point  (volume fraction)
+            real :: swwil = 0.17
+
+            ! Threshold for land-sea mask definition (i.e. minimum fraction of
+            ! either land or sea)
+            real :: thrsh = 0.1
+
+            real :: rsw, sdep1, sdep2, swroot, swwil2
+            real, dimension(ix,il) :: veg_low, veg_high, veg, swl1, swl2
+            integer :: idep2
+
+            ! =========================================================================
+            ! Initialize land-surface boundary conditions
+            ! =========================================================================
+
+            ! Fractional and binary land masks
+            fmask_l = fmask
+            do j = 1, il
+                do i = 1, ix
+                    if (fmask_l(i,j) >= thrsh) then
+                        bmask_l(i,j) = 1.0
+                        if (fmask(i,j) > (1.0 - thrsh)) fmask_l(i,j) = 1.0
+                    else
+                        bmask_l(i,j) = 0.0
+                        fmask_l(i,j) = 0.0
+                    end if
+                end do
+            end do
+
+            ! Land-surface temperature
+            do month = 1, 12
+                stl12(:,:,month) = load_boundary_file("land.nc", "stl", month)
+
+                call fillsf(stl12(:,:,month), 0.0)
+            end do
+
+            call forchk(bmask_l, 12, 0.0, 400.0, 273.0, stl12)
+
+            ! Snow depth
+            do month = 1, 12
+                snowd12(:,:,month) = load_boundary_file("snow.nc", "snowd", month)
+            end do
+
+            call forchk(bmask_l, 12, 0.0, 20000.0, 0.0, snowd12)
+
+            ! Read soil moisture and compute soil water availability using vegetation fraction
+            ! Read vegetation fraction
+            veg_high = load_boundary_file("surface.nc", "vegh")
+            veg_low  = load_boundary_file("surface.nc", "vegl")
+
+            ! Combine high and low vegetation fractions
+            veg = max(0.0, veg_high + 0.8*veg_low)
+
+            ! Read soil moisture
+            sdep1 = 70.0
+            idep2 = 3
+            sdep2 = idep2*sdep1
+
+            swwil2 = idep2*swwil
+            rsw    = 1.0/(swcap + idep2*(swcap - swwil))
+
+            do month = 1, 12
+                ! Combine soil water content from two top layers
+                swl1 = load_boundary_file("soil.nc", "swl1", month)
+                swl2 = load_boundary_file("soil.nc", "swl2", month)
+
+                do j = 1, il
+                    do i = 1, ix
+                        swroot = idep2*swl2(i,j)
+                        soilw12(i,j,month) = min(1.0, rsw*(swl1(i,j) + veg(i,j) &
+                            & *max(0.0, swroot - swwil2)))
+                    end do
+                end do
+            end do
+
+            call forchk(bmask_l, 12, 0.0, 10.0, 0.0, soilw12)
+
+            ! =========================================================================
+            ! Set heat capacities and dissipation times for soil and ice-sheet layers
+            ! =========================================================================
 
             ! Model parameters (default values)
 

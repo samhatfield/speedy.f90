@@ -5,7 +5,7 @@ module input_output
     implicit none
 
     private
-    public output, load_boundary_file, load_boundary_file_old
+    public output, load_boundary_file
 
     interface load_boundary_file
         module procedure load_boundary_file_2d
@@ -14,26 +14,6 @@ module input_output
     end interface
 
 contains
-    function load_boundary_file_old(iunit,offset) result(field)
-        integer, intent(in) :: iunit, offset
-        real     :: field(ix,il)
-        real(4) :: inp(ix,il)
-        integer :: i
-
-        open(unit=iunit, form='unformatted', access='direct', recl=ix*4, convert='little_endian')
-
-        do i = 1, il
-            read(iunit,rec=offset*il+i) inp(:,il+1-i)
-        end do
-
-        field = inp
-
-        ! Fix undefined values
-        where (field <= -999) field = 0.0
-
-        close(unit=iunit)
-    end
-
     function load_boundary_file_2d(file_name, field_name) result(field)
         character(len=*), intent(in) :: file_name, field_name
 

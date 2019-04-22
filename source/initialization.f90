@@ -15,6 +15,7 @@ contains
         use physics, only: initialize_physics
         use input_output, only: output
         use time_stepping, only: first_step
+        use boundaries, only: initialize_boundaries
 
         ! Read start and end dates from fort.2 file
         read (2,*) start_datetime%year
@@ -56,8 +57,8 @@ contains
         ! Initialize constants for physical parametrization
         call initialize_physics
 
-        ! Initialize forcing fields (boundary cond. + random forcing)
-        call inbcon
+        ! Initialize boundary conditions (land-sea mask, sea ice etc.)
+        call initialize_boundaries
 
         ! Initialize model variables
         call invars

@@ -81,6 +81,11 @@ module sea_model
 contains
     ! Initialization of sea model
     subroutine sea_model_init
+        use boundaries, only: fmask, fillsf, forchk
+        use mod_tsteps, only: isst0
+        use mod_dyncon1, only: radang
+        use input_output, only: load_boundary_file
+
         ! Domain mask
         real :: dmask(ix,il)
 
@@ -91,7 +96,7 @@ contains
         real :: hcaps(il)
         real :: hcapi(il)
 
-        integer :: i, j
+        integer :: i, j, month
         real :: coslat, crad
 
         ! 1. Set geographical domain, heat capacities and dissipation times
@@ -116,6 +121,10 @@ contains
         ! Dissipation time (days) for sea-ice temp. anomalies
         real :: tdice = 30.0
 
+        ! Threshold for land-sea mask definition (i.e. minimum fraction of
+        ! either land or sea)
+        real :: thrsh = 0.1
+
         ! Geographical domain
         ! note : more than one regional domain may be set .true.
         l_globe  =  .true.         ! global domain
@@ -124,6 +133,77 @@ contains
         l_npacif = .false.         ! N. Pacific  (lat 20-80N, lon 100E-100W)
         l_tropic = .false.         ! Tropics (lat 30S-30N)
         l_indian = .false.         ! Indian Ocean (lat 30S-30N, lon 30-120E)
+
+        ! =========================================================================
+        ! Initialize sea-surface boundary conditions
+        ! =========================================================================
+
+        ! Fractional and binary sea masks
+        do j = 1, il
+            do i = 1, ix
+                fmask_s(i,j) = 1.0 - fmask(i,j)
+
+                if (fmask_s(i,j) >= thrsh) then
+                    bmask_s(i,j) = 1.0
+                    if (fmask_s(i,j) > (1.0 - thrsh)) fmask_s(i,j) = 1.0
+                else
+                    bmask_s(i,j) = 0.0
+                    fmask_s(i,j) = 0.0
+                end if
+            end do
+        end do
+
+        ! Grid latitudes for sea-surface variables
+        deglat_s =  radang*90.0/asin(1.0)
+
+        ! SST
+        do month = 1, 12
+            sst12(:,:,month) = load_boundary_file("sea_surface_temperature.nc", "sst", month)
+
+            call fillsf(sst12(:,:,month), 0.0)
+        end do
+
+        call forchk(bmask_s, 12, 100.0, 400.0, 273.0, sst12)
+
+        ! Sea ice concentration
+        do month = 1, 12
+            sice12(:,:,month) = max(load_boundary_file("sea_ice.nc", "icec", month), 0.0)
+        end do
+
+        call forchk(bmask_s, 12, 0.0, 1.0, 0.0, sice12)
+
+        ! SST anomalies for initial and preceding/following months
+        if (sst_anomaly_coupling_flag > 0) then
+            print *, 'isst0 = ', isst0
+            do month = 1, 3
+                if ((isst0 <= 1 .and. month /= 2) .or. isst0 > 1) then
+                    sstan3(:,:,month) = load_boundary_file("sea_surface_temperature_anomaly.nc", &
+                        & "ssta", isst0-2+month-1, 420)
+                end if
+            end do
+
+            call forchk(bmask_s, 3, -50.0, 50.0, 0.0, sstan3)
+        end if
+
+        ! Climatological fields for the ocean model (TO BE RECODED)
+        ! Annual-mean heat flux into sea-surface
+        hfseacl = 0.0
+
+        if (sea_coupling_flag >= 1) then
+            stop "Model behaviour when sea_coupling_flag >= 1 not implemented yet"
+        end if
+
+        ! Ocean model SST climatology:
+        ! defined by adding SST model bias to observed climatology
+        ! (bias may be defined in a different period from climatology)
+
+        if (sea_coupling_flag >= 3) then
+            stop "Model behaviour when sea_coupling_flag >= 3 not implemented yet"
+        end if
+
+        ! =========================================================================
+        ! Compute heat capacities
+        ! =========================================================================
 
         ! Heat flux coefficient at sea/ice interface [(W/m^2)/deg]
         beta = 1.
@@ -136,7 +216,9 @@ contains
             hcapi(j) = 1.93e+6*(depth_ice+(dept0_ice-depth_ice)*coslat**2)
         end do
 
-        ! 3. Compute constant parameters and fields
+        ! =========================================================================
+        ! Compute constant parameters and fields
+        ! =========================================================================
 
         ! Set domain mask
         if (l_globe) then
@@ -289,6 +371,7 @@ contains
         use date, only: model_datetime, start_datetime
         use mod_tsteps, only: issty0
         use input_output, only: load_boundary_file
+        use boundaries, only: forchk
 
         integer :: i, j, next_month
 

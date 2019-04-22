@@ -81,7 +81,7 @@ contains
     !                          qtend  : spec. hum. tendency (gp)
     subroutine get_physical_tendencies(vor, div, t, q, phi, psl, utend, vtend, ttend, qtend)
         use physical_constants, only: sig, sigh, grdsig, grdscp, cp
-        use mod_surfcon, only: phis0
+        use boundaries, only: phis0
         use land_model, only: fmask_l
         use sea_model, only: sst_am, ssti_om, sea_coupling_flag
         use sppt, only: mu, gen_sppt
