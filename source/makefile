@@ -27,6 +27,7 @@ FILES= \
 	   boundaries.o \
        coupler.o \
 	   date.o \
+	   diagnostics.o \
        dyn_geop.o \
        dyn_grtend.o \
        dyn_sptend.o \
@@ -50,7 +51,6 @@ FILES= \
 	   mod_tsteps.o \
 	   physics.o \
 	   physical_constants.o \
-       ppo_diagns.o \
        ppo_dmflux.o \
 	   precipitation.o \
 	   prognostics.o \
@@ -74,7 +74,8 @@ base_target: $(FILES) speedy.o
 clean:
 	rm -f *.o *.mod
 
-speedy.o               : mod_tsteps.o date.o input_output.o shortwave_radiation.o time_stepping.o
+speedy.o               : mod_tsteps.o date.o input_output.o shortwave_radiation.o time_stepping.o\
+                         diagnostics.o
 boundaries.o           : mod_dyncon1.o mod_atparam.o input_output.o
 coupler.o              : land_model.o sea_model.o
 dyn_geop.o             : mod_atparam.o prognostics.o mod_dyncon1.o
@@ -87,7 +88,8 @@ initialization.o       : coupler.o mod_tsteps.o mod_atparam.o date.o input_outpu
                          boundaries.o mod_spectral.o sea_model.o physics.o
 ini_indyns.o           : mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o mod_hdifcon.o\
                          mod_spectral.o
-ini_invars.o           : mod_dyncon0.o mod_atparam.o prognostics.o mod_dyncon1.o boundaries.o
+ini_invars.o           : mod_dyncon0.o mod_atparam.o prognostics.o mod_dyncon1.o boundaries.o\
+                         diagnostics.o
 ini_fordate.o          : mod_dyncon0.o shortwave_radiation.o mod_atparam.o\
  						 mod_hdifcon.o physical_constants.o boundaries.o date.o land_model.o\
 						 mod_radcon.o surface_fluxes.o date.o sea_model.o longwave_radiation.o\
@@ -95,6 +97,7 @@ ini_fordate.o          : mod_dyncon0.o shortwave_radiation.o mod_atparam.o\
 land_model.o           : mod_atparam.o date.o mod_cpl_bcinterp.o input_output.o\
                          boundaries.o
 date.o            	   : mod_tsteps.o
+diagnostics.o          : mod_tsteps.o mod_atparam.o prognostics.o
 mod_dyncon1.o          : mod_atparam.o
 mod_dyncon2.o          : mod_atparam.o
 prognostics.o          : mod_atparam.o
@@ -113,7 +116,7 @@ sea_model.o            : mod_atparam.o input_output.o boundaries.o mod_dyncon1.o
  						 date.o mod_tsteps.o
 shortwave_radiation.o  : mod_atparam.o physical_constants.o mod_radcon.o
 surface_fluxes.o       : mod_atparam.o physical_constants.o mod_radcon.o land_model.o humidity.o
-ppo_diagns.o           : mod_tsteps.o mod_atparam.o prognostics.o
+
 ppo_dmflux.o           : mod_tsteps.o mod_atparam.o physical_constants.o land_model.o sea_model.o\
                          physics.o mod_radcon.o
 precipitation.o        : mod_atparam.o physical_constants.o mod_dyncon1.o

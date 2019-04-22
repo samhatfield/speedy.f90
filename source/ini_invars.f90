@@ -7,6 +7,7 @@ subroutine invars
     use prognostics
     use mod_dyncon1, only: grav, rgas, fsg
     use boundaries, only: phi0, phis0
+    use diagnostics, only: check_diagnostics
 
     implicit none
 
@@ -95,5 +96,5 @@ subroutine invars
     end do
 
     ! Print diagnostics from initial conditions
-    call diagns (1,0)
+    call check_diagnostics(1,0)
 end

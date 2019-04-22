@@ -6,6 +6,7 @@ program speedy
     use coupler, only: couple_sea_land
     use initialization, only: initialize
     use time_stepping, only: step
+    use diagnostics, only: check_diagnostics
 
     implicit none
 
@@ -32,8 +33,8 @@ program speedy
         ! Perform one leapfrog time step
         call step(2, 2, delt2)
 
-        ! Do diagnostic, post-processing and I/O tasks
-        call diagns(2, model_step)
+        ! Check model diagnostics
+        call check_diagnostics(2, model_step)
 
         ! Increment time step counter
         model_step = model_step + 1

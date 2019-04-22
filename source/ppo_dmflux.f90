@@ -6,12 +6,10 @@ subroutine dmflux(iadd)
     use mod_tsteps, only: nsteps
     use mod_atparam
     use physical_constants, only: alhc, sbc
-    use boundaries, only: fmask
     use land_model, only: fmask_l, hflux_l
     use sea_model, only: tice_am, sice_am, hflux_s, hflux_i
     use physics, only: hfluxn, shf, evap, ssrd
     use mod_radcon, only: albsea, albice, emisfc
-    use date, only: model_datetime
 
     implicit none
 
