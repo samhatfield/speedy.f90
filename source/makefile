@@ -74,60 +74,52 @@ base_target: $(FILES) speedy.o
 clean:
 	rm -f *.o *.mod
 
-speedy.o               : speedy.f90 mod_tsteps.o date.o input_output.o shortwave_radiation.o\
- 						 time_stepping.o
-boundaries.o           : boundaries.f90 mod_tsteps.o mod_dyncon1.o mod_atparam.o input_output.o
-coupler.o              : coupler.f90 mod_atparam.o land_model.o sea_model.o
-dyn_geop.o             : dyn_geop.f90 mod_atparam.o prognostics.o mod_dyncon1.o
-dyn_grtend.o           : dyn_grtend.f90 mod_atparam.o prognostics.o mod_dyncon1.o mod_dyncon2.o\
-                         physics.o
-dyn_implic.o           : dyn_implic.f90 mod_atparam.o mod_dyncon1.o mod_dyncon1.o mod_dyncon2.o
-dyn_sptend.o           : dyn_sptend.f90 mod_atparam.o prognostics.o mod_dyncon1.o mod_dyncon2.o
-humidity.o             : humidity.f90 mod_atparam.o
-implicit.o             : implicit.f90 mod_atparam.o mod_dyncon0.o mod_dyncon1.o mod_dyncon2.o\
-                         mod_hdifcon.o mod_tsteps.o
-initialization.o       : initialization.f90 coupler.o mod_tsteps.o mod_atparam.o date.o\
- 					     input_output.o time_stepping.o boundaries.o
-ini_indyns.o           : ini_indyns.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o\
- 						 mod_hdifcon.o mod_spectral.o
-
-ini_invars.o           : ini_invars.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o prognostics.o\
-                         mod_dyncon1.o boundaries.o date.o
-ini_fordate.o          : ini_fordate.f90 mod_dyncon0.o shortwave_radiation.o mod_atparam.o\
+speedy.o               : mod_tsteps.o date.o input_output.o shortwave_radiation.o time_stepping.o
+boundaries.o           : mod_dyncon1.o mod_atparam.o input_output.o
+coupler.o              : land_model.o sea_model.o
+dyn_geop.o             : mod_atparam.o prognostics.o mod_dyncon1.o
+dyn_grtend.o           : mod_atparam.o prognostics.o mod_dyncon1.o mod_dyncon2.o physics.o
+dyn_sptend.o           : mod_atparam.o prognostics.o mod_dyncon1.o mod_dyncon2.o
+humidity.o             : mod_atparam.o
+implicit.o             : mod_atparam.o mod_dyncon0.o mod_dyncon1.o mod_dyncon2.o mod_hdifcon.o\
+                         mod_tsteps.o
+initialization.o       : coupler.o mod_tsteps.o mod_atparam.o date.o input_output.o time_stepping.o\
+                         boundaries.o mod_spectral.o sea_model.o physics.o
+ini_indyns.o           : mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o mod_hdifcon.o\
+                         mod_spectral.o
+ini_invars.o           : mod_dyncon0.o mod_atparam.o prognostics.o mod_dyncon1.o boundaries.o
+ini_fordate.o          : mod_dyncon0.o shortwave_radiation.o mod_atparam.o\
  						 mod_hdifcon.o physical_constants.o boundaries.o date.o land_model.o\
-						 mod_radcon.o surface_fluxes.o
-land_model.o           : land_model.f90 mod_atparam.o date.o mod_cpl_bcinterp.o
-mod_atparam.o          : mod_atparam.f90
-mod_cpl_bcinterp.o     : mod_cpl_bcinterp.f90
-date.o            	   : date.f90 mod_atparam.o mod_tsteps.o
-mod_dyncon0.o          : mod_dyncon0.f90
-mod_dyncon1.o          : mod_dyncon1.f90 mod_atparam.o
-mod_dyncon2.o          : mod_dyncon2.f90 mod_atparam.o
-prognostics.o          : prognostics.f90 mod_atparam.o
-mod_hdifcon.o          : mod_hdifcon.f90 mod_atparam.o
-input_output.o         : input_output.f90 mod_atparam.o mod_dyncon1.o physical_constants.o date.o\
-                         mod_tsteps.o prognostics.o
-physical_constants.o   : physical_constants.f90 mod_atparam.o
-mod_radcon.o           : mod_radcon.f90 mod_atparam.o
-mod_spectral.o         : mod_spectral.f90 mod_atparam.o
-mod_tsteps.o           : mod_tsteps.f90
-physics.o              : physics.f90 mod_atparam.o coupler.o physical_constants.o\
-					     boundaries.o land_model.o sea_model.o sppt.o mod_tsteps.o\
-						 precipitation.o surface_fluxes.o vertical_diffusion.o\
-						 shortwave_radiation.o longwave_radiation.o
-longwave_radiation.o   : longwave_radiation.f90 mod_atparam.o physical_constants.o mod_radcon.o
-sea_model.o            : sea_model.f90 mod_atparam.o input_output.o boundaries.o
-shortwave_radiation.o  : shortwave_radiation.f90 mod_atparam.o physical_constants.o mod_radcon.o
-surface_fluxes.o       : surface_fluxes.f90 mod_atparam.o physical_constants.o mod_radcon.o\
- 						 humidity.o
-ppo_diagns.o           : ppo_diagns.f90 mod_tsteps.o mod_atparam.o prognostics.o date.o
-ppo_dmflux.o           : ppo_dmflux.f90 mod_tsteps.o mod_atparam.o physical_constants.o\
- 					     boundaries.o mod_radcon.o
-precipitation.o        : precipitation.f90 mod_atparam.o physical_constants.o
-spe_matinv.o           : spe_matinv.f90
-spe_spectral.o         : spe_spectral.f90 mod_atparam.o mod_spectral.o
-spe_subfft_fftpack.o   : spe_subfft_fftpack.f90 mod_atparam.o mod_spectral.o
-sppt.o                 : sppt.f90 mod_atparam.o mod_tsteps.o mod_dyncon1.o mod_spectral.o
-time_stepping.o        : time_stepping.f90 mod_tsteps.o mod_dyncon0.o mod_atparam.o prognostics.o\
- 					     mod_hdifcon.o
-vertical_diffusion     : phy_vdifsc.f90 mod_atparam.o physical_constants.o
+						 mod_radcon.o surface_fluxes.o date.o sea_model.o longwave_radiation.o\
+						 humidity.o
+land_model.o           : mod_atparam.o date.o mod_cpl_bcinterp.o input_output.o\
+                         boundaries.o
+date.o            	   : mod_tsteps.o
+mod_dyncon1.o          : mod_atparam.o
+mod_dyncon2.o          : mod_atparam.o
+prognostics.o          : mod_atparam.o
+mod_hdifcon.o          : mod_atparam.o
+input_output.o         : mod_atparam.o mod_dyncon1.o physical_constants.o date.o mod_tsteps.o\
+                         prognostics.o
+physical_constants.o   : mod_atparam.o
+mod_radcon.o           : mod_atparam.o
+mod_spectral.o         : mod_atparam.o
+physics.o              : mod_atparam.o coupler.o physical_constants.o boundaries.o land_model.o\
+                         sea_model.o sppt.o mod_tsteps.o precipitation.o surface_fluxes.o\
+						 vertical_diffusion.o shortwave_radiation.o longwave_radiation.o\
+						 mod_dyncon1.o humidity.o
+longwave_radiation.o   : mod_atparam.o physical_constants.o mod_radcon.o
+sea_model.o            : mod_atparam.o input_output.o boundaries.o mod_dyncon1.o mod_cpl_bcinterp.o\
+ 						 date.o mod_tsteps.o
+shortwave_radiation.o  : mod_atparam.o physical_constants.o mod_radcon.o
+surface_fluxes.o       : mod_atparam.o physical_constants.o mod_radcon.o land_model.o humidity.o
+ppo_diagns.o           : mod_tsteps.o mod_atparam.o prognostics.o
+ppo_dmflux.o           : mod_tsteps.o mod_atparam.o physical_constants.o land_model.o sea_model.o\
+                         physics.o mod_radcon.o
+precipitation.o        : mod_atparam.o physical_constants.o mod_dyncon1.o
+spe_spectral.o         : mod_atparam.o mod_spectral.o
+spe_subfft_fftpack.o   : mod_atparam.o mod_spectral.o
+sppt.o                 : mod_atparam.o mod_tsteps.o mod_dyncon1.o mod_spectral.o
+time_stepping.o        : mod_tsteps.o mod_dyncon0.o mod_atparam.o prognostics.o\
+ 					     mod_hdifcon.o implicit.o
+vertical_diffusion     : mod_atparam.o physical_constants.o
