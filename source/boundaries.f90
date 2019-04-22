@@ -75,6 +75,8 @@ contains
     ! Input   : fg1 : original grid-point field
     ! Output  : fg2 : filtered grid-point field
     subroutine spectral_truncation(fg1, fg2)
+        use spectral, only: spec_to_grid
+
         real, dimension(ix,il), intent(inout) :: fg1(ix,il), fg2(ix,il)
         complex :: fsp(mx,nx)
         integer :: n, m, total_wavenumber
@@ -88,7 +90,7 @@ contains
             end do
         end do
 
-        call grid(fsp, fg2, 1)
+        fg2 = spec_to_grid(fsp, 1)
     end
 
     ! Replace missing values in surface fields

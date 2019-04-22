@@ -83,6 +83,7 @@ contains
         use date, only: model_datetime, start_datetime
         use mod_tsteps, only: nsteps
         use prognostics, only: vor, div, t, ps, tr, phi
+        use spectral, only: spec_to_grid
 
         integer, intent(in) :: timestep
         complex, dimension(mx,nx) :: ucos, vcos
@@ -162,13 +163,13 @@ contains
         ! Convert prognostic fields from spectral space to grid point space
         do k = 1, kx
            call uvspec(vor(:,:,k,1), div(:,:,k,1), ucos, vcos)
-           call grid(ucos, u_grid(:,:,k), 2)
-           call grid(vcos, v_grid(:,:,k), 2)
-           call grid(t(:,:,k,1), t_grid(:,:,k), 1)
-           call grid(tr(:,:,k,1,1), q_grid(:,:,k), 1)
-           call grid(phi(:,:,k), phi_grid(:,:,k), 1)
+           u_grid(:,:,k)   = spec_to_grid(ucos, 2)
+           v_grid(:,:,k)   = spec_to_grid(vcos, 2)
+           t_grid(:,:,k)   = spec_to_grid(t(:,:,k,1), 1)
+           q_grid(:,:,k)   = spec_to_grid(tr(:,:,k,1,1), 1)
+           phi_grid(:,:,k) = spec_to_grid(phi(:,:,k), 1)
         end do
-        call grid(ps(:,:,1), ps_grid(:,:), 1)
+        ps_grid = spec_to_grid(ps(:,:,1), 1)
 
         ! Output date
         print '(A,I4.4,A,I2.2,A,I2.2,A,I2.2,A,I2.2)',&

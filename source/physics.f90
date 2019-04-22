@@ -92,6 +92,7 @@ contains
         use surface_fluxes, only: get_surface_fluxes
         use vertical_diffusion, only: get_vertical_diffusion_tend
         use humidity, only: spec_hum_to_rel_hum
+        use spectral, only: spec_to_grid
 
         complex, dimension(mx,nx,kx), intent(in) :: vor, div, t, q, phi
         complex, dimension(mx,nx), intent(in) :: psl
@@ -120,14 +121,14 @@ contains
         ! Convert model spectral variables to grid-point variables
         do k = 1, kx
     		call uvspec(vor(:,:,k), div(:,:,k), ucos, vcos)
-    		call grid(ucos, ug(:,:,k), 2)
-    		call grid(vcos, vg(:,:,k), 2)
-    		call grid(t(:,:,k), tg(:,:,k), 1)
-    		call grid(q(:,:,k), qg(:,:,k), 1)
-          	call grid(phi(:,:,k),phig(:,:,k),1)
+    		ug(:,:,k)   = spec_to_grid(ucos, 2)
+    		vg(:,:,k)   = spec_to_grid(vcos, 2)
+    		tg(:,:,k)   = spec_to_grid(t(:,:,k), 1)
+    		qg(:,:,k)   = spec_to_grid(q(:,:,k), 1)
+          	phig(:,:,k) = spec_to_grid(phi(:,:,k), 1)
         end do
 
-        call grid(psl,pslg,1)
+        pslg = spec_to_grid(psl, 1)
 
         ! =========================================================================
         ! Compute thermodynamic variables

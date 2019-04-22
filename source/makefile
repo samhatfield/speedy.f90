@@ -76,7 +76,7 @@ clean:
 
 speedy.o               : mod_tsteps.o date.o input_output.o shortwave_radiation.o time_stepping.o\
                          diagnostics.o
-boundaries.o           : mod_dyncon1.o mod_atparam.o input_output.o
+boundaries.o           : mod_dyncon1.o mod_atparam.o input_output.o spectral.o
 coupler.o              : land_model.o sea_model.o
 dyn_geop.o             : mod_atparam.o prognostics.o mod_dyncon1.o
 dyn_grtend.o           : mod_atparam.o prognostics.o mod_dyncon1.o mod_dyncon2.o physics.o
@@ -97,13 +97,13 @@ ini_fordate.o          : mod_dyncon0.o shortwave_radiation.o mod_atparam.o\
 land_model.o           : mod_atparam.o date.o mod_cpl_bcinterp.o input_output.o\
                          boundaries.o
 date.o            	   : mod_tsteps.o
-diagnostics.o          : mod_tsteps.o mod_atparam.o prognostics.o
+diagnostics.o          : mod_tsteps.o mod_atparam.o prognostics.o spectral.o
 mod_dyncon1.o          : mod_atparam.o
 mod_dyncon2.o          : mod_atparam.o
 prognostics.o          : mod_atparam.o
 mod_hdifcon.o          : mod_atparam.o
 input_output.o         : mod_atparam.o mod_dyncon1.o physical_constants.o date.o mod_tsteps.o\
-                         prognostics.o
+                         prognostics.o spectral.o
 physical_constants.o   : mod_atparam.o
 mod_radcon.o           : mod_atparam.o
 physics.o              : mod_atparam.o coupler.o physical_constants.o boundaries.o land_model.o\

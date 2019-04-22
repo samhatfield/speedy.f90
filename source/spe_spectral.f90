@@ -90,33 +90,6 @@ subroutine lgndre(j)
         end do
     end do
 end
-!***************************************************************
-subroutine lap(strm,vorm)
-    use mod_atparam
-    use spectral, only: el2
-
-    implicit none
-
-
-    complex, intent(in) :: strm(mx,nx)
-    complex, intent(inout) :: vorm(mx,nx)
-    vorm = -strm * el2
-end
-!*******************************************************************
-subroutine invlap(vorm,strm)
-    use mod_atparam
-    use spectral, only: elm2
-
-    ! include "param1spec.h"
-
-    complex, intent(in) :: vorm(mx,nx)
-    complex, intent(inout) :: strm(mx,nx)
-    strm = -vorm * elm2
-
-    !do m=1,mxnx
-    !    strm(m,1)=-vorm(m,1)*elm2(m,1)
-    !end do
-end
 !*********************************************************************
 subroutine grad(psi,psdx,psdy)
     use mod_atparam
@@ -203,22 +176,6 @@ subroutine uvspec(vorm,divm,ucosm,vcosm)
           ucosm(m,n) =  uvdym(m,n)*vorm(m,n-1) - uvdyp(m,n)*vorm(m,n+1) + zc(m,n)
         end do
     end do
-end
-!*******************************************************************
-subroutine grid(vorm,vorg,kcos)
-    use mod_atparam
-
-    implicit none
-
-    complex, intent(in) :: vorm(mx,nx)
-    integer, intent(in) :: kcos
-    real, intent(out) :: vorg(ix,il)
-
-    real :: vorm_r(mx2,nx), varm(mx2,il)
-
-    vorm_r = reshape(transfer(vorm, vorm_r), (/ mx2, nx /))
-    call legendre_inv(vorm_r,varm)
-    call gridx(varm,vorg,kcos)
 end
 !*********************************************************************
 subroutine spec(vorg,vorm)

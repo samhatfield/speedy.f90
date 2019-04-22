@@ -7,8 +7,6 @@
 module sppt
     use mod_atparam
     use mod_tsteps, only: nsteps
-    use mod_dyncon1, only: rearth
-    use spectral, only: el2
 
     implicit none
 
@@ -43,6 +41,9 @@ module sppt
         !> distribution.
         !> @return sppt_grid the generated grid point pattern
         function gen_sppt() result(sppt_grid)
+            use spectral, only: el2, spec_to_grid
+            use mod_dyncon1, only: rearth
+
             integer :: m, n, k
             real :: sppt_grid(ix,il,kx)
             complex :: eta(mx,nx,kx)
@@ -87,7 +88,7 @@ module sppt
 
             ! Convert to grid point space
              do k=1,kx
-                 call grid(sppt_spec(:,:,k),sppt_grid(:,:,k),1)
+                 sppt_grid(:,:,k) = spec_to_grid(sppt_spec(:,:,k), 1)
              end do
 
              ! Clip to +/- 1.0

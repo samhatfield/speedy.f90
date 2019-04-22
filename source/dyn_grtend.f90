@@ -20,6 +20,7 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
     use mod_dyncon1, only: akap, rgas, dhs, fsg, dhsr, fsgr, coriol
     use mod_dyncon2, only: tref, tref3
     use physics, only: get_physical_tendencies
+    use spectral, only: spec_to_grid, laplacian
 
     implicit none
 
@@ -55,17 +56,17 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
     ! -------------
     ! Grid converts
     do k=1,kx
-        call grid(vor(:,:,k,j2),vorg(:,:,k),1)
-        call grid(div(:,:,k,j2),divg(:,:,k),1)
-        call grid(  t(:,:,k,j2),  tg(:,:,k),1)
+        vorg(:,:,k) = spec_to_grid(vor(:,:,k,j2), 1)
+        divg(:,:,k) = spec_to_grid(div(:,:,k,j2), 1)
+        tg(:,:,k)   = spec_to_grid(t(:,:,k,j2), 1)
 
         do itr=1,ntr
-          call grid(tr(:,:,k,j2,itr),trg(:,:,k,itr),1)
+          trg(:,:,k,itr) = spec_to_grid(tr(:,:,k,j2,itr), 1)
         end do
 
         call uvspec(vor(:,:,k,j2),div(:,:,k,j2),dumc(:,:,1),dumc(:,:,2))
-        call grid(dumc(:,:,2),vg(:,:,k),2)
-        call grid(dumc(:,:,1),ug(:,:,k),2)
+        vg(:,:,k) = spec_to_grid(dumc(:,:,2), 2)
+        ug(:,:,k) = spec_to_grid(dumc(:,:,1), 2)
 
         do j=1,il
             do i=1,ix
@@ -87,8 +88,8 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
     ! Compute tendency of log(surface pressure)
     ! ps(1,1,j2)=zero
     call grad(ps(:,:,j2),dumc(:,:,1),dumc(:,:,2))
-    call grid(dumc(:,:,1),px,2)
-    call grid(dumc(:,:,2),py,2)
+    px = spec_to_grid(dumc(:,:,1), 2)
+    py = spec_to_grid(dumc(:,:,2), 2)
 
     call spec(-umean * px - vmean * py,psdt)
     psdt(1,1) = (0.0, 0.0)
@@ -185,7 +186,7 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
         !  divergence tendency
         !  add -lapl(0.5*(u**2+v**2)) to div tendency,
         call spec(0.5 * (ug(:,:,k)*ug(:,:,k) + vg(:,:,k)*vg(:,:,k)), dumc(:,:,1))
-        call lap(dumc(:,:,1), dumc(:,:,2))
+        dumc(:,:,2) = laplacian(dumc(:,:,1))
         divdt(:,:,k) = divdt(:,:,k) - dumc(:,:,2)
 
         !  temperature tendency

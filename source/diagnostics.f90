@@ -13,6 +13,7 @@ contains
         use mod_tsteps, only: nstdia
         use mod_atparam
         use prognostics, only: vor, div, t
+        use spectral, only: inverse_laplacian
 
         integer, intent(in) :: jj, istep
 
@@ -26,7 +27,7 @@ contains
             diag(k,2) = 0.0
             diag(k,3) = sqrt(0.5)*real(t(1,1,k,jj))
 
-            call invlap(vor(1,1,k,jj), temp)
+            temp = inverse_laplacian(vor(:,:,k,jj))
 
             do m = 2, mx
                 do n = 1, nx
@@ -34,7 +35,7 @@ contains
                 end do
             end do
 
-            call invlap(div(1,1,k,jj), temp)
+            temp = inverse_laplacian(div(:,:,k,jj))
 
             do m = 2, mx
                 do n = 1, nx
