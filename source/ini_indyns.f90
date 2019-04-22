@@ -9,7 +9,7 @@ subroutine indyns
     use mod_dyncon1
     use mod_atparam
     use mod_hdifcon, only: dmp, dmpd, dmps, tcorv, qcorv
-    use mod_spectral, only: sia, cosg
+    use spectral, only: sia, cosg
 
     implicit none
 

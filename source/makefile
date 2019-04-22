@@ -47,7 +47,6 @@ FILES= \
 	   mod_hdifcon.o \
 	   input_output.o \
 	   mod_radcon.o \
-	   mod_spectral.o \
 	   mod_tsteps.o \
 	   physics.o \
 	   physical_constants.o \
@@ -56,6 +55,7 @@ FILES= \
 	   prognostics.o \
 	   sea_model.o \
 	   shortwave_radiation.o \
+	   spectral.o \
        spe_matinv.o \
        spe_spectral.o \
        spe_subfft_fftpack.o \
@@ -85,9 +85,9 @@ humidity.o             : mod_atparam.o
 implicit.o             : mod_atparam.o mod_dyncon0.o mod_dyncon1.o mod_dyncon2.o mod_hdifcon.o\
                          mod_tsteps.o
 initialization.o       : coupler.o mod_tsteps.o mod_atparam.o date.o input_output.o time_stepping.o\
-                         boundaries.o mod_spectral.o sea_model.o physics.o
+                         boundaries.o spectral.o sea_model.o physics.o
 ini_indyns.o           : mod_tsteps.o mod_dyncon0.o mod_atparam.o mod_dyncon1.o mod_hdifcon.o\
-                         mod_spectral.o
+                         spectral.o
 ini_invars.o           : mod_dyncon0.o mod_atparam.o prognostics.o mod_dyncon1.o boundaries.o\
                          diagnostics.o
 ini_fordate.o          : mod_dyncon0.o shortwave_radiation.o mod_atparam.o\
@@ -106,7 +106,6 @@ input_output.o         : mod_atparam.o mod_dyncon1.o physical_constants.o date.o
                          prognostics.o
 physical_constants.o   : mod_atparam.o
 mod_radcon.o           : mod_atparam.o
-mod_spectral.o         : mod_atparam.o
 physics.o              : mod_atparam.o coupler.o physical_constants.o boundaries.o land_model.o\
                          sea_model.o sppt.o mod_tsteps.o precipitation.o surface_fluxes.o\
 						 vertical_diffusion.o shortwave_radiation.o longwave_radiation.o\
@@ -120,9 +119,10 @@ surface_fluxes.o       : mod_atparam.o physical_constants.o mod_radcon.o land_mo
 ppo_dmflux.o           : mod_tsteps.o mod_atparam.o physical_constants.o land_model.o sea_model.o\
                          physics.o mod_radcon.o
 precipitation.o        : mod_atparam.o physical_constants.o mod_dyncon1.o
-spe_spectral.o         : mod_atparam.o mod_spectral.o
-spe_subfft_fftpack.o   : mod_atparam.o mod_spectral.o
-sppt.o                 : mod_atparam.o mod_tsteps.o mod_dyncon1.o mod_spectral.o
+spectral.o             : mod_atparam.o
+spe_spectral.o         : mod_atparam.o spectral.o
+spe_subfft_fftpack.o   : mod_atparam.o spectral.o
+sppt.o                 : mod_atparam.o mod_tsteps.o mod_dyncon1.o spectral.o
 time_stepping.o        : mod_tsteps.o mod_dyncon0.o mod_atparam.o prognostics.o\
  					     mod_hdifcon.o implicit.o
 vertical_diffusion     : mod_atparam.o physical_constants.o

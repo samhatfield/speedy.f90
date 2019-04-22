@@ -44,7 +44,7 @@ end
 !****************************************************************
 subroutine parmtr(a)
     use mod_atparam
-    use mod_spectral
+    use spectral
 
     implicit none
 
@@ -60,13 +60,13 @@ subroutine parmtr(a)
     ! first compute Gaussian latitudes and weights at the IY points from
     !     pole to equator
     ! SIA(IY) is sin of latitude, WT(IY) are Gaussian weights for quadratures,
-    !   saved in mod_spectral
+    !   saved in spectral
     call gaussl(sia,wt,iy)
     am1 = 1./a
     am2=  1./(a*a)
 
     ! COA(IY) = cos(lat); WGHT needed for transforms,
-    !           saved in mod_spectral
+    !           saved in spectral
     do j=1,iy
         cosqr = 1.0-sia(j)**2
         coa(j)=sqrt(cosqr)
@@ -74,7 +74,7 @@ subroutine parmtr(a)
     end do
 
     ! expand cosine and its reciprocal to cover both hemispheres,
-    !    saved in mod_spectral
+    !    saved in spectral
     do j=1,iy
         jj=il+1-j
         cosg(j)=coa(j)
@@ -93,7 +93,7 @@ subroutine parmtr(a)
     !  EL4 = EL2*EL2 ; for biharmonic diffusion
     !  ELM2 = 1./EL2
     !  TRFILT used to filter out "non-triangular" part of rhomboidal truncation
-    !   saved in mod_spectral
+    !   saved in spectral
     do n=1,nx
         nsh2(n)=0
         do m=1,mx
@@ -124,7 +124,7 @@ subroutine parmtr(a)
 
     ! quantities needed to generate and differentiate Legendre polynomials
     ! all m values up to MXP = ISC*MTRUN+1 are needed by recursion relation
-    ! saved in mod_spectral
+    ! saved in spectral
     do m=1,mxp
         do n=1,nxp
             emm(m)=float(m-1)
@@ -149,7 +149,7 @@ subroutine parmtr(a)
     end do
 
     ! quantities required by subroutines GRAD, UVSPEC, and VDS
-    ! saved in mod_spectral
+    ! saved in spectral
     do m=1,mx
         do n=1,nx
             m1=mm(m)
@@ -174,8 +174,8 @@ subroutine parmtr(a)
 
     !  generate associated Legendre polynomial
     !  LGNDRE computes the polynomials at a particular latitiude, POLY(MX,NX), and stores
-    !  them in mod_spectral
-    !  polynomials and 'clones' stored in mod_spectral
+    !  them in spectral
+    !  polynomials and 'clones' stored in spectral
     do j=1,iy
         call lgndre(j)
         do n=1,nx
@@ -193,7 +193,7 @@ subroutine lgndre(j)
     ! follows Leith Holloways code
 
     use mod_atparam
-    use mod_spectral, only: sia, coa, sqrhlf, consq, repsi, epsi, poly
+    use spectral, only: sia, coa, sqrhlf, consq, repsi, epsi, poly
 
     implicit none
 
@@ -240,7 +240,7 @@ end
 !***************************************************************
 subroutine lap(strm,vorm)
     use mod_atparam
-    use mod_spectral, only: el2
+    use spectral, only: el2
 
     implicit none
 
@@ -252,7 +252,7 @@ end
 !*******************************************************************
 subroutine invlap(vorm,strm)
     use mod_atparam
-    use mod_spectral, only: elm2
+    use spectral, only: elm2
 
     ! include "param1spec.h"
 
@@ -267,7 +267,7 @@ end
 !*********************************************************************
 subroutine grad(psi,psdx,psdy)
     use mod_atparam
-    use mod_spectral, only: gradx, gradyp, gradym
+    use spectral, only: gradx, gradyp, gradym
 
     implicit none
 
@@ -301,7 +301,7 @@ end
 !******************************************************************
 subroutine vds(ucosm,vcosm,vorm,divm)
     use mod_atparam
-    use mod_spectral, only: gradx, vddyp, vddym
+    use spectral, only: gradx, vddyp, vddym
 
     implicit none
 
@@ -343,7 +343,7 @@ end
 !******************************************************************
 subroutine uvspec(vorm,divm,ucosm,vcosm)
     use mod_atparam
-    use mod_spectral, only: uvdx, uvdyp, uvdym
+    use spectral, only: uvdx, uvdyp, uvdym
 
     real, dimension(2,mx,nx), intent(in) :: vorm,divm
     real, dimension(2,mx,nx), intent(inout) :: ucosm,vcosm
@@ -402,7 +402,7 @@ end
 !*********************************************************************
 subroutine vdspec(ug,vg,vorm,divm,kcos)
     use mod_atparam
-    use mod_spectral, only: cosgr, cosgr2
+    use spectral, only: cosgr, cosgr2
 
     implicit none
 
@@ -437,7 +437,7 @@ end
 ! Computes inverse Legendre transformation
 subroutine legendre_inv(v_in,v_out)
     use mod_atparam
-    use mod_spectral, only: cpol, nsh2
+    use spectral, only: cpol, nsh2
 
     implicit none
 
@@ -482,7 +482,7 @@ end
 ! Computes direct Legendre transformation
 subroutine legendre_dir(v_in,v_out)
     use mod_atparam
-    use mod_spectral, only: wt, cpol, nsh2
+    use spectral, only: wt, cpol, nsh2
 
     implicit none
 
@@ -530,7 +530,7 @@ end
 !******************************************************************
 subroutine trunct(vor)
     use mod_atparam
-    use mod_spectral, only: trfilt
+    use spectral, only: trfilt
 
     implicit none
 

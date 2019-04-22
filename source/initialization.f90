@@ -11,7 +11,7 @@ contains
         use date, only: newdate, model_datetime, start_datetime, end_datetime
         use coupler, only: initialize_coupler
         use sea_model, only: sea_coupling_flag, sst_anomaly_coupling_flag
-        use mod_spectral, only: inifft
+        use spectral, only: inifft
         use physics, only: initialize_physics
         use input_output, only: output
         use time_stepping, only: first_step

@@ -3,7 +3,7 @@ subroutine gridx(varm,vorg,kcos)
     ! From Fourier coefficients to grid-point data
 
     use mod_atparam
-    use mod_spectral, only: cosgr, wsave
+    use spectral, only: cosgr, wsave
 
     implicit none
 
@@ -42,7 +42,7 @@ subroutine specx(vorg,varm)
     ! From grid-point data to Fourier coefficients
 
     use mod_atparam
-    use mod_spectral, only: wsave
+    use spectral, only: wsave
 
     implicit none
 
