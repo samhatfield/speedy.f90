@@ -124,30 +124,23 @@ subroutine grad(psi,psdx,psdy)
 
     implicit none
 
-    real, dimension(2,mx,nx), intent(inout) :: psi
-    real, dimension(2,mx,nx), intent(inout) :: psdx, psdy
+    complex, dimension(mx,nx), intent(inout) :: psi
+    complex, dimension(mx,nx), intent(inout) :: psdx, psdy
 
     integer :: k, n, m
 
-    do n=1,nx
-        do m=1,mx
-            psdx(2,m,n)=gradx(m)*psi(1,m,n)
-            psdx(1,m,n)=-gradx(m)*psi(2,m,n)
-        end do
+    do n = 1, nx
+        psdx(:,n) = gradx*psi(:,n)*(0.0, 1.0)
     end do
 
-    do k=1,2
-        do m=1,mx
-            psdy(k,m,1)=gradyp(m,1)*psi(k,m,2)
-            psdy(k,m,nx)=-gradym(m,nx)*psi(k,m,ntrun1)
-        end do
+    do m=1,mx
+        psdy(m,1)  =  gradyp(m,1)*psi(m,2)
+        psdy(m,nx) = -gradym(m,nx)*psi(m,ntrun1)
     end do
 
-    do k=1,2
-        do n=2,ntrun1
-            do m=1,mx
-                psdy(k,m,n)=-gradym(m,n)*psi(k,m,n-1)+gradyp(m,n)*psi(k,m,n+1)
-            end do
+    do n=2,ntrun1
+        do m=1,mx
+            psdy(m,n) = -gradym(m,n)*psi(m,n-1) + gradyp(m,n)*psi(m,n+1)
         end do
     end do
 end
@@ -158,38 +151,28 @@ subroutine vds(ucosm,vcosm,vorm,divm)
 
     implicit none
 
-    real, dimension(2,mx,nx) :: ucosm, vcosm
-    real, dimension(2,mx,nx), intent(inout) :: vorm, divm
-    real, dimension(2,mx,nx) :: zc, zp
+    complex, dimension(mx,nx) :: ucosm, vcosm
+    complex, dimension(mx,nx), intent(inout) :: vorm, divm
+    complex, dimension(mx,nx) :: zc, zp
 
     integer :: n, m, k
 
     do n=1,nx
-        do m=1,mx
-            zp(2,m,n)=gradx(m)*ucosm(1,m,n)
-            zp(1,m,n)=-gradx(m)*ucosm(2,m,n)
-            zc(2,m,n)=gradx(m)*vcosm(1,m,n)
-            zc(1,m,n)=-gradx(m)*vcosm(2,m,n)
-        end do
+        zp(:,n) = gradx*ucosm(:,n)*(0.0, 1.0)
+        zc(:,n) = gradx*vcosm(:,n)*(0.0, 1.0)
     end do
 
-    do k=1,2
-        do m=1,mx
-            vorm(k,m,1)=zc(k,m,1)-vddyp(m,1)*ucosm(k,m,2)
-            vorm(k,m,nx)=vddym(m,nx)*ucosm(k,m,ntrun1)
-            divm(k,m,1)=zp(k,m,1)+vddyp(m,1)*vcosm(k,m,2)
-            divm(k,m,nx)=-vddym(m,nx)*vcosm(k,m,ntrun1)
-        end do
+    do m=1,mx
+        vorm(m,1)  = zc(m,1) - vddyp(m,1)*ucosm(m,2)
+        vorm(m,nx) = vddym(m,nx)*ucosm(m,ntrun1)
+        divm(m,1)  = zp(m,1) + vddyp(m,1)*vcosm(m,2)
+        divm(m,nx) = -vddym(m,nx)*vcosm(m,ntrun1)
     end do
 
-    do k=1,2
-        do n=2,ntrun1
-            do m=1,mx
-                vorm(k,m,n)=vddym(m,n)*ucosm(k,m,n-1)-vddyp(m,n)*&
-                    & ucosm(k,m,n+1)+zc(k,m,n)
-                divm(k,m,n)=-vddym(m,n)*vcosm(k,m,n-1)+vddyp(m,n)*&
-                    & vcosm(k,m,n+1)+zp(k,m,n)
-            end do
+    do n=2,ntrun1
+        do m=1,mx
+            vorm(m,n) =  vddym(m,n)*ucosm(m,n-1) - vddyp(m,n)*ucosm(m,n+1) + zc(m,n)
+            divm(m,n) = -vddym(m,n)*vcosm(m,n-1) + vddyp(m,n)*vcosm(m,n+1) + zp(m,n)
         end do
     end do
 end
@@ -198,34 +181,26 @@ subroutine uvspec(vorm,divm,ucosm,vcosm)
     use mod_atparam
     use spectral, only: uvdx, uvdyp, uvdym
 
-    real, dimension(2,mx,nx), intent(in) :: vorm,divm
-    real, dimension(2,mx,nx), intent(inout) :: ucosm,vcosm
-    real, dimension(2,mx,nx) :: zc,zp
+    complex, dimension(mx,nx), intent(in) :: vorm,divm
+    complex, dimension(mx,nx), intent(inout) :: ucosm,vcosm
+    complex, dimension(mx,nx) :: zc,zp
 
     integer :: k, n, m
 
-    zp(2,:,:) =  uvdx*vorm(1,:,:)
-    zp(1,:,:) = -uvdx*vorm(2,:,:)
-    zc(2,:,:) =  uvdx*divm(1,:,:)
-    zc(1,:,:) = -uvdx*divm(2,:,:)
+    zp = uvdx*vorm*(0.0, 1.0)
+    zc = uvdx*divm*(0.0, 1.0)
 
-    do k=1,2
-        do m=1,mx
-            ucosm(k,m,1)=zc(k,m,1)-uvdyp(m,1)*vorm(k,m,2)
-            ucosm(k,m,nx)=uvdym(m,nx)*vorm(k,m,ntrun1)
-            vcosm(k,m,1)=zp(k,m,1)+uvdyp(m,1)*divm(k,m,2)
-            vcosm(k,m,nx)=-uvdym(m,nx)*divm(k,m,ntrun1)
-        end do
+    do m=1,mx
+        ucosm(m,1)  =  zc(m,1) - uvdyp(m,1)*vorm(m,2)
+        ucosm(m,nx) =  uvdym(m,nx)*vorm(m,ntrun1)
+        vcosm(m,1)  =  zp(m,1) + uvdyp(m,1)*divm(m,2)
+        vcosm(m,nx) = -uvdym(m,nx)*divm(m,ntrun1)
     end do
 
-    do k=1,2
-        do n=2,ntrun1
-            do m=1,mx
-              vcosm(k,m,n)=-uvdym(m,n)*divm(k,m,n-1)+uvdyp(m,n)*&
-                  & divm(k,m,n+1)+zp(k,m,n)
-              ucosm(k,m,n)= uvdym(m,n)*vorm(k,m,n-1)-uvdyp(m,n)*&
-                  & vorm(k,m,n+1)+zc(k,m,n)
-            end do
+    do n=2,ntrun1
+        do m=1,mx
+          vcosm(m,n) = -uvdym(m,n)*divm(m,n-1) + uvdyp(m,n)*divm(m,n+1) + zp(m,n)
+          ucosm(m,n) =  uvdym(m,n)*vorm(m,n-1) - uvdyp(m,n)*vorm(m,n+1) + zc(m,n)
         end do
     end do
 end
@@ -235,10 +210,14 @@ subroutine grid(vorm,vorg,kcos)
 
     implicit none
 
-    real, intent(inout) :: vorg(ix,il), vorm(mx2,nx)
+    complex, intent(in) :: vorm(mx,nx)
     integer, intent(in) :: kcos
-    real :: varm(mx2,il)
-    call legendre_inv(vorm,varm)
+    real, intent(out) :: vorg(ix,il)
+
+    real :: vorm_r(mx2,nx), varm(mx2,il)
+
+    vorm_r = reshape(transfer(vorm, vorm_r), (/ mx2, nx /))
+    call legendre_inv(vorm_r,varm)
     call gridx(varm,vorg,kcos)
 end
 !*********************************************************************
@@ -247,10 +226,14 @@ subroutine spec(vorg,vorm)
 
     implicit none
 
-    real, intent(inout) :: vorg(ix,il), vorm(mx2,nx)
-    real :: varm(mx2,il)
+    real, intent(in) :: vorg(ix,il)
+    complex, intent(out) :: vorm(mx,nx)
+
+    real :: vorm_r(mx2,nx), varm(mx2,il)
+
     call specx(vorg,varm)
-    call legendre_dir(varm,vorm)
+    call legendre_dir(varm,vorm_r)
+    vorm = reshape(transfer(vorm_r, vorm), (/ mx, nx /))
 end
 !*********************************************************************
 subroutine vdspec(ug,vg,vorm,divm,kcos)
@@ -260,11 +243,11 @@ subroutine vdspec(ug,vg,vorm,divm,kcos)
     implicit none
 
     real, intent(in) :: ug(ix,il), vg(ix,il)
-    real, intent(inout) :: vorm(mx2,nx), divm(mx2,nx)
+    complex, intent(out) :: vorm(mx,nx), divm(mx,nx)
     integer, intent(in) :: kcos
     integer :: i, j
-    real :: ug1(ix,il), vg1(ix,il), um(mx2,il), vm(mx2,il)
-    real :: specu(mx2,nx), specv(mx2,nx)
+    real :: ug1(ix,il), vg1(ix,il)
+    complex :: specu(mx,nx), specv(mx,nx)
 
     if (kcos.eq.2) then
         do j=1,il
