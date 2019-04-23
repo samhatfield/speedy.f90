@@ -42,15 +42,16 @@ subroutine gaussl(x,w,m)
     end do
 end
 !****************************************************************
-subroutine lgndre(j)
+subroutine lgndre(j, poly)
     ! follows Leith Holloways code
 
     use mod_atparam
-    use spectral, only: sia, coa, sqrhlf, consq, repsi, epsi, poly
+    use spectral, only: sia, coa, consq, repsi, epsi
 
     implicit none
 
     integer, intent(in) :: j
+    real, intent(inout) :: poly(mx,nx)
     real, parameter :: small = 1.e-30
 
     integer :: m, n, mm2
@@ -59,7 +60,7 @@ subroutine lgndre(j)
     x = sia(j)
 
     ! start recursion with N=1 (M=L) diagonal
-    alp(1,1) = sqrhlf
+    alp(1,1) = sqrt(0.5)
     do m=2,mxp
         alp(m,1) = consq(m)*y*alp(m-1,1)
     end do
