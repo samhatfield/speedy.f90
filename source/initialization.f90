@@ -17,6 +17,8 @@ contains
         use time_stepping, only: first_step
         use boundaries, only: initialize_boundaries
 
+        call print_speedy_title
+
         ! Read start and end dates from fort.2 file
         read (2,*) start_datetime%year
         read (2,*) start_datetime%month
@@ -84,5 +86,16 @@ contains
 
         ! Do the initial (2nd-order) time step, initialize the semi-implicit scheme
         call first_step
+    end subroutine
+
+    subroutine print_speedy_title
+        write (*,'(A)') ''
+        write (*,'(A)') '  _____ ______  _____  _____ ______ __   __     __  _____  _____'
+        write (*,'(A)') ' /  ___|| ___ \|  ___||  ___||  _  \\ \ / /    / _||  _  ||  _  |'
+        write (*,'(A)') ' \ `--. | |_/ /| |__  | |__  | | | | \ V /    | |_ | |_| || |/  |'
+        write (*,'(A)') '  `--. \|  __/ |  __| |  __| | | | |  \ /     |  _|\____ ||  /| |'
+        write (*,'(A)') ' /\__/ /| |    | |___ | |___ | |/ /   | |   _ | |  .___/ /\ |_/ /'
+        write (*,'(A)') ' \____/ \_|    \____/ \____/ |___/    \_/  (_)|_|  \____/  \___/'
+        write (*,'(A)') ''
     end subroutine
 end module
