@@ -35,8 +35,8 @@ contains
     !           dfse   = net flux of d.s.en. into each atm. layer (3-dim)
     !           dfqa   = net flux of sp.hum. into each atm. layer (3-dim)
     subroutine convective_precipitation(psa, se, qa, qsat, itop, cbmf, precnv, dfse, dfqa)
-        use physical_constants, only: p0, alhc, alhs, sig, dsig, wvi
-        use mod_dyncon1, only: grav
+        use physical_constants, only: p0, alhc, alhs, wvi, grav
+        use geometry, only: fsg, dhs
 
         real, intent(in) :: psa(ix,il), se(ix,il,kx), qa(ix,il,kx), qsat(ix,il,kx)
         integer, intent(inout) :: itop(ix,il)
@@ -53,7 +53,7 @@ contains
         nlp = kx + 1
         fqmax = 5.0
 
-        fm0 = p0*dsig(kx)/(grav*trcnv*3600.0)
+        fm0 = p0*dhs(kx)/(grav*trcnv*3600.0)
         rdps=2.0/(1.0 - psmin)
 
         dfse = 0.0
@@ -70,7 +70,7 @@ contains
         ! Entrainment profile (up to sigma = 0.5)
         sentr = 0.0
         do k = 2, nl1
-            entr(k) = (max(0.0, sig(k) - 0.5))**2.0
+            entr(k) = (max(0.0, fsg(k) - 0.5))**2.0
             sentr = sentr + entr(k)
         end do
 
@@ -227,8 +227,8 @@ contains
     !          dtlsc  = temperature tendency from l.s. cond     (3-dim)
     !          dqlsc  = hum. tendency [g/(kg s)] from l.s. cond (3-dim)
     subroutine large_scale_precipitation(psa, qa, qsat, itop, precls, dtlsc, dqlsc)
-        use physical_constants, only: p0, cp, alhc, alhs, sig, dsig
-        use mod_dyncon1, only: grav
+        use physical_constants, only: p0, cp, alhc, alhs, grav
+        use geometry, only: fsg, dhs
 
         real, intent(in) :: psa(ix,il), qa(ix,il,kx), qsat(ix,il,kx)
 
@@ -255,7 +255,7 @@ contains
         ! NB. A maximum heating rate is imposed to avoid grid-point-storm
         ! instability
         do k = 2, kx
-            sig2 = sig(k)**2.0
+            sig2 = fsg(k)**2.0
             rhref = rhlsc + drhlsc*(sig2 - 1.0)
             if (k == kx) rhref = max(rhref, rhblsc)
             dqmax = qsmax*sig2*rtlsc
@@ -277,7 +277,7 @@ contains
 
         ! Large-scale precipitation
         do k = 2, kx
-            pfact = dsig(k)*prg
+            pfact = dhs(k)*prg
             precls = precls - pfact*dqlsc(:,:,k)
         end do
 

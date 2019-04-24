@@ -5,10 +5,10 @@ module sea_model
 
     private
     public sea_model_init, couple_sea_atm
-    public fmask_s, bmask_s, deglat_s, sst12, sice12, sstan3, hfseacl, sstom12
+    public fmask_s
     public sstcl_ob, sst_am, sice_am, tice_am, ssti_om
     public hflux_s, hflux_i
-    public sea_coupling_flag, ice_coupling_flag, sst_anomaly_coupling_flag
+    public sea_coupling_flag, sst_anomaly_coupling_flag
 
     ! Constant parameters and fields in sea/ice model
     real :: rhcaps(ix,il) ! 1./heat_capacity (sea)
@@ -83,7 +83,7 @@ contains
     subroutine sea_model_init
         use boundaries, only: fmask, fillsf, forchk
         use mod_tsteps, only: isst0
-        use mod_dyncon1, only: radang
+        use geometry, only: radang
         use input_output, only: load_boundary_file
 
         ! Domain mask
@@ -174,11 +174,11 @@ contains
 
         ! SST anomalies for initial and preceding/following months
         if (sst_anomaly_coupling_flag > 0) then
-            print *, 'isst0 = ', isst0
+            write (*,'(A,I0.2)') 'SST anomalies are read starting from month ', isst0
             do month = 1, 3
                 if ((isst0 <= 1 .and. month /= 2) .or. isst0 > 1) then
                     sstan3(:,:,month) = load_boundary_file("sea_surface_temperature_anomaly.nc", &
-                        & "ssta", isst0-2+month-1, 420)
+                        & "ssta", isst0-2+month, 420)
                 end if
             end do
 

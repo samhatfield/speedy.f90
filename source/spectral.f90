@@ -4,17 +4,15 @@ module spectral
     implicit none
 
     private
-    public el2, elm2, el4, trfilt, nsh2, sia, coa, wt, wght, cosg,&
-        & cosgr, cosgr2, gradx, gradym, gradyp, consq, epsi, repsi,&
-        & cpol, uvdx, uvdym, uvdyp, vddym, vddyp
+    public el2, elm2, el4, trfilt, nsh2, wt, wght, gradx, gradym, gradyp, &
+        &consq, epsi, repsi, cpol, uvdx, uvdym, uvdyp, vddym, vddyp
     public wsave
     public initialize_spectral
     public laplacian, inverse_laplacian, spec_to_grid, grid_to_spec
 
     real, dimension(mx,nx) :: el2, elm2, el4, trfilt
     integer :: nsh2(nx)
-    real, dimension(iy) :: sia, coa, wt, wght
-    real, dimension(il) :: cosg, cosgr, cosgr2
+    real, dimension(iy) :: wt, wght
     real :: gradx(mx), gradym(mx,nx), gradyp(mx,nx)
     real :: consq(mxp), epsi(mxp,nxp), repsi(mxp,nxp)
     real :: cpol(mx2,nx,iy)
@@ -26,7 +24,8 @@ module spectral
 contains
     ! Initialize spectral transforms
     subroutine initialize_spectral
-        use mod_dyncon1, only: rearth
+        use physical_constants, only: rearth
+        use geometry, only: sia_half
 
         real :: el1, ell2, emm2, poly(mx,nx)
 
@@ -39,22 +38,13 @@ contains
         !
         ! first compute Gaussian latitudes and weights at the IY points from
         !     pole to equator
-        ! SIA(IY) is sin of latitude, WT(IY) are Gaussian weights for quadratures,
-        call gaussl(sia, wt, iy)
+        ! WT(IY) are Gaussian weights for quadratures,
+        !   saved in spectral
+        call gaussl(wt,iy)
 
-        ! COA(IY) = cos(lat); WGHT needed for transforms,
-        coa = sqrt(1.0 - sia**2.0)
-        wght = wt/(rearth*coa**2.0)
-
-        ! expand cosine and its reciprocal to cover both hemispheres,
-        do j = 1, iy
-            jj = il+1-j
-            cosg(j)   = coa(j)
-            cosg(jj)  = coa(j)
-            cosgr(j)  = 1.0/coa(j)
-            cosgr(jj) = 1.0/coa(j)
-            cosgr2(j) = 1.0/(coa(j)*coa(j))
-            cosgr2(jj)= 1.0/(coa(j)*coa(j))
+        ! WGHT needed for transforms saved in spectral
+        do j=1,iy
+            wght(j)=wt(j)/(rearth*(1.0-sia_half(j)**2))
         end do
 
         !  MM = zonal wavenumber = m

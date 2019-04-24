@@ -21,7 +21,8 @@ contains
     ! implicit, are defined in initialize_implicit)
     subroutine initialize_implicit(dt)
         use mod_dyncon0, only: gamma
-        use mod_dyncon1, only: akap, rgas, hsg, dhs, fsg, fsgr, grav, rearth
+        use physical_constants, only: akap, rgas, grav, rearth
+        use geometry, only: hsg, dhs, fsg, fsgr
         use mod_dyncon2
         use mod_hdifcon, only: dmp, dmpd, dmps, dmp1, dmp1d, dmp1s
         use mod_tsteps, only: alph
@@ -46,7 +47,6 @@ contains
 
         do k=1,kx
             tref(k)=288.*max(0.2,fsg(k))**rgam
-            print *, '  tref = ', tref(k)
             tref1(k)=rgas*tref(k)
             tref2(k)=akap*tref(k)
             tref3(k)=fsgr(k)*tref(k)
@@ -159,7 +159,7 @@ contains
         !                 psdt  = tendency of log(surf.pressure)
 
         use mod_atparam
-        use mod_dyncon1, only: dhs
+        use geometry, only: dhs
         use mod_dyncon2, only: tref1, xc, xd, xj, dhsx, elz
 
         integer, parameter :: mxnxkx = mx*nx*kx

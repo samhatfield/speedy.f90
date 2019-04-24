@@ -70,7 +70,7 @@ contains
     !          ftop   = net (downw.) flux of sw rad. at the atm. top (2-dim)
     !          dfabs  = flux of sw rad. absorbed by each atm. layer  (3-dim)
     subroutine get_shortwave_rad_fluxes(psa, qa, icltop, cloudc, clstr, fsfcd, fsfc, ftop, dfabs)
-        use physical_constants, only: sig, dsig
+        use geometry, only: fsg, dhs
         use mod_radcon
 
         integer, intent(in) :: icltop(ix,il)
@@ -103,23 +103,23 @@ contains
         ! abs. humidity and cloud cover (in the troposphere)
         psaz = psa*zenit
         acloud = cloudc*min(abscl1*qcloud, abscl2)
-        tau2(:,:,1,1) = exp(-psaz*dsig(1)*absdry)
+        tau2(:,:,1,1) = exp(-psaz*dhs(1)*absdry)
 
         do k = 2, nl1
-            abs1 = absdry + absaer*sig(k)**2
+            abs1 = absdry + absaer*fsg(k)**2
 
             if (k >= icltop(i,j)) then
-                tau2(:,:,k,1) = exp(-psaz*dsig(k)*(abs1 + abswv1*qa(:,:,k) + acloud))
+                tau2(:,:,k,1) = exp(-psaz*dhs(k)*(abs1 + abswv1*qa(:,:,k) + acloud))
             else
-                tau2(:,:,k,1) = exp(-psaz*dsig(k)*(abs1 + abswv1*qa(:,:,k)))
+                tau2(:,:,k,1) = exp(-psaz*dhs(k)*(abs1 + abswv1*qa(:,:,k)))
             endif
         end do
 
-        abs1 = absdry + absaer*sig(kx)**2
-        tau2(:,:,kx,1) = exp(-psaz*dsig(kx)*(abs1 + abswv1*qa(:,:,kx)))
+        abs1 = absdry + absaer*fsg(kx)**2
+        tau2(:,:,kx,1) = exp(-psaz*dhs(kx)*(abs1 + abswv1*qa(:,:,kx)))
 
         do k = 2, kx
-            tau2(:,:,k,2) = exp(-psaz*dsig(k)*abswv2*qa(:,:,k))
+            tau2(:,:,k,2) = exp(-psaz*dhs(k)*abswv2*qa(:,:,k))
         end do
 
         ! 3. Shortwave downward flux
@@ -177,16 +177,16 @@ contains
 
         ! Cloud-free levels (stratosphere + PBL)
         k = 1
-        tau2(:,:,k,1) = exp(-psa*dsig(k)*ablwin)
-        tau2(:,:,k,2) = exp(-psa*dsig(k)*ablco2)
+        tau2(:,:,k,1) = exp(-psa*dhs(k)*ablwin)
+        tau2(:,:,k,2) = exp(-psa*dhs(k)*ablco2)
         tau2(:,:,k,3) = 1.0
         tau2(:,:,k,4) = 1.0
 
         do k = 2, kx, kx - 2
-            tau2(:,:,k,1) = exp(-psa*dsig(k)*ablwin)
-            tau2(:,:,k,2) = exp(-psa*dsig(k)*ablco2)
-            tau2(:,:,k,3) = exp(-psa*dsig(k)*ablwv1*qa(:,:,k))
-            tau2(:,:,k,4) = exp(-psa*dsig(k)*ablwv2*qa(:,:j,k))
+            tau2(:,:,k,1) = exp(-psa*dhs(k)*ablwin)
+            tau2(:,:,k,2) = exp(-psa*dhs(k)*ablco2)
+            tau2(:,:,k,3) = exp(-psa*dhs(k)*ablwv1*qa(:,:,k))
+            tau2(:,:,k,4) = exp(-psa*dhs(k)*ablwv2*qa(:,:j,k))
         end do
 
         ! Cloudy layers (free troposphere)
@@ -195,7 +195,7 @@ contains
         do k = 3, nl1
             do i = 1, ix
                 do j = 1, il
-                     deltap = psa(i,j)*dsig(k)
+                     deltap = psa(i,j)*dhs(k)
 
                      if (k < icltop(i,j)) then
                        acloud1 = acloud(i,j)
@@ -212,7 +212,7 @@ contains
         end do
 
         ! 5.2  Stratospheric correction terms
-        eps1 = epslw/(dsig(1) + dsig(2))
+        eps1 = epslw/(dhs(1) + dhs(2))
         stratc(:,:,1) = stratz*psa
         stratc(:,:,2) = eps1*psa
     end
@@ -221,10 +221,10 @@ contains
     ! absorption
     ! Input:   tyear  = time as fraction of year (0-1, 0 = 1jan.h00)
     subroutine get_zonal_average_fields(tyear)
-        use physical_constants, only: slat, clat
+        use geometry, only: sia, coa
 
         real, intent(in) :: tyear
-        real :: topsr(ix), alpha, azen, coz1, coz2, dalpha, flat2, fs0
+        real :: topsr(il), alpha, azen, coz1, coz2, dalpha, flat2, fs0
         real :: nzen, rzen
         integer :: j
 
@@ -243,20 +243,20 @@ contains
         fs0 = 6.0
 
         ! Solar radiation at the top
-        call solar(tyear, 4.0*solc, ix, clat, slat, topsr)
+        call solar(tyear, 4.0*solc, topsr)
 
         do j = 1, il
-            flat2 = 1.5*slat(j)**2 - 0.5
+            flat2 = 1.5*sia(j)**2 - 0.5
 
             ! Solar radiation at the top
             fsol(:,j) = topsr(j)
 
             ! Ozone depth in upper and lower stratosphere
             ozupp(:,j) = 0.5*epssw
-            ozone(:,j) = 0.4*epssw*(1.0 + coz1*slat(j) + coz2*flat2)
+            ozone(:,j) = 0.4*epssw*(1.0 + coz1*sia(j) + coz2*flat2)
 
             ! Zenith angle correction to (downward) absorptivity
-            zenit(:,j) = 1.0 + azen*(1.0 - (clat(j)*cos(rzen) + slat(j)*sin(rzen)))**nzen
+            zenit(:,j) = 1.0 + azen*(1.0 - (coa(j)*cos(rzen) + sia(j)*sin(rzen)))**nzen
 
             ! Ozone absorption in upper and lower stratosphere
             ozupp(:,j) = fsol(:,j)*ozupp(:,j)*zenit(:,j)
@@ -268,19 +268,19 @@ contains
     end
 
     ! Average daily flux of solar radiation, from Hartmann (1994)
-    subroutine solar(tyear,csol,nlat,clat,slat,topsr)
+    subroutine solar(tyear, csol, topsr)
+        use geometry, only: coa, sia
+
         real, intent(in) :: tyear, csol
-        integer, intent(in) :: nlat
-        real, dimension(nlat), intent(in) :: clat, slat
-        real, intent(inout) :: topsr(nlat)
+        real, intent(inout) :: topsr(il)
 
         integer :: j
         real :: ca1, ca2, ca3, cdecl, ch0, csolp, decl, fdis, h0, alpha, pigr, sa1
         real :: sa2, sa3, sdecl, sh0, tdecl
 
         ! 1. Compute declination angle and Earth-Sun distance factor
-        pigr  = 2.*asin(1.)
-        alpha = 2.*pigr*tyear
+        pigr  = 2.0*asin(1.0)
+        alpha = 2.0*pigr*tyear
 
         ca1 = cos(alpha)
         sa1 = sin(alpha)
@@ -289,10 +289,10 @@ contains
         ca3 = ca1*ca2-sa1*sa2
         sa3 = sa1*ca2+sa2*ca1
 
-        decl = 0.006918-0.399912*ca1+0.070257*sa1-0.006758*ca2+0.000907*sa2&
-            & -0.002697*ca3+0.001480*sa3
+        decl = 0.006918 - 0.399912*ca1 + 0.070257*sa1 - 0.006758*ca2 + 0.000907*sa2&
+            & - 0.002697*ca3 + 0.001480*sa3
 
-        fdis = 1.000110+0.034221*ca1+0.001280*sa1+0.000719*ca2+0.000077*sa2
+        fdis = 1.000110 + 0.034221*ca1 + 0.001280*sa1 + 0.000719*ca2 + 0.000077*sa2
 
         cdecl = cos(decl)
         sdecl = sin(decl)
@@ -301,12 +301,12 @@ contains
         ! 2. Compute daily-average insolation at the atm. top
         csolp=csol/pigr
 
-        do j=1,nlat
-            ch0 = min(1.,max(-1.,-tdecl*slat(j)/clat(j)))
+        do j = 1, il
+            ch0 = min(1.0, max(-1.0, -tdecl*sia(j)/coa(j)))
             h0  = acos(ch0)
             sh0 = sin(h0)
 
-            topsr(j) = csolp*fdis*(h0*slat(j)*sdecl+sh0*clat(j)*cdecl)
+            topsr(j) = csolp*fdis*(h0*sia(j)*sdecl + sh0*coa(j)*cdecl)
         end do
     end
 

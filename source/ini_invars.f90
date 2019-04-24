@@ -5,7 +5,8 @@ subroutine invars
     use mod_dyncon0, only: gamma, hscale, hshum, refrh1
     use mod_atparam
     use prognostics
-    use mod_dyncon1, only: grav, rgas, fsg
+    use physical_constants, only: grav, rgas
+    use geometry, only: fsg
     use boundaries, only: phi0, phis0
     use diagnostics, only: check_diagnostics
     use spectral, only: grid_to_spec
@@ -25,7 +26,7 @@ subroutine invars
     phis = grid_to_spec(phis0)
 
     ! 2. Start from reference atmosphere (at rest)
-    print*, ' starting from rest'
+    print*, 'Starting from rest'
 
     ! 2.1 Set vorticity, divergence and tracers to zero
     vor(:,:,:,1) = zero
@@ -80,7 +81,6 @@ subroutine invars
         do i=1,ix
             surfg(i,j)=qref*exp(qexp*surfg(i,j))
         end do
-        print *, ' q0 jlat = ', j, surfg(1,j)
     end do
 
     surfs = grid_to_spec(surfg)
@@ -89,10 +89,9 @@ subroutine invars
     ! Spec. humidity at tropospheric levels
     do k=3,kx
         factk=fsg(k)**qexp
-        print *, 'vertical scale factor at level ', k, factk
         tr(:,:,k,1,1) = surfs * factk
     end do
 
     ! Print diagnostics from initial conditions
-    call check_diagnostics(1,0)
+    call check_diagnostics(vor(:,:,:,1), div(:,:,:,1), t(:,:,:,1), 0)
 end

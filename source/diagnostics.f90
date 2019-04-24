@@ -6,17 +6,14 @@ module diagnostics
 
 contains
     ! Print global means of eddy kinetic energy and temperature
-    subroutine check_diagnostics(jj, istep)
-        ! Input : jj    = time level index (1 or 2)
-        !         istep = time step index
-
+    subroutine check_diagnostics(vor, div, t, istep)
         use mod_tsteps, only: nstdia
         use mod_atparam
-        use prognostics, only: vor, div, t
         use spectral, only: inverse_laplacian
 
-        integer, intent(in) :: jj, istep
+        integer, intent(in) :: istep
 
+        complex, dimension(mx,nx,kx), intent(in) :: vor, div, t
         integer :: k, m, n, kk
         complex :: temp(mx,nx)
         real :: diag(kx,3)
@@ -25,21 +22,21 @@ contains
         do k = 1, kx
             diag(k,1) = 0.0
             diag(k,2) = 0.0
-            diag(k,3) = sqrt(0.5)*real(t(1,1,k,jj))
+            diag(k,3) = sqrt(0.5)*real(t(1,1,k))
 
-            temp = inverse_laplacian(vor(:,:,k,jj))
+            temp = inverse_laplacian(vor(:,:,k))
 
             do m = 2, mx
                 do n = 1, nx
-                    diag(k,1) = diag(k,1) - real(temp(m,n)*conjg(vor(m,n,k,jj)))
+                    diag(k,1) = diag(k,1) - real(temp(m,n)*conjg(vor(m,n,k)))
                 end do
             end do
 
-            temp = inverse_laplacian(div(:,:,k,jj))
+            temp = inverse_laplacian(div(:,:,k))
 
             do m = 2, mx
                 do n = 1, nx
-                    diag(k,2) = diag(k,2) - real(temp(m,n)*conjg(div(m,n,k,jj)))
+                    diag(k,2) = diag(k,2) - real(temp(m,n)*conjg(div(m,n,k)))
                 end do
             end do
         end do

@@ -21,8 +21,6 @@ contains
         real(4), dimension(ix,il) :: raw_input
         real, dimension(ix,il) :: field
 
-        write (*,'(A,A,A,A)') 'Reading ', field_name, ' from ', file_name
-
         ! Open boundary file, read variable and then close
         call check(nf90_open(file_name, nf90_nowrite, ncid))
         call check(nf90_inq_varid(ncid, field_name, varid))
@@ -41,8 +39,6 @@ contains
         integer :: ncid, varid
         real(4), dimension(ix,il,12) :: raw_input
         real, dimension(ix,il) :: field
-
-        write (*,'(A,A,A,I0.2,A,A)') 'Reading ', field_name, ' (month ', month, ') from ', file_name
 
         ! Open boundary file, read variable and then close
         call check(nf90_open(file_name, nf90_nowrite, ncid))
@@ -64,8 +60,6 @@ contains
         real(4), dimension(ix,il,length) :: raw_input
         real, dimension(ix,il) :: field
 
-        write (*,'(A,A,A,I0.2,A,A)') 'Reading ', field_name, ' (month ', month, ') from ', file_name
-
         ! Open boundary file, read variable and then close
         call check(nf90_open(file_name, nf90_nowrite, ncid))
         call check(nf90_inq_varid(ncid, field_name, varid))
@@ -78,8 +72,8 @@ contains
     end
 
     subroutine output(timestep)
-        use mod_dyncon1, only: radang, grav
-        use physical_constants, only: p0, sig
+        use geometry, only: radang, fsg
+        use physical_constants, only: p0, grav
         use date, only: model_datetime, start_datetime
         use mod_tsteps, only: nsteps
         use prognostics, only: vor, div, t, ps, tr, phi
@@ -158,7 +152,7 @@ contains
         call check(nf90_put_var(ncid, timevar, timestep*24.0/real(nsteps,4),               (/ 1 /)))
         call check(nf90_put_var(ncid, lonvar, (/ (3.75*k, k = 0, ix-1) /),                 (/ 1 /)))
         call check(nf90_put_var(ncid, latvar, (/ (radang(k)*90.0/asin(1.0), k = 1, il) /), (/ 1 /)))
-        call check(nf90_put_var(ncid, levvar, (/ (sig(k), k = 1, 8) /),                    (/ 1 /)))
+        call check(nf90_put_var(ncid, levvar, (/ (fsg(k), k = 1, 8) /),                    (/ 1 /)))
 
         ! Convert prognostic fields from spectral space to grid point space
         do k = 1, kx

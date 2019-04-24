@@ -4,10 +4,9 @@ module land_model
     implicit none
 
     private
-    public stlcl_ob, stl_am, snowd_am, soilw_am
+    public stl_am, snowd_am, soilw_am
     public land_model_init, couple_land_atm
-    public fmask_l, bmask_l, stl12, snowd12, soilw12
-    public hflux_l
+    public fmask_l, hflux_l
     public land_coupling_flag
     public sd2sc
 
@@ -62,7 +61,7 @@ module land_model
         subroutine land_model_init
             ! purpose : initialization of land model
             use input_output, only: load_boundary_file
-            use boundaries, only: forchk, fmask, alb0, fillsf, forchk
+            use boundaries, only: forchk, fmask, alb0, fillsf
 
             ! Auxiliary variables
             integer :: i, j, month

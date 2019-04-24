@@ -48,8 +48,6 @@ module date
 
             use mod_tsteps
 
-            implicit none
-
             integer, intent(in) :: imode
 
             integer :: jm, im

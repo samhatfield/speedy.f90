@@ -32,7 +32,8 @@ contains
     !          qtenvd = sp. humidity tendency [g/(kg s)] (3-dim)
     subroutine get_vertical_diffusion_tend(ua, va, se, rh, qa, qsat, phi, icnv, utenvd, vtenvd, &
         & ttenvd, qtenvd)
-        use physical_constants, only: cp, alhc, sig, sigh, dsig
+        use physical_constants, only: cp, alhc, sigh
+        use geometry, only: fsg, dhs
 
         real, dimension(ix,il,kx), intent(in) :: ua, va, se, rh, qa, qsat, phi
         integer, intent(in) :: icnv(ix,il)
@@ -50,7 +51,7 @@ contains
         !      d_T/dt = d_F'(SE)/d_sigma,  d_Q/dt = d_F'(Q)/d_sigma
 
         nl1  = kx - 1
-        cshc = dsig(kx)/3600.0
+        cshc = dhs(kx)/3600.0
         cvdi = (sigh(nl1) - sigh(1))/((nl1 - 1)*3600.0)
 
         fshcq  = cshc/trshc
@@ -60,10 +61,10 @@ contains
         fvdise = cvdi/(trvds*cp)
 
         do k = 1, nl1
-            rsig(k) = 1.0/dsig(k)
+            rsig(k) = 1.0/dhs(k)
     	    rsig1(k) = 1.0/(1.0 - sigh(k))
         end do
-        rsig(kx)=1.0/dsig(kx)
+        rsig(kx)=1.0/dhs(kx)
 
         utenvd = 0.0
         vtenvd = 0.0
@@ -71,7 +72,7 @@ contains
         qtenvd = 0.0
 
         ! 2. Shallow convection
-        drh0   = rhgrad*(sig(kx) - sig(nl1))
+        drh0   = rhgrad*(fsg(kx) - fsg(nl1))
         fvdiq2 = fvdiq*sigh(nl1)
 
         do i = 1, ix
@@ -103,7 +104,7 @@ contains
         ! 3. Vertical diffusion of moisture above the PBL
         do k = 3, kx - 2
             if (sigh(k) > 0.5) then
-                drh0   = rhgrad*(sig(k+1) - sig(k))
+                drh0   = rhgrad*(fsg(k+1) - fsg(k))
                 fvdiq2 = fvdiq*sigh(k)
 
                 do i = 1, ix

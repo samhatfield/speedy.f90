@@ -1,16 +1,15 @@
 !******************************************************************
-subroutine gaussl(x,w,m)
+subroutine gaussl(w,m)
     !   a slightly modified version of a program in Numerical Recipes
     !       (Cambridge Univ. Press, 1989)
     !   input:
     !      m    = number of gaussian latitudes between pole and equator
     !   output:
-    !      x(m) = sin(gaussian latitude)
     !      w(m) = weights in gaussian quadrature (sum should equal 1.0)
 
     implicit none
 
-    real, intent(inout) :: x(m),w(m)
+    real, intent(inout) :: w(m)
     integer, intent(in) :: m
     double precision :: z,z1,p1,p2,p3,pp
     double precision, parameter :: eps=3.d-14
@@ -37,7 +36,6 @@ subroutine gaussl(x,w,m)
             z=z1-p1/pp
         end do
 
-        x(i)=z
         w(i)=2.d0/((1.d0-z*z)*pp*pp)
     end do
 end
@@ -46,7 +44,8 @@ subroutine lgndre(j, poly)
     ! follows Leith Holloways code
 
     use mod_atparam
-    use spectral, only: sia, coa, consq, repsi, epsi
+    use geometry, only: sia_half, coa_half
+    use spectral, only: consq, repsi, epsi
 
     implicit none
 
@@ -56,8 +55,8 @@ subroutine lgndre(j, poly)
 
     integer :: m, n, mm2
     real :: alp(mxp,nx), x, y
-    y = coa(j)
-    x = sia(j)
+    y = coa_half(j)
+    x = sia_half(j)
 
     ! start recursion with N=1 (M=L) diagonal
     alp(1,1) = sqrt(0.5)
@@ -181,7 +180,8 @@ end
 !*********************************************************************
 subroutine vdspec(ug,vg,vorm,divm,kcos)
     use mod_atparam
-    use spectral, only: cosgr, cosgr2, grid_to_spec
+    use geometry, only: cosgr, cosgr2
+    use spectral, only: grid_to_spec
 
     implicit none
 

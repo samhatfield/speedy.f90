@@ -24,7 +24,7 @@ module boundaries
 contains
     ! Read topography and climatological boundary conditions
     subroutine initialize_boundaries
-        use mod_dyncon1, only: grav
+        use physical_constants, only: grav
         use input_output, only: load_boundary_file
 
         ! Read surface geopotential (i.e. orography)
@@ -64,11 +64,8 @@ contains
                     end if
                 end do
             end do
-
-            print *, 'Number of faulty points for field: ', jf, ' = ',nfault
         end do
 
-        print *, 'Undefined values set to ', fset
     end
 
     ! Compute a spectrally-filtered grid-point field

@@ -65,7 +65,8 @@ contains
     !          Q0     = near-surface sp. humidity [g/kg](2-dim)
     subroutine get_surface_fluxes(psa, ua, va, ta, qa, rh, phi, phi0, fmask, tsea, ssrd, slrd, &
             & ustr, vstr, shf, evap, slru, hfluxn, tsfc, tskin, u0, v0, t0, q0, lfluxland)
-        use physical_constants, only: p0, rd, cp, alhc, sbc, sigl, wvi, clat
+        use physical_constants, only: p0, rd, cp, alhc, sbc, sigl, wvi
+        use geometry, only: coa
         use mod_radcon, only: emisfc, alb_l, alb_s, snowc
     	use land_model, only: stl_am, soilw_am
         use humidity, only: get_qsat, rel_hum_to_spec_hum
@@ -151,7 +152,7 @@ contains
             ! 2.1 Define effective skin temperature to compensate for
             !     non-linearity of heat/moisture fluxes during the daily cycle
             do j = 1, il
-                tskin(:,j) = stl_am(:,j) + ctday*sqrt(clat(j))*ssrd(:,j)*(1.0 - alb_l(:,j))*psa(:,j)
+                tskin(:,j) = stl_am(:,j) + ctday*sqrt(coa(j))*ssrd(:,j)*(1.0 - alb_l(:,j))*psa(:,j)
             end do
 
             ! 2.2 Stability correction = f[pot.temp.(sfc)-pot.temp.(air)]
@@ -305,7 +306,7 @@ contains
     ! Compute orographic factor for land surface drag
     ! Input:   phi0 = surface geopotential
     subroutine set_orog_land_sfc_drag(phi0)
-        use mod_dyncon1, only: grav
+        use physical_constants, only: grav
 
         real, intent(in) :: phi0(ix,il)
         real :: rhdrag
