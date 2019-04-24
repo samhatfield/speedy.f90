@@ -9,7 +9,7 @@ subroutine invars
     use geometry, only: fsg
     use boundaries, only: phi0, phis0
     use diagnostics, only: check_diagnostics
-    use spectral, only: grid_to_spec
+    use spectral, only: grid_to_spec, trunct
 
     implicit none
 

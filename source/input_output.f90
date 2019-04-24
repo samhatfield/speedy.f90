@@ -77,7 +77,7 @@ contains
         use date, only: model_datetime, start_datetime
         use mod_tsteps, only: nsteps
         use prognostics, only: vor, div, t, ps, tr, phi
-        use spectral, only: spec_to_grid
+        use spectral, only: spec_to_grid, uvspec
 
         integer, intent(in) :: timestep
         complex, dimension(mx,nx) :: ucos, vcos

@@ -60,7 +60,6 @@ FILES= \
 	   shortwave_radiation.o \
 	   spectral.o \
        spe_matinv.o \
-       spe_spectral.o \
        spe_subfft_fftpack2.o \
 	   sppt.o \
 	   surface_fluxes.o \
@@ -126,7 +125,6 @@ ppo_dmflux.o           : mod_tsteps.o mod_atparam.o physical_constants.o land_mo
                          physics.o mod_radcon.o
 precipitation.o        : mod_atparam.o physical_constants.o
 spectral.o             : mod_atparam.o physical_constants.o legendre.o fourier.o
-spe_spectral.o         : mod_atparam.o spectral.o geometry.o
 sppt.o                 : mod_atparam.o mod_tsteps.o physical_constants.o spectral.o
 time_stepping.o        : mod_tsteps.o mod_dyncon0.o mod_atparam.o prognostics.o\
  					     mod_hdifcon.o implicit.o

@@ -85,7 +85,7 @@ contains
         use surface_fluxes, only: get_surface_fluxes
         use vertical_diffusion, only: get_vertical_diffusion_tend
         use humidity, only: spec_hum_to_rel_hum
-        use spectral, only: spec_to_grid
+        use spectral, only: spec_to_grid, uvspec
 
         complex, dimension(mx,nx,kx), intent(in) :: vor, div, t, q, phi
         complex, dimension(mx,nx), intent(in) :: psl

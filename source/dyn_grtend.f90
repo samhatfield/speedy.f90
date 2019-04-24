@@ -21,7 +21,7 @@ subroutine grtend(vordt,divdt,tdt,psdt,trdt,j1,j2)
     use geometry, only: dhs, fsg, dhsr, fsgr, coriol
     use mod_dyncon2, only: tref, tref3
     use physics, only: get_physical_tendencies
-    use spectral, only: grid_to_spec, spec_to_grid, laplacian
+    use spectral, only: grid_to_spec, spec_to_grid, laplacian, grad, uvspec, vdspec
 
     implicit none
 

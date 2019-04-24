@@ -158,12 +158,13 @@ contains
     ! Perform time integration of field at nlev levels using tendency fdt
     subroutine timint(j1, dt, eps, wil, nlev, field, fdt)
         use mod_atparam
+        use spectral, only: trunct
 
         implicit none
 
         integer, intent(in) :: j1, nlev
         real, intent(in) :: dt, eps, wil
-        complex, intent(in) :: fdt(mxnx,nlev)
+        complex, intent(inout) :: fdt(mxnx,nlev)
         complex, intent(inout) :: field(mxnx,nlev,2)
         real :: eps2
         complex :: fnew(mxnx)
