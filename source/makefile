@@ -39,6 +39,7 @@ FILES= \
        ini_invars.o \
        ini_fordate.o \
 	   land_model.o \
+	   legendre.o \
 	   longwave_radiation.o \
 	   mod_atparam.o \
 	   mod_cpl_bcinterp.o \
@@ -99,6 +100,7 @@ ini_fordate.o          : mod_dyncon0.o shortwave_radiation.o mod_atparam.o\
 						 humidity.o
 land_model.o           : mod_atparam.o date.o mod_cpl_bcinterp.o input_output.o\
                          boundaries.o
+legendre.o             : mod_atparam.o physical_constants.o geometry.o
 date.o            	   : mod_tsteps.o
 diagnostics.o          : mod_tsteps.o mod_atparam.o spectral.o
 mod_dyncon1.o          : mod_atparam.o
@@ -121,7 +123,7 @@ surface_fluxes.o       : mod_atparam.o physical_constants.o mod_radcon.o land_mo
 ppo_dmflux.o           : mod_tsteps.o mod_atparam.o physical_constants.o land_model.o sea_model.o\
                          physics.o mod_radcon.o
 precipitation.o        : mod_atparam.o physical_constants.o
-spectral.o             : mod_atparam.o geometry.o physical_constants.o
+spectral.o             : mod_atparam.o physical_constants.o legendre.o
 spe_spectral.o         : mod_atparam.o spectral.o geometry.o
 spe_subfft_fftpack.o   : mod_atparam.o spectral.o geometry.o
 sppt.o                 : mod_atparam.o mod_tsteps.o physical_constants.o spectral.o
