@@ -6,7 +6,6 @@ module spectral
     private
     public el2, elm2, el4, trfilt, gradx, gradym, gradyp, &
         & uvdx, uvdym, uvdyp, vddym, vddyp
-    public wsave
     public initialize_spectral
     public laplacian, inverse_laplacian, spec_to_grid, grid_to_spec
 
@@ -15,18 +14,18 @@ module spectral
     real, dimension(mx,nx) :: uvdx, uvdym, uvdyp
     real, dimension(mx,nx) :: vddym, vddyp
 
-    real, dimension(2*ix+15) :: wsave(2*ix+15)
-
 contains
     ! Initialize spectral transforms
     subroutine initialize_spectral
         use physical_constants, only: rearth
+        use fourier, only: initialize_fourier
         use legendre, only: initialize_legendre, epsi
 
         real :: el1
         integer :: m, m1, m2, n, l2(mx,nx), wavenum_tot(mx,nx), mm(mx)
 
-        call rffti(ix,wsave)
+        ! Initialize Fourier transforms
+        call initialize_fourier
 
         ! Initialize Legendre transforms
         call initialize_legendre
@@ -98,6 +97,7 @@ contains
 
     function spec_to_grid(vorm, kcos) result(vorg)
         use legendre, only: legendre_inv
+        use fourier, only: gridx
 
         complex, intent(in) :: vorm(mx,nx)
         integer, intent(in) :: kcos
@@ -112,6 +112,7 @@ contains
 
     function grid_to_spec(vorg) result(vorm)
         use legendre, only: legendre_dir
+        use fourier, only: specx
 
         real, intent(in) :: vorg(ix,il)
         complex :: vorm(mx,nx)
