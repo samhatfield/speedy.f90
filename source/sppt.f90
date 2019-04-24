@@ -42,7 +42,7 @@ module sppt
         !> @return sppt_grid the generated grid point pattern
         function gen_sppt() result(sppt_grid)
             use spectral, only: el2, spec_to_grid
-            use mod_dyncon1, only: rearth
+            use physical_constants, only: rearth
 
             integer :: m, n, k
             real :: sppt_grid(ix,il,kx)

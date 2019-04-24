@@ -25,7 +25,7 @@ module spectral
 contains
     ! Initialize spectral transforms
     subroutine initialize_spectral
-        use mod_dyncon1, only: rearth
+        use physical_constants, only: rearth
         use geometry, only: sia_half
 
         real :: am1, am2, el1, ell2, emm2

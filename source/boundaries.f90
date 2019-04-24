@@ -24,7 +24,7 @@ module boundaries
 contains
     ! Read topography and climatological boundary conditions
     subroutine initialize_boundaries
-        use mod_dyncon1, only: grav
+        use physical_constants, only: grav
         use input_output, only: load_boundary_file
 
         ! Read surface geopotential (i.e. orography)

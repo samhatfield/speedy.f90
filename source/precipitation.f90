@@ -35,9 +35,8 @@ contains
     !           dfse   = net flux of d.s.en. into each atm. layer (3-dim)
     !           dfqa   = net flux of sp.hum. into each atm. layer (3-dim)
     subroutine convective_precipitation(psa, se, qa, qsat, itop, cbmf, precnv, dfse, dfqa)
-        use physical_constants, only: p0, alhc, alhs, wvi
+        use physical_constants, only: p0, alhc, alhs, wvi, grav
         use geometry, only: fsg, dhs
-        use mod_dyncon1, only: grav
 
         real, intent(in) :: psa(ix,il), se(ix,il,kx), qa(ix,il,kx), qsat(ix,il,kx)
         integer, intent(inout) :: itop(ix,il)
@@ -228,9 +227,8 @@ contains
     !          dtlsc  = temperature tendency from l.s. cond     (3-dim)
     !          dqlsc  = hum. tendency [g/(kg s)] from l.s. cond (3-dim)
     subroutine large_scale_precipitation(psa, qa, qsat, itop, precls, dtlsc, dqlsc)
-        use physical_constants, only: p0, cp, alhc, alhs
+        use physical_constants, only: p0, cp, alhc, alhs, grav
         use geometry, only: fsg, dhs
-        use mod_dyncon1, only: grav
 
         real, intent(in) :: psa(ix,il), qa(ix,il,kx), qsat(ix,il,kx)
 

@@ -72,9 +72,8 @@ contains
     end
 
     subroutine output(timestep)
-        use mod_dyncon1, only: grav
         use geometry, only: radang, fsg
-        use physical_constants, only: p0
+        use physical_constants, only: p0, grav
         use date, only: model_datetime, start_datetime
         use mod_tsteps, only: nsteps
         use prognostics, only: vor, div, t, ps, tr, phi

@@ -100,7 +100,7 @@ subroutine setgam(tyear,gamlat)
 
     use mod_dyncon0, only: gamma
     use mod_atparam
-    use mod_dyncon1, only: grav
+    use physical_constants, only: grav
 
     implicit none
 

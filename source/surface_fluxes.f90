@@ -306,7 +306,7 @@ contains
     ! Compute orographic factor for land surface drag
     ! Input:   phi0 = surface geopotential
     subroutine set_orog_land_sfc_drag(phi0)
-        use mod_dyncon1, only: grav
+        use physical_constants, only: grav
 
         real, intent(in) :: phi0(ix,il)
         real :: rhdrag

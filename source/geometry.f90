@@ -18,7 +18,7 @@ module geometry
 
 contains
     subroutine initialize_geometry
-        use mod_dyncon1, only: akap, omega
+        use physical_constants, only: akap, omega
 
         integer i, j, jj, k
 

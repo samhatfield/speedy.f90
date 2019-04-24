@@ -7,6 +7,7 @@ subroutine indyns
     use mod_tsteps, only: nsteps
     use mod_dyncon0
     use mod_dyncon1
+    use physical_constants, only: grav, rgas
     use mod_atparam
     use mod_hdifcon, only: dmp, dmpd, dmps, tcorv, qcorv
     use geometry, only: fsg, hsg

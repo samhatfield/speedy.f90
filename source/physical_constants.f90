@@ -4,10 +4,18 @@ module physical_constants
     implicit none
 
     private
+    public rearth, omega, grav, akap, rgas
     public p0, rd, cp, alhc, alhs, sbc
     public sigl, sigh, grdsig, grdscp, wvi
 
-    ! Physical constants
+    ! Physical constants for dynamics
+    real, parameter :: rearth = 6.371e+6
+    real, parameter :: omega  = 7.292e-05
+    real, parameter :: grav   = 9.81
+    real, parameter :: akap   = 2.0/7.0
+    real, parameter :: rgas   = akap*1004.0
+
+    ! Physical constants for thermodynamics
     real, parameter :: p0   = 1.e+5   ! Reference pressure
     real, parameter :: rd   = 287.0   ! Gas constant for dry air
     real, parameter :: cp   = 1004.0  ! Specific heat at constant pressure

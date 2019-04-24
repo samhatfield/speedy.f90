@@ -21,7 +21,7 @@ contains
     ! implicit, are defined in initialize_implicit)
     subroutine initialize_implicit(dt)
         use mod_dyncon0, only: gamma
-        use mod_dyncon1, only: akap, rgas, grav, rearth
+        use physical_constants, only: akap, rgas, grav, rearth
         use geometry, only: hsg, dhs, fsg, fsgr
         use mod_dyncon2
         use mod_hdifcon, only: dmp, dmpd, dmps, dmp1, dmp1d, dmp1s

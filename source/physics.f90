@@ -31,8 +31,7 @@ module physics
 contains
     ! Initialize physical parametrization routines
     subroutine initialize_physics
-        use physical_constants
-        use mod_dyncon1, only: grav
+        use physical_constants, only: grav, cp, p0, sigl, sigh, grdsig, grdscp, wvi
         use geometry, only: hsg, radang, fsg, dhs
 
         integer :: j, k
