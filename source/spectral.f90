@@ -106,7 +106,7 @@ contains
         real :: vorm_r(mx2,nx), varm(mx2,il)
 
         vorm_r = reshape(transfer(vorm, vorm_r), (/ mx2, nx /))
-        call legendre_inv(vorm_r,varm)
+        varm = legendre_inv(vorm_r)
         call gridx(varm,vorg,kcos)
     end function
 
@@ -119,7 +119,7 @@ contains
         real :: vorm_r(mx2,nx), varm(mx2,il)
 
         call specx(vorg,varm)
-        call legendre_dir(varm,vorm_r)
+        vorm_r = legendre_dir(varm)
         vorm = reshape(transfer(vorm_r, vorm), (/ mx, nx /))
     end function
 
