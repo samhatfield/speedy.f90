@@ -94,5 +94,5 @@ subroutine invars
     end do
 
     ! Print diagnostics from initial conditions
-    call check_diagnostics(1,0)
+    call check_diagnostics(vor(:,:,:,1), div(:,:,:,1), t(:,:,:,1), 0)
 end

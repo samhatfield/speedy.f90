@@ -97,7 +97,7 @@ ini_fordate.o          : mod_dyncon0.o shortwave_radiation.o mod_atparam.o\
 land_model.o           : mod_atparam.o date.o mod_cpl_bcinterp.o input_output.o\
                          boundaries.o
 date.o            	   : mod_tsteps.o
-diagnostics.o          : mod_tsteps.o mod_atparam.o prognostics.o spectral.o
+diagnostics.o          : mod_tsteps.o mod_atparam.o spectral.o
 mod_dyncon1.o          : mod_atparam.o
 mod_dyncon2.o          : mod_atparam.o
 prognostics.o          : mod_atparam.o

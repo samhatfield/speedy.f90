@@ -7,6 +7,7 @@ program speedy
     use initialization, only: initialize
     use time_stepping, only: step
     use diagnostics, only: check_diagnostics
+    use prognostics, only: vor, div, t
 
     implicit none
 
@@ -34,7 +35,7 @@ program speedy
         call step(2, 2, delt2)
 
         ! Check model diagnostics
-        call check_diagnostics(2, model_step)
+        call check_diagnostics(vor(:,:,:,2), div(:,:,:,2), t(:,:,:,2), model_step)
 
         ! Increment time step counter
         model_step = model_step + 1
