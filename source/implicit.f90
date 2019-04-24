@@ -47,7 +47,6 @@ contains
 
         do k=1,kx
             tref(k)=288.*max(0.2,fsg(k))**rgam
-            print *, '  tref = ', tref(k)
             tref1(k)=rgas*tref(k)
             tref2(k)=akap*tref(k)
             tref3(k)=fsgr(k)*tref(k)

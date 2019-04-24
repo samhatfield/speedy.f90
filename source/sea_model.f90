@@ -174,7 +174,7 @@ contains
 
         ! SST anomalies for initial and preceding/following months
         if (sst_anomaly_coupling_flag > 0) then
-            print *, 'isst0 = ', isst0
+            write (*,'(A,I0.2)') 'SST anomalies are read starting from month ', isst0
             do month = 1, 3
                 if ((isst0 <= 1 .and. month /= 2) .or. isst0 > 1) then
                     sstan3(:,:,month) = load_boundary_file("sea_surface_temperature_anomaly.nc", &

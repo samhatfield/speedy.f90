@@ -64,11 +64,8 @@ contains
                     end if
                 end do
             end do
-
-            print *, 'Number of faulty points for field: ', jf, ' = ',nfault
         end do
 
-        print *, 'Undefined values set to ', fset
     end
 
     ! Compute a spectrally-filtered grid-point field

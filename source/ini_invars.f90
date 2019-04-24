@@ -26,7 +26,7 @@ subroutine invars
     phis = grid_to_spec(phis0)
 
     ! 2. Start from reference atmosphere (at rest)
-    print*, ' starting from rest'
+    print*, 'Starting from rest'
 
     ! 2.1 Set vorticity, divergence and tracers to zero
     vor(:,:,:,1) = zero
@@ -81,7 +81,6 @@ subroutine invars
         do i=1,ix
             surfg(i,j)=qref*exp(qexp*surfg(i,j))
         end do
-        print *, ' q0 jlat = ', j, surfg(1,j)
     end do
 
     surfs = grid_to_spec(surfg)
@@ -90,7 +89,6 @@ subroutine invars
     ! Spec. humidity at tropospheric levels
     do k=3,kx
         factk=fsg(k)**qexp
-        print *, 'vertical scale factor at level ', k, factk
         tr(:,:,k,1,1) = surfs * factk
     end do
 

@@ -21,8 +21,6 @@ contains
         real(4), dimension(ix,il) :: raw_input
         real, dimension(ix,il) :: field
 
-        write (*,'(A,A,A,A)') 'Reading ', field_name, ' from ', file_name
-
         ! Open boundary file, read variable and then close
         call check(nf90_open(file_name, nf90_nowrite, ncid))
         call check(nf90_inq_varid(ncid, field_name, varid))
@@ -41,8 +39,6 @@ contains
         integer :: ncid, varid
         real(4), dimension(ix,il,12) :: raw_input
         real, dimension(ix,il) :: field
-
-        write (*,'(A,A,A,I0.2,A,A)') 'Reading ', field_name, ' (month ', month, ') from ', file_name
 
         ! Open boundary file, read variable and then close
         call check(nf90_open(file_name, nf90_nowrite, ncid))
@@ -63,8 +59,6 @@ contains
         integer :: ncid, varid
         real(4), dimension(ix,il,length) :: raw_input
         real, dimension(ix,il) :: field
-
-        write (*,'(A,A,A,I0.2,A,A)') 'Reading ', field_name, ' (month ', month, ') from ', file_name
 
         ! Open boundary file, read variable and then close
         call check(nf90_open(file_name, nf90_nowrite, ncid))

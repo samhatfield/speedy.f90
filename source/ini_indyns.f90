@@ -59,6 +59,5 @@ subroutine indyns
     do k = 2, kx
         tcorv(k) = fsg(k)**rgam
         if (k.gt.2) qcorv(k) = fsg(k)**qexp
-        print *, ' temp/hum correction at level ', k, tcorv(k), qcorv(k)
     end do
 end
