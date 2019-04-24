@@ -15,7 +15,7 @@ subroutine fordate(imode)
     use surface_fluxes, only: set_orog_land_sfc_drag
     use date, only: model_datetime, tyear
     use land_model, only: stl_am, snowd_am, fmask_l, sd2sc
-    use sea_model, only: fmask_s, sstcl_ob, sst_am, sice_am
+    use sea_model, only: fmask_s, sst_am, sice_am
     use mod_radcon, only: ablco2_ref, albsea, albice, snowc, albsn, alb_l, alb_s, albsfc
     use shortwave_radiation, only: get_zonal_average_fields, ablco2, increase_co2
     use longwave_radiation, only: radset

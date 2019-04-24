@@ -4,8 +4,7 @@ module physics
     implicit none
 
     private
-    public precnv, precls, snowcv, snowls, cbmf, tsr, ssrd, ssr, slrd, slr,&
-        & olr, slru, ustr, vstr, shf, evap, hfluxn
+    public ssrd, slr, shf, evap, hfluxn
     public initialize_physics, get_physical_tendencies
 
     ! Physical variables shared among all physics schemes

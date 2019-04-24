@@ -5,10 +5,10 @@ module sea_model
 
     private
     public sea_model_init, couple_sea_atm
-    public fmask_s, bmask_s, deglat_s, sst12, sice12, sstan3, hfseacl, sstom12
+    public fmask_s
     public sstcl_ob, sst_am, sice_am, tice_am, ssti_om
     public hflux_s, hflux_i
-    public sea_coupling_flag, ice_coupling_flag, sst_anomaly_coupling_flag
+    public sea_coupling_flag, sst_anomaly_coupling_flag
 
     ! Constant parameters and fields in sea/ice model
     real :: rhcaps(ix,il) ! 1./heat_capacity (sea)
