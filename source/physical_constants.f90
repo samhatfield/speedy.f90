@@ -5,7 +5,7 @@ module physical_constants
 
     private
     public p0, rd, cp, alhc, alhs, sbc
-    public sig, sigl, sigh, dsig, grdsig, grdscp, wvi, slat, clat
+    public sigl, sigh, grdsig, grdscp, wvi, slat, clat
 
     ! Physical constants
     real, parameter :: p0   = 1.e+5   ! Reference pressure
@@ -17,10 +17,8 @@ module physical_constants
     real, parameter :: sbc  = 5.67e-8 ! Stefan-Boltzmann constant
 
     !   Functions of sigma and latitude (initial. in INPHYS)
-    real, dimension(kx)   :: sig    ! Full-level sigma
     real, dimension(kx)   :: sigl   ! Logarithm of full-level sigma
     real, dimension(0:kx) :: sigh   ! Half-level sigma
-    real, dimension(kx)   :: dsig   ! Layer depth in sigma
     real, dimension(kx)   :: grdsig ! g/(d_sigma p0) : to convert fluxes of u,v,q into d(u,v,q)/dt
     real, dimension(kx)   :: grdscp ! g/(d_sigma p0 c_p): to convert energy fluxes into dT/dt
     real, dimension(kx,2) :: wvi    ! Weights for vertical interpolation

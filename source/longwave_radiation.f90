@@ -22,7 +22,8 @@ contains
     !          dfabs  = flux of lw rad. absorbed by each atm. layer (3-dim)
     subroutine get_longwave_rad_fluxes(imode, ta, ts, fsfcd, fsfcu, fsfc, ftop, dfabs)
         use mod_atparam
-        use physical_constants, only: sbc, dsig, wvi
+        use physical_constants, only: sbc, wvi
+        use geometry, only: dhs
         use mod_radcon, only: epslw, emisfc, fband, tau2, st4a, stratc, flux
 
         integer, intent(in) :: imode
@@ -188,8 +189,8 @@ contains
         end do
 
         ! Correction for "black" band and polar night cooling
-        corlw1 = dsig(1)*stratc(:,:,2)*st4a(:,:,1,1) + stratc(:,:,1)
-        corlw2 = dsig(2)*stratc(:,:,2)*st4a(:,:,2,1)
+        corlw1 = dhs(1)*stratc(:,:,2)*st4a(:,:,1,1) + stratc(:,:,1)
+        corlw2 = dhs(2)*stratc(:,:,2)*st4a(:,:,2,1)
         dfabs(:,:,1) = dfabs(:,:,1) - corlw1
         dfabs(:,:,2) = dfabs(:,:,2) - corlw2
         ftop = corlw1 + corlw2

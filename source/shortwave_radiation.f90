@@ -70,7 +70,7 @@ contains
     !          ftop   = net (downw.) flux of sw rad. at the atm. top (2-dim)
     !          dfabs  = flux of sw rad. absorbed by each atm. layer  (3-dim)
     subroutine get_shortwave_rad_fluxes(psa, qa, icltop, cloudc, clstr, fsfcd, fsfc, ftop, dfabs)
-        use physical_constants, only: sig, dsig
+        use geometry, only: fsg, dhs
         use mod_radcon
 
         integer, intent(in) :: icltop(ix,il)
@@ -103,23 +103,23 @@ contains
         ! abs. humidity and cloud cover (in the troposphere)
         psaz = psa*zenit
         acloud = cloudc*min(abscl1*qcloud, abscl2)
-        tau2(:,:,1,1) = exp(-psaz*dsig(1)*absdry)
+        tau2(:,:,1,1) = exp(-psaz*dhs(1)*absdry)
 
         do k = 2, nl1
-            abs1 = absdry + absaer*sig(k)**2
+            abs1 = absdry + absaer*fsg(k)**2
 
             if (k >= icltop(i,j)) then
-                tau2(:,:,k,1) = exp(-psaz*dsig(k)*(abs1 + abswv1*qa(:,:,k) + acloud))
+                tau2(:,:,k,1) = exp(-psaz*dhs(k)*(abs1 + abswv1*qa(:,:,k) + acloud))
             else
-                tau2(:,:,k,1) = exp(-psaz*dsig(k)*(abs1 + abswv1*qa(:,:,k)))
+                tau2(:,:,k,1) = exp(-psaz*dhs(k)*(abs1 + abswv1*qa(:,:,k)))
             endif
         end do
 
-        abs1 = absdry + absaer*sig(kx)**2
-        tau2(:,:,kx,1) = exp(-psaz*dsig(kx)*(abs1 + abswv1*qa(:,:,kx)))
+        abs1 = absdry + absaer*fsg(kx)**2
+        tau2(:,:,kx,1) = exp(-psaz*dhs(kx)*(abs1 + abswv1*qa(:,:,kx)))
 
         do k = 2, kx
-            tau2(:,:,k,2) = exp(-psaz*dsig(k)*abswv2*qa(:,:,k))
+            tau2(:,:,k,2) = exp(-psaz*dhs(k)*abswv2*qa(:,:,k))
         end do
 
         ! 3. Shortwave downward flux
@@ -177,16 +177,16 @@ contains
 
         ! Cloud-free levels (stratosphere + PBL)
         k = 1
-        tau2(:,:,k,1) = exp(-psa*dsig(k)*ablwin)
-        tau2(:,:,k,2) = exp(-psa*dsig(k)*ablco2)
+        tau2(:,:,k,1) = exp(-psa*dhs(k)*ablwin)
+        tau2(:,:,k,2) = exp(-psa*dhs(k)*ablco2)
         tau2(:,:,k,3) = 1.0
         tau2(:,:,k,4) = 1.0
 
         do k = 2, kx, kx - 2
-            tau2(:,:,k,1) = exp(-psa*dsig(k)*ablwin)
-            tau2(:,:,k,2) = exp(-psa*dsig(k)*ablco2)
-            tau2(:,:,k,3) = exp(-psa*dsig(k)*ablwv1*qa(:,:,k))
-            tau2(:,:,k,4) = exp(-psa*dsig(k)*ablwv2*qa(:,:j,k))
+            tau2(:,:,k,1) = exp(-psa*dhs(k)*ablwin)
+            tau2(:,:,k,2) = exp(-psa*dhs(k)*ablco2)
+            tau2(:,:,k,3) = exp(-psa*dhs(k)*ablwv1*qa(:,:,k))
+            tau2(:,:,k,4) = exp(-psa*dhs(k)*ablwv2*qa(:,:j,k))
         end do
 
         ! Cloudy layers (free troposphere)
@@ -195,7 +195,7 @@ contains
         do k = 3, nl1
             do i = 1, ix
                 do j = 1, il
-                     deltap = psa(i,j)*dsig(k)
+                     deltap = psa(i,j)*dhs(k)
 
                      if (k < icltop(i,j)) then
                        acloud1 = acloud(i,j)
@@ -212,7 +212,7 @@ contains
         end do
 
         ! 5.2  Stratospheric correction terms
-        eps1 = epslw/(dsig(1) + dsig(2))
+        eps1 = epslw/(dhs(1) + dhs(2))
         stratc(:,:,1) = stratz*psa
         stratc(:,:,2) = eps1*psa
     end

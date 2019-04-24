@@ -113,10 +113,10 @@ physics.o              : mod_atparam.o coupler.o physical_constants.o boundaries
                          sea_model.o sppt.o mod_tsteps.o precipitation.o surface_fluxes.o\
 						 vertical_diffusion.o shortwave_radiation.o longwave_radiation.o\
 						 mod_dyncon1.o humidity.o geometry.o
-longwave_radiation.o   : mod_atparam.o physical_constants.o mod_radcon.o
+longwave_radiation.o   : mod_atparam.o physical_constants.o mod_radcon.o geometry.o
 sea_model.o            : mod_atparam.o input_output.o boundaries.o geometry.o mod_cpl_bcinterp.o\
  						 date.o mod_tsteps.o
-shortwave_radiation.o  : mod_atparam.o physical_constants.o mod_radcon.o
+shortwave_radiation.o  : mod_atparam.o physical_constants.o mod_radcon.o geometry.o
 surface_fluxes.o       : mod_atparam.o physical_constants.o mod_radcon.o land_model.o humidity.o
 
 ppo_dmflux.o           : mod_tsteps.o mod_atparam.o physical_constants.o land_model.o sea_model.o\
@@ -128,4 +128,4 @@ spe_subfft_fftpack.o   : mod_atparam.o spectral.o geometry.o
 sppt.o                 : mod_atparam.o mod_tsteps.o mod_dyncon1.o spectral.o
 time_stepping.o        : mod_tsteps.o mod_dyncon0.o mod_atparam.o prognostics.o\
  					     mod_hdifcon.o implicit.o
-vertical_diffusion     : mod_atparam.o physical_constants.o
+vertical_diffusion     : mod_atparam.o physical_constants.o geometry.o

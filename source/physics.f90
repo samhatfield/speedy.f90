@@ -33,7 +33,7 @@ contains
     subroutine initialize_physics
         use physical_constants
         use mod_dyncon1, only: grav
-        use geometry, only: hsg, radang
+        use geometry, only: hsg, radang, fsg, dhs
 
         integer :: j, k
 
@@ -41,11 +41,9 @@ contains
         sigh(0) = hsg(1)
 
         do k = 1, kx
-            sig(k)  = 0.5*(hsg(k+1)+hsg(k))
-            sigl(k) = log(sig(k))
+            sigl(k) = log(fsg(k))
             sigh(k) = hsg(k+1)
-            dsig(k) = hsg(k+1)-hsg(k)
-            grdsig(k) = grav/(dsig(k)*p0)
+            grdsig(k) = grav/(dhs(k)*p0)
             grdscp(k) = grdsig(k)/cp
         end do
 
@@ -80,7 +78,8 @@ contains
     !                          ttend  : temp. tendency (gp)
     !                          qtend  : spec. hum. tendency (gp)
     subroutine get_physical_tendencies(vor, div, t, q, phi, psl, utend, vtend, ttend, qtend)
-        use physical_constants, only: sig, sigh, grdsig, grdscp, cp
+        use physical_constants, only: sigh, grdsig, grdscp, cp
+        use geometry, only: fsg
         use boundaries, only: phis0
         use land_model, only: fmask_l
         use sea_model, only: sst_am, ssti_om, sea_coupling_flag
@@ -141,7 +140,7 @@ contains
     	se = cp*tg + phig
 
         do k = 1, kx
-            call spec_hum_to_rel_hum(tg(:,:,k), psg, sig(k), qg(:,:,k), rh(:,:,k), qsat(:,:,k))
+            call spec_hum_to_rel_hum(tg(:,:,k), psg, fsg(k), qg(:,:,k), rh(:,:,k), qsat(:,:,k))
         end do
 
         ! =========================================================================
