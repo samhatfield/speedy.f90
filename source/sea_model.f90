@@ -178,7 +178,7 @@ contains
             do month = 1, 3
                 if ((isst0 <= 1 .and. month /= 2) .or. isst0 > 1) then
                     sstan3(:,:,month) = load_boundary_file("sea_surface_temperature_anomaly.nc", &
-                        & "ssta", isst0-2+month-1, 420)
+                        & "ssta", isst0-2+month, 420)
                 end if
             end do
 
