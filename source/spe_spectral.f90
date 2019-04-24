@@ -1,16 +1,15 @@
 !******************************************************************
-subroutine gaussl(x,w,m)
+subroutine gaussl(w,m)
     !   a slightly modified version of a program in Numerical Recipes
     !       (Cambridge Univ. Press, 1989)
     !   input:
     !      m    = number of gaussian latitudes between pole and equator
     !   output:
-    !      x(m) = sin(gaussian latitude)
     !      w(m) = weights in gaussian quadrature (sum should equal 1.0)
 
     implicit none
 
-    real, intent(inout) :: x(m),w(m)
+    real, intent(inout) :: w(m)
     integer, intent(in) :: m
     double precision :: z,z1,p1,p2,p3,pp
     double precision, parameter :: eps=3.d-14
@@ -37,7 +36,6 @@ subroutine gaussl(x,w,m)
             z=z1-p1/pp
         end do
 
-        x(i)=z
         w(i)=2.d0/((1.d0-z*z)*pp*pp)
     end do
 end
@@ -46,7 +44,8 @@ subroutine lgndre(j)
     ! follows Leith Holloways code
 
     use mod_atparam
-    use spectral, only: sia, coa, sqrhlf, consq, repsi, epsi, poly
+    use geometry, only: sia, coa
+    use spectral, only: sqrhlf, consq, repsi, epsi, poly
 
     implicit none
 
@@ -180,7 +179,8 @@ end
 !*********************************************************************
 subroutine vdspec(ug,vg,vorm,divm,kcos)
     use mod_atparam
-    use spectral, only: cosgr, cosgr2, grid_to_spec
+    use geometry, only: cosgr, cosgr2
+    use spectral, only: grid_to_spec
 
     implicit none
 

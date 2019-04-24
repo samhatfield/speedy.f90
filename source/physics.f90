@@ -32,7 +32,8 @@ contains
     ! Initialize physical parametrization routines
     subroutine initialize_physics
         use physical_constants
-        use mod_dyncon1, only: grav, hsg, radang
+        use mod_dyncon1, only: grav
+        use geometry, only: hsg, radang
 
         integer :: j, k
 

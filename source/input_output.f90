@@ -78,7 +78,8 @@ contains
     end
 
     subroutine output(timestep)
-        use mod_dyncon1, only: radang, grav
+        use mod_dyncon1, only: grav
+        use geometry, only: radang
         use physical_constants, only: p0, sig
         use date, only: model_datetime, start_datetime
         use mod_tsteps, only: nsteps

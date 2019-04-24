@@ -83,7 +83,7 @@ contains
     subroutine sea_model_init
         use boundaries, only: fmask, fillsf, forchk
         use mod_tsteps, only: isst0
-        use mod_dyncon1, only: radang
+        use geometry, only: radang
         use input_output, only: load_boundary_file
 
         ! Domain mask

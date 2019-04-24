@@ -10,7 +10,8 @@ subroutine sptend (divdt,tdt,psdt,j4)
 
     use mod_atparam
     use prognostics, only: div, phi, ps
-    use mod_dyncon1, only: rgas, dhs, dhsr
+    use mod_dyncon1, only: rgas
+    use geometry, only: dhs, dhsr
     use mod_dyncon2, only: tref, tref2, tref3
     use spectral, only: laplacian
 

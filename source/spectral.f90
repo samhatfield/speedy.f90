@@ -4,17 +4,15 @@ module spectral
     implicit none
 
     private
-    public el2, elm2, el4, trfilt, l2, ll, mm, nsh2, sia, coa, wt, wght, cosg,&
-        & cosgr, cosgr2, gradx, gradym, gradyp, sqrhlf, consq, epsi, repsi,&
-        & emm, ell, poly, cpol, uvdx, uvdym, uvdyp, vddym, vddyp
+    public el2, elm2, el4, trfilt, l2, ll, mm, nsh2, wt, wght, gradx, gradym, gradyp, sqrhlf, &
+        &consq, epsi, repsi, emm, ell, poly, cpol, uvdx, uvdym, uvdyp, vddym, vddyp
     public wsave
     public initialize_spectral
     public laplacian, inverse_laplacian, spec_to_grid, grid_to_spec
 
     real, dimension(mx,nx) :: el2, elm2, el4, trfilt
     integer :: l2(mx,nx), ll(mx,nx), mm(mx), nsh2(nx)
-    real, dimension(iy) :: sia, coa, wt, wght
-    real, dimension(il) :: cosg, cosgr, cosgr2
+    real, dimension(iy) :: wt, wght
     real :: gradx(mx), gradym(mx,nx), gradyp(mx,nx)
     real :: sqrhlf, consq(mxp), epsi(mxp,nxp), repsi(mxp,nxp), emm(mxp), ell(mxp,nxp)
     real :: poly(mx,nx)
@@ -28,8 +26,9 @@ contains
     ! Initialize spectral transforms
     subroutine initialize_spectral
         use mod_dyncon1, only: rearth
+        use geometry, only: sia, coa
 
-        real :: am1, am2, cosqr, el1, ell2, emm2
+        real :: am1, am2, el1, ell2, emm2
 
         integer :: j, jj, m, m1, m2, n
 
@@ -40,30 +39,15 @@ contains
         !
         ! first compute Gaussian latitudes and weights at the IY points from
         !     pole to equator
-        ! SIA(IY) is sin of latitude, WT(IY) are Gaussian weights for quadratures,
+        ! WT(IY) are Gaussian weights for quadratures,
         !   saved in spectral
-        call gaussl(sia,wt,iy)
+        call gaussl(wt,iy)
         am1 = 1./rearth
         am2=  1./(rearth*rearth)
 
-        ! COA(IY) = cos(lat); WGHT needed for transforms,
-        !           saved in spectral
+        ! WGHT needed for transforms saved in spectral
         do j=1,iy
-            cosqr = 1.0-sia(j)**2
-            coa(j)=sqrt(cosqr)
-            wght(j)=wt(j)/(rearth*cosqr)
-        end do
-
-        ! expand cosine and its reciprocal to cover both hemispheres,
-        !    saved in spectral
-        do j=1,iy
-            jj=il+1-j
-            cosg(j)=coa(j)
-            cosg(jj)=coa(j)
-            cosgr(j)=1./coa(j)
-            cosgr(jj)=1./coa(j)
-            cosgr2(j)=1./(coa(j)*coa(j))
-            cosgr2(jj)=1./(coa(j)*coa(j))
+            wght(j)=wt(j)/(rearth*(1.0-sia(j)**2))
         end do
 
         !  MM = zonal wavenumber = m

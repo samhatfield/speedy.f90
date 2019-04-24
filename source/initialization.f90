@@ -11,6 +11,7 @@ contains
         use date, only: newdate, model_datetime, start_datetime, end_datetime
         use coupler, only: initialize_coupler
         use sea_model, only: sea_coupling_flag, sst_anomaly_coupling_flag
+        use geometry, only: initialize_geometry
         use spectral, only: initialize_spectral
         use physics, only: initialize_physics
         use input_output, only: output
@@ -49,6 +50,9 @@ contains
         ! =========================================================================
         ! Initialization of atmospheric model constants and variables
         ! =========================================================================
+
+        ! Initialize model geometry
+        call initialize_geometry
 
         ! Initialize spectral transforms
         call initialize_spectral

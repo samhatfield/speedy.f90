@@ -7,7 +7,8 @@ subroutine geop(jj)
 
     use mod_atparam
     use prognostics, only: phi, t, phis
-    use mod_dyncon1, only: xgeop1, xgeop2, hsg, fsg
+    use geometry, only: hsg, fsg
+    use mod_dyncon1, only: xgeop1, xgeop2
 
     implicit none
 
