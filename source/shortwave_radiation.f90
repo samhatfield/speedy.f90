@@ -221,10 +221,10 @@ contains
     ! absorption
     ! Input:   tyear  = time as fraction of year (0-1, 0 = 1jan.h00)
     subroutine get_zonal_average_fields(tyear)
-        use physical_constants, only: slat, clat
+        use geometry, only: sia, coa
 
         real, intent(in) :: tyear
-        real :: topsr(ix), alpha, azen, coz1, coz2, dalpha, flat2, fs0
+        real :: topsr(il), alpha, azen, coz1, coz2, dalpha, flat2, fs0
         real :: nzen, rzen
         integer :: j
 
@@ -243,20 +243,20 @@ contains
         fs0 = 6.0
 
         ! Solar radiation at the top
-        call solar(tyear, 4.0*solc, ix, clat, slat, topsr)
+        call solar(tyear, 4.0*solc, topsr)
 
         do j = 1, il
-            flat2 = 1.5*slat(j)**2 - 0.5
+            flat2 = 1.5*sia(j)**2 - 0.5
 
             ! Solar radiation at the top
             fsol(:,j) = topsr(j)
 
             ! Ozone depth in upper and lower stratosphere
             ozupp(:,j) = 0.5*epssw
-            ozone(:,j) = 0.4*epssw*(1.0 + coz1*slat(j) + coz2*flat2)
+            ozone(:,j) = 0.4*epssw*(1.0 + coz1*sia(j) + coz2*flat2)
 
             ! Zenith angle correction to (downward) absorptivity
-            zenit(:,j) = 1.0 + azen*(1.0 - (clat(j)*cos(rzen) + slat(j)*sin(rzen)))**nzen
+            zenit(:,j) = 1.0 + azen*(1.0 - (coa(j)*cos(rzen) + sia(j)*sin(rzen)))**nzen
 
             ! Ozone absorption in upper and lower stratosphere
             ozupp(:,j) = fsol(:,j)*ozupp(:,j)*zenit(:,j)
@@ -268,19 +268,19 @@ contains
     end
 
     ! Average daily flux of solar radiation, from Hartmann (1994)
-    subroutine solar(tyear,csol,nlat,clat,slat,topsr)
+    subroutine solar(tyear, csol, topsr)
+        use geometry, only: coa, sia
+
         real, intent(in) :: tyear, csol
-        integer, intent(in) :: nlat
-        real, dimension(nlat), intent(in) :: clat, slat
-        real, intent(inout) :: topsr(nlat)
+        real, intent(inout) :: topsr(il)
 
         integer :: j
         real :: ca1, ca2, ca3, cdecl, ch0, csolp, decl, fdis, h0, alpha, pigr, sa1
         real :: sa2, sa3, sdecl, sh0, tdecl
 
         ! 1. Compute declination angle and Earth-Sun distance factor
-        pigr  = 2.*asin(1.)
-        alpha = 2.*pigr*tyear
+        pigr  = 2.0*asin(1.0)
+        alpha = 2.0*pigr*tyear
 
         ca1 = cos(alpha)
         sa1 = sin(alpha)
@@ -289,10 +289,10 @@ contains
         ca3 = ca1*ca2-sa1*sa2
         sa3 = sa1*ca2+sa2*ca1
 
-        decl = 0.006918-0.399912*ca1+0.070257*sa1-0.006758*ca2+0.000907*sa2&
-            & -0.002697*ca3+0.001480*sa3
+        decl = 0.006918 - 0.399912*ca1 + 0.070257*sa1 - 0.006758*ca2 + 0.000907*sa2&
+            & - 0.002697*ca3 + 0.001480*sa3
 
-        fdis = 1.000110+0.034221*ca1+0.001280*sa1+0.000719*ca2+0.000077*sa2
+        fdis = 1.000110 + 0.034221*ca1 + 0.001280*sa1 + 0.000719*ca2 + 0.000077*sa2
 
         cdecl = cos(decl)
         sdecl = sin(decl)
@@ -301,12 +301,12 @@ contains
         ! 2. Compute daily-average insolation at the atm. top
         csolp=csol/pigr
 
-        do j=1,nlat
-            ch0 = min(1.,max(-1.,-tdecl*slat(j)/clat(j)))
+        do j = 1, il
+            ch0 = min(1.0, max(-1.0, -tdecl*sia(j)/coa(j)))
             h0  = acos(ch0)
             sh0 = sin(h0)
 
-            topsr(j) = csolp*fdis*(h0*slat(j)*sdecl+sh0*clat(j)*cdecl)
+            topsr(j) = csolp*fdis*(h0*sia(j)*sdecl + sh0*coa(j)*cdecl)
         end do
     end
 

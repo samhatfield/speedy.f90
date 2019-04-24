@@ -116,7 +116,7 @@ physics.o              : mod_atparam.o coupler.o physical_constants.o boundaries
 longwave_radiation.o   : mod_atparam.o physical_constants.o mod_radcon.o geometry.o
 sea_model.o            : mod_atparam.o input_output.o boundaries.o geometry.o mod_cpl_bcinterp.o\
  						 date.o mod_tsteps.o
-shortwave_radiation.o  : mod_atparam.o physical_constants.o mod_radcon.o geometry.o
+shortwave_radiation.o  : mod_atparam.o mod_radcon.o geometry.o
 surface_fluxes.o       : mod_atparam.o physical_constants.o mod_radcon.o land_model.o humidity.o
 
 ppo_dmflux.o           : mod_tsteps.o mod_atparam.o physical_constants.o land_model.o sea_model.o\

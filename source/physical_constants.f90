@@ -5,7 +5,7 @@ module physical_constants
 
     private
     public p0, rd, cp, alhc, alhs, sbc
-    public sigl, sigh, grdsig, grdscp, wvi, slat, clat
+    public sigl, sigh, grdsig, grdscp, wvi
 
     ! Physical constants
     real, parameter :: p0   = 1.e+5   ! Reference pressure
@@ -22,6 +22,4 @@ module physical_constants
     real, dimension(kx)   :: grdsig ! g/(d_sigma p0) : to convert fluxes of u,v,q into d(u,v,q)/dt
     real, dimension(kx)   :: grdscp ! g/(d_sigma p0 c_p): to convert energy fluxes into dT/dt
     real, dimension(kx,2) :: wvi    ! Weights for vertical interpolation
-    real, dimension(il)   :: slat   ! sin(lat)
-    real, dimension(il)   :: clat   ! cos(lat)
 end module

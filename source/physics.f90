@@ -58,11 +58,6 @@ contains
 
         wvi(kx,1) = 0.
         wvi(kx,2) = (log(0.99)-sigl(kx))*wvi(kx-1,1)
-
-        do j = 1, il
-            slat(j) = sin(radang(j))
-            clat(j) = cos(radang(j))
-        end do
     end
 
     ! Compute physical parametrization tendencies for u, v, t, q and add them to

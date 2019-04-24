@@ -5,13 +5,14 @@ module geometry
 
     private
     public initialize_geometry
-    public hsg, dhs, fsg, dhsr, fsgr, radang, gsin, gcos, coriol, sia_half, coa_half, cosg, cosgr, cosgr2
+    public hsg, dhs, fsg, dhsr, fsgr, radang, gsin, gcos, coriol, sia, coa, sia_half, coa_half, &
+        cosg, cosgr, cosgr2
 
     ! Vertical level parameters
     real :: hsg(kxp), dhs(kx), fsg(kx), dhsr(kx), fsgr(kx)
 
     ! Functions of latitude and longitude
-    real, dimension(il) :: radang, gsin, gcos, coriol
+    real, dimension(il) :: radang, gsin, gcos, coriol, sia, coa
     real, dimension(iy) :: sia_half, coa_half
     real, dimension(il) :: cosg, cosgr, cosgr2
 
@@ -48,9 +49,13 @@ contains
         ! Latitudes and functions of latitude
         ! NB: J=1 is Southernmost point!
         do j = 1, iy
+            jj = il + 1 - j
             sia_half(j) = cos(3.141592654*(j - 0.25)/(il + 0.5))
             coa_half(j) = sqrt(1.0 - sia_half(j)**2.0)
-            jj = il + 1 - j
+            sia(j)  = -sia_half(j)
+            sia(jj) =  sia_half(j)
+            coa(j)  = coa_half(j)
+            coa(jj) = coa_half(j)
             radang(j)  = -asin(sia_half(j))
             radang(jj) =  asin(sia_half(j))
             gsin(j)    = -sia_half(j)
