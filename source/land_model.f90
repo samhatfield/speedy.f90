@@ -61,7 +61,7 @@ module land_model
         subroutine land_model_init
             ! purpose : initialization of land model
             use input_output, only: load_boundary_file
-            use boundaries, only: forchk, fmask, alb0, fillsf, forchk
+            use boundaries, only: forchk, fmask, alb0, fillsf
 
             ! Auxiliary variables
             integer :: i, j, month
