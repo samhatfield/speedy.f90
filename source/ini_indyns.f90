@@ -9,7 +9,7 @@ subroutine indyns
     use mod_dyncon1
     use mod_atparam
     use mod_hdifcon, only: dmp, dmpd, dmps, tcorv, qcorv
-    use geometry, only: fsg, hsg, sia, cosg
+    use geometry, only: fsg, hsg
 
     implicit none
 

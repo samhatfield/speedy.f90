@@ -26,7 +26,7 @@ contains
     ! Initialize spectral transforms
     subroutine initialize_spectral
         use mod_dyncon1, only: rearth
-        use geometry, only: sia, coa
+        use geometry, only: sia_half
 
         real :: am1, am2, el1, ell2, emm2
 
@@ -47,7 +47,7 @@ contains
 
         ! WGHT needed for transforms saved in spectral
         do j=1,iy
-            wght(j)=wt(j)/(rearth*(1.0-sia(j)**2))
+            wght(j)=wt(j)/(rearth*(1.0-sia_half(j)**2))
         end do
 
         !  MM = zonal wavenumber = m

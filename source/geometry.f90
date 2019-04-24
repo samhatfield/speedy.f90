@@ -5,14 +5,14 @@ module geometry
 
     private
     public initialize_geometry
-    public hsg, dhs, fsg, dhsr, fsgr, radang, gsin, gcos, coriol, sia, coa, cosg, cosgr, cosgr2
+    public hsg, dhs, fsg, dhsr, fsgr, radang, gsin, gcos, coriol, sia_half, coa_half, cosg, cosgr, cosgr2
 
     ! Vertical level parameters
     real :: hsg(kxp), dhs(kx), fsg(kx), dhsr(kx), fsgr(kx)
 
     ! Functions of latitude and longitude
     real, dimension(il) :: radang, gsin, gcos, coriol
-    real, dimension(iy) :: sia, coa
+    real, dimension(iy) :: sia_half, coa_half
     real, dimension(il) :: cosg, cosgr, cosgr2
 
 contains
@@ -48,24 +48,24 @@ contains
         ! Latitudes and functions of latitude
         ! NB: J=1 is Southernmost point!
         do j = 1, iy
-            sia(j) = cos(3.141592654*(j - 0.25)/(il + 0.5))
-            coa(j) = sqrt(1.0 - sia(j)**2.0)
+            sia_half(j) = cos(3.141592654*(j - 0.25)/(il + 0.5))
+            coa_half(j) = sqrt(1.0 - sia_half(j)**2.0)
             jj = il + 1 - j
-            radang(j)  = -asin(sia(j))
-            radang(jj) =  asin(sia(j))
-            gsin(j)    = -sia(j)
-            gsin(jj)   =  sia(j)
+            radang(j)  = -asin(sia_half(j))
+            radang(jj) =  asin(sia_half(j))
+            gsin(j)    = -sia_half(j)
+            gsin(jj)   =  sia_half(j)
         end do
 
         ! Expand cosine and its reciprocal to cover both hemispheres
         do j=1,iy
             jj=il+1-j
-            cosg(j)=coa(j)
-            cosg(jj)=coa(j)
-            cosgr(j)=1./coa(j)
-            cosgr(jj)=1./coa(j)
-            cosgr2(j)=1./(coa(j)*coa(j))
-            cosgr2(jj)=1./(coa(j)*coa(j))
+            cosg(j)=coa_half(j)
+            cosg(jj)=coa_half(j)
+            cosgr(j)=1./coa_half(j)
+            cosgr(jj)=1./coa_half(j)
+            cosgr2(j)=1./(coa_half(j)*coa_half(j))
+            cosgr2(jj)=1./(coa_half(j)*coa_half(j))
         end do
 
         do j = 1, il

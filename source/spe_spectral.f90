@@ -44,7 +44,7 @@ subroutine lgndre(j)
     ! follows Leith Holloways code
 
     use mod_atparam
-    use geometry, only: sia, coa
+    use geometry, only: sia_half, coa_half
     use spectral, only: sqrhlf, consq, repsi, epsi, poly
 
     implicit none
@@ -54,8 +54,8 @@ subroutine lgndre(j)
 
     integer :: m, n, mm2
     real :: alp(mxp,nx), x, y
-    y = coa(j)
-    x = sia(j)
+    y = coa_half(j)
+    x = sia_half(j)
 
     ! start recursion with N=1 (M=L) diagonal
     alp(1,1) = sqrhlf
