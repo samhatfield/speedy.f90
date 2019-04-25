@@ -8,8 +8,7 @@ contains
     ! Initialization of atmospheric model and coupling interface
     subroutine initialize
         use params, only: issty0
-        use mod_tsteps, only: isst0
-        use date, only: newdate, model_datetime, start_datetime, end_datetime
+        use date, only: newdate, model_datetime, start_datetime, end_datetime, isst0
         use coupler, only: initialize_coupler
         use sea_model, only: sea_coupling_flag, sst_anomaly_coupling_flag
         use geometry, only: initialize_geometry

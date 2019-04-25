@@ -82,7 +82,7 @@ contains
     ! Initialization of sea model
     subroutine sea_model_init
         use boundaries, only: fmask, fillsf, forchk
-        use mod_tsteps, only: isst0
+        use date, only: isst0
         use geometry, only: radang
         use input_output, only: load_boundary_file
 

@@ -47,7 +47,6 @@ FILES= \
 	   mod_hdifcon.o \
 	   input_output.o \
 	   mod_radcon.o \
-	   mod_tsteps.o \
 	   params.o \
 	   physics.o \
 	   physical_constants.o \
@@ -86,7 +85,7 @@ humidity.o             : params.o
 implicit.o             : params.o mod_dyncon0.o physical_constants.o mod_dyncon2.o mod_hdifcon.o\
                          geometry.o
 initialization.o       : coupler.o params.o date.o input_output.o time_stepping.o boundaries.o\
-                         spectral.o sea_model.o physics.o mod_tsteps.o
+                         spectral.o sea_model.o physics.o
 ini_indyns.o           : mod_dyncon0.o params.o mod_dyncon1.o mod_hdifcon.o spectral.o geometry.o\
                          physical_constants.o
 ini_invars.o           : mod_dyncon0.o params.o prognostics.o physical_constants.o boundaries.o\
@@ -109,7 +108,7 @@ physics.o              : params.o coupler.o physical_constants.o boundaries.o la
 						 shortwave_radiation.o longwave_radiation.o humidity.o geometry.o
 longwave_radiation.o   : params.o physical_constants.o mod_radcon.o geometry.o
 sea_model.o            : params.o input_output.o boundaries.o geometry.o mod_cpl_bcinterp.o\
- 						 date.o mod_tsteps.o
+ 						 date.o
 shortwave_radiation.o  : params.o mod_radcon.o geometry.o
 surface_fluxes.o       : params.o physical_constants.o mod_radcon.o land_model.o humidity.o
 ppo_dmflux.o           : params.o physical_constants.o land_model.o sea_model.o physics.o\

@@ -4,6 +4,7 @@ module date
     private
     public model_datetime, start_datetime, end_datetime
     public imont1, tmonth, tyear, ndaycal, ndaytot
+    public isst0
     public datetime_equal, newdate
 
     type datetime
@@ -18,6 +19,10 @@ module date
     type(datetime) :: model_datetime, start_datetime, end_datetime
     integer :: imont1
     real :: tmonth, tyear
+
+    ! Record in SST anomaly file corr. to the initial month
+    ! Initialized in agcm_init
+    integer :: isst0
 
     ! Calendar set-up (initialized in NEWDATE)
     integer :: ndaycal(12,2), ndaytot
