@@ -1,5 +1,5 @@
 module vertical_diffusion
-    use mod_atparam
+    use params
 
     implicit none
 

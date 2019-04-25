@@ -1,5 +1,5 @@
 module shortwave_radiation
-    use mod_atparam
+    use params
 
     implicit none
 

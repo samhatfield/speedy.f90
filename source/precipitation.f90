@@ -1,5 +1,5 @@
 module precipitation
-    use mod_atparam
+    use params
 
     implicit none
 

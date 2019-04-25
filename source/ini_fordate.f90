@@ -8,7 +8,7 @@ subroutine fordate(imode)
     !   input : imode : 0 = initialization step, 1 = daily update
 
     use mod_dyncon0, only: refrh1
-    use mod_atparam
+    use params
     use mod_hdifcon, only: tcorh, qcorh
     use physical_constants, only: rd
     use boundaries, only: phis0, alb0
@@ -99,7 +99,7 @@ subroutine setgam(tyear,gamlat)
     !                       as a function of latitude and date
 
     use mod_dyncon0, only: gamma
-    use mod_atparam
+    use params
     use physical_constants, only: grav
 
     implicit none

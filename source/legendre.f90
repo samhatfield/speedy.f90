@@ -1,5 +1,5 @@
 module legendre
-    use mod_atparam
+    use params
 
     implicit none
 

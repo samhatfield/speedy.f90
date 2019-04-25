@@ -1,6 +1,6 @@
 module mod_cpl_bcinterp
     use date, only: tmonth
-    use mod_atparam, only: ix, il
+    use params, only: ix, il
 
     implicit none
 

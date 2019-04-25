@@ -1,5 +1,5 @@
 module humidity
-    use mod_atparam, only: ix, il
+    use params, only: ix, il
 
     implicit none
 

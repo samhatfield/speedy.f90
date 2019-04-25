@@ -1,5 +1,5 @@
 module land_model
-    use mod_atparam
+    use params
 
     implicit none
 

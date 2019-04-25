@@ -3,7 +3,7 @@ subroutine invars
     !             either a reference atmosphere or a restart file
 
     use mod_dyncon0, only: gamma, hscale, hshum, refrh1
-    use mod_atparam
+    use params
     use prognostics
     use physical_constants, only: grav, rgas
     use geometry, only: fsg

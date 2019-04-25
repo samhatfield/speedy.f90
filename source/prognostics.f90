@@ -1,6 +1,6 @@
 ! Prognostic spectral variables for model dynamics, and geopotential.
 module prognostics
-    use mod_atparam, only: mx, nx, kx, ntr
+    use params, only: mx, nx, kx, ntr
 
     implicit none
 

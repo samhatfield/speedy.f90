@@ -1,5 +1,5 @@
 module sea_model
-    use mod_atparam
+    use params
 
     implicit none
 

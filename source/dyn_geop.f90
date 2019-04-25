@@ -5,7 +5,7 @@ subroutine geop(jj)
     !           and spectral topography PHIS, as in GFDL Climate Group GCM
     ! Input :   jj = time level index (1 or 2)
 
-    use mod_atparam
+    use params
     use prognostics, only: phi, t, phis
     use geometry, only: hsg, fsg
     use mod_dyncon1, only: xgeop1, xgeop2

@@ -1,5 +1,5 @@
 module tendencies
-    use mod_atparam
+    use params
 
     implicit none
 

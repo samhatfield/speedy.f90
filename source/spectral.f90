@@ -1,5 +1,5 @@
 module spectral
-    use mod_atparam
+    use params
 
     implicit none
 

@@ -8,7 +8,7 @@ contains
     ! Print global means of eddy kinetic energy and temperature
     subroutine check_diagnostics(vor, div, t, istep)
         use mod_tsteps, only: nstdia
-        use mod_atparam
+        use params
         use spectral, only: inverse_laplacian
 
         integer, intent(in) :: istep

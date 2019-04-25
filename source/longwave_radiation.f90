@@ -21,7 +21,7 @@ contains
     !          ftop   = outgoing flux of lw rad. at the top  [if imode=0,1]
     !          dfabs  = flux of lw rad. absorbed by each atm. layer (3-dim)
     subroutine get_longwave_rad_fluxes(imode, ta, ts, fsfcd, fsfcu, fsfc, ftop, dfabs)
-        use mod_atparam
+        use params
         use physical_constants, only: sbc, wvi
         use geometry, only: dhs
         use mod_radcon, only: epslw, emisfc, fband, tau2, st4a, stratc, flux

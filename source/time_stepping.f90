@@ -32,7 +32,7 @@ contains
     ! dt = time step
     subroutine step(j1, j2, dt)    !
         use mod_dyncon0, only: tdrs
-        use mod_atparam
+        use params
         use prognostics
         use mod_hdifcon
         use mod_tsteps, only: rob, wil
@@ -124,7 +124,7 @@ contains
     ! Add horizontal diffusion tendency of FIELD to spectral tendency FDT at NLEV
     ! levels using damping coefficients DMP and DMP1
     subroutine hordif(nlev,field,fdt,dmp,dmp1)
-        use mod_atparam
+        use params
 
         implicit none
 
@@ -143,7 +143,7 @@ contains
 
     ! Perform time integration of field at nlev levels using tendency fdt
     subroutine timint(j1, dt, eps, wil, nlev, field, fdt)
-        use mod_atparam
+        use params
         use spectral, only: trunct
 
         implicit none

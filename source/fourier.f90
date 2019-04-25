@@ -1,5 +1,5 @@
 module fourier
-    use mod_atparam
+    use params
 
     implicit none
 

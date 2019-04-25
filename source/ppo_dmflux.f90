@@ -4,7 +4,7 @@ subroutine dmflux(iadd)
     !             > 0 to increment arrays with current flux values
 
     use mod_tsteps, only: nsteps
-    use mod_atparam
+    use params
     use physical_constants, only: alhc, sbc
     use land_model, only: fmask_l, hflux_l
     use sea_model, only: tice_am, sice_am, hflux_s, hflux_i

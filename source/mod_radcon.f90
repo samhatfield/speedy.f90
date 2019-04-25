@@ -1,5 +1,5 @@
 module mod_radcon
-    use mod_atparam
+    use params
 
     implicit none
 

@@ -1,5 +1,5 @@
 module implicit
-    use mod_atparam
+    use params
 
     implicit none
 
@@ -156,7 +156,7 @@ contains
         !                 tdt   = temperature tendency
         !                 psdt  = tendency of log(surf.pressure)
 
-        use mod_atparam
+        use params
         use geometry, only: dhs
         use mod_dyncon2, only: tref1, xc, xd, xj, dhsx, elz
 

@@ -1,6 +1,6 @@
 module input_output
     use netcdf
-    use mod_atparam
+    use params
 
     implicit none
 

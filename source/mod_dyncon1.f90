@@ -1,5 +1,5 @@
 module mod_dyncon1
-    use mod_atparam
+    use params
 
     implicit none
 

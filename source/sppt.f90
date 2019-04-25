@@ -5,7 +5,7 @@
 !> Stochastically Perturbed Parametrization Tendencies (SPPT) is a parametrization of model error.
 !> See ECMWF Tech. Memo. #598 (Palmer et al. 2009)
 module sppt
-    use mod_atparam
+    use params
     use mod_tsteps, only: nsteps
 
     implicit none
