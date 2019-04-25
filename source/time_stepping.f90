@@ -7,7 +7,7 @@ module time_stepping
 contains
     ! Call initialization of semi-implicit scheme and perform initial time step
     subroutine first_step
-        use mod_tsteps, only: delt, delt2
+        use params, only: delt
         use implicit, only: initialize_implicit
 
         call initialize_implicit(0.5*delt)
@@ -18,7 +18,7 @@ contains
 
         call step(1, 2, delt)
 
-        call initialize_implicit(delt2)
+        call initialize_implicit(2*delt)
     end
 
     ! Perform one time step starting from F(1) and F(2) and using the following scheme:
@@ -35,7 +35,6 @@ contains
         use params
         use prognostics
         use mod_hdifcon
-        use mod_tsteps, only: rob, wil
         use tendencies, only: get_tendencies
 
         integer, intent(in) :: j1, j2
@@ -110,14 +109,14 @@ contains
             eps = rob
         endif
 
-        call timint(j1, dt, eps, wil, 1, ps, psdt)
+        call timint(j1, dt, eps, 1, ps, psdt)
 
-        call timint(j1, dt, eps, wil, kx, vor, vordt)
-        call timint(j1, dt, eps, wil, kx, div, divdt)
-        call timint(j1, dt, eps, wil, kx, t,  tdt)
+        call timint(j1, dt, eps, kx, vor, vordt)
+        call timint(j1, dt, eps, kx, div, divdt)
+        call timint(j1, dt, eps, kx, t,  tdt)
 
         do itr = 1, ntr
-            call timint(j1, dt, eps, wil, kx, tr(:,:,:,1,itr), trdt(:,:,:,itr))
+            call timint(j1, dt, eps, kx, tr(:,:,:,1,itr), trdt(:,:,:,itr))
         enddo
     end
 
@@ -129,31 +128,31 @@ contains
         implicit none
 
         integer, intent(in) :: nlev
-        complex, intent(in) :: field(mxnx,kx)
-        complex, intent(inout) :: fdt(mxnx,kx)
-        real, intent(in) :: dmp(mxnx), dmp1(mxnx)
+        complex, intent(in) :: field(mx*nx,kx)
+        complex, intent(inout) :: fdt(mx*nx,kx)
+        real, intent(in) :: dmp(mx*nx), dmp1(mx*nx)
         integer :: k, m
 
         do k = 1, nlev
-            do m = 1, mxnx
+            do m = 1, mx*nx
                 fdt(m,k) = (fdt(m,k) - dmp(m)*field(m,k))*dmp1(m)
             end do
         end do
     end
 
     ! Perform time integration of field at nlev levels using tendency fdt
-    subroutine timint(j1, dt, eps, wil, nlev, field, fdt)
+    subroutine timint(j1, dt, eps, nlev, field, fdt)
         use params
         use spectral, only: trunct
 
         implicit none
 
         integer, intent(in) :: j1, nlev
-        real, intent(in) :: dt, eps, wil
-        complex, intent(inout) :: fdt(mxnx,nlev)
-        complex, intent(inout) :: field(mxnx,nlev,2)
+        real, intent(in) :: dt, eps
+        complex, intent(inout) :: fdt(mx*nx,nlev)
+        complex, intent(inout) :: field(mx*nx,nlev,2)
         real :: eps2
-        complex :: fnew(mxnx)
+        complex :: fnew(mx*nx)
         integer :: k, m
 
         eps2 = 1.0 - 2.0*eps
@@ -166,7 +165,7 @@ contains
 
         ! The actual leap frog with the Robert filter
         do k = 1, nlev
-            do m =1, mxnx
+            do m =1, mx*nx
                 fnew (m)     = field(m,k,1) + dt*fdt(m,k)
                 field(m,k,1) = field(m,k,j1) +  wil*eps*(field(m,k,1)&
                     & - 2*field(m,k,j1)+fnew(m))

@@ -9,7 +9,6 @@ module tendencies
 contains
     subroutine get_tendencies(vordt, divdt, tdt, psdt, trdt, j2)
         use implicit, only: implicit_terms
-        use mod_tsteps, only: alph
 
         complex, dimension(mx,nx,kx), intent(inout) ::  vordt, divdt, tdt
         complex, intent(inout) :: psdt(mx,nx), trdt(mx,nx,kx,ntr)

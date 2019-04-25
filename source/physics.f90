@@ -78,7 +78,6 @@ contains
         use land_model, only: fmask_l
         use sea_model, only: sst_am, ssti_om, sea_coupling_flag
         use sppt, only: mu, gen_sppt
-        use mod_tsteps, only: sppt_on
         use precipitation, only: convective_precipitation, large_scale_precipitation
         use shortwave_radiation, only: get_shortwave_rad_fluxes, clouds, compute_shortwave
         use longwave_radiation, only: get_longwave_rad_fluxes

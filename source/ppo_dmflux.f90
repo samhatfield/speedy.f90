@@ -3,7 +3,6 @@ subroutine dmflux(iadd)
     ! Input: iadd = 0 to initialize storage arrays to 0
     !             > 0 to increment arrays with current flux values
 
-    use mod_tsteps, only: nsteps
     use params
     use physical_constants, only: alhc, sbc
     use land_model, only: fmask_l, hflux_l

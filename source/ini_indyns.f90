@@ -4,7 +4,6 @@ subroutine indyns
     ! Purpose : set time-stepping constants and initialize coefficients
     !           and spectral operators for model dynamics
 
-    use mod_tsteps, only: nsteps
     use mod_dyncon0
     use mod_dyncon1
     use physical_constants, only: grav, rgas

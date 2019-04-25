@@ -6,7 +6,6 @@
 !> See ECMWF Tech. Memo. #598 (Palmer et al. 2009)
 module sppt
     use params
-    use mod_tsteps, only: nsteps
 
     implicit none
 

@@ -1,5 +1,5 @@
 program speedy
-    use mod_tsteps, only: nsteps, delt2, nsteps_out, nstrad
+    use params, only: nsteps, delt, nsteps_out, nstrad
     use date, only: model_datetime, end_datetime, newdate, datetime_equal
     use shortwave_radiation, only: compute_shortwave
     use input_output, only: output
@@ -32,7 +32,7 @@ program speedy
         compute_shortwave = mod(model_step, nstrad) == 1
 
         ! Perform one leapfrog time step
-        call step(2, 2, delt2)
+        call step(2, 2, 2*delt)
 
         ! Check model diagnostics
         call check_diagnostics(vor(:,:,:,2), div(:,:,:,2), t(:,:,:,2), model_step)

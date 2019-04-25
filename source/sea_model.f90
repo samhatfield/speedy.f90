@@ -369,7 +369,6 @@ contains
     ! Update observed SST anomaly array
     subroutine obs_ssta
         use date, only: model_datetime, start_datetime
-        use mod_tsteps, only: issty0
         use input_output, only: load_boundary_file
         use boundaries, only: forchk
 

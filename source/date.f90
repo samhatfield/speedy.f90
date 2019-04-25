@@ -46,7 +46,7 @@ module date
             !--   purpose:   initilialize and update date variables
             !--   input :    imode = 0 for initialization, > 0 for update
 
-            use mod_tsteps
+            use params, only: iseasc, nsteps
 
             integer, intent(in) :: imode
 
