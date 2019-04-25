@@ -1,38 +1,3 @@
-subroutine rffti(n, wsave)
-    implicit none
-
-    integer, intent(in) :: n
-    real, intent(inout) :: wsave(*)
-
-    !***first executable statement  rffti
-    if (n .eq. 1) return
-    call rffti1(n,wsave(n+1),wsave(2*n+1))
-    return
-end
-
-subroutine rfftb(n, r, wsave)
-    implicit none
-
-    integer, intent(in) :: n
-    real, intent(inout) :: r(*), wsave(*)
-
-    !***first executable statement  rfftb
-    if (n .eq. 1) return
-    call rfftb1 (n,r,wsave,wsave(n+1),wsave(2*n+1))
-end
-
-subroutine rfftf(n, r, wsave)
-    implicit none
-
-    integer, intent(in) :: n
-    real, intent(inout) :: r(*), wsave(*)
-
-    !***first executable statement  rfftf
-    if (n .eq. 1) return
-    call rfftf1 (n,r,wsave,wsave(n+1),wsave(2*n+1))
-    return
-end
-
 subroutine rffti1(n, wa, ifac)
     implicit none
 
