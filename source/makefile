@@ -12,10 +12,10 @@ default : base_target
 profile : base_target
 
 # Base compiler options (always used)
-BASE=-fdefault-real-8 -fconvert=swap
+BASE=-fdefault-real-8 -fconvert=swap -fopenmp -Wall
 
 # Optimisation flags (disabled for debugging, profiling etc.)
-OPT=-Ofast
+OPT=
 
 # # Location of NetCDF module (netcdf.mod)
 INC=-I$(NETCDF)

@@ -94,29 +94,30 @@ contains
         output = -input*elm2
     end function
 
-    function spec_to_grid(vorm, kcos) result(vorg)
+    function spec_to_grid(vorm, kcos, k) result(vorg)
         use legendre, only: legendre_inv
         use fourier, only: fourier_inv
 
         complex, intent(in) :: vorm(mx,nx)
-        integer, intent(in) :: kcos
+        integer, intent(in) :: kcos, k
 
         real :: vorg(ix,il)
         real :: vorm_r(2*mx,nx)
 
         vorm_r = reshape(transfer(vorm, vorm_r), (/ 2*mx, nx /))
-        vorg = fourier_inv(legendre_inv(vorm_r), kcos)
+        vorg = fourier_inv(legendre_inv(vorm_r), kcos, k)
     end function
 
-    function grid_to_spec(vorg) result(vorm)
+    function grid_to_spec(vorg, k) result(vorm)
         use legendre, only: legendre_dir
         use fourier, only: fourier_dir
 
         real, intent(in) :: vorg(ix,il)
+        integer, intent(in) :: k
         complex :: vorm(mx,nx)
         real :: vorm_r(2*mx,nx)
 
-        vorm_r = legendre_dir(fourier_dir(vorg))
+        vorm_r = legendre_dir(fourier_dir(vorg, k))
         vorm = reshape(transfer(vorm_r, vorm), (/ mx, nx /))
     end function
 
@@ -194,12 +195,12 @@ contains
         end do
     end
 
-    subroutine vdspec(ug,vg,vorm,divm,kcos)
+    subroutine vdspec(ug,vg,vorm,divm,kcos,k)
         use geometry, only: cosgr, cosgr2
 
         real, intent(in) :: ug(ix,il), vg(ix,il)
         complex, intent(out) :: vorm(mx,nx), divm(mx,nx)
-        integer, intent(in) :: kcos
+        integer, intent(in) :: kcos, k
         integer :: i, j
         real :: ug1(ix,il), vg1(ix,il)
         complex :: specu(mx,nx), specv(mx,nx)
@@ -220,8 +221,8 @@ contains
             end do
         end if
 
-        specu = grid_to_spec(ug1)
-        specv = grid_to_spec(vg1)
+        specu = grid_to_spec(ug1, k)
+        specv = grid_to_spec(vg1, k)
         call vds(specu,specv,vorm,divm)
     end
 

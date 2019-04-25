@@ -78,7 +78,7 @@ contains
         complex :: fsp(mx,nx)
         integer :: n, m, total_wavenumber
 
-        fsp = grid_to_spec(fg1)
+        fsp = grid_to_spec(fg1, 1)
 
         do n = 1, nx
             do m = 1, mx
@@ -87,7 +87,7 @@ contains
             end do
         end do
 
-        fg2 = spec_to_grid(fsp, 1)
+        fg2 = spec_to_grid(fsp, 1, 1)
     end
 
     ! Replace missing values in surface fields

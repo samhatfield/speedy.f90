@@ -74,7 +74,7 @@ subroutine fordate(imode)
         end do
     end do
 
-    tcorh = grid_to_spec(corh)
+    tcorh = grid_to_spec(corh, 1)
 
     ! 4. humidity correction term for horizontal diffusion
     do j = 1, il
@@ -91,7 +91,7 @@ subroutine fordate(imode)
 
     corh = refrh1 * (qref - qsfc)
 
-    qcorh = grid_to_spec(corh)
+    qcorh = grid_to_spec(corh, 1)
 end
 
 subroutine setgam(gamlat)

@@ -112,15 +112,15 @@ contains
 
         ! Convert model spectral variables to grid-point variables
         do k = 1, kx
-            call uvspec(vor(:,:,k), div(:,:,k), ucos, vcos)
-            ug(:,:,k)   = spec_to_grid(ucos, 2)
-            vg(:,:,k)   = spec_to_grid(vcos, 2)
-            tg(:,:,k)   = spec_to_grid(t(:,:,k), 1)
-            qg(:,:,k)   = spec_to_grid(q(:,:,k), 1)
-            phig(:,:,k) = spec_to_grid(phi(:,:,k), 1)
+    		call uvspec(vor(:,:,k), div(:,:,k), ucos, vcos)
+    		ug(:,:,k)   = spec_to_grid(ucos, 2, k)
+    		vg(:,:,k)   = spec_to_grid(vcos, 2, k)
+    		tg(:,:,k)   = spec_to_grid(t(:,:,k), 1, k)
+    		qg(:,:,k)   = spec_to_grid(q(:,:,k), 1, k)
+          	phig(:,:,k) = spec_to_grid(phi(:,:,k), 1, k)
         end do
 
-        pslg = spec_to_grid(psl, 1)
+        pslg = spec_to_grid(psl, 1, 1)
 
         ! =========================================================================
         ! Compute thermodynamic variables
