@@ -7,9 +7,9 @@ module legendre
     public initialize_legendre, legendre_dir, legendre_inv
     public epsi
 
-    real :: cpol(mx2,nx,iy)
-    real :: consq(mxp)
-    real :: epsi(mxp,nxp), repsi(mxp,nxp)
+    real :: cpol(2*mx,nx,iy)
+    real :: consq(mx+1)
+    real :: epsi(mx+1,nx+1), repsi(mx+1,nx+1)
     integer :: nsh2(nx)
     real, dimension(iy) :: wt
 
@@ -33,22 +33,22 @@ contains
         do n = 1, nx
             nsh2(n) = 0
             do m = 1, mx
-                mm(m) = isc*(m - 1)
+                mm(m) = m - 1
                 wavenum_tot(m,n) = mm(m) + n - 1
-                if (wavenum_tot(m,n) <= ntrun1 .or. ix /= 4*iy) nsh2(n) = nsh2(n) + 2
+                if (wavenum_tot(m,n) <= (trunc + 1) .or. ix /= 4*iy) nsh2(n) = nsh2(n) + 2
 
             end do
         end do
 
-        do m = 2, mxp
+        do m = 2, mx + 1
             consq(m) = sqrt(0.5*(2.0*float(m - 1) + 1.0)/float(m - 1))
         end do
 
-        do m = 1, mxp
-            do n = 1, nxp
+        do m = 1, mx + 1
+            do n = 1, nx + 1
                 emm2 = float(m - 1)**2
                 ell2 = float(n + m - 2)**2
-                if (n == nxp) then
+                if (n == (nx + 1)) then
                     epsi(m,n) = 0.0
                 else if(n == 1 .and. m == 1) then
                     epsi(m,n) = 0.0
@@ -79,10 +79,10 @@ contains
 
     ! Computes inverse Legendre transformation
     function legendre_inv(input) result(output)
-        ! mx2 = 2*mx because these arrays actually represent complex variables
-        real, intent(in) :: input(mx2,nx)
-        real :: output(mx2,il)
-        real :: even(mx2),odd(mx2)
+        ! 2*mx because these arrays actually represent complex variables
+        real, intent(in) :: input(2*mx,nx)
+        real :: output(2*mx,il)
+        real :: even(2*mx),odd(2*mx)
 
         integer :: j, j1, m, n
 
@@ -119,10 +119,10 @@ contains
 
     ! Computes direct Legendre transformation
     function legendre_dir(input) result(output)
-        ! mx2 = 2*mx because these arrays actually represent complex variables
-        real, intent(in) :: input(mx2,il)
-        real :: output(mx2,nx)
-        real :: even(mx2,iy), odd(mx2,iy)
+        ! 2*mx because these arrays actually represent complex variables
+        real, intent(in) :: input(2*mx,il)
+        real :: output(2*mx,nx)
+        real :: even(2*mx,iy), odd(2*mx,iy)
 
         integer :: j, j1, m, n
 
@@ -146,7 +146,7 @@ contains
 
         ! Loop over coefficients corresponding to even associated Legendre
         ! polynomials
-        do n = 1, ntrun1, 2
+        do n = 1, trunc + 1, 2
             do m = 1, nsh2(n)
                 output(m,n) = dot_product(cpol(m,n,:iy), even(m,:iy))
             end do
@@ -154,7 +154,7 @@ contains
 
         ! Loop over coefficients corresponding to odd associated Legendre
         ! polynomials
-        do n = 2, ntrun1, 2
+        do n = 2, trunc + 1, 2
             do m = 1, nsh2(n)
                 output(m,n) = dot_product(cpol(m,n,:iy), odd(m,:iy))
             end do
@@ -205,40 +205,35 @@ contains
         real, parameter :: small = 1.e-30
 
         integer :: m, n, mm2
-        real :: alp(mxp,nx), x, y
+        real :: alp(mx+1,nx), x, y
         y = coa_half(j)
         x = sia_half(j)
 
         ! start recursion with N=1 (M=L) diagonal
         alp(1,1) = sqrt(0.5)
-        do m = 2, mxp
+        do m = 2, mx + 1
             alp(m,1) = consq(m)*y*alp(m-1,1)
         end do
 
         ! continue with other elements
-        do m = 1, mxp
+        do m = 1, mx + 1
             alp(m,2) = (x*alp(m,1))*repsi(m,2)
         end do
 
         do n = 3, nx
-            do m = 1, mxp
+            do m = 1, mx + 1
                 alp(m,n) = (x*alp(m,n-1) - epsi(m,n-1)*alp(m,n-2))*repsi(m,n)
             end do
         end do
 
         ! zero polynomials with absolute values smaller than 10**(-30)
         do n = 1, nx
-            do m = 1, mxp
+            do m = 1, mx + 1
                 if(abs(alp(m,n)) <= small) alp(m,n) = 0.0
             end do
         end do
 
         ! pick off the required polynomials
-        do n = 1,nx
-            do m = 1,mx
-                mm2 = isc*(m - 1) + 1
-                poly(m,n) = alp(mm2,n)
-            end do
-        end do
+        poly = alp(1:mx,1:nx)
     end function
 end module

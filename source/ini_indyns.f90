@@ -34,11 +34,11 @@ subroutine indyns
     hdiff = 1./(thd *3600.)
     hdifd = 1./(thdd*3600.)
     hdifs = 1./(thds*3600.)
-    rlap  = 1./float(mtrun*(mtrun+1))
+    rlap  = 1./float(trunc*(trunc+1))
 
     do j = 1, nx
         do k = 1, mx
-            twn = float(isc*(k-1)+j-1)
+            twn = float(k +j - 2)
             elap = (twn*(twn+1.)*rlap)
             elapn = elap**npowhd
             dmp(k,j)  = hdiff*elapn

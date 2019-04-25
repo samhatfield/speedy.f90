@@ -82,8 +82,8 @@ contains
 
         do n = 1, nx
             do m = 1, mx
-                total_wavenumber = isc*(m-1) + n-1
-                if (total_wavenumber > ntrun) fsp(m,n) = (0.0, 0.0)
+                total_wavenumber = m + n - 2
+                if (total_wavenumber > trunc) fsp(m,n) = (0.0, 0.0)
             end do
         end do
 

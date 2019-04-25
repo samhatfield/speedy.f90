@@ -11,6 +11,6 @@ module mod_dyncon2
     real, dimension(kx) :: tref, tref1, tref2, tref3
 
     real, dimension(kx,kx) :: xa, xb, xc, xd, xe
-    real, dimension(kx,kx,lmax) :: xf, xg, xh, xj
+    real, dimension(kx,kx,mx+nx+1) :: xf, xg, xh, xj
     real :: dhsx(kx), elz(mx,nx)
 end module

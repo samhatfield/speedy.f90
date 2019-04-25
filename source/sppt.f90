@@ -70,7 +70,7 @@ module sppt
             ! If first timestep
             if (first) then
                 ! Generate spatial amplitude pattern and time correlation
-                f0 = sum((/ ((2*n+1)*exp(-0.5*(len_decorr/rearth)**2*n*(n+1)),n=1,ntrun) /))
+                f0 = sum((/ ((2*n+1)*exp(-0.5*(len_decorr/rearth)**2*n*(n+1)),n=1,trunc) /))
                 f0 = sqrt((stddev**2*(1-phi**2))/(2*f0))
 
                 do k = 1,kx

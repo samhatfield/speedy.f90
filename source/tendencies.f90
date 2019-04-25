@@ -76,8 +76,8 @@ contains
 
         real, dimension(ix,il,kx) :: ug, vg, tg, vorg, divg, tgg, puv
         real, dimension(ix,il) :: px, py, umean, vmean, dmean
-        real :: trg(ix,il,kx,ntr), sigdt(ix,il,kxp)
-        real :: temp(ix,il,kxp), sigm(ix,il,kxp)
+        real :: trg(ix,il,kx,ntr), sigdt(ix,il,kx+1)
+        real :: temp(ix,il,kx+1), sigm(ix,il,kx+1)
 
         integer :: k, i, itr, j
 
@@ -126,9 +126,9 @@ contains
 
         ! Compute "vertical" velocity
         sigdt(:,:,1) = 0.0
-        sigdt(:,:,kxp) = 0.0
+        sigdt(:,:,kx+1) = 0.0
         sigm(:,:,1) = 0.0
-        sigm(:,:,kxp) = 0.0
+        sigm(:,:,kx+1) = 0.0
 
         ! (The following combination of terms is utilized later in the
         !     temperature equation)
@@ -149,7 +149,7 @@ contains
 
         ! Zonal wind tendency
         temp(:,:,1) = 0.0
-        temp(:,:,kxp) = 0.0
+        temp(:,:,kx+1) = 0.0
 
         do k = 2, kx
             temp(:,:,k) = sigdt(:,:,k) * (ug(:,:,k) - ug(:,:,k-1))
@@ -248,7 +248,7 @@ contains
         complex, intent(inout) :: psdt(mx,nx), divdt(mx,nx,kx), tdt(mx,nx,kx)
         integer, intent(in) :: j2
 
-        complex :: dumk(mx,nx,kxp), dmeanc(mx,nx), sigdtc(mx,nx,kxp)
+        complex :: dumk(mx,nx,kx+1), dmeanc(mx,nx), sigdtc(mx,nx,kx+1)
 
         integer :: k
 
@@ -263,14 +263,14 @@ contains
 
         ! Sigma-dot "velocity" and temperature tendency
         sigdtc(:,:,1) = (0.0, 0.0)
-        sigdtc(:,:,kxp) = (0.0, 0.0)
+        sigdtc(:,:,kx+1) = (0.0, 0.0)
 
-        do k = 1, kxm
+        do k = 1, kx - 1
             sigdtc(:,:,k+1) = sigdtc(:,:,k) - dhs(k)*(div(:,:,k,j2) - dmeanc)
         end do
 
         dumk(:,:,1) = (0.0, 0.0)
-        dumk(:,:,kxp) = (0.0, 0.0)
+        dumk(:,:,kx+1) = (0.0, 0.0)
 
         do k = 2, kx
             dumk(:,:,k) = sigdtc(:,:,k) * (tref(k) - tref(k-1))

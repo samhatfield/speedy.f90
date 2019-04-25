@@ -31,7 +31,6 @@ contains
         call initialize_legendre
 
         !  MM = zonal wavenumber = m
-        !     ISC=3 implies that only wavenumber 0,3,6,9,etc are included in model
         !  wavenum_tot = total wavenumber of spherical harmonic = l
         !  L2 = l*(l+1)
         !  EL2 = l*(l+1)/(a**2)
@@ -40,11 +39,11 @@ contains
         !  TRFILT used to filter out "non-triangular" part of rhomboidal truncation
         do n = 1, nx
             do m = 1, mx
-                mm(m) = isc*(m - 1)
+                mm(m) = m - 1
                 wavenum_tot(m,n) = mm(m) + n - 1
                 el2(m,n) = float(wavenum_tot(m,n)*(wavenum_tot(m,n) + 1))/(rearth**2.0)
                 el4(m,n) = el2(m,n)**2.0
-                if (wavenum_tot(m,n) <= ntrun) then
+                if (wavenum_tot(m,n) <= trunc) then
                     trfilt(m,n) = 1.0
                 else
                     trfilt(m,n) = 0.0
@@ -103,9 +102,9 @@ contains
         integer, intent(in) :: kcos
 
         real :: vorg(ix,il)
-        real :: vorm_r(mx2,nx)
+        real :: vorm_r(2*mx,nx)
 
-        vorm_r = reshape(transfer(vorm, vorm_r), (/ mx2, nx /))
+        vorm_r = reshape(transfer(vorm, vorm_r), (/ 2*mx, nx /))
         vorg = fourier_inv(legendre_inv(vorm_r), kcos)
     end function
 
@@ -115,7 +114,7 @@ contains
 
         real, intent(in) :: vorg(ix,il)
         complex :: vorm(mx,nx)
-        real :: vorm_r(mx2,nx)
+        real :: vorm_r(2*mx,nx)
 
         vorm_r = legendre_dir(fourier_dir(vorg))
         vorm = reshape(transfer(vorm_r, vorm), (/ mx, nx /))
@@ -133,10 +132,10 @@ contains
 
         do m=1,mx
             psdy(m,1)  =  gradyp(m,1)*psi(m,2)
-            psdy(m,nx) = -gradym(m,nx)*psi(m,ntrun1)
+            psdy(m,nx) = -gradym(m,nx)*psi(m,trunc+1)
         end do
 
-        do n=2,ntrun1
+        do n=2,trunc + 1
             do m=1,mx
                 psdy(m,n) = -gradym(m,n)*psi(m,n-1) + gradyp(m,n)*psi(m,n+1)
             end do
@@ -157,12 +156,12 @@ contains
 
         do m=1,mx
             vorm(m,1)  = zc(m,1) - vddyp(m,1)*ucosm(m,2)
-            vorm(m,nx) = vddym(m,nx)*ucosm(m,ntrun1)
+            vorm(m,nx) = vddym(m,nx)*ucosm(m,trunc+1)
             divm(m,1)  = zp(m,1) + vddyp(m,1)*vcosm(m,2)
-            divm(m,nx) = -vddym(m,nx)*vcosm(m,ntrun1)
+            divm(m,nx) = -vddym(m,nx)*vcosm(m,trunc+1)
         end do
 
-        do n=2,ntrun1
+        do n=2,trunc + 1
             do m=1,mx
                 vorm(m,n) =  vddym(m,n)*ucosm(m,n-1) - vddyp(m,n)*ucosm(m,n+1) + zc(m,n)
                 divm(m,n) = -vddym(m,n)*vcosm(m,n-1) + vddyp(m,n)*vcosm(m,n+1) + zp(m,n)
@@ -182,12 +181,12 @@ contains
 
         do m=1,mx
             ucosm(m,1)  =  zc(m,1) - uvdyp(m,1)*vorm(m,2)
-            ucosm(m,nx) =  uvdym(m,nx)*vorm(m,ntrun1)
+            ucosm(m,nx) =  uvdym(m,nx)*vorm(m,trunc+1)
             vcosm(m,1)  =  zp(m,1) + uvdyp(m,1)*divm(m,2)
-            vcosm(m,nx) = -uvdym(m,nx)*divm(m,ntrun1)
+            vcosm(m,nx) = -uvdym(m,nx)*divm(m,trunc+1)
         end do
 
-        do n=2,ntrun1
+        do n=2,trunc + 1
             do m=1,mx
               vcosm(m,n) = -uvdym(m,n)*divm(m,n-1) + uvdyp(m,n)*divm(m,n+1) + zp(m,n)
               ucosm(m,n) =  uvdym(m,n)*vorm(m,n-1) - uvdyp(m,n)*vorm(m,n+1) + zc(m,n)

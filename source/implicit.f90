@@ -29,7 +29,7 @@ contains
 
         real, intent(in) :: dt
         real :: dsum(kx), ya(kx,kx)
-        integer :: indx(kx), m, n, k, k1, k2, l, ll, mm
+        integer :: indx(kx), m, n, k, k1, k2, l
         real :: rgam, xi, xxi, xxx
 
         ! 1. Constants for backwards implicit biharmonic diffusion
@@ -60,15 +60,13 @@ contains
 
         do n=1,nx
             do m=1,mx
-                mm=isc*(m-1)+1
-                ll=mm+n-2
-                elz(m,n)=float(ll)*float(ll+1)*xxi
+                elz(m,n)=float(m+n-2)*float(m+n-1)*xxi
             end do
         end do
 
         !T(K) = TEX(K)+YA(K,K')*D(K') + XA(K,K')*SIG(K')
 
-        xa(:kx,:kxm) = 0.0
+        xa(:kx,:kx-1) = 0.0
 
         do k=1,kx
             do k1=1,kx
@@ -80,7 +78,7 @@ contains
             xa(k,k-1)=0.5*(akap*tref(k)/fsg(k)-(tref(k)-tref(k-1))/dhs(k))
         end do
 
-        do k=1,kxm
+        do k=1,kx-1
             xa(k,k)=0.5*(akap*tref(k)/fsg(k)-(tref(k+1)-tref(k))/dhs(k))
         end do
 
@@ -90,7 +88,7 @@ contains
             dsum(k)=dsum(k-1)+dhs(k)
         end do
 
-        do k=1,kxm
+        do k=1,kx-1
             do k1=1,kx
                 xb(k,k1)=dhs(k1)*dsum(k)
                 if(k1.le.k) xb(k,k1)=xb(k,k1)-dhs(k1)
@@ -101,7 +99,7 @@ contains
         do k=1,kx
             do k1=1,kx
                 xc(k,k1)=ya(k,k1)
-                do k2=1,kxm
+                do k2=1,kx-1
                     xc(k,k1)=xc(k,k1)+xa(k,k2)*xb(k2,k1)
                 end do
             end do
@@ -129,7 +127,7 @@ contains
             end do
         end do
 
-        do l=1,lmax
+        do l=1,mx + nx + 1
             xxx=(float(l)*float(l+1))/(rearth*rearth)
             do k=1,kx
                 do k1=1,kx
@@ -141,7 +139,7 @@ contains
             end do
         end do
 
-        do l=1,lmax
+        do l=1,mx + nx + 1
             call inv(xf(1,1,l),xj(1,1,l),indx,kx)
         end do
 
@@ -166,7 +164,7 @@ contains
 
         complex, intent(inout) :: divdt(mx,nx,kx), tdt(mx,nx,kx), psdt(mx,nx)
         complex ::  ye(mx,nx,kx), yf(mx,nx,kx), zero
-        integer :: k1, k, m, n, ll, mm
+        integer :: k1, k, m, n
 
         zero = (0.,0.)
 
@@ -194,11 +192,9 @@ contains
 
         do n=1,nx
             do m=1,mx
-                mm=isc*(m-1)+1
-                ll=mm+n-2
-                if(ll.ne.0) then
+                if((m + n - 2) /= 0) then
                     do k1=1,kx
-                        divdt(m,n,:) = divdt(m,n,:) + xj(:,k1,ll) * yf(m,n,k1)
+                        divdt(m,n,:) = divdt(m,n,:) + xj(:,k1,m+n-2) * yf(m,n,k1)
                     end do
                 endif
             end do

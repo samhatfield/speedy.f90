@@ -9,7 +9,7 @@ module geometry
         cosg, cosgr, cosgr2
 
     ! Vertical level parameters
-    real :: hsg(kxp), dhs(kx), fsg(kx), dhsr(kx), fsgr(kx)
+    real :: hsg(kx+1), dhs(kx), fsg(kx), dhsr(kx), fsgr(kx)
 
     ! Functions of latitude and longitude
     real, dimension(il) :: radang, gsin, gcos, coriol, sia, coa
