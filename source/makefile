@@ -29,7 +29,6 @@ FILES= \
 	   date.o \
 	   diagnostics.o \
        dyn_geop.o \
-       dyn_grtend.o \
        dyn_sptend.o \
 	   fourier.o \
 	   geometry.o \
@@ -82,8 +81,6 @@ speedy.o               : mod_tsteps.o date.o input_output.o shortwave_radiation.
 boundaries.o           : physical_constants.o mod_atparam.o input_output.o spectral.o
 coupler.o              : land_model.o sea_model.o
 dyn_geop.o             : mod_atparam.o prognostics.o mod_dyncon1.o geometry.o
-dyn_grtend.o           : mod_atparam.o prognostics.o physical_constants.o mod_dyncon2.o physics.o\
-                         geometry.o
 dyn_sptend.o           : mod_atparam.o prognostics.o physical_constants.o mod_dyncon2.o geometry.o
 fourier.o              : mod_atparam.o geometry.o spe_subfft_fftpack2.o
 geometry.o             : mod_atparam.o physical_constants.o
@@ -127,7 +124,8 @@ ppo_dmflux.o           : mod_tsteps.o mod_atparam.o physical_constants.o land_mo
 precipitation.o        : mod_atparam.o physical_constants.o
 spectral.o             : mod_atparam.o physical_constants.o legendre.o fourier.o
 sppt.o                 : mod_atparam.o mod_tsteps.o physical_constants.o spectral.o
-tendencies.o           : mod_atparam.o implicit.o mod_tsteps.o
+tendencies.o           : mod_atparam.o implicit.o mod_tsteps.o prognostics.o physical_constants.o\
+                         geometry.o mod_dyncon2.o physics.o spectral.o
 time_stepping.o        : mod_tsteps.o mod_dyncon0.o mod_atparam.o prognostics.o\
  					     mod_hdifcon.o tendencies.o
 vertical_diffusion     : mod_atparam.o physical_constants.o geometry.o
