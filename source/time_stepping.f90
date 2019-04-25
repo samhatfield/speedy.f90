@@ -36,8 +36,7 @@ contains
         use prognostics
         use mod_hdifcon
         use mod_tsteps, only: rob, wil
-        use mod_tsteps, only: alph
-        use implicit, only: implicit_terms
+        use tendencies, only: get_tendencies
 
         integer, intent(in) :: j1, j2
         real, intent(in) :: dt
@@ -50,23 +49,10 @@ contains
         integer :: n, itr, k, m
 
         ! =========================================================================
-        ! Computation of grid-point tendencies (converted to spectral at the end of
-        ! grtend)
+        ! Compute tendencies of prognostic variables
         ! =========================================================================
 
-        call grtend(vordt, divdt, tdt, psdt, trdt, 1, j2)
-
-        ! =========================================================================
-        ! Computation of spectral tendencies
-        ! =========================================================================
-        if (alph < 0.5) then
-            call sptend(divdt, tdt, psdt, j2)
-        else
-            call sptend(divdt, tdt, psdt, 1)
-
-            ! Implicit correction
-            call implicit_terms(divdt, tdt, psdt)
-        endif
+        call get_tendencies(vordt, divdt, tdt, psdt, trdt, j2)
 
         ! =========================================================================
         ! Horizontal diffusion

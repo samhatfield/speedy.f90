@@ -63,6 +63,7 @@ FILES= \
        spe_subfft_fftpack2.o \
 	   sppt.o \
 	   surface_fluxes.o \
+	   tendencies.o \
 	   time_stepping.o \
 	   vertical_diffusion.o
 
@@ -126,6 +127,7 @@ ppo_dmflux.o           : mod_tsteps.o mod_atparam.o physical_constants.o land_mo
 precipitation.o        : mod_atparam.o physical_constants.o
 spectral.o             : mod_atparam.o physical_constants.o legendre.o fourier.o
 sppt.o                 : mod_atparam.o mod_tsteps.o physical_constants.o spectral.o
+tendencies.o           : mod_atparam.o implicit.o mod_tsteps.o
 time_stepping.o        : mod_tsteps.o mod_dyncon0.o mod_atparam.o prognostics.o\
- 					     mod_hdifcon.o implicit.o
+ 					     mod_hdifcon.o tendencies.o
 vertical_diffusion     : mod_atparam.o physical_constants.o geometry.o
