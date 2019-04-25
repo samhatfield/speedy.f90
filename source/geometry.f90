@@ -5,14 +5,14 @@ module geometry
 
     private
     public initialize_geometry
-    public hsg, dhs, fsg, dhsr, fsgr, radang, gsin, gcos, coriol, sia, coa, sia_half, coa_half, &
+    public hsg, dhs, fsg, dhsr, fsgr, radang, coriol, sia, coa, sia_half, coa_half, &
         cosg, cosgr, cosgr2
 
     ! Vertical level parameters
     real :: hsg(kx+1), dhs(kx), fsg(kx), dhsr(kx), fsgr(kx)
 
     ! Functions of latitude and longitude
-    real, dimension(il) :: radang, gsin, gcos, coriol, sia, coa
+    real, dimension(il) :: radang, coriol, sia, coa
     real, dimension(iy) :: sia_half, coa_half
     real, dimension(il) :: cosg, cosgr, cosgr2
 
@@ -58,8 +58,6 @@ contains
             coa(jj) = coa_half(j)
             radang(j)  = -asin(sia_half(j))
             radang(jj) =  asin(sia_half(j))
-            gsin(j)    = -sia_half(j)
-            gsin(jj)   =  sia_half(j)
         end do
 
         ! Expand cosine and its reciprocal to cover both hemispheres
@@ -73,9 +71,6 @@ contains
             cosgr2(jj)=1./(coa_half(j)*coa_half(j))
         end do
 
-        do j = 1, il
-            gcos(j) = cosg(j)
-            coriol(j) = 2.*omega*gsin(j)
-        end do
+        coriol = 2.0*omega*sia
     end subroutine
 end module
