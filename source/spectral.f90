@@ -97,29 +97,27 @@ contains
 
     function spec_to_grid(vorm, kcos) result(vorg)
         use legendre, only: legendre_inv
-        use fourier, only: gridx
+        use fourier, only: fourier_inv
 
         complex, intent(in) :: vorm(mx,nx)
         integer, intent(in) :: kcos
 
         real :: vorg(ix,il)
-        real :: vorm_r(mx2,nx), varm(mx2,il)
+        real :: vorm_r(mx2,nx)
 
         vorm_r = reshape(transfer(vorm, vorm_r), (/ mx2, nx /))
-        varm = legendre_inv(vorm_r)
-        call gridx(varm,vorg,kcos)
+        vorg = fourier_inv(legendre_inv(vorm_r), kcos)
     end function
 
     function grid_to_spec(vorg) result(vorm)
         use legendre, only: legendre_dir
-        use fourier, only: specx
+        use fourier, only: fourier_dir
 
         real, intent(in) :: vorg(ix,il)
         complex :: vorm(mx,nx)
-        real :: vorm_r(mx2,nx), varm(mx2,il)
+        real :: vorm_r(mx2,nx)
 
-        call specx(vorg,varm)
-        vorm_r = legendre_dir(varm)
+        vorm_r = legendre_dir(fourier_dir(vorg))
         vorm = reshape(transfer(vorm_r, vorm), (/ mx, nx /))
     end function
 

@@ -4,7 +4,7 @@ module fourier
     implicit none
 
     private
-    public initialize_fourier, gridx, specx
+    public initialize_fourier, fourier_inv, fourier_dir
 
     real, dimension(2*ix+15) :: wsave(2*ix+15)
 
@@ -14,62 +14,61 @@ contains
     end subroutine
 
     ! From Fourier coefficients to grid-point data
-    subroutine gridx(varm,vorg,kcos)
+    function fourier_inv(input, kcos) result(output)
     	use geometry, only: cosgr
 
-        real, intent(in) :: varm(mx2,il)
-        real, intent(inout) :: vorg(ix,il)
+        real, intent(in) :: input(mx2,il)
+        real :: output(ix,il)
         integer, intent(in) :: kcos
         integer :: j, m
         real :: fvar(ix)
 
     	do j = 1,il
-    		fvar(1) = varm(1,j)
+    		fvar(1) = input(1,j)
 
-            do m=3,mx2
-              fvar(m-1)=varm(m,j)
+            do m = 3, mx2
+                fvar(m-1) = input(m,j)
             end do
-            do m=mx2,ix
-              fvar(m)=0.0
+            do m = mx2, ix
+                fvar(m) = 0.0
             end do
 
             ! Inverse FFT
             call rfftb(ix,fvar,wsave)
 
             ! Copy output into grid-point field, scaling by cos(lat) if needed
-            if (kcos.eq.1) then
-                vorg(:,j) = fvar
+            if (kcos == 1) then
+                output(:,j) = fvar
             else
-                vorg(:,j) = fvar * cosgr(j)
+                output(:,j) = fvar * cosgr(j)
             end if
         end do
-    end
+    end function
 
     ! From grid-point data to Fourier coefficients
-    subroutine specx(vorg,varm)
-        real, intent(in) :: vorg(ix,il)
-        real, intent(inout) :: varm(mx2,il)
+    function fourier_dir(input) result(output)
+        real, intent(in) :: input(ix,il)
+        real :: output(mx2,il)
         integer :: j, m
         real :: fvar(ix), scale
 
         ! Copy grid-point data into working array
-        do j=1,il
-            fvar = vorg(:,j)
+        do j = 1, il
+            fvar = input(:,j)
 
             ! Direct FFT
-            CALL RFFTF (IX,FVAR,WSAVE)
-            !CALL DFFTF (IX,FVAR,WSAVE)
+            call rfftf(ix, fvar, wsave)
 
             ! Copy output into spectral field, dividing by no. of long.
-            scale=1./float(ix)
+            scale = 1.0/float(ix)
 
             ! Mean value (a(0))
-            varm(1,j)=fvar(1)*scale
-            varm(2,j)=0.0
+            output(1,j) = fvar(1)*scale
+            output(2,j) = 0.0
 
-            do m=3,mx2
-                varm(m,j)=fvar(m-1)*scale
+            do m = 3, mx2
+                output(m,j) = fvar(m-1)*scale
             end do
         end do
-    end
+    end function
 end module
