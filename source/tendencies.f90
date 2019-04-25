@@ -3,6 +3,9 @@ module tendencies
 
     implicit none
 
+    private
+    public get_tendencies
+
 contains
     subroutine get_tendencies(vordt, divdt, tdt, psdt, trdt, j2)
         use implicit, only: implicit_terms
@@ -24,9 +27,9 @@ contains
         ! =========================================================================
 
         if (alph < 0.5) then
-            call sptend(divdt, tdt, psdt, j2)
+            call get_spectral_tendencies(divdt, tdt, psdt, j2)
         else
-            call sptend(divdt, tdt, psdt, 1)
+            call get_spectral_tendencies(divdt, tdt, psdt, 1)
 
             ! Implicit correction
             call implicit_terms(divdt, tdt, psdt)
@@ -223,9 +226,67 @@ contains
 
             ! tracer tendency
             do itr = 1, ntr
-                call vdspec(-ug(:,:,k)*trg(:,:,k,itr), -vg(:,:,k)*trg(:,:,k,itr), dumc(:,:,1), trdt(:,:,k,itr), 2)
+                call vdspec(-ug(:,:,k)*trg(:,:,k,itr), -vg(:,:,k)*trg(:,:,k,itr), &
+                    & dumc(:,:,1), trdt(:,:,k,itr), 2)
                 trdt(:,:,k,itr) = trdt(:,:,k,itr) + grid_to_spec(trtend(:,:,k,itr))
             end do
         end do
-    end
+    end subroutine
+
+    ! Compute spectral tendencies of divergence, temperature  and log(surface pressure)
+    ! Input/output : divdt = divergence tendency (spectral)
+    !                tdt   = temperature tendency (spectral)
+    !                psdt  = tendency of log_surf.pressure (spectral)
+    !                j2    = time level index (1 or 2)
+    subroutine get_spectral_tendencies(divdt, tdt, psdt, j2)
+        use prognostics, only: div, phi, ps
+        use physical_constants, only: rgas
+        use geometry, only: dhs, dhsr
+        use mod_dyncon2, only: tref, tref2, tref3
+        use spectral, only: laplacian
+
+        complex, intent(inout) :: psdt(mx,nx), divdt(mx,nx,kx), tdt(mx,nx,kx)
+        integer, intent(in) :: j2
+
+        complex :: dumk(mx,nx,kxp), dmeanc(mx,nx), sigdtc(mx,nx,kxp)
+
+        integer :: k
+
+        ! Vertical mean div and pressure tendency
+        dmeanc(:,:) = (0.0, 0.0)
+        do k = 1, kx
+            dmeanc = dmeanc + div(:,:,k,j2) * dhs(k)
+        end do
+
+        psdt = psdt - dmeanc
+        psdt(1,1) = (0.0, 0.0)
+
+        ! Sigma-dot "velocity" and temperature tendency
+        sigdtc(:,:,1) = (0.0, 0.0)
+        sigdtc(:,:,kxp) = (0.0, 0.0)
+
+        do k = 1, kxm
+            sigdtc(:,:,k+1) = sigdtc(:,:,k) - dhs(k)*(div(:,:,k,j2) - dmeanc)
+        end do
+
+        dumk(:,:,1) = (0.0, 0.0)
+        dumk(:,:,kxp) = (0.0, 0.0)
+
+        do k = 2, kx
+            dumk(:,:,k) = sigdtc(:,:,k) * (tref(k) - tref(k-1))
+        end do
+
+        do k = 1, kx
+            tdt(:,:,k) = tdt(:,:,k) - (dumk(:,:,k+1) + dumk(:,:,k)) * dhsr(k)&
+                & + tref3(k) * (sigdtc(:,:,k+1) + sigdtc(:,:,k))&
+                & - tref2(k) * dmeanc
+        end do
+
+        ! Geopotential and divergence tendency
+        call geop(j2)
+
+        do k = 1, kx
+            divdt(:,:,k) = divdt(:,:,k) - laplacian(phi(:,:,k) + rgas*tref(k)*ps(:,:,j2))
+        end do
+    end subroutine
 end module

@@ -29,7 +29,6 @@ FILES= \
 	   date.o \
 	   diagnostics.o \
        dyn_geop.o \
-       dyn_sptend.o \
 	   fourier.o \
 	   geometry.o \
 	   humidity.o \
@@ -81,7 +80,6 @@ speedy.o               : mod_tsteps.o date.o input_output.o shortwave_radiation.
 boundaries.o           : physical_constants.o mod_atparam.o input_output.o spectral.o
 coupler.o              : land_model.o sea_model.o
 dyn_geop.o             : mod_atparam.o prognostics.o mod_dyncon1.o geometry.o
-dyn_sptend.o           : mod_atparam.o prognostics.o physical_constants.o mod_dyncon2.o geometry.o
 fourier.o              : mod_atparam.o geometry.o spe_subfft_fftpack2.o
 geometry.o             : mod_atparam.o physical_constants.o
 humidity.o             : mod_atparam.o
