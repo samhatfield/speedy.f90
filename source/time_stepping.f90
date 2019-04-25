@@ -1,4 +1,6 @@
 module time_stepping
+    use params
+
     implicit none
 
     private
@@ -7,7 +9,6 @@ module time_stepping
 contains
     ! Call initialization of semi-implicit scheme and perform initial time step
     subroutine first_step
-        use params, only: delt
         use implicit, only: initialize_implicit
 
         call initialize_implicit(0.5*delt)
@@ -30,9 +31,8 @@ contains
     ! If j1 == 1, j2 == 2 : initial leapfrog time step (eps = 0)
     ! If j1 == 2, j2 == 2 : leapfrog time step with time filter (eps = ROB)
     ! dt = time step
-    subroutine step(j1, j2, dt)    !
+    subroutine step(j1, j2, dt)
         use mod_dyncon0, only: tdrs
-        use params
         use prognostics
         use mod_hdifcon
         use tendencies, only: get_tendencies
@@ -109,24 +109,19 @@ contains
             eps = rob
         endif
 
-        call timint(j1, dt, eps, 1, ps, psdt)
-
-        call timint(j1, dt, eps, kx, vor, vordt)
-        call timint(j1, dt, eps, kx, div, divdt)
-        call timint(j1, dt, eps, kx, t,  tdt)
+        ps  = step_field_2d(j1, dt, eps, ps, psdt)
+        vor = step_field_3d(j1, dt, eps, vor, vordt)
+        div = step_field_3d(j1, dt, eps, div, divdt)
+        t   = step_field_3d(j1, dt, eps, t, tdt)
 
         do itr = 1, ntr
-            call timint(j1, dt, eps, kx, tr(:,:,:,1,itr), trdt(:,:,:,itr))
-        enddo
+            tr(:,:,:,:,itr) = step_field_3d(j1, dt, eps, tr(:,:,:,:,itr), trdt(:,:,:,itr))
+        end do
     end
 
     ! Add horizontal diffusion tendency of FIELD to spectral tendency FDT at NLEV
     ! levels using damping coefficients DMP and DMP1
-    subroutine hordif(nlev,field,fdt,dmp,dmp1)
-        use params
-
-        implicit none
-
+    subroutine hordif(nlev, field, fdt, dmp, dmp1)
         integer, intent(in) :: nlev
         complex, intent(in) :: field(mx*nx,kx)
         complex, intent(inout) :: fdt(mx*nx,kx)
@@ -140,40 +135,47 @@ contains
         end do
     end
 
-    ! Perform time integration of field at nlev levels using tendency fdt
-    subroutine timint(j1, dt, eps, nlev, field, fdt)
-        use params
+    ! Perform time integration of field across all model levels using tendency fdt
+    function step_field_3d(j1, dt, eps, input, fdt) result(output)
         use spectral, only: trunct
 
-        implicit none
-
-        integer, intent(in) :: j1, nlev
+        integer, intent(in) :: j1
         real, intent(in) :: dt, eps
-        complex, intent(inout) :: fdt(mx*nx,nlev)
-        complex, intent(inout) :: field(mx*nx,nlev,2)
+        complex, intent(inout) :: fdt(mx,nx,kx)
+        complex, intent(in) :: input(mx,nx,kx,2)
+        complex :: output(mx,nx,kx,2)
+        integer :: k
+
+        do k = 1, kx
+            output(:,:,k,:) = step_field_2d(j1, dt, eps, input(:,:,k,:), fdt(:,:,k))
+        end do
+    end
+
+    function step_field_2d(j1, dt, eps, input, fdt) result(output)
+        use spectral, only: trunct
+
+        integer, intent(in) :: j1
+        real, intent(in) :: dt, eps
+        complex, intent(inout) :: fdt(mx,nx)
+        complex, intent(in) :: input(mx,nx,2)
+        complex :: output(mx,nx,2)
         real :: eps2
-        complex :: fnew(mx*nx)
+        complex :: fnew(mx,nx)
         integer :: k, m
+
+        output = input
 
         eps2 = 1.0 - 2.0*eps
 
         if (ix == iy*4) then
-            do k = 1, nlev
-                call trunct(fdt(1,k))
-            end do
+            call trunct(fdt)
         end if
 
         ! The actual leap frog with the Robert filter
-        do k = 1, nlev
-            do m =1, mx*nx
-                fnew (m)     = field(m,k,1) + dt*fdt(m,k)
-                field(m,k,1) = field(m,k,j1) +  wil*eps*(field(m,k,1)&
-                    & - 2*field(m,k,j1)+fnew(m))
+        fnew = output(:,:,1) + dt*fdt
+        output(:,:,1) = output(:,:,j1) + wil*eps*(output(:,:,1) - 2*output(:,:,j1) + fnew)
 
-                ! and here comes Williams' innovation to the filter
-                field(m,k,2) = fnew(m) - (1-wil)*eps*(field(m,k,1)&
-                    & - 2*field(m,k,j1) + fnew(m))
-            end do
-        end do
+        ! Williams' innovation to the filter
+        output(:,:,2) = fnew - (1.0 - wil)*eps*(output(:,:,1) - 2.0*output(:,:,j1) + fnew)
     end
 end module
