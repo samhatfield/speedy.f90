@@ -6,11 +6,12 @@ module fourier
     private
     public initialize_fourier, fourier_inv, fourier_dir
 
-    real :: wsave(2*ix+15)
+    real :: work(ix)
+    integer :: ifac(15)
 
 contains
     subroutine initialize_fourier
-        call rffti1(ix, wsave(ix+1), wsave(2*ix+1))
+        call rffti1(ix, work, ifac)
     end subroutine
 
     ! From Fourier coefficients to grid-point data
@@ -21,7 +22,7 @@ contains
         real :: output(ix,il)
         integer, intent(in) :: kcos
         integer :: j, m
-        real :: fvar(ix)
+        real :: fvar(ix), ch(ix)
 
         do j = 1,il
             fvar(1) = input(1,j)
@@ -34,7 +35,7 @@ contains
             end do
 
             ! Inverse FFT
-            call rfftb1(ix, fvar, wsave, wsave(ix+1), wsave(2*ix+1))
+            call rfftb1(ix, fvar, ch, work, ifac)
 
             ! Copy output into grid-point field, scaling by cos(lat) if needed
             if (kcos == 1) then
@@ -51,13 +52,14 @@ contains
         real :: output(2*mx,il)
         integer :: j, m
         real :: fvar(ix), scale
+        real :: ch(ix)
 
         ! Copy grid-point data into working array
         do j = 1, il
             fvar = input(:,j)
 
             ! Direct FFT
-            call rfftf1(ix, fvar, wsave, wsave(ix+1), wsave(2*ix+1))
+            call rfftf1(ix, fvar, ch, work, ifac)
 
             ! Copy output into spectral field, dividing by no. of long.
             scale = 1.0/float(ix)
