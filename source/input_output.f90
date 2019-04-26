@@ -156,13 +156,13 @@ contains
         ! Convert prognostic fields from spectral space to grid point space
         do k = 1, kx
            call uvspec(vor(:,:,k,1), div(:,:,k,1), ucos, vcos)
-           u_grid(:,:,k)   = spec_to_grid(ucos, 2, k)
-           v_grid(:,:,k)   = spec_to_grid(vcos, 2, k)
-           t_grid(:,:,k)   = spec_to_grid(t(:,:,k,1), 1, k)
-           q_grid(:,:,k)   = spec_to_grid(tr(:,:,k,1,1), 1, k)
-           phi_grid(:,:,k) = spec_to_grid(phi(:,:,k), 1, k)
+           u_grid(:,:,k)   = spec_to_grid(ucos, 2)
+           v_grid(:,:,k)   = spec_to_grid(vcos, 2)
+           t_grid(:,:,k)   = spec_to_grid(t(:,:,k,1), 1)
+           q_grid(:,:,k)   = spec_to_grid(tr(:,:,k,1,1), 1)
+           phi_grid(:,:,k) = spec_to_grid(phi(:,:,k), 1)
         end do
-        ps_grid = spec_to_grid(ps(:,:,1), 1, 1)
+        ps_grid = spec_to_grid(ps(:,:,1), 1)
 
         ! Output date
         print '(A,I4.4,A,I2.2,A,I2.2,A,I2.2,A,I2.2)',&

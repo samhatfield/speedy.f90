@@ -86,16 +86,16 @@ contains
 
         !$OMP PARALLEL DO
         do k = 1, kx
-            vorg(:,:,k) = spec_to_grid(vor(:,:,k,j2), 1, k)
-            divg(:,:,k) = spec_to_grid(div(:,:,k,j2), 1, k)
-            tg(:,:,k)   = spec_to_grid(t(:,:,k,j2), 1, k)
+            vorg(:,:,k) = spec_to_grid(vor(:,:,k,j2), 1)
+            divg(:,:,k) = spec_to_grid(div(:,:,k,j2), 1)
+            tg(:,:,k)   = spec_to_grid(t(:,:,k,j2), 1)
             do itr = 1, ntr
-                trg(:,:,k,itr) = spec_to_grid(tr(:,:,k,j2,itr), 1, k)
+                trg(:,:,k,itr) = spec_to_grid(tr(:,:,k,j2,itr), 1)
             end do
 
             call uvspec(vor(:,:,k,j2), div(:,:,k,j2), dumc(:,:,1), dumc(:,:,2))
-            vg(:,:,k) = spec_to_grid(dumc(:,:,2), 2, k)
-            ug(:,:,k) = spec_to_grid(dumc(:,:,1), 2, k)
+            vg(:,:,k) = spec_to_grid(dumc(:,:,2), 2)
+            ug(:,:,k) = spec_to_grid(dumc(:,:,1), 2)
 
             do j = 1, il
                 do i = 1, ix
@@ -118,10 +118,10 @@ contains
         ! Compute tendency of log(surface pressure)
         ! ps(1,1,j2)=zero
         call grad(ps(:,:,j2), dumc(:,:,1), dumc(:,:,2))
-        px = spec_to_grid(dumc(:,:,1), 2, 1)
-        py = spec_to_grid(dumc(:,:,2), 2, 1)
+        px = spec_to_grid(dumc(:,:,1), 2)
+        py = spec_to_grid(dumc(:,:,2), 2)
 
-        psdt = grid_to_spec(-umean*px - vmean*py, 1)
+        psdt = grid_to_spec(-umean*px - vmean*py)
         psdt(1,1) = (0.0, 0.0)
 
         ! Compute "vertical" velocity
@@ -212,23 +212,23 @@ contains
             !  Convert u and v tendencies to vor and div spectral tendencies
             !  vdspec takes a grid u and a grid v and converts them to
             !  spectral vor and div
-            call vdspec(utend(:,:,k), vtend(:,:,k), vordt(:,:,k), divdt(:,:,k), 2, k)
+            call vdspec(utend(:,:,k), vtend(:,:,k), vordt(:,:,k), divdt(:,:,k), 2)
 
             ! Divergence tendency
             ! add -lapl(0.5*(u**2+v**2)) to div tendency
             divdt(:,:,k) = divdt(:,:,k) &
-                & - laplacian(grid_to_spec(0.5*(ug(:,:,k)**2.0 + vg(:,:,k)**2.0), k))
+                & - laplacian(grid_to_spec(0.5*(ug(:,:,k)**2.0 + vg(:,:,k)**2.0)))
 
             ! Temperature tendency
             ! and add div(vT) to spectral t tendency
-            call vdspec(-ug(:,:,k)*tgg(:,:,k), -vg(:,:,k)*tgg(:,:,k), dumc(:,:,1), tdt(:,:,k), 2, k)
-            tdt(:,:,k) = tdt(:,:,k) + grid_to_spec(ttend(:,:,k), k)
+            call vdspec(-ug(:,:,k)*tgg(:,:,k), -vg(:,:,k)*tgg(:,:,k), dumc(:,:,1), tdt(:,:,k), 2)
+            tdt(:,:,k) = tdt(:,:,k) + grid_to_spec(ttend(:,:,k))
 
             ! tracer tendency
             do itr = 1, ntr
                 call vdspec(-ug(:,:,k)*trg(:,:,k,itr), -vg(:,:,k)*trg(:,:,k,itr), &
-                    & dumc(:,:,1), trdt(:,:,k,itr), 2, k)
-                trdt(:,:,k,itr) = trdt(:,:,k,itr) + grid_to_spec(trtend(:,:,k,itr), k)
+                    & dumc(:,:,1), trdt(:,:,k,itr), 2)
+                trdt(:,:,k,itr) = trdt(:,:,k,itr) + grid_to_spec(trtend(:,:,k,itr))
             end do
         end do
     end subroutine

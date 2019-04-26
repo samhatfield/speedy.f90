@@ -6,27 +6,23 @@ module fourier
     private
     public initialize_fourier, fourier_inv, fourier_dir
 
-    real :: wsave(kx,2*ix+15)
+    real :: work(ix)
+    integer :: ifac(15)
 
 contains
     subroutine initialize_fourier
-        integer k
-        call rffti1(ix, wsave(1,ix+1), wsave(1,2*ix+1))
-
-        do k = 2, kx
-            wsave(k,2*ix+15) = wsave(1,2*ix+15)
-        end do
+        call rffti1(ix, work, ifac)
     end subroutine
 
     ! From Fourier coefficients to grid-point data
-    function fourier_inv(input, kcos, k) result(output)
+    function fourier_inv(input, kcos) result(output)
     	use geometry, only: cosgr
 
         real, intent(in) :: input(2*mx,il)
         real :: output(ix,il)
-        integer, intent(in) :: kcos, k
+        integer, intent(in) :: kcos
         integer :: j, m
-        real :: fvar(ix)
+        real :: fvar(ix), ch(ix)
 
         do j = 1,il
             fvar(1) = input(1,j)
@@ -39,7 +35,7 @@ contains
             end do
 
             ! Inverse FFT
-            call rfftb1(ix, fvar, wsave(k,:), wsave(k,ix+1), wsave(k,2*ix+1))
+            call rfftb1(ix, fvar, ch, work, ifac)
 
             ! Copy output into grid-point field, scaling by cos(lat) if needed
             if (kcos == 1) then
@@ -51,19 +47,18 @@ contains
     end function
 
     ! From grid-point data to Fourier coefficients
-    function fourier_dir(input, k) result(output)
+    function fourier_dir(input) result(output)
         real, intent(in) :: input(ix,il)
-        integer, intent(in) :: k
         real :: output(2*mx,il)
         integer :: j, m
-        real :: fvar(ix), scale
+        real :: fvar(ix), scale, ch(ix)
 
         ! Copy grid-point data into working array
         do j = 1, il
             fvar = input(:,j)
 
             ! Direct FFT
-            call rfftf1(ix, fvar, wsave(k,:), wsave(k,ix+1), wsave(k,2*ix+1))
+            call rfftf1(ix, fvar, ch, work, ifac)
 
             ! Copy output into spectral field, dividing by no. of long.
             scale = 1.0/float(ix)

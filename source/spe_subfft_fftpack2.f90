@@ -68,7 +68,8 @@ subroutine rfftb1(n, c, ch, wa, ifac)
     implicit none
 
     integer, intent(in) :: n, ifac(*)
-    real, intent(inout) :: ch(*), c(*), wa(*)
+    real, intent(in) :: wa(*)
+    real, intent(inout) :: ch(*), c(*)
     integer :: nf, na, l1, iw, ip, l2, ido, idl1, ix2, ix3, ix4, i, k1
 
     !***first executable statement  rfftb1
@@ -133,7 +134,8 @@ subroutine rfftf1 (n, c, ch, wa, ifac)
     implicit none
 
     integer, intent(in) :: n, ifac(*)
-    real, intent(inout) :: ch(*), wa(*)
+    real, intent(in) :: wa(*)
+    real, intent(inout) :: ch(*)
     real, intent(inout) :: c(*)
     integer :: nf, na, l2, iw, k1, kh, ip, l1, ido, idl1, ix2, ix3, ix4, i
 
@@ -199,8 +201,8 @@ subroutine radb2 (ido, l1, cc, ch, wa1)
     implicit none
 
     integer, intent(in) :: ido, l1
-    real, intent(in) :: cc(ido,2,*)
-    real, intent(inout) :: ch(ido,l1,2), wa1(*)
+    real, intent(in) :: cc(ido,2,*), wa1(*)
+    real, intent(inout) :: ch(ido,l1,2)
     integer :: k, idp2, ic, i
     real :: tr2, ti2
 

@@ -87,7 +87,7 @@ module sppt
 
             ! Convert to grid point space
              do k=1,kx
-                 sppt_grid(:,:,k) = spec_to_grid(sppt_spec(:,:,k), 1, k)
+                 sppt_grid(:,:,k) = spec_to_grid(sppt_spec(:,:,k), 1)
              end do
 
              ! Clip to +/- 1.0

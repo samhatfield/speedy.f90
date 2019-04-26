@@ -23,7 +23,7 @@ subroutine invars
     ccon = (1.,0.)*sqrt(2.)
 
     ! 1. Compute spectral surface geopotential
-    phis = grid_to_spec(phis0, 1)
+    phis = grid_to_spec(phis0)
 
     ! 2. Start from reference atmosphere (at rest)
     print*, 'Starting from rest'
@@ -67,7 +67,7 @@ subroutine invars
         end do
     end do
 
-    ps(:,:,1) = grid_to_spec(surfg, 1)
+    ps(:,:,1) = grid_to_spec(surfg)
     if (ix.eq.iy*4) call trunct(ps)
 
     ! 2.4 Set tropospheric spec. humidity in g/kg
@@ -83,7 +83,7 @@ subroutine invars
         end do
     end do
 
-    surfs = grid_to_spec(surfg, 1)
+    surfs = grid_to_spec(surfg)
     if (ix.eq.iy*4) call trunct (surfs)
 
     ! Spec. humidity at tropospheric levels
