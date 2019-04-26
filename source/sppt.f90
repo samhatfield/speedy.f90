@@ -46,7 +46,7 @@ module sppt
             integer :: m, n, k
             real :: sppt_grid(ix,il,kx)
             complex :: eta(mx,nx,kx)
-            real :: f0, randreal, randimag, twn
+            real :: f0, randreal, randimag
 
             ! Seed RNG if first use of SPPT
             if (first) call time_seed()

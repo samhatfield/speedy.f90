@@ -48,7 +48,7 @@ contains
     subroutine get_grid_point_tendencies(vordt, divdt, tdt, psdt, trdt, j1, j2)
         use prognostics
         use physical_constants, only: akap, rgas
-        use geometry, only: dhs, fsg, dhsr, fsgr, coriol
+        use geometry, only: dhs, dhsr, fsgr, coriol
         use mod_dyncon2, only: tref, tref3
         use physics, only: get_physical_tendencies
         use spectral, only: grid_to_spec, spec_to_grid, laplacian, grad, uvspec, vdspec

@@ -20,7 +20,7 @@ contains
     subroutine initialize_geometry
         use physical_constants, only: akap, omega
 
-        integer i, j, jj, k
+        integer j, jj, k
 
         ! Definition of model levels
         ! Half (vertical velocity) levels

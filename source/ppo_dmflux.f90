@@ -13,7 +13,6 @@ subroutine dmflux(iadd)
     implicit none
 
     integer, intent(in) :: iadd
-    integer :: j
 
     real :: difice(ix,il)
 

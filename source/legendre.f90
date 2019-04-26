@@ -16,7 +16,6 @@ module legendre
 contains
     subroutine initialize_legendre
         use physical_constants, only: rearth
-        use geometry, only: coa_half
 
         ! Initializes Legendre transforms and constants used for other
         ! subroutines that manipulate spherical harmonics
@@ -167,9 +166,9 @@ contains
         !   output:
         !      w(m) = weights in gaussian quadrature (sum should equal 1.0)
 
-        real:: w(iy)
-        double precision :: z,z1,p1,p2,p3,pp
-        double precision, parameter :: eps = 3.d-14
+        real :: w(iy)
+        real :: z,z1,p1,p2,p3,pp
+        real, parameter :: eps = 3.0e-14
         integer :: n, j, i
 
         n = 2*iy
@@ -204,7 +203,7 @@ contains
         real :: poly(mx,nx)
         real, parameter :: small = 1.e-30
 
-        integer :: m, n, mm2
+        integer :: m, n
         real :: alp(mx+1,nx), x, y
         y = coa_half(j)
         x = sia_half(j)

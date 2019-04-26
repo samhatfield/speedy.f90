@@ -161,7 +161,6 @@ contains
         complex :: output(mx,nx,2)
         real :: eps2
         complex :: fnew(mx,nx)
-        integer :: k, m
 
         output = input
 

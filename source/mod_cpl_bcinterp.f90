@@ -35,7 +35,7 @@ contains
         real, intent(in) :: for12(ix*il,12)
         real, intent(inout) :: for1(ix*il)
         integer :: im1, im2, ip1, ip2
-        real :: c0, t0, t1, t2, t3, wm1, wm2, w0, wp1, wp2
+        real :: c0, t0, t1, t2, wm1, wm2, w0, wp1, wp2
 
         im2 = imon - 2
         im1 = imon - 1

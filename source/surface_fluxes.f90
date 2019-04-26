@@ -28,7 +28,6 @@ module surface_fluxes
     real :: dtheta = 3.0   ! Potential temp. gradient for stability correction
     real :: fstab = 0.67   ! Amplitude of stability correction (fraction)
     real :: hdrag = 2000.0 ! Height scale for orographic correction
-    real :: fhdrag = 0.5   ! Amplitude of orographic correction (fraction)
     real :: clambda = 7.0  ! Heat conductivity in skin-to-root soil layer
     real :: clambsn = 7.0  ! Heat conductivity in soil for snow cover = 1
 
@@ -64,11 +63,11 @@ contains
     !          T0     = near-surface air temperature    (2-dim)
     !          Q0     = near-surface sp. humidity [g/kg](2-dim)
     subroutine get_surface_fluxes(psa, ua, va, ta, qa, rh, phi, phi0, fmask, tsea, ssrd, slrd, &
-            & ustr, vstr, shf, evap, slru, hfluxn, tsfc, tskin, u0, v0, t0, q0, lfluxland)
+            & ustr, vstr, shf, evap, slru, hfluxn, tsfc, tskin, u0, v0, t0, lfluxland)
         use physical_constants, only: p0, rd, cp, alhc, sbc, sigl, wvi
         use geometry, only: coa
         use mod_radcon, only: emisfc, alb_l, alb_s, snowc
-    	use land_model, only: stl_am, soilw_am
+        use land_model, only: stl_am, soilw_am
         use humidity, only: get_qsat, rel_hum_to_spec_hum
 
         real, dimension(ix,il,kx), intent(in) :: ua, va, ta, qa, rh, phi
@@ -76,7 +75,7 @@ contains
 
         real, dimension(ix,il,3), intent(inout) :: ustr, vstr, shf, evap, slru
         real, intent(inout) :: hfluxn(ix,il,2)
-        real, dimension(ix,il), intent(inout) :: tsfc, tskin, u0, v0, t0, q0
+        real, dimension(ix,il), intent(inout) :: tsfc, tskin, u0, v0, t0
 
         integer :: i, j, ks, nl1
         real, dimension(ix,il,2), save :: t1, q1

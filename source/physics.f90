@@ -32,9 +32,9 @@ contains
     ! Initialize physical parametrization routines
     subroutine initialize_physics
         use physical_constants, only: grav, cp, p0, sigl, sigh, grdsig, grdscp, wvi
-        use geometry, only: hsg, radang, fsg, dhs
+        use geometry, only: hsg, fsg, dhs
 
-        integer :: j, k
+        integer :: k
 
         ! 1.2 Functions of sigma and latitude
         sigh(0) = hsg(1)
@@ -94,7 +94,7 @@ contains
         real, dimension(ix,il) :: pslg, rps, gse
         real, dimension(ix,il,kx) :: ug, vg, tg, qg, phig, utend_dyn, vtend_dyn, ttend_dyn, qtend_dyn
         real, dimension(ix,il,kx) :: se, rh, qsat
-        real, dimension(ix,il) :: psg, ts, tskin, u0, v0, t0, q0, cloudc, clstr, cltop, prtop
+        real, dimension(ix,il) :: psg, ts, tskin, u0, v0, t0, cloudc, clstr, cltop, prtop
         real, dimension(ix,il,kx) :: tt_cnv, qt_cnv, tt_lsc, qt_lsc, tt_rsw, tt_rlw, ut_pbl, vt_pbl,&
             & tt_pbl, qt_pbl
         integer :: iptop(ix,il), icltop(ix,il,2), icnv(ix,il), i, j, k
@@ -112,12 +112,12 @@ contains
 
         ! Convert model spectral variables to grid-point variables
         do k = 1, kx
-    		call uvspec(vor(:,:,k), div(:,:,k), ucos, vcos)
-    		ug(:,:,k)   = spec_to_grid(ucos, 2)
-    		vg(:,:,k)   = spec_to_grid(vcos, 2)
-    		tg(:,:,k)   = spec_to_grid(t(:,:,k), 1)
-    		qg(:,:,k)   = spec_to_grid(q(:,:,k), 1)
-          	phig(:,:,k) = spec_to_grid(phi(:,:,k), 1)
+            call uvspec(vor(:,:,k), div(:,:,k), ucos, vcos)
+            ug(:,:,k)   = spec_to_grid(ucos, 2)
+            vg(:,:,k)   = spec_to_grid(vcos, 2)
+            tg(:,:,k)   = spec_to_grid(t(:,:,k), 1)
+            qg(:,:,k)   = spec_to_grid(q(:,:,k), 1)
+            phig(:,:,k) = spec_to_grid(phi(:,:,k), 1)
         end do
 
         pslg = spec_to_grid(psl, 1)
@@ -126,11 +126,11 @@ contains
         ! Compute thermodynamic variables
         ! =========================================================================
 
-    	psg = exp(pslg)
-    	rps = 1.0/psg
+        psg = exp(pslg)
+        rps = 1.0/psg
 
-    	qg = max(qg, 0.0)
-    	se = cp*tg + phig
+        qg = max(qg, 0.0)
+        se = cp*tg + phig
 
         do k = 1, kx
             call spec_hum_to_rel_hum(tg(:,:,k), psg, fsg(k), qg(:,:,k), rh(:,:,k), qsat(:,:,k))
@@ -144,8 +144,8 @@ contains
         call convective_precipitation(psg, se, qg, qsat, iptop, cbmf, precnv, tt_cnv, qt_cnv)
 
         do k = 2, kx
-    		tt_cnv(:,:,k) = tt_cnv(:,:,k)*rps*grdscp(k)
-    		qt_cnv(:,:,k) = qt_cnv(:,:,k)*rps*grdsig(k)
+            tt_cnv(:,:,k) = tt_cnv(:,:,k)*rps*grdscp(k)
+            qt_cnv(:,:,k) = qt_cnv(:,:,k)*rps*grdsig(k)
         end do
 
         icnv = kx - iptop
@@ -163,21 +163,21 @@ contains
         ! Compute shortwave tendencies and initialize lw transmissivity
         ! The shortwave radiation may be called at selected time steps
         if (compute_shortwave) then
-    		gse = (se(:,:,kx-1) - se(:,:,kx))/(phig(:,:,kx-1) - phig(:,:,kx))
+            gse = (se(:,:,kx-1) - se(:,:,kx))/(phig(:,:,kx-1) - phig(:,:,kx))
 
             call clouds(qg, rh, precnv, precls, iptop, gse, fmask_l, icltop, cloudc, clstr)
 
-    		do i = 1, ix
-    	        do j = 1, il
-    	            cltop(i,j) = sigh(icltop(i,j,1) - 1)*psg(i,j)
-    	            prtop(i,j) = float(iptop(i,j))
-    	        end do
-    		end do
+            do i = 1, ix
+                do j = 1, il
+                    cltop(i,j) = sigh(icltop(i,j,1) - 1)*psg(i,j)
+                    prtop(i,j) = float(iptop(i,j))
+                end do
+            end do
 
             call get_shortwave_rad_fluxes(psg, qg, icltop, cloudc, clstr, ssrd, ssr, tsr, tt_rsw)
 
             do k = 1, kx
-    			tt_rsw(:,:,k) = tt_rsw(:,:,k)*rps*grdscp(k)
+                tt_rsw(:,:,k) = tt_rsw(:,:,k)*rps*grdscp(k)
             end do
         end if
 
@@ -186,12 +186,12 @@ contains
 
         ! Compute surface fluxes and land skin temperature
         call get_surface_fluxes(psg, ug, vg, tg, qg, rh, phig, phis0, fmask_l, sst_am, &
-    		& ssrd, slrd, ustr, vstr, shf, evap, slru, hfluxn, ts, tskin, u0, v0, t0, q0, .true.)
+    		& ssrd, slrd, ustr, vstr, shf, evap, slru, hfluxn, ts, tskin, u0, v0, t0, .true.)
 
         ! Recompute sea fluxes in case of anomaly coupling
         if (sea_coupling_flag > 0) then
            call get_surface_fluxes(psg, ug, vg, tg, qg, rh, phig, phis0, fmask_l, ssti_om, &
-    	   	& ssrd, slrd, ustr, vstr, shf, evap, slru, hfluxn, ts, tskin, u0, v0, t0, q0, .false.)
+    	   	& ssrd, slrd, ustr, vstr, shf, evap, slru, hfluxn, ts, tskin, u0, v0, t0, .false.)
         end if
 
         ! Compute upward longwave fluxes, convert them to tendencies and add
@@ -199,24 +199,24 @@ contains
         call get_longwave_rad_fluxes(1, tg, ts, slrd, slru(:,:,3), slr, olr, tt_rlw)
 
         do k = 1, kx
-    		tt_rlw(:,:,k) = tt_rlw(:,:,k)*rps*grdscp(k)
+            tt_rlw(:,:,k) = tt_rlw(:,:,k)*rps*grdscp(k)
         end do
 
-    	ttend = ttend + tt_rsw + tt_rlw
+        ttend = ttend + tt_rsw + tt_rlw
 
         ! =========================================================================
         ! Planetary boundary later interactions with lower troposphere
         ! =========================================================================
 
         ! Vertical diffusion and shallow convection
-        call get_vertical_diffusion_tend(ug, vg, se, rh, qg, qsat, phig, icnv, ut_pbl, vt_pbl, &
+        call get_vertical_diffusion_tend(se, rh, qg, qsat, phig, icnv, ut_pbl, vt_pbl, &
             & tt_pbl, qt_pbl)
 
         ! Add tendencies due to surface fluxes
-    	ut_pbl(:,:,kx) = ut_pbl(:,:,kx) + ustr(:,:,3)*rps*grdsig(kx)
-    	vt_pbl(:,:,kx) = vt_pbl(:,:,kx) + vstr(:,:,3)*rps*grdsig(kx)
-    	tt_pbl(:,:,kx) = tt_pbl(:,:,kx)  + shf(:,:,3)*rps*grdscp(kx)
-    	qt_pbl(:,:,kx) = qt_pbl(:,:,kx) + evap(:,:,3)*rps*grdsig(kx)
+        ut_pbl(:,:,kx) = ut_pbl(:,:,kx) + ustr(:,:,3)*rps*grdsig(kx)
+        vt_pbl(:,:,kx) = vt_pbl(:,:,kx) + vstr(:,:,3)*rps*grdsig(kx)
+        tt_pbl(:,:,kx) = tt_pbl(:,:,kx)  + shf(:,:,3)*rps*grdscp(kx)
+        qt_pbl(:,:,kx) = qt_pbl(:,:,kx) + evap(:,:,3)*rps*grdsig(kx)
 
         utend = utend + ut_pbl
         vtend = vtend + vt_pbl

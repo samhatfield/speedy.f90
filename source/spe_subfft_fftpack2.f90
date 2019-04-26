@@ -322,7 +322,7 @@ subroutine radb4(ido, l1, cc, ch, wa1, wa2, wa3)
     real, intent(in) :: cc(ido,4,*), wa1(*), wa2(*), wa3(*)
     real, intent(inout) :: ch(ido,l1,4)
     real :: sqrt2, tr1, tr2, tr3, tr4, ti1, ti2, ti3, ti4, cr3, ci3, cr2, cr4,&
-        & ci2, di4, ci4
+        & ci2, ci4
     integer :: i, k, idp2, ic
 
     !***First executable statement  radb4
@@ -538,7 +538,7 @@ subroutine radbg(ido, ip, l1, idl1, cc, c1, c2, ch, ch2, wa)
     real, intent(inout) :: ch(ido,l1,*), c1(ido,l1,*), c2(idl1,*),&
           & ch2(idl1,*)
     real :: tpi, arg, dcp, dsp, ar1, ai1, ar1h, ds2, dc2, ar2, ai2, ar2h
-    integer :: idp2, nbd, ipp2, ipph, i, j, k, jc, j2, lca, is, idij, ic, ik,&
+    integer :: idp2, nbd, ipp2, ipph, i, j, k, jc, j2, is, idij, ic, ik,&
         & l, lc
 
     !***First executable statement  radbg
@@ -1035,7 +1035,7 @@ subroutine radfg(ido, ip, l1, idl1, cc, c1, c2, ch, ch2, wa)
     real, intent(inout) :: ch(ido,l1,*), cc(ido,ip,*), c1(ido,l1,*),&
         & c2(idl1,*), ch2(idl1,*)
     real :: tpi, arg, dcp, dsp, ar1h, ar2h, ai1, ai2, ar1, ar2, dc2, ds2
-    integer :: ipph, ipp2, idp2, nbd, is, idif, ik, j, j2, jc, i, ic, idij, k,&
+    integer :: ipph, ipp2, idp2, nbd, is, ik, j, j2, jc, i, ic, idij, k,&
         & l, lc
 
     !***First executable statement  radfg

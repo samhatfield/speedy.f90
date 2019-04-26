@@ -18,9 +18,7 @@ module vertical_diffusion
 contains
     ! Compute tendencies of momentum, energy and moisture due to vertical diffusion
     ! and shallow convection
-    ! Input:   ua     = u-wind                           (3-dim)
-    !          va     = v-wind                           (3-dim)
-    !          se     = dry static energy                (3-dim)
+    ! Input:   se     = dry static energy                (3-dim)
     !          rh     = relative humidity [0-1]          (3-dim)
     !          qa     = specific humidity [g/kg]         (3-dim)
     !          qsat   = saturation sp. humidity [g/kg]   (3-dim)
@@ -30,12 +28,12 @@ contains
     !          vtenvd = v-wind tendency                  (3-dim)
     !          ttenvd = temperature tendency             (3-dim)
     !          qtenvd = sp. humidity tendency [g/(kg s)] (3-dim)
-    subroutine get_vertical_diffusion_tend(ua, va, se, rh, qa, qsat, phi, icnv, utenvd, vtenvd, &
+    subroutine get_vertical_diffusion_tend(se, rh, qa, qsat, phi, icnv, utenvd, vtenvd, &
         & ttenvd, qtenvd)
         use physical_constants, only: cp, alhc, sigh
         use geometry, only: fsg, dhs
 
-        real, dimension(ix,il,kx), intent(in) :: ua, va, se, rh, qa, qsat, phi
+        real, dimension(ix,il,kx), intent(in) :: se, rh, qa, qsat, phi
         integer, intent(in) :: icnv(ix,il)
         real, dimension(ix,il,kx), intent(inout) :: utenvd, vtenvd, ttenvd, qtenvd
 
@@ -62,7 +60,7 @@ contains
 
         do k = 1, nl1
             rsig(k) = 1.0/dhs(k)
-    	    rsig1(k) = 1.0/(1.0 - sigh(k))
+            rsig1(k) = 1.0/(1.0 - sigh(k))
         end do
         rsig(kx)=1.0/dhs(kx)
 

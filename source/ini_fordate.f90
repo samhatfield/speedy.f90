@@ -28,7 +28,7 @@ subroutine fordate(imode)
     real, dimension(ix, il) :: corh, tsfc, tref, psfc, qsfc, qref
     real :: gamlat(il)
 
-    real :: del_co2, dummy, pexp
+    real :: del_co2, pexp
     integer :: i, j, iyear_ref
 
     ! time variables for interpolation are set by newdate
@@ -66,7 +66,7 @@ subroutine fordate(imode)
     end if
 
     ! 3. temperature correction term for horizontal diffusion
-    call setgam(tyear,gamlat)
+    call setgam(gamlat)
 
     do j = 1, il
         do i = 1, ix
@@ -94,7 +94,7 @@ subroutine fordate(imode)
     qcorh = grid_to_spec(corh)
 end
 
-subroutine setgam(tyear,gamlat)
+subroutine setgam(gamlat)
     ! aux. routine gamlat : compute reference lapse rate
     !                       as a function of latitude and date
 
@@ -104,7 +104,6 @@ subroutine setgam(tyear,gamlat)
 
     implicit none
 
-    real, intent(in) :: tyear
     integer :: j
 
     real, intent(inout) :: gamlat(il)

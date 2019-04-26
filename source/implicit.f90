@@ -156,7 +156,6 @@ contains
         !                 psdt  = tendency of log(surf.pressure)
 
         use params
-        use geometry, only: dhs
         use mod_dyncon2, only: tref1, xc, xd, xj, dhsx, elz
 
         integer, parameter :: mxnxkx = mx*nx*kx

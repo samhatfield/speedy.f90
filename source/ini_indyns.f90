@@ -13,7 +13,7 @@ subroutine indyns
 
     implicit none
 
-    integer :: j, k, jj, npowhd
+    integer :: j, k, npowhd
     real :: elap, elapn, hdifd, hdiff, hdifs, qexp, rgam, rlap, twn
 
     ! 1. Definition of constants

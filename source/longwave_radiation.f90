@@ -37,7 +37,7 @@ contains
 
         integer :: i, j, jb, k, nl1
         real :: anis, brad, corlw(ix,il), corlw1(ix,il), corlw2(ix,il), emis, refsfc
-        real :: st3a(ix,il), tsq
+        real :: st3a(ix,il)
 
         nl1 = kx - 1
 

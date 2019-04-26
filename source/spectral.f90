@@ -22,7 +22,7 @@ contains
         use legendre, only: initialize_legendre, epsi
 
         real :: el1
-        integer :: m, m1, m2, n, l2(mx,nx), wavenum_tot(mx,nx), mm(mx)
+        integer :: m, m1, m2, n, wavenum_tot(mx,nx), mm(mx)
 
         ! Initialize Fourier transforms
         call initialize_fourier
@@ -124,7 +124,7 @@ contains
         complex, dimension(mx,nx), intent(inout) :: psi
         complex, dimension(mx,nx), intent(inout) :: psdx, psdy
 
-        integer :: k, n, m
+        integer :: n, m
 
         do n = 1, nx
             psdx(:,n) = gradx*psi(:,n)*(0.0, 1.0)
@@ -147,7 +147,7 @@ contains
         complex, dimension(mx,nx), intent(inout) :: vorm, divm
         complex, dimension(mx,nx) :: zc, zp
 
-        integer :: n, m, k
+        integer :: n, m
 
         do n=1,nx
             zp(:,n) = gradx*ucosm(:,n)*(0.0, 1.0)
@@ -174,7 +174,7 @@ contains
         complex, dimension(mx,nx), intent(inout) :: ucosm,vcosm
         complex, dimension(mx,nx) :: zc,zp
 
-        integer :: k, n, m
+        integer :: n, m
 
         zp = uvdx*vorm*(0.0, 1.0)
         zc = uvdx*divm*(0.0, 1.0)

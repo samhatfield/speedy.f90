@@ -372,7 +372,7 @@ contains
         use input_output, only: load_boundary_file
         use boundaries, only: forchk
 
-        integer :: i, j, next_month
+        integer :: next_month
 
         sstan3(:,:,1) = sstan3(:,:,2)
         sstan3(:,:,2) = sstan3(:,:,3)

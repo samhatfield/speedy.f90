@@ -15,7 +15,7 @@ contains
 
     ! From Fourier coefficients to grid-point data
     function fourier_inv(input, kcos) result(output)
-    	use geometry, only: cosgr
+        use geometry, only: cosgr
 
         real, intent(in) :: input(2*mx,il)
         real :: output(ix,il)
@@ -23,8 +23,8 @@ contains
         integer :: j, m
         real :: fvar(ix)
 
-    	do j = 1,il
-    		fvar(1) = input(1,j)
+        do j = 1,il
+            fvar(1) = input(1,j)
 
             do m = 3, 2*mx
                 fvar(m-1) = input(m,j)

@@ -55,7 +55,7 @@ module date
 
             integer, intent(in) :: imode
 
-            integer :: jm, im
+            integer :: jm
 
             if (imode <= 0) then
                 ! calendar

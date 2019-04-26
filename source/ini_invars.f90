@@ -7,7 +7,7 @@ subroutine invars
     use prognostics
     use physical_constants, only: grav, rgas
     use geometry, only: fsg
-    use boundaries, only: phi0, phis0
+    use boundaries, only: phis0
     use diagnostics, only: check_diagnostics
     use spectral, only: grid_to_spec, trunct
 

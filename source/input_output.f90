@@ -17,7 +17,7 @@ contains
     function load_boundary_file_2d(file_name, field_name) result(field)
         character(len=*), intent(in) :: file_name, field_name
 
-        integer :: i, ncid, varid
+        integer :: ncid, varid
         real(4), dimension(ix,il) :: raw_input
         real, dimension(ix,il) :: field
 
@@ -171,12 +171,12 @@ contains
             & model_datetime%hour,'/',model_datetime%minute
 
         ! Preprocess output variables
-        u_out = u_grid
-        v_out = v_grid
-        t_out = t_grid
-        q_out = q_grid*1.0d-3 ! kg/kg
-        phi_out = phi_grid/grav   ! m
-        ps_out = p0*exp(ps_grid)! Pa
+        u_out = real(u_grid, 4)
+        v_out = real(v_grid, 4)
+        t_out = real(t_grid, 4)
+        q_out = real(q_grid*1.0e-3, 4) ! kg/kg
+        phi_out = real(phi_grid/grav, 4)   ! m
+        ps_out = real(p0*exp(ps_grid), 4)! Pa
 
         ! Write prognostic variables to file
         call check(nf90_put_var(ncid, uvar, u_out, (/ 1, 1, 1, 1 /)))

@@ -4,7 +4,8 @@ subroutine ludcmp(a,n,np,indx,d)
     real, intent(inout) :: a(np,np), d
     integer, intent(inout) :: indx(n)
     integer, intent(in) :: n, np
-    integer, parameter :: nmax = 100, tiny = 1.0e-20
+    integer, parameter :: nmax = 100
+    real, parameter :: tiny = 1.0e-20
     integer :: i, j, k, imax
     real :: vv(nmax), aamax, dum, sum
 
