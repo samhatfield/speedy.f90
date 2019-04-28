@@ -41,6 +41,7 @@ FILES= \
 	   land_model.o \
 	   legendre.o \
 	   longwave_radiation.o \
+	   matrix_inversion.o \
 	   mod_cpl_bcinterp.o \
 	   mod_dyncon2.o \
 	   input_output.o \
@@ -54,7 +55,6 @@ FILES= \
 	   sea_model.o \
 	   shortwave_radiation.o \
 	   spectral.o \
-       spe_matinv.o \
        spe_subfft_fftpack2.o \
 	   sppt.o \
 	   surface_fluxes.o \
@@ -82,7 +82,7 @@ geopotential.o         : params.o physical_constants.o geometry.o
 horizontal_diffusion.o : params.o dynamical_constants.o
 humidity.o             : params.o
 implicit.o             : params.o dynamical_constants.o physical_constants.o mod_dyncon2.o\
-                         geometry.o horizontal_diffusion.o
+                         geometry.o horizontal_diffusion.o matrix_inversion.o
 initialization.o       : coupler.o params.o date.o input_output.o time_stepping.o boundaries.o\
                          spectral.o sea_model.o physics.o geopotential.o
 ini_invars.o           : dynamical_constants.o params.o prognostics.o physical_constants.o\

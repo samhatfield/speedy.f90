@@ -25,6 +25,7 @@ contains
         use geometry, only: hsg, dhs, fsg, fsgr
         use mod_dyncon2
         use horizontal_diffusion, only: dmp, dmpd, dmps, dmp1, dmp1d, dmp1s
+        use matrix_inversion, only: inv
 
         real, intent(in) :: dt
         real :: dsum(kx), ya(kx,kx)
