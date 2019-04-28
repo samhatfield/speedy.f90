@@ -223,9 +223,6 @@ contains
         ttend = ttend + tt_pbl
         qtend = qtend + qt_pbl
 
-        ! 5. Store all fluxes for coupling and daily-mean output
-        call dmflux(1)
-
         ! Add SPPT noise
         if (sppt_on) then
             sppt = gen_sppt()

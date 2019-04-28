@@ -35,6 +35,9 @@ program speedy
         ! Perform one leapfrog time step
         call step(2, 2, 2*delt)
 
+        ! Store all fluxes for coupling and daily-mean output
+        call dmflux(1)
+
         ! Check model diagnostics
         call check_diagnostics(vor(:,:,:,2), div(:,:,:,2), t(:,:,:,2), model_step)
 
