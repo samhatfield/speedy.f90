@@ -55,7 +55,7 @@ FILES= \
 	   sea_model.o \
 	   shortwave_radiation.o \
 	   spectral.o \
-       spe_subfft_fftpack2.o \
+       fftpack.o \
 	   sppt.o \
 	   surface_fluxes.o \
 	   tendencies.o \
@@ -76,7 +76,7 @@ speedy.o               : params.o date.o input_output.o shortwave_radiation.o ti
                          diagnostics.o
 boundaries.o           : physical_constants.o params.o input_output.o spectral.o
 coupler.o              : land_model.o sea_model.o
-fourier.o              : params.o geometry.o spe_subfft_fftpack2.o
+fourier.o              : params.o geometry.o fftpack.o
 geometry.o             : params.o physical_constants.o
 geopotential.o         : params.o physical_constants.o geometry.o
 horizontal_diffusion.o : params.o dynamical_constants.o
