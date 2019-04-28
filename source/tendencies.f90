@@ -50,7 +50,7 @@ contains
         use physical_constants, only: akap, rgas
         use geometry, only: dhs, dhsr, fsgr, coriol
         use mod_dyncon2, only: tref, tref3
-        use geopotential, only: geop
+        use geopotential, only: get_geopotential
         use physics, only: get_physical_tendencies
         use spectral, only: grid_to_spec, spec_to_grid, laplacian, grad, uvspec, vdspec
 
@@ -199,7 +199,7 @@ contains
         ! Compute physical tendencies
         ! =========================================================================
 
-        call geop(j1)
+        phi = get_geopotential(t(:,:,:,j1), phis)
 
         call get_physical_tendencies(vor(:,:,:,j1), div(:,:,:,j1), t(:,:,:,j1), tr(:,:,:,j1,1), &
             & phi, ps(:,:,j1), utend, vtend, ttend, trtend)
@@ -239,10 +239,10 @@ contains
     !                psdt  = tendency of log_surf.pressure (spectral)
     !                j2    = time level index (1 or 2)
     subroutine get_spectral_tendencies(divdt, tdt, psdt, j2)
-        use prognostics, only: div, phi, ps
+        use prognostics, only: div, phi, ps, phis, t
         use physical_constants, only: rgas
         use geometry, only: dhs, dhsr
-        use geopotential, only: geop
+        use geopotential, only: get_geopotential
         use mod_dyncon2, only: tref, tref2, tref3
         use spectral, only: laplacian
 
@@ -284,7 +284,7 @@ contains
         end do
 
         ! Geopotential and divergence tendency
-        call geop(j2)
+        phi = get_geopotential(t(:,:,:,j2), phis)
 
         do k = 1, kx
             divdt(:,:,k) = divdt(:,:,k) - laplacian(phi(:,:,k) + rgas*tref(k)*ps(:,:,j2))

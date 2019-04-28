@@ -4,7 +4,7 @@ module geopotential
     implicit none
 
     private
-    public initialize_geopotential, geop
+    public initialize_geopotential, get_geopotential
 
     ! Constants for hydrostatic equation
     real :: xgeop1(kx), xgeop2(kx)
@@ -25,29 +25,27 @@ contains
 
     ! Compute spectral geopotential from spectral temperature T and spectral
     ! topography phis, as in GFDL Climate Group GCM
-    ! Input : jj = time level index (1 or 2)
-    subroutine geop(jj)
-        use params
-        use prognostics, only: phi, t, phis
+    function get_geopotential(t, phis) result(phi)
         use geometry, only: hsg, fsg
 
-        integer, intent(in) :: jj
+        complex, intent(in) :: t(mx,nx,kx), phis(mx,nx)
+        complex :: phi(mx,nx,kx)
         integer :: k
         real :: corf
 
         ! 1. Bottom layer (integration over half a layer)
-        phi(:,:,kx) = phis + xgeop1(kx) * t(:,:,kx,jj)
+        phi(:,:,kx) = phis + xgeop1(kx) * t(:,:,kx)
 
         ! 2. Other layers (integration two half-layers)
         do k = kx-1,1,-1
-            phi(:,:,k) = phi(:,:,k+1) + xgeop2(k+1)*t(:,:,k+1,jj)&
-                & + xgeop1(k)*t(:,:,k,jj)
+            phi(:,:,k) = phi(:,:,k+1) + xgeop2(k+1)*t(:,:,k+1)&
+                & + xgeop1(k)*t(:,:,k)
         end do
 
         ! 3. lapse-rate correction in the free troposphere
         do k = 2,kx-1
             corf=xgeop1(k)*0.5*log(hsg(k+1)/fsg(k))/log(fsg(k+1)/fsg(k-1))
-            phi(1,:,k) = phi(1,:,k) + corf*(t(1,:,k+1,jj) - t(1,:,k-1,jj))
+            phi(1,:,k) = phi(1,:,k) + corf*(t(1,:,k+1) - t(1,:,k-1))
         end do
-    end
+    end function
 end module
