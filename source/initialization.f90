@@ -19,6 +19,7 @@ contains
         use input_output, only: output
         use time_stepping, only: first_step
         use boundaries, only: initialize_boundaries
+        use prognostics, only: initialize_prognostics
 
         call print_speedy_title
 
@@ -72,7 +73,7 @@ contains
         call initialize_boundaries
 
         ! Initialize model variables
-        call invars
+        call initialize_prognostics
 
         ! Initialize time-mean arrays for surface fluxes and output fields
         call dmflux(0)
@@ -86,9 +87,6 @@ contains
         ! =========================================================================
         ! Initialization of first time step
         ! =========================================================================
-
-        ! Write initial data
-        call output(0)
 
         ! Set up the forcing fields for the first time step
         call fordate(0)

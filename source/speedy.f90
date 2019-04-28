@@ -7,7 +7,7 @@ program speedy
     use initialization, only: initialize
     use time_stepping, only: step
     use diagnostics, only: check_diagnostics
-    use prognostics, only: vor, div, t
+    use prognostics, only: vor, div, t, ps, tr, phi
 
     implicit none
 
@@ -44,7 +44,7 @@ program speedy
         call newdate(1)
 
         ! Output
-        if (mod(model_step-1, nsteps_out) == 0) call output(model_step-1)
+        if (mod(model_step-1, nsteps_out) == 0) call output(model_step-1,  vor, div, t, ps, tr, phi)
 
         ! Exchange data with coupler once per day
         if (mod(model_step-1, nsteps) == 0) then

@@ -71,14 +71,17 @@ contains
         where (field <= -999) field = 0.0
     end
 
-    subroutine output(timestep)
+    subroutine output(timestep, vor, div, t, ps, tr, phi)
         use geometry, only: radang, fsg
         use physical_constants, only: p0, grav
         use date, only: model_datetime, start_datetime
-        use prognostics, only: vor, div, t, ps, tr, phi
         use spectral, only: spec_to_grid, uvspec
 
         integer, intent(in) :: timestep
+        complex, dimension(mx,nx,kx,2) ::  vor, div, t
+        complex, dimension(mx,nx,2) :: ps
+        complex, dimension(mx,nx,kx,2,ntr) :: tr
+        complex, dimension(mx,nx,kx) :: phi
         complex, dimension(mx,nx) :: ucos, vcos
         real, dimension(ix,il,kx) :: u_grid, v_grid, t_grid, q_grid, phi_grid
         real, dimension(ix,il) :: ps_grid

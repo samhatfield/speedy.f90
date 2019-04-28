@@ -36,7 +36,6 @@ FILES= \
 	   humidity.o \
 	   implicit.o \
        initialization.o \
-       ini_invars.o \
        ini_fordate.o \
 	   land_model.o \
 	   legendre.o \
@@ -84,9 +83,7 @@ humidity.o             : params.o
 implicit.o             : params.o dynamical_constants.o physical_constants.o mod_dyncon2.o\
                          geometry.o horizontal_diffusion.o matrix_inversion.o
 initialization.o       : coupler.o params.o date.o input_output.o time_stepping.o boundaries.o\
-                         spectral.o sea_model.o physics.o geopotential.o
-ini_invars.o           : dynamical_constants.o params.o prognostics.o physical_constants.o\
-                         boundaries.o diagnostics.o geometry.o
+                         spectral.o sea_model.o physics.o geopotential.o prognostics.o
 ini_fordate.o          : dynamical_constants.o shortwave_radiation.o params.o \
                          physical_constants.o boundaries.o date.o land_model.o mod_radcon.o\
 						 surface_fluxes.o date.o sea_model.o longwave_radiation.o humidity.o
@@ -94,8 +91,9 @@ land_model.o           : params.o date.o mod_cpl_bcinterp.o input_output.o bound
 legendre.o             : params.o physical_constants.o geometry.o
 diagnostics.o          : params.o spectral.o
 mod_dyncon2.o          : params.o
-prognostics.o          : params.o
-input_output.o         : params.o  physical_constants.o date.o prognostics.o spectral.o geometry.o
+prognostics.o          : params.o dynamical_constants.o physical_constants.o geometry.o\
+                         boundaries.o diagnostics.o spectral.o input_output.o
+input_output.o         : params.o  physical_constants.o date.o spectral.o geometry.o
 physical_constants.o   : params.o
 mod_radcon.o           : params.o
 physics.o              : params.o coupler.o physical_constants.o boundaries.o land_model.o\
