@@ -34,7 +34,8 @@ contains
     subroutine step(j1, j2, dt)
         use mod_dyncon0, only: tdrs
         use prognostics
-        use mod_hdifcon
+        use horizontal_diffusion, only: do_horizontal_diffusion, &
+            & dmp, dmpd, dmps, dmp1, dmp1d, dmp1s, tcorv, qcorv, tcorh, qcorh
         use tendencies, only: get_tendencies
 
         integer, intent(in) :: j1, j2
@@ -58,8 +59,8 @@ contains
         ! =========================================================================
 
         ! Diffusion of wind and temperature
-        call hordif(kx, vor, vordt, dmp,  dmp1)
-        call hordif(kx, div, divdt, dmpd, dmp1d)
+        vordt = do_horizontal_diffusion(vor(:,:,:,1), vordt, dmp,  dmp1)
+        divdt = do_horizontal_diffusion(div(:,:,:,1), divdt, dmpd, dmp1d)
 
         do k = 1, kx
             do m = 1, mx
@@ -69,7 +70,7 @@ contains
             end do
         end do
 
-        call hordif(kx,ctmp,tdt,dmp,dmp1)
+        tdt = do_horizontal_diffusion(ctmp, tdt, dmp, dmp1)
 
         ! Stratospheric diffusion and zonal wind damping
         sdrag = 1.0/(tdrs*3600.0)
@@ -78,9 +79,9 @@ contains
             divdt(1,n,1) = divdt(1,n,1) - sdrag*div(1,n,1,1)
         end do
 
-        call hordif(1, vor,  vordt, dmps, dmp1s)
-        call hordif(1, div,  divdt, dmps, dmp1s)
-        call hordif(1, ctmp, tdt,   dmps, dmp1s)
+        vordt = do_horizontal_diffusion(vor(:,:,:,1),  vordt, dmps, dmp1s)
+        divdt = do_horizontal_diffusion(div(:,:,:,1),  divdt, dmps, dmp1s)
+        tdt   = do_horizontal_diffusion(ctmp, tdt,   dmps, dmp1s)
 
         ! Diffusion of tracers
         do k = 1, kx
@@ -91,11 +92,11 @@ contains
             end do
         end do
 
-        call hordif(kx, ctmp, trdt, dmpd, dmp1d)
+        trdt(:,:,:,1) = do_horizontal_diffusion(ctmp, trdt(:,:,:,1), dmpd, dmp1d)
 
         if (ntr > 1) then
             do itr = 2, ntr
-                call hordif(kx, tr(:,:,:,1,itr), trdt(:,:,:,itr), dmp, dmp1)
+                trdt(:,:,:,1) = do_horizontal_diffusion(tr(:,:,:,1,itr), trdt(:,:,:,itr), dmp, dmp1)
             enddo
         endif
 
@@ -119,21 +120,7 @@ contains
         end do
     end
 
-    ! Add horizontal diffusion tendency of FIELD to spectral tendency FDT at NLEV
-    ! levels using damping coefficients DMP and DMP1
-    subroutine hordif(nlev, field, fdt, dmp, dmp1)
-        integer, intent(in) :: nlev
-        complex, intent(in) :: field(mx*nx,kx)
-        complex, intent(inout) :: fdt(mx*nx,kx)
-        real, intent(in) :: dmp(mx*nx), dmp1(mx*nx)
-        integer :: k, m
 
-        do k = 1, nlev
-            do m = 1, mx*nx
-                fdt(m,k) = (fdt(m,k) - dmp(m)*field(m,k))*dmp1(m)
-            end do
-        end do
-    end
 
     ! Perform time integration of field across all model levels using tendency fdt
     function step_field_3d(j1, dt, eps, input, fdt) result(output)

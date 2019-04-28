@@ -14,6 +14,7 @@ contains
         use geometry, only: initialize_geometry
         use spectral, only: initialize_spectral
         use geopotential, only: initialize_geopotential
+        use horizontal_diffusion, only: initialize_horizontal_diffusion
         use physics, only: initialize_physics
         use input_output, only: output
         use time_stepping, only: first_step
@@ -61,8 +62,8 @@ contains
         ! Initialize geopotential calculations
         call initialize_geopotential
 
-        ! Initialize dynamical constants and operators
-        call indyns
+        ! Initialize horizontal diffusion
+        call initialize_horizontal_diffusion
 
         ! Initialize constants for physical parametrization
         call initialize_physics

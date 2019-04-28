@@ -9,7 +9,7 @@ subroutine fordate(imode)
 
     use mod_dyncon0, only: refrh1
     use params
-    use mod_hdifcon, only: tcorh, qcorh
+    use horizontal_diffusion, only: tcorh, qcorh
     use physical_constants, only: rd
     use boundaries, only: phis0, alb0
     use surface_fluxes, only: set_orog_land_sfc_drag
