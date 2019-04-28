@@ -2,7 +2,7 @@ subroutine invars
     !   Purpose : initialize all spectral variables starting from
     !             either a reference atmosphere or a restart file
 
-    use mod_dyncon0, only: gamma, hscale, hshum, refrh1
+    use dynamical_constants, only: gamma, hscale, hshum, refrh1
     use params
     use prognostics
     use physical_constants, only: grav, rgas

@@ -32,7 +32,7 @@ contains
     ! If j1 == 2, j2 == 2 : leapfrog time step with time filter (eps = ROB)
     ! dt = time step
     subroutine step(j1, j2, dt)
-        use mod_dyncon0, only: tdrs
+        use dynamical_constants, only: tdrs
         use prognostics
         use horizontal_diffusion, only: do_horizontal_diffusion, &
             & dmp, dmpd, dmps, dmp1, dmp1d, dmp1s, tcorv, qcorv, tcorh, qcorh

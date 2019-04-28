@@ -26,7 +26,7 @@ module horizontal_diffusion
 
 contains
     subroutine initialize_horizontal_diffusion
-        use mod_dyncon0
+        use dynamical_constants, only: thd, thdd, thds, gamma, hscale, hshum
         use physical_constants, only: grav, rgas
         use geometry, only: fsg
 

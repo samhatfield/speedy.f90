@@ -20,7 +20,7 @@ contains
     ! the biharmonic diffusion, which is assumed always to be backwards
     ! implicit, are defined in initialize_implicit)
     subroutine initialize_implicit(dt)
-        use mod_dyncon0, only: gamma
+        use dynamical_constants, only: gamma
         use physical_constants, only: akap, rgas, grav, rearth
         use geometry, only: hsg, dhs, fsg, fsgr
         use mod_dyncon2

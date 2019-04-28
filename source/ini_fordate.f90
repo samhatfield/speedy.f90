@@ -7,7 +7,7 @@ subroutine fordate(imode)
     !
     !   input : imode : 0 = initialization step, 1 = daily update
 
-    use mod_dyncon0, only: refrh1
+    use dynamical_constants, only: refrh1
     use params
     use horizontal_diffusion, only: tcorh, qcorh
     use physical_constants, only: rd
@@ -98,7 +98,7 @@ subroutine setgam(gamlat)
     ! aux. routine gamlat : compute reference lapse rate
     !                       as a function of latitude and date
 
-    use mod_dyncon0, only: gamma
+    use dynamical_constants, only: gamma
     use params
     use physical_constants, only: grav
 
