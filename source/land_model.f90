@@ -6,7 +6,7 @@ module land_model
     private
     public stl_am, snowd_am, soilw_am
     public land_model_init, couple_land_atm
-    public fmask_l, hflux_l
+    public fmask_l
     public land_coupling_flag
     public sd2sc
 
@@ -45,9 +45,6 @@ module land_model
 
     ! Soil water availabilityend module
     real :: soilw12(ix,il,12)
-
-    ! Net heat flux into land surface
-    real :: hflux_l(ix,il)
 
     ! Flag for land-coupling
     ! 0 = no coupling
@@ -236,6 +233,8 @@ module land_model
 
         ! Integrate slab land-surface model for one day
         subroutine run_land_model
+            use auxiliaries, only: hfluxn
+
             ! Surface temperature anomaly
             real :: tanom(ix,il)
 
@@ -244,7 +243,7 @@ module land_model
             tanom = stl_lm - stlcl_ob
 
             ! Time evolution of temperature anomaly
-            tanom = cdland*(tanom + rhcapl*hflux_l)
+            tanom = cdland*(tanom + rhcapl*hfluxn(:,:,1))
 
             ! Full surface temperature at final time
             stl_lm = tanom + stlcl_ob

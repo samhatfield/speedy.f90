@@ -7,7 +7,6 @@ module sea_model
     public sea_model_init, couple_sea_atm
     public fmask_s
     public sstcl_ob, sst_am, sice_am, tice_am, ssti_om
-    public hflux_s, hflux_i
     public sea_coupling_flag, sst_anomaly_coupling_flag
 
     ! Constant parameters and fields in sea/ice model
@@ -56,10 +55,6 @@ module sea_model
 
     ! Weight for obs. SST anomaly in coupled runs
     real :: wsst_ob(ix,il)
-
-    ! Fluxes at sea surface (all downward, except evaporation)
-    real :: hflux_s(ix,il) ! Net heat flux into sea surface
-    real :: hflux_i(ix,il) ! Net heat flux into sea-ice surface
 
     ! Flag for sea-surface temperature coupling
     ! 0 = precribed SST, no coupling
@@ -389,18 +384,31 @@ contains
 
     ! Purpose : Integrate slab ocean and sea-ice models for one day
     subroutine run_sea_model
-        ! Auxiliary variables
+        use auxiliaries, only: hfluxn, shf, evap, ssrd
+        use mod_radcon, only: albsea, albice, emisfc
+        use physical_constants, only: alhc, sbc
+
         real :: hflux(ix,il)   ! net sfc. heat flux
         real :: tanom(ix,il)   ! sfc. temperature anomaly
         real :: cdis(ix,il)    ! dissipation ceofficient
+        real :: difice(ix,il)  ! Difference in net (downw.) heat flux between ice and sea surface
+        real :: hflux_i(ix,il) ! Net heat flux into sea-ice surface
 
         real :: anom0, sstfr
 
         sstfr = 273.2-1.8       ! SST at freezing point
 
         ! 1. Ocean mixed layer
+
+        ! Difference in heat flux between ice and sea surface
+        difice = (albsea - albice)*ssrd + emisfc*sbc*(sstfr**4.0 - tice_am**4.0) + shf(:,:,2) + &
+            & evap(:,:,2)*alhc
+
+        ! Net heat flux into sea-ice surface
+        hflux_i = hfluxn(:,:,2) + difice*(1.0 - sice_am)
+
         ! Net heat flux
-        hflux = hflux_s-hfseacl-sicecl_ob*(hflux_i+beta*(sstfr-tice_om))
+        hflux = hfluxn(:,:,2) - hfseacl - sicecl_ob*(hflux_i + beta*(sstfr - tice_om))
 
         ! Anomaly at t0 minus climatological temp. tendency
         tanom = sst_om - sstcl_ob
@@ -424,7 +432,7 @@ contains
         cdis = cdice*(anom0/(anom0+abs(tanom)))
         !cdis(:,:) = cdice(:,:)
 
-        ! Time evoloution of temp. anomaly
+        ! Time evolution of temp. anomaly
         tanom = cdis*(tanom+rhcapi*hflux)
 
         ! Full ice temperature at final time

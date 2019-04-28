@@ -24,6 +24,7 @@ INC=-I$(NETCDF)
 LIB=-lnetcdff -lnetcdf
 
 FILES= \
+	   auxiliaries.o \
 	   boundaries.o \
        coupler.o \
 	   date.o \
@@ -48,7 +49,6 @@ FILES= \
 	   params.o \
 	   physics.o \
 	   physical_constants.o \
-       ppo_dmflux.o \
 	   precipitation.o \
 	   prognostics.o \
 	   sea_model.o \
@@ -73,6 +73,7 @@ clean:
 
 speedy.o               : params.o date.o input_output.o shortwave_radiation.o time_stepping.o\
                          diagnostics.o
+auxiliaries.o          : params.o
 boundaries.o           : physical_constants.o params.o input_output.o spectral.o
 coupler.o              : land_model.o sea_model.o
 fourier.o              : params.o geometry.o fftpack.o
@@ -88,7 +89,8 @@ forcing.o              : dynamical_constants.o shortwave_radiation.o params.o \
                          physical_constants.o boundaries.o date.o land_model.o mod_radcon.o\
 						 surface_fluxes.o date.o sea_model.o longwave_radiation.o humidity.o\
 						 horizontal_diffusion.o
-land_model.o           : params.o date.o mod_cpl_bcinterp.o input_output.o boundaries.o
+land_model.o           : params.o date.o mod_cpl_bcinterp.o input_output.o boundaries.o\
+                         auxiliaries.o
 legendre.o             : params.o physical_constants.o geometry.o
 diagnostics.o          : params.o spectral.o
 mod_dyncon2.o          : params.o
@@ -99,14 +101,13 @@ physical_constants.o   : params.o
 mod_radcon.o           : params.o
 physics.o              : params.o coupler.o physical_constants.o boundaries.o land_model.o\
                          sea_model.o sppt.o precipitation.o surface_fluxes.o vertical_diffusion.o\
-						 shortwave_radiation.o longwave_radiation.o humidity.o geometry.o
+						 shortwave_radiation.o longwave_radiation.o humidity.o geometry.o\
+						 auxiliaries.o
 longwave_radiation.o   : params.o physical_constants.o mod_radcon.o geometry.o
 sea_model.o            : params.o input_output.o boundaries.o geometry.o mod_cpl_bcinterp.o\
- 						 date.o
+ 						 date.o auxiliaries.o mod_radcon.o
 shortwave_radiation.o  : params.o mod_radcon.o geometry.o
 surface_fluxes.o       : params.o physical_constants.o mod_radcon.o land_model.o humidity.o
-ppo_dmflux.o           : params.o physical_constants.o land_model.o sea_model.o physics.o\
-                         mod_radcon.o
 precipitation.o        : params.o physical_constants.o
 spectral.o             : params.o physical_constants.o legendre.o fourier.o
 sppt.o                 : params.o physical_constants.o spectral.o

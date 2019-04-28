@@ -24,9 +24,6 @@ program speedy
         if (mod(model_step-1, nsteps) == 0) then
             ! Set forcing terms according to date
             call set_forcing(1)
-
-            ! Set daily-average flux arrays to zero
-            call dmflux(0)
         end if
 
         ! Determine whether to compute shortwave radiation on this time step
@@ -34,9 +31,6 @@ program speedy
 
         ! Perform one leapfrog time step
         call step(2, 2, 2*delt)
-
-        ! Store all fluxes for coupling and daily-mean output
-        call dmflux(1)
 
         ! Check model diagnostics
         call check_diagnostics(vor(:,:,:,2), div(:,:,:,2), t(:,:,:,2), model_step)
@@ -50,9 +44,7 @@ program speedy
         ! Output
         if (mod(model_step-1, nsteps_out) == 0) call output(model_step-1,  vor, div, t, ps, tr, phi)
 
-        ! Exchange data with coupler once per day
-        if (mod(model_step-1, nsteps) == 0) then
-            call couple_sea_land(1+model_step/nsteps)
-        end if
+        ! Exchange data with coupler
+        call couple_sea_land(1+model_step/nsteps)
     enddo
 end

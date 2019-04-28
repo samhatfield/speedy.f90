@@ -76,9 +76,6 @@ contains
         ! Initialize model variables
         call initialize_prognostics
 
-        ! Initialize time-mean arrays for surface fluxes and output fields
-        call dmflux(0)
-
         ! =========================================================================
         ! Initialization of coupled modules (land, sea, ice)
         ! =========================================================================
