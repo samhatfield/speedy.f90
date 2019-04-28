@@ -68,9 +68,9 @@ contains
         t(:,:,2,1) = (0.0, 0.0)
         surfs = -gam1 * phis
 
-        t(1,1,1,1) = (sqrt(2.0), 0.0)*ttop
-        t(1,1,2,1) = (sqrt(2.0), 0.0)*ttop
-        surfs(1,1) = (sqrt(2.0), 0.0)*tref - gam1*phis(1,1)
+        t(1,1,1,1) = sqrt(2.0)*(1.0, 0.0)*ttop
+        t(1,1,2,1) = sqrt(2.0)*(1.0, 0.0)*ttop
+        surfs(1,1) = sqrt(2.0)*(1.0, 0.0)*tref - gam1*phis(1,1)
 
         ! Temperature at tropospheric levels
         do k = 3, kx
