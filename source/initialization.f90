@@ -20,6 +20,7 @@ contains
         use time_stepping, only: first_step
         use boundaries, only: initialize_boundaries
         use prognostics, only: initialize_prognostics
+        use forcing, only: set_forcing
 
         call print_speedy_title
 
@@ -89,7 +90,7 @@ contains
         ! =========================================================================
 
         ! Set up the forcing fields for the first time step
-        call fordate(0)
+        call set_forcing(0)
 
         ! Do the initial (2nd-order) time step, initialize the semi-implicit scheme
         call first_step

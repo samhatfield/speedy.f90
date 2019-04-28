@@ -8,6 +8,7 @@ program speedy
     use time_stepping, only: step
     use diagnostics, only: check_diagnostics
     use prognostics, only: vor, div, t, ps, tr, phi
+    use forcing, only: set_forcing
 
     implicit none
 
@@ -22,7 +23,7 @@ program speedy
         ! Daily tasks
         if (mod(model_step-1, nsteps) == 0) then
             ! Set forcing terms according to date
-            call fordate(1)
+            call set_forcing(1)
 
             ! Set daily-average flux arrays to zero
             call dmflux(0)
