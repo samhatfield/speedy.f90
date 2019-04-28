@@ -50,6 +50,7 @@ contains
         use physical_constants, only: akap, rgas
         use geometry, only: dhs, dhsr, fsgr, coriol
         use mod_dyncon2, only: tref, tref3
+        use geopotential, only: geop
         use physics, only: get_physical_tendencies
         use spectral, only: grid_to_spec, spec_to_grid, laplacian, grad, uvspec, vdspec
 
@@ -241,6 +242,7 @@ contains
         use prognostics, only: div, phi, ps
         use physical_constants, only: rgas
         use geometry, only: dhs, dhsr
+        use geopotential, only: geop
         use mod_dyncon2, only: tref, tref2, tref3
         use spectral, only: laplacian
 

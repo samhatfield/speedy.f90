@@ -12,7 +12,7 @@ default : base_target
 profile : base_target
 
 # Base compiler options (always used)
-BASE=-fdefault-real-8 -fconvert=swap
+BASE=-fdefault-real-8 -fconvert=swap -Wall
 
 # Optimisation flags (disabled for debugging, profiling etc.)
 OPT=-Ofast
@@ -28,9 +28,9 @@ FILES= \
        coupler.o \
 	   date.o \
 	   diagnostics.o \
-       dyn_geop.o \
 	   fourier.o \
 	   geometry.o \
+ 	   geopotential.o \
 	   humidity.o \
 	   implicit.o \
        initialization.o \
@@ -42,7 +42,6 @@ FILES= \
 	   longwave_radiation.o \
 	   mod_cpl_bcinterp.o \
 	   mod_dyncon0.o \
-	   mod_dyncon1.o \
 	   mod_dyncon2.o \
 	   mod_hdifcon.o \
 	   input_output.o \
@@ -78,15 +77,15 @@ speedy.o               : params.o date.o input_output.o shortwave_radiation.o ti
                          diagnostics.o
 boundaries.o           : physical_constants.o params.o input_output.o spectral.o
 coupler.o              : land_model.o sea_model.o
-dyn_geop.o             : params.o prognostics.o mod_dyncon1.o geometry.o
 fourier.o              : params.o geometry.o spe_subfft_fftpack2.o
 geometry.o             : params.o physical_constants.o
+geopotential.o         : params.o physical_constants.o geometry.o
 humidity.o             : params.o
 implicit.o             : params.o mod_dyncon0.o physical_constants.o mod_dyncon2.o mod_hdifcon.o\
                          geometry.o
 initialization.o       : coupler.o params.o date.o input_output.o time_stepping.o boundaries.o\
-                         spectral.o sea_model.o physics.o
-ini_indyns.o           : mod_dyncon0.o params.o mod_dyncon1.o mod_hdifcon.o spectral.o geometry.o\
+                         spectral.o sea_model.o physics.o geopotential.o
+ini_indyns.o           : mod_dyncon0.o params.o mod_hdifcon.o spectral.o geometry.o\
                          physical_constants.o
 ini_invars.o           : mod_dyncon0.o params.o prognostics.o physical_constants.o boundaries.o\
                          diagnostics.o geometry.o
@@ -96,7 +95,6 @@ ini_fordate.o          : mod_dyncon0.o shortwave_radiation.o params.o mod_hdifco
 land_model.o           : params.o date.o mod_cpl_bcinterp.o input_output.o boundaries.o
 legendre.o             : params.o physical_constants.o geometry.o
 diagnostics.o          : params.o spectral.o
-mod_dyncon1.o          : params.o
 mod_dyncon2.o          : params.o
 prognostics.o          : params.o
 mod_hdifcon.o          : params.o
@@ -117,6 +115,6 @@ precipitation.o        : params.o physical_constants.o
 spectral.o             : params.o physical_constants.o legendre.o fourier.o
 sppt.o                 : params.o physical_constants.o spectral.o
 tendencies.o           : params.o implicit.o prognostics.o physical_constants.o geometry.o\
-                         mod_dyncon2.o physics.o spectral.o
+                         mod_dyncon2.o physics.o spectral.o geopotential.o
 time_stepping.o        : mod_dyncon0.o params.o prognostics.o mod_hdifcon.o tendencies.o
 vertical_diffusion     : params.o physical_constants.o geometry.o

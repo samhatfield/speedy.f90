@@ -13,6 +13,7 @@ contains
         use sea_model, only: sea_coupling_flag, sst_anomaly_coupling_flag
         use geometry, only: initialize_geometry
         use spectral, only: initialize_spectral
+        use geopotential, only: initialize_geopotential
         use physics, only: initialize_physics
         use input_output, only: output
         use time_stepping, only: first_step
@@ -56,6 +57,9 @@ contains
 
         ! Initialize spectral transforms
         call initialize_spectral
+
+        ! Initialize geopotential calculations
+        call initialize_geopotential
 
         ! Initialize dynamical constants and operators
         call indyns

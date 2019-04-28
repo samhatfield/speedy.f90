@@ -5,11 +5,10 @@ subroutine indyns
     !           and spectral operators for model dynamics
 
     use mod_dyncon0
-    use mod_dyncon1
     use physical_constants, only: grav, rgas
     use params
     use mod_hdifcon, only: dmp, dmpd, dmps, tcorv, qcorv
-    use geometry, only: fsg, hsg
+    use geometry, only: fsg
 
     implicit none
 
@@ -21,12 +20,6 @@ subroutine indyns
 
     ! Power of Laplacian in horizontal diffusion
     npowhd = 4
-
-    ! Coefficients to compute geopotential
-    do k = 1, kx
-      xgeop1(k) = rgas*log(hsg(k+1)/fsg(k))
-      if (k /= kx) xgeop2(k+1) = rgas*log(fsg(k+1)/hsg(k+1))
-    end do
 
     ! Coefficients for horizontal diffusion
     ! Spectral damping coefficients
