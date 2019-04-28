@@ -36,48 +36,45 @@ contains
         use spectral, only: grid_to_spec, trunct
         use input_output, only: output
 
-        complex :: zero, ccon, surfs(mx,nx)
+        complex :: surfs(mx,nx)
         real :: surfg(ix,il)
-        real :: gam1, esref, factk, gam2, qexp, qref, rgam, rgamr, rlog0, tref, ttop
+        real :: gam1, esref, gam2, qexp, qref, rgam, rgamr, rlog0, tref, ttop
         integer :: i, j, k
 
-        gam1 = gamma/(1000.*grav)
-        zero = (0.,0.)
-        ccon = (1.,0.)*sqrt(2.)
+        gam1 = gamma/(1000.0*grav)
 
         ! 1. Compute spectral surface geopotential
         phis = grid_to_spec(phis0)
 
         ! 2. Start from reference atmosphere (at rest)
-        print*, 'Starting from rest'
+        write (*,'(A)') 'Starting from rest'
 
         ! 2.1 Set vorticity, divergence and tracers to zero
-        vor(:,:,:,1) = zero
-        div(:,:,:,1) = zero
-        tr(:,:,:,1,:) = zero
+        vor(:,:,:,1) = (0.0, 0.0)
+        div(:,:,:,1) = (0.0, 0.0)
+        tr(:,:,:,1,:) = (0.0, 0.0)
 
         ! 2.2 Set reference temperature :
         !     tropos:  T = 288 degK at z = 0, constant lapse rate
         !     stratos: T = 216 degK, lapse rate = 0
-        tref  = 288.
-        ttop  = 216.
+        tref  = 288.0
+        ttop  = 216.0
         gam2  = gam1/tref
         rgam  = rgas*gam1
-        rgamr = 1./rgam
+        rgamr = 1.0/rgam
 
         ! Surface and stratospheric air temperature
-        t(:,:,1,1) = zero
-        t(:,:,2,1) = zero
+        t(:,:,1,1) = (0.0, 0.0)
+        t(:,:,2,1) = (0.0, 0.0)
         surfs = -gam1 * phis
 
-        t(1,1,1,1) = ccon*ttop
-        t(1,1,2,1) = ccon*ttop
-        surfs(1,1) = ccon*tref - gam1*phis(1,1)
+        t(1,1,1,1) = (sqrt(2.0), 0.0)*ttop
+        t(1,1,2,1) = (sqrt(2.0), 0.0)*ttop
+        surfs(1,1) = (sqrt(2.0), 0.0)*tref - gam1*phis(1,1)
 
         ! Temperature at tropospheric levels
-        do k=3,kx
-            factk=fsg(k)**rgam
-            t(:,:,k,1) = surfs * factk
+        do k = 3, kx
+            t(:,:,k,1) = surfs*fsg(k)**rgam
         end do
 
         ! 2.3 Set log(ps) consistent with temperature profile
@@ -86,33 +83,32 @@ contains
 
         do j=1,il
             do i=1,ix
-                surfg(i,j) = rlog0 + rgamr*log(1.-gam2*phis0(i,j))
+                surfg(i,j) = rlog0 + rgamr*log(1.0 - gam2*phis0(i,j))
             end do
         end do
 
         ps(:,:,1) = grid_to_spec(surfg)
-        if (ix.eq.iy*4) call trunct(ps)
+        if (ix == iy*4) call trunct(ps)
 
-        ! 2.4 Set tropospheric spec. humidity in g/kg
+        ! 2.4 Set tropospheric specific humidity in g/kg
         !     Qref = RHref * Qsat(288K, 1013hPa)
-        esref = 17.
+        esref = 17.0
         qref = refrh1*0.622*esref
         qexp = hscale/hshum
 
-        ! Spec. humidity at the surface
-        do j=1,il
-            do i=1,ix
+        ! Specific humidity at the surface
+        do j = 1, il
+            do i = 1, ix
                 surfg(i,j)=qref*exp(qexp*surfg(i,j))
             end do
         end do
 
         surfs = grid_to_spec(surfg)
-        if (ix.eq.iy*4) call trunct (surfs)
+        if (ix == iy*4) call trunct (surfs)
 
-        ! Spec. humidity at tropospheric levels
-        do k=3,kx
-            factk=fsg(k)**qexp
-            tr(:,:,k,1,1) = surfs * factk
+        ! Specific humidity at tropospheric levels
+        do k = 3, kx
+            tr(:,:,k,1,1) = surfs*fsg(k)**qexp
         end do
 
         ! Print diagnostics from initial conditions
