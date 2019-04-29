@@ -182,9 +182,9 @@ module land_model
             do j=1,il
                 do i=1,ix
                     if (alb0(i,j).lt.0.4) then
-                        rhcapl(i,j) = 86400./hcapl
+                        rhcapl(i,j) = delt/hcapl
                     else
-                        rhcapl(i,j) = 86400./hcapli
+                        rhcapl(i,j) = delt/hcapli
                     endif
                 end do
             end do

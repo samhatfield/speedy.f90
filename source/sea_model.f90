@@ -241,8 +241,8 @@ contains
 
         ! Set heat capacity and dissipation time over selected domain
         do j=1,il
-            rhcaps(:,j) = 86400./hcaps(j)
-            rhcapi(:,j) = 86400./hcapi(j)
+            rhcaps(:,j) = delt/hcaps(j)
+            rhcapi(:,j) = delt/hcapi(j)
         end do
 
         cdsea = dmask*tdsst/(1.+dmask*tdsst)
