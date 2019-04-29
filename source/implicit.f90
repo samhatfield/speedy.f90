@@ -5,6 +5,14 @@ module implicit
 
     private
     public initialize_implicit, implicit_terms
+    public tref, tref2, tref3
+
+    ! Temperature profile for semi-implicit scheme
+    real, dimension(kx) :: tref, tref1, tref2, tref3
+
+    real, dimension(kx,kx) :: xa, xb, xc, xd, xe
+    real, dimension(kx,kx,mx+nx+1) :: xf, xj
+    real :: dhsx(kx), elz(mx,nx)
 
 contains
     ! Initialize constants for implicit computation of horizontal diffusion and
@@ -23,7 +31,6 @@ contains
         use dynamical_constants, only: gamma
         use physical_constants, only: akap, rgas, grav, rearth
         use geometry, only: hsg, dhs, fsg, fsgr
-        use mod_dyncon2
         use horizontal_diffusion, only: dmp, dmpd, dmps, dmp1, dmp1d, dmp1s
         use matrix_inversion, only: inv
 
@@ -151,23 +158,15 @@ contains
     end
 
     ! Correct tendencies for implicit gravity wave model
+    !  Input/output : divdt = divergence tendency
+    !                 tdt   = temperature tendency
+    !                 psdt  = tendency of log(surface pressure)
     subroutine implicit_terms(divdt,tdt,psdt)
-        !  Input/output : divdt = divergence tendency
-        !                 tdt   = temperature tendency
-        !                 psdt  = tendency of log(surf.pressure)
-
-        use params
-        use mod_dyncon2, only: tref1, xc, xd, xj, dhsx, elz
-
-        integer, parameter :: mxnxkx = mx*nx*kx
-
         complex, intent(inout) :: divdt(mx,nx,kx), tdt(mx,nx,kx), psdt(mx,nx)
-        complex ::  ye(mx,nx,kx), yf(mx,nx,kx), zero
+        complex ::  ye(mx,nx,kx), yf(mx,nx,kx)
         integer :: k1, k, m, n
 
-        zero = (0.,0.)
-
-        ye(:,:,:) = zero
+        ye(:,:,:) = (0.0, 0.0)
 
         do k1=1,kx
             do k=1,kx
@@ -187,7 +186,7 @@ contains
             end do
         end do
 
-        divdt(:,:,:) = zero
+        divdt(:,:,:) = (0.0, 0.0)
 
         do n=1,nx
             do m=1,mx

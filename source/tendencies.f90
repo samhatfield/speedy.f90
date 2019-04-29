@@ -49,7 +49,7 @@ contains
         use prognostics
         use physical_constants, only: akap, rgas
         use geometry, only: dhs, dhsr, fsgr, coriol
-        use mod_dyncon2, only: tref, tref3
+        use implicit, only: tref, tref3
         use geopotential, only: get_geopotential
         use physics, only: get_physical_tendencies
         use spectral, only: grid_to_spec, spec_to_grid, laplacian, grad, uvspec, vdspec
@@ -243,7 +243,7 @@ contains
         use physical_constants, only: rgas
         use geometry, only: dhs, dhsr
         use geopotential, only: get_geopotential
-        use mod_dyncon2, only: tref, tref2, tref3
+        use implicit, only: tref, tref2, tref3
         use spectral, only: laplacian
 
         complex, intent(inout) :: psdt(mx,nx), divdt(mx,nx,kx), tdt(mx,nx,kx)

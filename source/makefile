@@ -43,7 +43,6 @@ FILES= \
 	   longwave_radiation.o \
 	   matrix_inversion.o \
 	   mod_cpl_bcinterp.o \
-	   mod_dyncon2.o \
 	   input_output.o \
 	   mod_radcon.o \
 	   params.o \
@@ -81,8 +80,8 @@ geometry.o             : params.o physical_constants.o
 geopotential.o         : params.o physical_constants.o geometry.o
 horizontal_diffusion.o : params.o dynamical_constants.o
 humidity.o             : params.o
-implicit.o             : params.o dynamical_constants.o physical_constants.o mod_dyncon2.o\
-                         geometry.o horizontal_diffusion.o matrix_inversion.o
+implicit.o             : params.o dynamical_constants.o physical_constants.o geometry.o\
+                         horizontal_diffusion.o matrix_inversion.o
 initialization.o       : coupler.o params.o date.o input_output.o time_stepping.o boundaries.o\
                          spectral.o sea_model.o physics.o geopotential.o prognostics.o forcing.o
 forcing.o              : dynamical_constants.o shortwave_radiation.o params.o \
@@ -93,7 +92,6 @@ land_model.o           : params.o date.o mod_cpl_bcinterp.o input_output.o bound
                          auxiliaries.o
 legendre.o             : params.o physical_constants.o geometry.o
 diagnostics.o          : params.o spectral.o
-mod_dyncon2.o          : params.o
 prognostics.o          : params.o dynamical_constants.o physical_constants.o geometry.o\
                          boundaries.o diagnostics.o spectral.o input_output.o
 input_output.o         : params.o  physical_constants.o date.o spectral.o geometry.o
@@ -112,7 +110,7 @@ precipitation.o        : params.o physical_constants.o
 spectral.o             : params.o physical_constants.o legendre.o fourier.o
 sppt.o                 : params.o physical_constants.o spectral.o
 tendencies.o           : params.o implicit.o prognostics.o physical_constants.o geometry.o\
-                         mod_dyncon2.o physics.o spectral.o geopotential.o
+                         physics.o spectral.o geopotential.o
 time_stepping.o        : dynamical_constants.o params.o prognostics.o tendencies.o\
                          horizontal_diffusion.o
 vertical_diffusion     : params.o physical_constants.o geometry.o
