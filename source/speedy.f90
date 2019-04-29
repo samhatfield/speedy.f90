@@ -1,3 +1,8 @@
+!> author: Sam Hatfield, Fred Kucharski, Franco Molteni
+!> date: 29/04/2019
+!> The top-level program. Here we initialize the model and run the main loop
+!> until the (continually updated) model datetime (`model_datetime`) equals the
+!> final datetime (`end_datetime`).
 program speedy
     use params, only: nsteps, delt, nsteps_out, nstrad
     use date, only: model_datetime, end_datetime, newdate, datetime_equal
@@ -46,5 +51,5 @@ program speedy
 
         ! Exchange data with coupler
         call couple_sea_land(1+model_step/nsteps)
-    enddo
+    end do
 end

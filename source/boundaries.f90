@@ -1,3 +1,10 @@
+!> author: Sam Hatfield, Fred Kucharski, Franco Molteni
+!  date: 29/04/2019
+!  For reading and storing boundary conditions.
+!
+!  This module handles the reading and storing of the land-sea mask, the
+!  surface geopotential (i.e. the orography), the filtered surface geopotential
+!  (i.e. the smoothed orography) and the bare-land annual-mean albedo.
 module boundaries
     use params
 
@@ -7,22 +14,16 @@ module boundaries
     public initialize_boundaries, fillsf, forchk
     public fmask, phi0, phis0, alb0
 
-    ! Land-sea masks
-    ! Original (fractional) land-sea mask
-    real :: fmask(ix,il)
+    real :: fmask(ix,il) !! Original (fractional) land-sea mask
 
     ! Time invariant surface fields
-    ! Unfiltered surface geopotential
-    real :: phi0(ix,il)
-
-    ! Spectrally-filtered sfc. geopotential
-    real :: phis0(ix,il)
-
-    ! Bare-land annual-mean albedo
-    real :: alb0(ix,il)
+    real :: phi0(ix,il)  !! Unfiltered surface geopotential
+    real :: phis0(ix,il) !! Spectrally-filtered surface geopotential
+    real :: alb0(ix,il)  !! Bare-land annual-mean albedo
 
 contains
-    ! Read topography and climatological boundary conditions
+    !> Initialize boundary conditions (land-sea mask, surface geopotential
+    !  and surface albedo).
     subroutine initialize_boundaries
         use physical_constants, only: grav
         use input_output, only: load_boundary_file
@@ -38,15 +39,17 @@ contains
 
         ! Annual-mean surface albedo
         alb0 = load_boundary_file("surface.nc", "alb")
-    end
+    end subroutine
 
-    ! Check consistency of surface fields with land-sea mask and set undefined
-    ! values to a constant (to avoid over/underflow)
+    !> Check consistency of surface fields with land-sea mask and set undefined
+    !  values to a constant (to avoid over/underflow).
     subroutine forchk(fmask, nf, fmin, fmax, fset, field)
-        real, intent(in) :: fmask(ix,il)
-        integer, intent(in) :: nf
-        real, intent(in) :: fmin, fmax, fset
-        real, intent(inout) :: field(ix,il,nf)
+        real, intent(in)    :: fmask(ix,il)    !! The fractional land-sea mask
+        integer, intent(in) :: nf              !! The number of input 2D fields
+        real, intent(in)    :: fmin            !! The minimum allowable value
+        real, intent(in)    :: fmax            !! The maximum allowable value
+        real, intent(in)    :: fset            !! Replacement for undefined values
+        real, intent(inout) :: field(ix,il,nf) !! The output field
 
         integer :: i, j, jf, nfault
 
@@ -65,16 +68,15 @@ contains
                 end do
             end do
         end do
+    end subroutine
 
-    end
-
-    ! Compute a spectrally-filtered grid-point field
-    ! Input   : fg1 : original grid-point field
-    ! Output  : fg2 : filtered grid-point field
+    !> Compute a spectrally-filtered grid-point field.
     subroutine spectral_truncation(fg1, fg2)
         use spectral, only: grid_to_spec, spec_to_grid
 
-        real, dimension(ix,il), intent(inout) :: fg1(ix,il), fg2(ix,il)
+        real, intent(inout) :: fg1(ix,il) !! Original grid-point field
+        real, intent(inout) :: fg2(ix,il) !! Filtered grid-point field
+
         complex :: fsp(mx,nx)
         integer :: n, m, total_wavenumber
 
@@ -88,13 +90,14 @@ contains
         end do
 
         fg2 = spec_to_grid(fsp, 1)
-    end
+    end subroutine
 
-    ! Replace missing values in surface fields
-    ! NB: it is assumed that non-missing values exist near the Equator
+    !> Replace missing values in surface fields.
+    !  @note It is assumed that non-missing values exist near the Equator.
     subroutine fillsf(sf, fmis)
-        real, intent(inout) :: sf(ix,il)
-        real, intent(in) :: fmis
+        real, intent(inout) :: sf(ix,il) !! Field to replace missing values in
+        real, intent(in)    :: fmis      !! Replacement for missing values
+
         real :: sf2(0:ix+1)
 
         integer :: hemisphere, j, j1, j2, j3, i, nmis
@@ -135,5 +138,5 @@ contains
                 end do
             end do
         end do
-    end
+    end subroutine
 end module

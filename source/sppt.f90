@@ -1,9 +1,11 @@
-!> @author
-!> Sam Hatfield, AOPP, University of Oxford
-!> @brief
-!> A module for computing SPPT patterns to be used as multiplicative noise applied to physical tendencies
-!> Stochastically Perturbed Parametrization Tendencies (SPPT) is a parametrization of model error.
-!> See ECMWF Tech. Memo. #598 (Palmer et al. 2009)
+!> author: Sam Hatfield
+!  date: 29/04/2019
+!  For computing stochastically perturbed parametrization tendency (SPPT)
+!  patterns.
+!
+!  To be used as multiplicative noise applied to physical tendencies. SPPT is
+!  a parametrization of model error.
+!  See ECMWF Tech. Memo. #598 (Palmer et al. 2009).
 module sppt
     use params
 
@@ -12,39 +14,40 @@ module sppt
     private
     public mu, gen_sppt
 
-    ! Array for tapering value of SPPT in the different layers of the atmosphere
-    ! A value of 1 means the tendency is not tapered at that level
+    !> Array for tapering value of SPPT in the different layers of the
+    !  atmosphere. A value of 1 means the tendency is not tapered at that level
     real :: mu(kx) = (/ 1, 1, 1, 1, 1, 1, 1, 1 /)
 
+    !> SPPT pattern in spectral space
     complex :: sppt_spec(mx,nx,kx)
+
+    !> Flag for controlling first-use behaviour
     logical :: first = .true.
 
-    ! Decorrelation time of SPPT perturbation (in hours)
+    !> Decorrelation time of SPPT perturbation (in hours)
     real, parameter :: time_decorr = 6.0
 
-    ! Time autocorrelation of spectral AR(1) signals
+    !> Time autocorrelation of spectral AR(1) signals
     real :: phi = exp(-(24/real(nsteps))/time_decorr)
 
-    ! Correlation length scale of SPPT perturbation (in metres)
+    !> Correlation length scale of SPPT perturbation (in metres)
     real, parameter :: len_decorr = 500000.0
 
-    ! Standard deviation of SPPT perturbation (in grid point space)
+    !> Standard deviation of SPPT perturbation (in grid point space)
     real, parameter :: stddev = 0.33
 
-    ! Total wavenumber-wise standard deviation of spectral signals
+    !> Total wavenumber-wise standard deviation of spectral signals
     real :: sigma(mx,nx,kx)
 
     contains
-        !> @brief
-        !> Generate grid point space SPPT pattern
-        !> distribution.
-        !> @return sppt_grid the generated grid point pattern
+        !> Generate grid point space SPPT pattern distribution.
         function gen_sppt() result(sppt_grid)
             use spectral, only: el2, spec_to_grid
             use physical_constants, only: rearth
 
+            real :: sppt_grid(ix,il,kx) !! The generated grid point pattern
+
             integer :: m, n, k
-            real :: sppt_grid(ix,il,kx)
             complex :: eta(mx,nx,kx)
             real :: f0, randreal, randimag
 
@@ -52,9 +55,9 @@ module sppt
             if (first) call time_seed()
 
             ! Generate Gaussian noise
-            do m = 1,mx
-                do n = 1,nx
-                    do k = 1,kx
+            do m = 1, mx
+                do n = 1, nx
+                    do k = 1, kx
                         randreal = randn(0.0, 1.0)
                         randimag = randn(0.0, 1.0)
 
@@ -69,10 +72,10 @@ module sppt
             ! If first timestep
             if (first) then
                 ! Generate spatial amplitude pattern and time correlation
-                f0 = sum((/ ((2*n+1)*exp(-0.5*(len_decorr/rearth)**2*n*(n+1)),n=1,trunc) /))
+                f0 = sum((/ ((2*n+1)*exp(-0.5*(len_decorr/rearth)**2*n*(n+1)), n = 1, trunc) /))
                 f0 = sqrt((stddev**2*(1-phi**2))/(2*f0))
 
-                do k = 1,kx
+                do k = 1, kx
                     sigma(:,:,k) = f0 * exp(-0.25*len_decorr**2 * el2)
                 end do
 
@@ -86,7 +89,7 @@ module sppt
             end if
 
             ! Convert to grid point space
-             do k=1,kx
+             do k = 1, kx
                  sppt_grid(:,:,k) = spec_to_grid(sppt_spec(:,:,k), 1)
              end do
 
@@ -94,15 +97,13 @@ module sppt
              sppt_grid = min(1.0, abs(sppt_grid)) * sign(1.0,sppt_grid)
         end function
 
-        !> @brief
-        !> Generates a random number drawn for the specified normal
-        !> distribution.
-        !> @param mean the mean of the distribution to draw from
-        !> @param stdev the standard deviation of the distribution to draw from
-        !> @return randn the generated random number
+        !> Generates a random number drawn for the specified normal distribution.
         function randn(mean, stdev)
-            real, intent(in) :: mean, stdev
-            real :: u, v, randn
+            real, intent(in) :: mean  !! The mean of the distribution to draw from
+            real, intent(in) :: stdev !! The standard deviation of the distribution to draw from
+            real             :: randn !! The generated random number
+
+            real :: u, v
             real :: rand(2)
 
             call random_number(rand)
@@ -113,7 +114,6 @@ module sppt
             randn = mean + stdev * u * sin(v)
         end function
 
-        !> @brief
         !> Seeds RNG from system clock.
         subroutine time_seed()
             integer :: i, n, clock
