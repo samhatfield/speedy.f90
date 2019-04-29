@@ -1,4 +1,4 @@
-module mod_cpl_bcinterp
+module interpolation
     use date, only: tmonth
     use params, only: ix, il
 

@@ -251,7 +251,7 @@ contains
 
     subroutine couple_sea_atm(day)
         use date, only: model_datetime, imont1
-        use mod_cpl_bcinterp, only: forin5, forint
+        use interpolation, only: forin5, forint
 
         integer, intent(in) :: day
 

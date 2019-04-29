@@ -42,8 +42,8 @@ FILES= \
 	   legendre.o \
 	   longwave_radiation.o \
 	   matrix_inversion.o \
-	   mod_cpl_bcinterp.o \
 	   input_output.o \
+	   interpolation.o \
 	   mod_radcon.o \
 	   params.o \
 	   physics.o \
@@ -88,13 +88,14 @@ forcing.o              : dynamical_constants.o shortwave_radiation.o params.o \
                          physical_constants.o boundaries.o date.o land_model.o mod_radcon.o\
 						 surface_fluxes.o date.o sea_model.o longwave_radiation.o humidity.o\
 						 horizontal_diffusion.o
-land_model.o           : params.o date.o mod_cpl_bcinterp.o input_output.o boundaries.o\
+land_model.o           : params.o date.o interpolation.o input_output.o boundaries.o\
                          auxiliaries.o
 legendre.o             : params.o physical_constants.o geometry.o
 diagnostics.o          : params.o spectral.o
 prognostics.o          : params.o dynamical_constants.o physical_constants.o geometry.o\
                          boundaries.o diagnostics.o spectral.o input_output.o
 input_output.o         : params.o  physical_constants.o date.o spectral.o geometry.o
+interpolation.o        : params.o date.o
 physical_constants.o   : params.o
 mod_radcon.o           : params.o
 physics.o              : params.o coupler.o physical_constants.o boundaries.o land_model.o\
@@ -102,7 +103,7 @@ physics.o              : params.o coupler.o physical_constants.o boundaries.o la
 						 shortwave_radiation.o longwave_radiation.o humidity.o geometry.o\
 						 auxiliaries.o
 longwave_radiation.o   : params.o physical_constants.o mod_radcon.o geometry.o
-sea_model.o            : params.o input_output.o boundaries.o geometry.o mod_cpl_bcinterp.o\
+sea_model.o            : params.o input_output.o boundaries.o geometry.o interpolation.o\
  						 date.o auxiliaries.o mod_radcon.o
 shortwave_radiation.o  : params.o mod_radcon.o geometry.o
 surface_fluxes.o       : params.o physical_constants.o mod_radcon.o land_model.o humidity.o

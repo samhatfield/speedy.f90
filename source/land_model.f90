@@ -194,7 +194,7 @@ module land_model
 
         subroutine couple_land_atm(day)
             use date, only: imont1
-            use mod_cpl_bcinterp, only: forin5, forint
+            use interpolation, only: forin5, forint
 
             integer, intent(in) :: day
 
