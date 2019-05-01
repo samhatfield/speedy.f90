@@ -1,12 +1,16 @@
+!> author: Sam Hatfield, Fred Kucharski, Franco Molteni
+!  date: 01/05/2019
+!  For keeping track of the model's date and time.
 module date
     implicit none
 
     private
     public model_datetime, start_datetime, end_datetime
-    public imont1, tmonth, tyear, ndaycal, ndaytot
+    public imont1, tmonth, tyear, ndaycal
     public isst0
     public datetime_equal, newdate
 
+    !> For storing dates and times.
     type datetime
         integer :: year
         integer :: month
@@ -15,23 +19,22 @@ module date
         integer :: minute
     end type
 
-    ! Date and time variables (updated in NEWDATE)
-    type(datetime) :: model_datetime, start_datetime, end_datetime
-    integer :: imont1
-    real :: tmonth, tyear
+    ! Date and time variables
+    type(datetime)     :: model_datetime !! The model's current datetime (continuously updated)
+    type(datetime)     :: start_datetime !! The start datetime
+    type(datetime)     :: end_datetime   !! The end datetime
+    integer            :: imont1         !! The month used for computing seasonal forcing fields
+    real               :: tmonth         !! The fraction of the current month elapsed
+    real               :: tyear          !! The fraction of the current year elapsed
+    integer            :: isst0          !! Initial month of SST anomalies
+    integer            :: ndaycal(12,2)  !! The model calendar
+    integer, parameter :: ncal = 365     !! The number of days in a year
 
-    ! Record in SST anomaly file corr. to the initial month
-    ! Initialized in agcm_init
-    integer :: isst0
-
-    ! Calendar set-up (initialized in NEWDATE)
-    integer :: ndaycal(12,2), ndaytot
-
-    ! 365-day calendar
-    integer, parameter :: ncal = 365
+    !> The number of days in each month
     integer :: ncal365(12) = (/ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 /)
 
     contains
+        !> Checks whether two datetimes are equal.
         logical function datetime_equal(datetime1, datetime2)
             type(datetime), intent(in) :: datetime1, datetime2
 
@@ -46,14 +49,11 @@ module date
             end if
         end function
 
+        !> Updates the current datetime and related date variables.
         subroutine newdate(imode)
-            !--   subroutine newdate (imode)
-            !--   purpose:   initilialize and update date variables
-            !--   input :    imode = 0 for initialization, > 0 for update
-
             use params, only: iseasc, nsteps
 
-            integer, intent(in) :: imode
+            integer, intent(in) :: imode !! Mode -> 0 for initialization, > 0 for update
 
             integer :: jm
 

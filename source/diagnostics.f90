@@ -1,3 +1,6 @@
+!> author: Sam Hatfield, Fred Kucharski, Franco Molteni
+!  date: 01/05/2019
+!  For checking model diagnostics in case of numerical instability.
 module diagnostics
     implicit none
 
@@ -5,14 +8,18 @@ module diagnostics
     public check_diagnostics
 
 contains
-    ! Print global means of eddy kinetic energy and temperature
+    !> Prints global means of eddy kinetic energy and temperature.
+    !  Also stops the integration if the computed diagnostics are outside of
+    !  allowable ranges.
     subroutine check_diagnostics(vor, div, t, istep)
         use params
         use spectral, only: inverse_laplacian
 
-        integer, intent(in) :: istep
+        complex, dimension(mx,nx,kx), intent(in) :: vor   !! Spectral vorticity
+        complex, dimension(mx,nx,kx), intent(in) :: div   !! Spectral divergence
+        complex, dimension(mx,nx,kx), intent(in) :: t     !! Spectral temperature
+        integer, intent(in)                      :: istep !! Current time step
 
-        complex, dimension(mx,nx,kx), intent(in) :: vor, div, t
         integer :: k, m, n, kk
         complex :: temp(mx,nx)
         real :: diag(kx,3)
@@ -63,5 +70,5 @@ contains
         2001 format(' step =',i6,' reke =', (10f8.2))
         2002 format         (13x,' deke =', (10f8.2))
         2003 format         (13x,' temp =', (10f8.2))
-    end
+    end subroutine
 end module

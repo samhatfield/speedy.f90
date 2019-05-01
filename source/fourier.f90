@@ -1,3 +1,6 @@
+!> author: Sam Hatfield, Fred Kucharski, Franco Molteni
+!  date: 01/05/2019
+!  For computing direct and inverse Fourier transforms.
 module fourier
     use params
 
@@ -6,21 +9,23 @@ module fourier
     private
     public initialize_fourier, fourier_inv, fourier_dir
 
-    real :: work(ix)
-    integer :: ifac(15)
+    real    :: work(ix) !! Work array required by FFTPACK. Contains trigonometric functions etc.
+    integer :: ifac(15) !! Work array required by FFTPACK. Contains prime factors
 
 contains
+    !> Initializes the Fourier transforms.
     subroutine initialize_fourier
         call rffti1(ix, work, ifac)
     end subroutine
 
-    ! From Fourier coefficients to grid-point data
+    !> Transforms Fourier coefficients to grid-point data.
     function fourier_inv(input, kcos) result(output)
         use geometry, only: cosgr
 
-        real, intent(in) :: input(2*mx,il)
-        real :: output(ix,il)
-        integer, intent(in) :: kcos
+        real, intent(in)    :: input(2*mx,il) !! Input field
+        integer, intent(in) :: kcos           !! Scale output by cos(lat) (1) or not (0)
+        real                :: output(ix,il)  !! Output field
+
         integer :: j, m
         real :: fvar(ix), ch(ix)
 
@@ -46,10 +51,11 @@ contains
         end do
     end function
 
-    ! From grid-point data to Fourier coefficients
+    !> Transforms grid-point data to Fourier coefficients.
     function fourier_dir(input) result(output)
-        real, intent(in) :: input(ix,il)
-        real :: output(2*mx,il)
+        real, intent(in) :: input(ix,il)    !! Input field
+        real             :: output(2*mx,il) !! Output field
+
         integer :: j, m
         real :: fvar(ix), scale
         real :: ch(ix)

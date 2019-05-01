@@ -1,3 +1,6 @@
+!> author: Sam Hatfield, Fred Kucharski, Franco Molteni
+!  date: 01/05/2019
+!  For storing all variables related to the model's grid space.
 module geometry
     use params
 
@@ -9,14 +12,25 @@ module geometry
         cosg, cosgr, cosgr2
 
     ! Vertical level parameters
-    real :: hsg(kx+1), dhs(kx), fsg(kx), dhsr(kx), fsgr(kx)
+    real :: hsg(kx+1) !! Half sigma levels
+    real :: dhs(kx)   !! Sigma level thicknesses
+    real :: fsg(kx)   !! Full sigma levels
+    real :: dhsr(kx)  !! 1/(2*sigma level thicknesses)
+    real :: fsgr(kx)  !! akap/(2*full sigma levels)
 
     ! Functions of latitude and longitude
-    real, dimension(il) :: radang, coriol, sia, coa
-    real, dimension(iy) :: sia_half, coa_half
-    real, dimension(il) :: cosg, cosgr, cosgr2
+    real, dimension(il) :: radang   !! Latitudes in radians
+    real, dimension(il) :: coriol   !! Coriolis parameter as a function of latitude
+    real, dimension(il) :: sia      !! sine(latitude)
+    real, dimension(il) :: coa      !! cosine(latitude)
+    real, dimension(iy) :: sia_half !! sine(latitude) over one hemisphere only
+    real, dimension(il) :: coa_half !! cosine(latitude) over one hemisphere only
+    real, dimension(il) :: cosg     !! Same as coa (TODO: remove)
+    real, dimension(il) :: cosgr    !! 1/coa
+    real, dimension(il) :: cosgr2   !! 1/coa^2
 
 contains
+    !> Initializes all of the model geometry variables.
     subroutine initialize_geometry
         use physical_constants, only: akap, omega
 

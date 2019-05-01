@@ -1,6 +1,6 @@
 !> author: Sam Hatfield, Fred Kucharski, Franco Molteni
 !  date: 29/04/2019
-!> Highest level interface to land and sea models.
+!  Highest level interface to land and sea models.
 module coupler
     implicit none
 

@@ -1,5 +1,6 @@
-!> @brief
-!> Constants for initialization of dynamics.
+!> author: Sam Hatfield, Fred Kucharski, Franco Molteni
+!  date: 01/05/2019
+!  Constants for initialization of dynamics.
 module dynamical_constants
     implicit none
 

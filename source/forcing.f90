@@ -1,3 +1,6 @@
+!> author: Sam Hatfield, Fred Kucharski, Franco Molteni
+!  date: 01/05/2019
+!  For setting all time-dependent forcing fields.
 module forcing
     implicit none
 
@@ -5,9 +8,8 @@ module forcing
     public set_forcing
 
 contains
-    ! Compute forcing fields for the current date and correction terms for
-    ! horizontal diffusion
-    ! Input : imode : 0 = initialization step, 1 = daily update
+    !> Compute forcing fields for the current date and correction terms for
+    !  horizontal diffusion
     subroutine set_forcing(imode)
         use dynamical_constants, only: refrh1
         use params
@@ -24,7 +26,8 @@ contains
         use humidity, only: get_qsat
         use spectral, only: grid_to_spec
 
-        integer, intent(in) :: imode
+        integer, intent(in) :: imode !! Mode -> 0 = initialization step, 1 = daily update
+
         real, dimension(ix, il) :: corh, tsfc, tref, psfc, qsfc, qref
         real :: gamlat(il)
 
@@ -92,23 +95,21 @@ contains
         corh = refrh1 * (qref - qsfc)
 
         qcorh = grid_to_spec(corh)
-    end
+    end subroutine
 
+    !> Compute reference lapse rate as a function of latitude and date
     subroutine setgam(gamlat)
-        ! aux. routine gamlat : compute reference lapse rate
-        !                       as a function of latitude and date
-
         use dynamical_constants, only: gamma
         use params
         use physical_constants, only: grav
 
-        integer :: j
+        real, intent(inout) :: gamlat(il) !! The reference lapse rate
 
-        real, intent(inout) :: gamlat(il)
+        integer :: j
 
         gamlat(1) = gamma/(1000. * grav)
         do j = 2, il
             gamlat(j) = gamlat(1)
         end do
-    end
+    end subroutine
 end module
