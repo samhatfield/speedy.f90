@@ -24,10 +24,4 @@ extra_mods: json_module: http://jacobwilliams.github.io/json-fortran/
 license: by-nc
 extra_filetypes: sh #
 
-Hi, my name is ${USER}.
-
-This is a project which I wrote. This file will provide the documents. I'm
-writing the body of the text here. It contains an overall description of the
-project. It might explain how to go about installing/compiling it. It might
-provide a change-log for the code. [[linalg]] Maybe it will talk about the
-history and/or motivation for this software.
+{!README.md!}
