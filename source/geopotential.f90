@@ -1,3 +1,6 @@
+!> author: Sam Hatfield, Fred Kucharski, Franco Molteni
+!  date: 07/05/2019
+!  For performing geopotential calculations.
 module geopotential
     use params
 
@@ -6,10 +9,11 @@ module geopotential
     private
     public initialize_geopotential, get_geopotential
 
-    ! Constants for hydrostatic equation
-    real :: xgeop1(kx), xgeop2(kx)
+    real :: xgeop1(kx) !! Constants for hydrostatic equation
+    real :: xgeop2(kx) !! Constants for hydrostatic equation
 
 contains
+    !> Initializes the arrays used for geopotential calculations
     subroutine initialize_geopotential
         use physical_constants, only: rgas
         use geometry, only: hsg, fsg
@@ -23,13 +27,15 @@ contains
         end do
     end subroutine
 
-    ! Compute spectral geopotential from spectral temperature T and spectral
-    ! topography phis, as in GFDL Climate Group GCM
+    !> Computes spectral geopotential from spectral temperature T and spectral
+    !  topography phis, as in GFDL Climate Group GCM.
     function get_geopotential(t, phis) result(phi)
         use geometry, only: hsg, fsg
 
-        complex, intent(in) :: t(mx,nx,kx), phis(mx,nx)
-        complex :: phi(mx,nx,kx)
+        complex, intent(in) :: t(mx,nx,kx) !! Spectral temperature
+        complex, intent(in) :: phis(mx,nx) !! Spectral surface geopotential
+        complex :: phi(mx,nx,kx)           !! Spectral geopotential
+
         integer :: k
         real :: corf
 

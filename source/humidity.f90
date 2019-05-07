@@ -1,3 +1,7 @@
+!> author: Sam Hatfield, Fred Kucharski, Franco Molteni
+!  date: 07/05/2019
+!  For converting between specific and relative humidity, and computing the
+!  saturation specific humidity.
 module humidity
     use params, only: ix, il
 
@@ -7,39 +11,48 @@ module humidity
     public spec_hum_to_rel_hum, rel_hum_to_spec_hum, get_qsat
 
 contains
+    !> Converts specific humidity to relative humidity, and also returns
+    !  saturation specific humidity.
     subroutine spec_hum_to_rel_hum(ta, ps, sig, qa, rh, qsat)
-        real, intent(in) :: ta(ix,il), ps(ix,il), sig, qa(ix,il)
-        real, intent(inout) :: rh(ix,il), qsat(ix,il)
+        real, intent(in) :: ta(ix,il)      !! Absolute temperature
+        real, intent(in) :: ps(ix,il)      !! Normalized pressure (p/1000 hPa)
+        real, intent(in) :: sig            !! Sigma level
+        real, intent(in) :: qa(ix,il)      !! Specific humidity
+        real, intent(inout) :: rh(ix,il)   !! Relative humidity
+        real, intent(inout) :: qsat(ix,il) !! Saturation specific humidity
 
         qsat = get_qsat(ta, ps, sig)
         rh = qa/qsat
     end subroutine
 
+    !> Converts relative humidity to specific humidity, and also returns
+    !  saturation specific humidity.
     subroutine rel_hum_to_spec_hum(ta, ps, sig, rh, qa, qsat)
-        real, intent(in) :: ta(ix,il), ps(ix,il), sig, rh(ix,il)
-        real, intent(inout) :: qa(ix,il), qsat(ix,il)
+        real, intent(in) :: ta(ix,il)      !! Absolute temperature
+        real, intent(in) :: ps(ix,il)      !! Normalized pressure (p/1000 hPa)
+        real, intent(in) :: sig            !! Sigma level
+        real, intent(in) :: rh(ix,il)      !! Relative humidity
+        real, intent(inout) :: qa(ix,il)   !! Specific humidity
+        real, intent(inout) :: qsat(ix,il) !! Saturation specific humidity
 
         qsat = get_qsat(ta, ps, sig)
         qa = rh*qsat
     end subroutine
 
-    ! Compute saturation specific humidity
-    ! Input:   ta     : abs. temperature
-    !          ps     : normalized pressure   (=  p/1000_hPa)
-    !                 : normalized sfc. pres. (= ps/1000_hPa)
-    !          sig    : sigma level
-    !          qa     : specific humidity in g/kg
-    !          rh     : relative humidity
-    ! Output:  qsat   : saturation spec. hum. in g/kg
+    !> Computes saturation specific humidity.
     function get_qsat(ta, ps, sig) result(qsat)
-        real, intent(in) :: ta(ix,il), ps(ix,il), sig
-        real :: qsat(ix,il), e0, c1, c2, t0, t1, t2
+        real, intent(in) :: ta(ix,il) !! Absolute temperature
+        real, intent(in) :: ps(ix,il) !! Normalized pressure (p/1000 hPa)
+        real, intent(in) :: sig       !! Sigma level
+        real :: qsat(ix,il)           !! Saturation specific humidity in g/kg
 
-        integer :: i,j
+        real :: e0, c1, c2, t0, t1, t2
+
+        integer :: i, j
 
         ! 1. Compute Qsat (g/kg) from T (degK) and normalized pres. P (= p/1000_hPa)
         ! If sig > 0, P = Ps * sigma, otherwise P = Ps(1) = const.
-        e0 = 6.108e-3
+        e0 = 6.108d-3
         c1 = 17.269
         c2 = 21.875
         t0 = 273.16

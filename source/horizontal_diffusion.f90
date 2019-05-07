@@ -1,3 +1,6 @@
+!> author: Sam Hatfield, Fred Kucharski, Franco Molteni
+!  date: 07/05/2019
+!  For performing horizontal diffusion.
 module horizontal_diffusion
     use params
 
@@ -12,19 +15,22 @@ module horizontal_diffusion
         module procedure do_horizontal_diffusion_3d
     end interface
 
-    ! Damping coef. for horizontal diffusion (explicit) (initial. in indyns)
-    real, dimension(mx,nx) :: dmp, dmpd, dmps
+    real :: dmp(mx,nx)  !! Damping coefficient for temperature and vorticity (explicit)
+    real :: dmpd(mx,nx) !! Damping coefficient for divergence (explicit)
+    real :: dmps(mx,nx) !! Damping coefficient for extra diffusion in the stratosphere (explicit)
 
-    ! Damping coef. for horizontal diffusion (implicit) (initial. in indyns)
-    real, dimension(mx,nx) :: dmp1, dmp1d, dmp1s
+    real :: dmp1(mx,nx)  !! Damping coefficient for temperature and vorticity (implicit)
+    real :: dmp1d(mx,nx) !! Damping coefficient for divergence (implicit)
+    real :: dmp1s(mx,nx) !! Damping coefficient for extra diffusion in the stratosphere (implicit)
 
-    ! Vertical comp. of orographic correction (initial. in INDYNS)
-    real, dimension(kx) :: tcorv, qcorv
+    real :: tcorv(kx) !! Vertical component of orographic correction for temperature
+    real :: qcorv(kx) !! Vertical component of orographic correction for humidity
 
-    ! Horizontal component of orographic correction (updated in FORDATE)
-    complex, dimension(mx,nx) :: tcorh, qcorh
+    complex :: tcorh(mx,nx) !! Horizontal component of orographic correction for temperature
+    complex :: qcorh(mx,nx) !! Horizontal component of orographic correction for humidity
 
 contains
+    !> Initializes the arrays used for horizontal diffusion.
     subroutine initialize_horizontal_diffusion
         use dynamical_constants, only: thd, thdd, thds, gamma, hscale, hshum
         use physical_constants, only: grav, rgas
@@ -73,8 +79,8 @@ contains
         end do
     end subroutine
 
-    ! Add horizontal diffusion tendency of FIELD to spectral tendency FDT at NLEV
-    ! levels using damping coefficients DMP and DMP1
+    !> Adds horizontal diffusion tendency of field to spectral tendency fdt
+    !  using damping coefficients dmp and dmp1.
     function do_horizontal_diffusion_2d(field, fdt_in, dmp, dmp1) result(fdt_out)
         complex, intent(in) :: field(mx,nx), fdt_in(mx,nx)
         complex :: fdt_out(mx,nx)
@@ -83,8 +89,8 @@ contains
         fdt_out = (fdt_in - dmp*field)*dmp1
     end function
 
-    ! Add horizontal diffusion tendency of FIELD to spectral tendency FDT at NLEV
-    ! levels using damping coefficients DMP and DMP1
+    !> Adds horizontal diffusion tendency of field to spectral tendency fdt
+    !  at all model levels using damping coefficients dmp and dmp1.
     function do_horizontal_diffusion_3d(field, fdt_in, dmp, dmp1) result(fdt_out)
         complex, intent(in) :: field(mx,nx,kx), fdt_in(mx,nx,kx)
         complex :: fdt_out(mx,nx,kx)
@@ -95,5 +101,4 @@ contains
             fdt_out(:,:,k) = do_horizontal_diffusion_2d(field(:,:,k), fdt_in(:,:,k), dmp, dmp1)
         end do
     end function
-
 end module
