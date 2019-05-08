@@ -45,4 +45,23 @@ cat << EOF >> fort.2
 EOF
 
 # Run SPEEDY
-time ./speedy | tee output.txt
+if [ "$1" = "--profile" ]; then
+    if ! [ -x "$(command -v dot)" ]; then
+        echo "dot command not found"
+        echo "You must install graphviz to use the --profile option"
+        exit 1
+    fi
+
+    # Run SPEEDY and generate profile data
+    ./speedy
+    gprof speedy gmon.out > profile.txt
+
+    # Remove __*_MOD_ function prefixes from profiler output
+    sed -e "s/ __.*_MOD_//g" -i profile.txt
+
+    # Generate call graph using gprof2dot and graphviz (dot)
+    python $ROOT/scripts/gprof2dot.py --skew 0.1 -n 0.8 -e 0.8 profile.txt\
+        | dot -Tpdf -o profile.pdf
+else
+    time ./speedy | tee output.txt
+fi
