@@ -1,3 +1,6 @@
+!> author: Sam Hatfield, Fred Kucharski, Franco Molteni
+!  date: 08/05/2019
+!  For initializing and performing implicit computations.
 module implicit
     use params
 
@@ -7,26 +10,27 @@ module implicit
     public initialize_implicit, implicit_terms
     public tref, tref2, tref3
 
-    ! Temperature profile for semi-implicit scheme
-    real, dimension(kx) :: tref, tref1, tref2, tref3
+    real, dimension(kx) :: tref  ! Temperature profile for semi-implicit scheme
+    real, dimension(kx) :: tref1 ! Gas constant * tref
+    real, dimension(kx) :: tref2 ! akap * tref
+    real, dimension(kx) :: tref3 ! Full sigma-levels * tref
 
     real, dimension(kx,kx) :: xa, xb, xc, xd, xe
     real, dimension(kx,kx,mx+nx+1) :: xf, xj
     real :: dhsx(kx), elz(mx,nx)
 
 contains
-    ! Initialize constants for implicit computation of horizontal diffusion and
-    ! gravity waves
-    ! Input :   dt   = time step
-    ! initialize_implicit initializes constants for the implicit gravity wave computation.
-    ! It is assumed that that all implicit steps are of length DELT2 and use
-    ! the forward/backward parameter ALPH.  initialize_implicit has to be re-called
-    ! whenever either of these two parameters is changed. initialize_implicit should
-    ! be called even if the explicit option is chosen for the gravity wave
-    ! terms (the reference state temperature TREF is subtracted from some
-    ! terms anyway to reduce roundoff error; also the constants needed for
-    ! the biharmonic diffusion, which is assumed always to be backwards
-    ! implicit, are defined in initialize_implicit)
+    !> Initialize constants for implicit computation of horizontal diffusion and
+    !  gravity waves
+    !  Initialize_implicit initializes constants for the implicit gravity wave computation.
+    !  It is assumed that that all implicit steps are of length 2*delt and use
+    !  the forward/backward parameter alph. initialize_implicit has to be re-called
+    !  whenever either of these two parameters is changed. initialize_implicit should
+    !  be called even if the explicit option is chosen for the gravity wave
+    !  terms (the reference state temperature tref is subtracted from some
+    !  terms anyway to reduce roundoff error; also the constants needed for
+    !  the biharmonic diffusion, which is assumed always to be backwards
+    !  implicit, are defined in initialize_implicit).
     subroutine initialize_implicit(dt)
         use dynamical_constants, only: gamma
         use physical_constants, only: akap, rgas, grav, rearth
@@ -34,7 +38,8 @@ contains
         use horizontal_diffusion, only: dmp, dmpd, dmps, dmp1, dmp1d, dmp1s
         use matrix_inversion, only: inv
 
-        real, intent(in) :: dt
+        real, intent(in) :: dt !! Time step
+
         real :: dsum(kx), ya(kx,kx)
         integer :: indx(kx), m, n, k, k1, k2, l
         real :: rgam, xi, xxi, xxx
@@ -155,14 +160,14 @@ contains
                 xc(k,k1)=xc(k,k1)*xi
             end do
         end do
-    end
+    end subroutine
 
-    ! Correct tendencies for implicit gravity wave model
-    !  Input/output : divdt = divergence tendency
-    !                 tdt   = temperature tendency
-    !                 psdt  = tendency of log(surface pressure)
+    !> Correct tendencies for implicit gravity wave model
     subroutine implicit_terms(divdt,tdt,psdt)
-        complex, intent(inout) :: divdt(mx,nx,kx), tdt(mx,nx,kx), psdt(mx,nx)
+        complex, intent(inout) :: divdt(mx,nx,kx) !! Divergence tendency
+        complex, intent(inout) :: tdt(mx,nx,kx)   !! Temperature tendency
+        complex, intent(inout) :: psdt(mx,nx)     !! log(surface pressure) tendency
+
         complex ::  ye(mx,nx,kx), yf(mx,nx,kx)
         integer :: k1, k, m, n
 

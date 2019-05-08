@@ -130,7 +130,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.0% of total for procedures.">39 statements</a>
+    title=" 1.0% of total for procedures.">41 statements</a>
      </li> 
      
      
@@ -207,6 +207,8 @@ public subroutine implicit_terms(divdt, tdt, psdt)
 
 
     
+    <p>Correct tendencies for implicit gravity wave model</p>
+    
 
     <h3>Arguments</h3>
     
@@ -231,7 +233,7 @@ public subroutine implicit_terms(divdt, tdt, psdt)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>divdt</strong>(mx,nx,kx)</td><td></td>
+  <td><strong>divdt</strong>(mx,nx,kx)</td><td><p>Divergence tendency</p></td>
   
 </tr>
 
@@ -246,7 +248,7 @@ public subroutine implicit_terms(divdt, tdt, psdt)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>tdt</strong>(mx,nx,kx)</td><td></td>
+  <td><strong>tdt</strong>(mx,nx,kx)</td><td><p>Temperature tendency</p></td>
   
 </tr>
 
@@ -261,7 +263,7 @@ public subroutine implicit_terms(divdt, tdt, psdt)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>psdt</strong>(mx,nx)</td><td></td>
+  <td><strong>psdt</strong>(mx,nx)</td><td><p>log(surface pressure) tendency</p></td>
   
 </tr>
 

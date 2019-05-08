@@ -1,3 +1,6 @@
+!> author: Sam Hatfield, Fred Kucharski, Franco Molteni
+!  date: 08/05/2019
+!  The master initialization module.
 module initialization
     implicit none
 
@@ -5,7 +8,7 @@ module initialization
     public initialize
 
 contains
-    ! Initialization of atmospheric model and coupling interface
+    !> Initializes everything.
     subroutine initialize
         use params, only: issty0
         use date, only: newdate, model_datetime, start_datetime, end_datetime, isst0
@@ -37,6 +40,7 @@ contains
         read (2,*) end_datetime%minute
         model_datetime = start_datetime
 
+        ! Initialize date
         call newdate(0)
 
         write(*,'(A12,I4,A,I0.2,A,I0.2,A,I0.2,A,I0.2)') 'Start date: ', &
@@ -46,6 +50,7 @@ contains
             & end_datetime%year,'/',end_datetime%month,'/',end_datetime%day,' ', &
             & end_datetime%hour,':',end_datetime%minute
 
+        ! Initialize month index for reading SST anomaly file
         isst0 = (start_datetime%year - issty0) * 12 + start_datetime%month
 
         ! Check consistency of coupling and prescribed SST anomaly flags
@@ -93,6 +98,7 @@ contains
         call first_step
     end subroutine
 
+    !> Prints SPEEDY.f90 banner.
     subroutine print_speedy_title
         write (*,'(A)') ''
         write (*,'(A)') '  _____ ______  _____  _____ ______ __   __     __  _____  _____'

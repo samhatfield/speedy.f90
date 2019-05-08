@@ -1,3 +1,6 @@
+!> author: Sam Hatfield, Fred Kucharski, Franco Molteni
+!  date: 08/05/2019
+!  For performing input and output
 module input_output
     use netcdf
     use params
@@ -7,6 +10,7 @@ module input_output
     private
     public output, load_boundary_file
 
+    !> Interface for reading boundary files.
     interface load_boundary_file
         module procedure load_boundary_file_2d
         module procedure load_boundary_file_one_month_from_year
@@ -14,8 +18,10 @@ module input_output
     end interface
 
 contains
+    !> Loads the given 2D field from the given boundary file.
     function load_boundary_file_2d(file_name, field_name) result(field)
-        character(len=*), intent(in) :: file_name, field_name
+        character(len=*), intent(in) :: file_name  !! The NetCDF file to read from
+        character(len=*), intent(in) :: field_name !! The field to read
 
         integer :: ncid, varid
         real(4), dimension(ix,il) :: raw_input
@@ -30,11 +36,14 @@ contains
 
         ! Fix undefined values
         where (field <= -999) field = 0.0
-    end
+    end function
 
+    !> Loads the given 2D field at the given month from the given monthly
+    !  boundary file.
     function load_boundary_file_one_month_from_year(file_name, field_name, month) result(field)
-        character(len=*), intent(in) :: file_name, field_name
-        integer, intent(in) :: month
+        character(len=*), intent(in) :: file_name  !! The NetCDF file to read from
+        character(len=*), intent(in) :: field_name !! The field to read
+        integer, intent(in)          :: month      !! The month to read
 
         integer :: ncid, varid
         real(4), dimension(ix,il,12) :: raw_input
@@ -51,10 +60,19 @@ contains
         where (field <= -999) field = 0.0
     end
 
+    !> Loads the given 2D field at the given month from the given boundary file
+    !  of a given length.
+    !  This is used for reading the SST anomalies from a particular month of a
+    !  particular year. The SST anomalies are stored in a long multidecadal
+    !  file and the total number of months in this file must be passed as an
+    !  argument (`length`).
     function load_boundary_file_one_month_from_long(file_name, field_name, month, length) &
         & result(field)
-        character(len=*), intent(in) :: file_name, field_name
-        integer, intent(in) :: month, length
+        character(len=*), intent(in) :: file_name  !! The NetCDF file to read from
+        character(len=*), intent(in) :: field_name !! The field to read
+        integer, intent(in)          :: month      !! The month to read
+        integer, intent(in)          :: length     !! The total length of the file in number of
+                                                   !! months
 
         integer :: ncid, varid
         real(4), dimension(ix,il,length) :: raw_input
@@ -71,17 +89,21 @@ contains
         where (field <= -999) field = 0.0
     end
 
+    !> Writes a snapshot of all prognostic variables to a NetCDF file.
     subroutine output(timestep, vor, div, t, ps, tr, phi)
         use geometry, only: radang, fsg
         use physical_constants, only: p0, grav
         use date, only: model_datetime, start_datetime
         use spectral, only: spec_to_grid, uvspec
 
-        integer, intent(in) :: timestep
-        complex, dimension(mx,nx,kx,2) ::  vor, div, t
-        complex, dimension(mx,nx,2) :: ps
-        complex, dimension(mx,nx,kx,2,ntr) :: tr
-        complex, dimension(mx,nx,kx) :: phi
+        integer, intent(in) :: timestep           !! The time step that is being written
+        complex, intent(in) :: vor(mx,nx,kx,2)    !! Vorticity
+        complex, intent(in) :: div(mx,nx,kx,2)    !! Divergence
+        complex, intent(in) :: t(mx,nx,kx,2)      !! Temperature
+        complex, intent(in) :: ps(mx,nx,2)        !! log(normalized surface pressure)
+        complex, intent(in) :: tr(mx,nx,kx,2,ntr) !! Tracers
+        complex, intent(in) :: phi(mx,nx,kx)      !! Geopotential
+
         complex, dimension(mx,nx) :: ucos, vcos
         real, dimension(ix,il,kx) :: u_grid, v_grid, t_grid, q_grid, phi_grid
         real, dimension(ix,il) :: ps_grid
@@ -192,7 +214,7 @@ contains
         call check(nf90_close(ncid))
     end subroutine
 
-    ! Handles any errors from the NetCDF API
+    !> Handles any errors from the NetCDF API.
     subroutine check(ierr)
         integer, intent(in) :: ierr
 
