@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="An intermediate complexity atmospheric general circulation model">
+    
+    <meta name="author" content="Sam Hatfield" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>date &ndash; SPEEDY.f90</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">SPEEDY.f90 </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            <li><a href="../program/speedy.html">Program</a></li>
+      
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../program/speedy.html">Program</a></li>
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>date 
+    <small>Module</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     <li><i class="fa fa-pencil"></i> Sam Hatfield, Fred Kucharski, Franco Molteni</li>
+     
+     
+    <li><i class="fa fa-calendar-o"></i> 01/05/2019</li>
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 2.5% of total for modules and submodules.">84 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/date.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/date.f90.html'>date.f90</a></li>
+    
+  
+     <li class="active">date</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/date.html#variable-model_datetime">model_datetime</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-start_datetime">start_datetime</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-end_datetime">end_datetime</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-imont1">imont1</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-tmonth">tmonth</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-tyear%7E3">tyear</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-isst0">isst0</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-ndaycal">ndaycal</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-ncal">ncal</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-ncal365">ncal365</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#types-0">Derived Types</a></h3></div>
+  <div id="types-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/date.html#type-datetime">datetime</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
+  <div id="funcs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/date.html#proc-datetime_equal">datetime_equal</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-0" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/date.html#proc-newdate">newdate</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <p>For keeping track of the model's date and time.</p>
+      <br>
+    
+  
+
+    
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Used by</h3>
+      </div>
+      <ul class="list-group">
+  
+  
+  <li class="list-group-item">
+    <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: module~~date~~UsedByGraph Pages: 1 -->
+<svg id="moduledateUsedByGraph" width="314pt" height="360pt"
+ viewBox="0.00 0.00 314.00 360.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~date~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 356)">
+<title>module~~date~~UsedByGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-356 310,-356 310,4 -4,4"/>
+<!-- module~date -->
+<g id="module~~date~~UsedByGraph_node1" class="node"><title>module~date</title>
+<polygon fill="none" stroke="black" points="54,-190 0,-190 0,-166 54,-166 54,-190"/>
+<text text-anchor="middle" x="27" y="-175.6" font-family="Helvetica,sans-Serif" font-size="10.50">date</text>
+</g>
+<!-- proc~output -->
+<g id="module~~date~~UsedByGraph_node2" class="node"><title>proc~output</title>
+<g id="a_module~~date~~UsedByGraph_node2"><a xlink:href=".././proc/output.html" xlink:title="output">
+<polygon fill="#d9534f" stroke="#d9534f" points="160,-352 106,-352 106,-328 160,-328 160,-352"/>
+<text text-anchor="middle" x="133" y="-337.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">output</text>
+</a>
+</g>
+</g>
+<!-- proc~output&#45;&gt;module~date -->
+<g id="module~~date~~UsedByGraph_edge8" class="edge"><title>proc~output&#45;&gt;module~date</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M105.68,-330.341C99.9955,-327.355 94.384,-323.606 90,-319 57.3245,-284.67 40.1757,-230.292 32.7164,-200.08"/>
+<polygon fill="#000000" stroke="#000000" points="36.0746,-199.069 30.3958,-190.125 29.2574,-200.658 36.0746,-199.069"/>
+</g>
+<!-- proc~sea_model_init -->
+<g id="module~~date~~UsedByGraph_node3" class="node"><title>proc~sea_model_init</title>
+<g id="a_module~~date~~UsedByGraph_node3"><a xlink:href=".././proc/sea_model_init.html" xlink:title="sea_model_init">
+<polygon fill="#d9534f" stroke="#d9534f" points="175.5,-310 90.5,-310 90.5,-286 175.5,-286 175.5,-310"/>
+<text text-anchor="middle" x="133" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sea_model_init</text>
+</a>
+</g>
+</g>
+<!-- proc~sea_model_init&#45;&gt;module~date -->
+<g id="module~~date~~UsedByGraph_edge2" class="edge"><title>proc~sea_model_init&#45;&gt;module~date</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M108.47,-285.899C102.067,-281.975 95.4125,-277.259 90,-272 67.8292,-250.458 49.3927,-219.665 38.536,-199.268"/>
+<polygon fill="#000000" stroke="#000000" points="41.5359,-197.449 33.8321,-190.176 35.3187,-200.666 41.5359,-197.449"/>
+</g>
+<!-- proc~couple_land_atm -->
+<g id="module~~date~~UsedByGraph_node4" class="node"><title>proc~couple_land_atm</title>
+<g id="a_module~~date~~UsedByGraph_node4"><a xlink:href=".././proc/couple_land_atm.html" xlink:title="couple_land_atm">
+<polygon fill="#d9534f" stroke="#d9534f" points="306,-260 212,-260 212,-236 306,-236 306,-260"/>
+<text text-anchor="middle" x="259" y="-245.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">couple_land_atm</text>
+</a>
+</g>
+</g>
+<!-- proc~couple_land_atm&#45;&gt;module~date -->
+<g id="module~~date~~UsedByGraph_edge4" class="edge"><title>proc~couple_land_atm&#45;&gt;module~date</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M211.766,-254.086C176.829,-256.699 128.483,-255.973 90,-239 70.3208,-230.32 53.3467,-212.415 42.1597,-198.238"/>
+<polygon fill="#000000" stroke="#000000" points="44.7777,-195.895 35.9696,-190.007 39.1834,-200.103 44.7777,-195.895"/>
+</g>
+<!-- module~interpolation -->
+<g id="module~~date~~UsedByGraph_node8" class="node"><title>module~interpolation</title>
+<g id="a_module~~date~~UsedByGraph_node8"><a xlink:href=".././module/interpolation.html" xlink:title="interpolation">
+<polygon fill="#337ab7" stroke="#337ab7" points="168.5,-230 97.5,-230 97.5,-206 168.5,-206 168.5,-230"/>
+<text text-anchor="middle" x="133" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">interpolation</text>
+</a>
+</g>
+</g>
+<!-- proc~couple_land_atm&#45;&gt;module~interpolation -->
+<g id="module~~date~~UsedByGraph_edge11" class="edge"><title>proc~couple_land_atm&#45;&gt;module~interpolation</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M211.827,-236.829C200.861,-234.176 189.188,-231.352 178.308,-228.72"/>
+<polygon fill="#000000" stroke="#000000" points="179.125,-225.316 168.582,-226.367 177.479,-232.12 179.125,-225.316"/>
+</g>
+<!-- proc~set_forcing -->
+<g id="module~~date~~UsedByGraph_node5" class="node"><title>proc~set_forcing</title>
+<g id="a_module~~date~~UsedByGraph_node5"><a xlink:href=".././proc/set_forcing.html" xlink:title="set_forcing">
+<polygon fill="#d9534f" stroke="#d9534f" points="165.5,-150 100.5,-150 100.5,-126 165.5,-126 165.5,-150"/>
+<text text-anchor="middle" x="133" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">set_forcing</text>
+</a>
+</g>
+</g>
+<!-- proc~set_forcing&#45;&gt;module~date -->
+<g id="module~~date~~UsedByGraph_edge3" class="edge"><title>proc~set_forcing&#45;&gt;module~date</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M100.797,-150.001C89.0882,-154.505 75.6958,-159.655 63.6169,-164.301"/>
+<polygon fill="#000000" stroke="#000000" points="62.3458,-161.04 54.2688,-167.897 64.8587,-167.573 62.3458,-161.04"/>
+</g>
+<!-- proc~couple_sea_atm -->
+<g id="module~~date~~UsedByGraph_node6" class="node"><title>proc~couple_sea_atm</title>
+<g id="a_module~~date~~UsedByGraph_node6"><a xlink:href=".././proc/couple_sea_atm.html" xlink:title="couple_sea_atm">
+<polygon fill="#d9534f" stroke="#d9534f" points="304.5,-199 213.5,-199 213.5,-175 304.5,-175 304.5,-199"/>
+<text text-anchor="middle" x="259" y="-184.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">couple_sea_atm</text>
+</a>
+</g>
+</g>
+<!-- proc~couple_sea_atm&#45;&gt;module~date -->
+<g id="module~~date~~UsedByGraph_edge5" class="edge"><title>proc~couple_sea_atm&#45;&gt;module~date</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M213.381,-185.254C169.97,-183.555 104.819,-181.006 64.4343,-179.426"/>
+<polygon fill="#000000" stroke="#000000" points="64.3635,-175.92 54.2343,-179.027 64.0897,-182.915 64.3635,-175.92"/>
+</g>
+<!-- proc~couple_sea_atm&#45;&gt;module~interpolation -->
+<g id="module~~date~~UsedByGraph_edge10" class="edge"><title>proc~couple_sea_atm&#45;&gt;module~interpolation</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M213.233,-198.192C201.858,-201.035 189.643,-204.089 178.292,-206.927"/>
+<polygon fill="#000000" stroke="#000000" points="177.435,-203.534 168.582,-209.354 179.132,-210.325 177.435,-203.534"/>
+</g>
+<!-- program~speedy -->
+<g id="module~~date~~UsedByGraph_node7" class="node"><title>program~speedy</title>
+<g id="a_module~~date~~UsedByGraph_node7"><a xlink:href=".././program/speedy.html" xlink:title="speedy">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="160,-108 106,-108 106,-84 160,-84 160,-108"/>
+<text text-anchor="middle" x="133" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">speedy</text>
+</a>
+</g>
+</g>
+<!-- program~speedy&#45;&gt;module~date -->
+<g id="module~~date~~UsedByGraph_edge6" class="edge"><title>program~speedy&#45;&gt;module~date</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M105.942,-107.432C100.488,-110.258 94.9083,-113.493 90,-117 73.4719,-128.811 57.1931,-145.054 45.4661,-157.81"/>
+<polygon fill="#000000" stroke="#000000" points="42.5405,-155.829 38.4601,-165.606 47.7473,-160.508 42.5405,-155.829"/>
+</g>
+<!-- module~interpolation&#45;&gt;module~date -->
+<g id="module~~date~~UsedByGraph_edge7" class="edge"><title>module~interpolation&#45;&gt;module~date</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M100.797,-205.999C89.0882,-201.495 75.6958,-196.345 63.6169,-191.699"/>
+<polygon fill="#000000" stroke="#000000" points="64.8587,-188.427 54.2688,-188.103 62.3458,-194.96 64.8587,-188.427"/>
+</g>
+<!-- proc~initialize -->
+<g id="module~~date~~UsedByGraph_node9" class="node"><title>proc~initialize</title>
+<g id="a_module~~date~~UsedByGraph_node9"><a xlink:href=".././proc/initialize.html" xlink:title="initialize">
+<polygon fill="#d9534f" stroke="#d9534f" points="160,-66 106,-66 106,-42 160,-42 160,-66"/>
+<text text-anchor="middle" x="133" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize&#45;&gt;module~date -->
+<g id="module~~date~~UsedByGraph_edge1" class="edge"><title>proc~initialize&#45;&gt;module~date</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M105.654,-64.3076C100.099,-67.2338 94.549,-70.7935 90,-75 65.0169,-98.102 46.7092,-133.553 36.7069,-156.254"/>
+<polygon fill="#000000" stroke="#000000" points="33.3842,-155.125 32.7015,-165.698 39.8285,-157.858 33.3842,-155.125"/>
+</g>
+<!-- proc~obs_ssta -->
+<g id="module~~date~~UsedByGraph_node10" class="node"><title>proc~obs_ssta</title>
+<g id="a_module~~date~~UsedByGraph_node10"><a xlink:href=".././proc/obs_ssta.html" xlink:title="obs_ssta">
+<polygon fill="#d9534f" stroke="#d9534f" points="160.5,-24 105.5,-24 105.5,-0 160.5,-0 160.5,-24"/>
+<text text-anchor="middle" x="133" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">obs_ssta</text>
+</a>
+</g>
+</g>
+<!-- proc~obs_ssta&#45;&gt;module~date -->
+<g id="module~~date~~UsedByGraph_edge9" class="edge"><title>proc~obs_ssta&#45;&gt;module~date</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M105.208,-21.8579C99.6763,-24.8075 94.2486,-28.4904 90,-33 56.412,-68.6516 39.4896,-125.29 32.3435,-156.17"/>
+<polygon fill="#000000" stroke="#000000" points="28.9236,-155.425 30.2122,-165.942 35.7629,-156.917 28.9236,-155.425"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="489pt" height="32pt"
+ viewBox="0.00 0.00 489.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28 485,-28 485,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node"><title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,-0 54,-0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node"><title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="139.25,-24 72.75,-24 72.75,-0 139.25,-0 139.25,-24"/>
+<text text-anchor="middle" x="106" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node"><title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="222,-24 158,-24 158,-0 222,-0 222,-24"/>
+<text text-anchor="middle" x="190" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node"><title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="294,-24 240,-24 240,-0 294,-0 294,-24"/>
+<text text-anchor="middle" x="267" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node"><title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="366,-24 312,-24 312,-0 366,-0 366,-24"/>
+<text text-anchor="middle" x="339" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node"><title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="481.25,-24 384.75,-24 384.75,-0 481.25,-0 481.25,-24"/>
+<text text-anchor="middle" x="433" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses.
+    </p>
+    </div></div></div></div>
+  </li>
+  
+      </ul>
+    </div>
+    
+
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/date.html#variable-model_datetime">model_datetime</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-start_datetime">start_datetime</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-end_datetime">end_datetime</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-imont1">imont1</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-tmonth">tmonth</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-tyear%7E3">tyear</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-isst0">isst0</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-ndaycal">ndaycal</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-ncal">ncal</a>
+      
+      <a class="list-group-item" href="../module/date.html#variable-ncal365">ncal365</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#types-1">Derived Types</a></h3></div>
+  <div id="types-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/date.html#type-datetime">datetime</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
+  <div id="funcs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/date.html#proc-datetime_equal">datetime_equal</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-1" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/date.html#proc-newdate">newdate</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    <section>
+    <h2>Variables</h2>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-model_datetime"></span>type(<a href='../type/datetime.html'>datetime</a>),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>model_datetime</strong></td><td></td><td></td><td><p>The model's current datetime (continuously updated)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-start_datetime"></span>type(<a href='../type/datetime.html'>datetime</a>),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>start_datetime</strong></td><td></td><td></td><td><p>The start datetime</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-end_datetime"></span>type(<a href='../type/datetime.html'>datetime</a>),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>end_datetime</strong></td><td></td><td></td><td><p>The end datetime</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-imont1"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>imont1</strong></td><td></td><td></td><td><p>The month used for computing seasonal forcing fields</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-tmonth"></span>real,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>tmonth</strong></td><td></td><td></td><td><p>The fraction of the current month elapsed</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-tyear%7E3"></span>real,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>tyear</strong></td><td></td><td></td><td><p>The fraction of the current year elapsed</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-isst0"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>isst0</strong></td><td></td><td></td><td><p>Initial month of SST anomalies</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ndaycal"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>ndaycal</strong>(12,2)</td><td></td><td></td><td><p>The model calendar</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ncal"></span>integer,</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>ncal</strong></td><td> =</td><td>365</td><td><p>The number of days in a year</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ncal365"></span>integer,</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>ncal365</strong>(12)</td><td> =</td><td>(/31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31/)</td><td><p>The number of days in each month</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+    
+    
+    
+
+    
+    
+    
+    <section>
+     <h2>Derived Types</h2>
+   
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-datetime"></span><h3>type, private :: <a href='../type/datetime.html'>datetime</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+    
+    <p>For storing dates and times.</p>
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-year"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>year</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-month"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>month</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-day"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>day</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-hour"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>hour</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-minute"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>minute</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+          
+     
+  </div>
+</div>
+
+     
+    </section>
+  <br>
+    
+    
+     
+    <section>
+    <h2>Functions</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-datetime_equal"></span><h3>
+public function <a href='../proc/datetime_equal.html'>datetime_equal</a>(datetime1, datetime2)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Checks whether two datetimes are equal.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/datetime.html'>datetime</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>datetime1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/datetime.html'>datetime</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>datetime2</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>logical
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    </section>
+    <br>
+    
+
+    
+    <section>
+    <h2>Subroutines</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-newdate"></span><h3>
+public subroutine <a href='../proc/newdate.html'>newdate</a>(imode)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Updates the current datetime and related date variables.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>imode</strong></td><td><p>Mode -&gt; 0 for initialization, &gt; 0 for update</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    </section>    
+    <br>
+    
+    
+    
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2019 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> SPEEDY.f90 was developed by Sam Hatfield</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

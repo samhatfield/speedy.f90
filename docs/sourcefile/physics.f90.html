@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="An intermediate complexity atmospheric general circulation model">
+    
+    <meta name="author" content="Sam Hatfield" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>physics.f90 &ndash; SPEEDY.f90</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">SPEEDY.f90 </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            <li><a href="../program/speedy.html">Program</a></li>
+      
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../program/speedy.html">Program</a></li>
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>physics.f90
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 2.7% of total for source files.">123 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/physics.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">physics.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-0">Modules</a></h3></div>
+  <div id="mods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/physics.html">physics</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/physics.f90.html#src">physics.f90</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: sourcefile~~physics.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefilephysicsf90EfferentGraph" width="641pt" height="534pt"
+ viewBox="0.00 0.00 641.00 533.61" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~physics.f90~~EfferentGraph" class="graph" transform="scale(0.518608 0.518608) rotate(0) translate(4 1024.92)">
+<title>sourcefile~~physics.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-1024.92 1232,-1024.92 1232,4 -4,4"/>
+<!-- sourcefile~physics.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node1" class="node"><title>sourcefile~physics.f90</title>
+<polygon fill="none" stroke="black" points="1228,-378 1162,-378 1162,-354 1228,-354 1228,-378"/>
+<text text-anchor="middle" x="1195" y="-363.6" font-family="Helvetica,sans-Serif" font-size="10.50">physics.f90</text>
+</g>
+<!-- sourcefile~spectral.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node2" class="node"><title>sourcefile~spectral.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/spectral.f90.html" xlink:title="spectral.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="622,-530 554,-530 554,-506 622,-506 622,-530"/>
+<text text-anchor="middle" x="588" y="-515.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">spectral.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~spectral.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge1" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~spectral.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1194.47,-378.148C1195.71,-429.884 1192.89,-632.994 1077,-716"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1075,-716C1021.15,-754.57 1006.81,-668.491 948,-638"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M946,-638C911.592,-620.159 904.092,-613.128 868,-599 786.643,-567.154 687.648,-541.32 632.132,-527.942"/>
+<polygon fill="#000000" stroke="#000000" points="632.826,-524.509 622.286,-525.59 631.199,-531.317 632.826,-524.509"/>
+</g>
+<!-- sourcefile~longwave_radiation.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node3" class="node"><title>sourcefile~longwave_radiation.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/longwave_radiation.f90.html" xlink:title="longwave_radiation.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="515.5,-886 392.5,-886 392.5,-862 515.5,-862 515.5,-886"/>
+<text text-anchor="middle" x="454" y="-871.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">longwave_radiation.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~longwave_radiation.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge3" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~longwave_radiation.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M587,-794C550.174,-792.491 549.585,-821.005 518,-840 508.314,-845.825 497.56,-851.802 487.719,-857.088"/>
+<polygon fill="#000000" stroke="#000000" points="485.818,-854.134 478.628,-861.916 489.101,-860.317 485.818,-854.134"/>
+</g>
+<!-- sourcefile~geometry.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node4" class="node"><title>sourcefile~geometry.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/geometry.f90.html" xlink:title="geometry.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="346,-764 270,-764 270,-740 346,-740 346,-764"/>
+<text text-anchor="middle" x="308" y="-749.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge2" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M825,-794C720.452,-785.556 693.801,-798.294 589,-794"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M587,-794C545.495,-792.661 554.111,-751.505 518,-731 492.569,-716.559 483.557,-705.689 455,-712"/>
+</g>
+<!-- sourcefile~surface_fluxes.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node5" class="node"><title>sourcefile~surface_fluxes.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/surface_fluxes.f90.html" xlink:title="surface_fluxes.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1126,-378 1026,-378 1026,-354 1126,-354 1126,-378"/>
+<text text-anchor="middle" x="1076" y="-363.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">surface_fluxes.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~surface_fluxes.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge4" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~surface_fluxes.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1161.72,-366C1153.84,-366 1145.17,-366 1136.46,-366"/>
+<polygon fill="#000000" stroke="#000000" points="1136.28,-362.5 1126.28,-366 1136.28,-369.5 1136.28,-362.5"/>
+</g>
+<!-- sourcefile~boundaries.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node6" class="node"><title>sourcefile~boundaries.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/boundaries.f90.html" xlink:title="boundaries.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="868,-338 784,-338 784,-314 868,-314 868,-338"/>
+<text text-anchor="middle" x="826" y="-323.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">boundaries.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~boundaries.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge5" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~boundaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1075,-113C1025.4,-75.8186 917.353,-262.488 868,-300 864.276,-302.831 860.239,-305.656 856.201,-308.345"/>
+<polygon fill="#000000" stroke="#000000" points="853.989,-305.607 847.478,-313.964 857.78,-311.491 853.989,-305.607"/>
+</g>
+<!-- sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node7" class="node"><title>sourcefile~params.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node7"><a xlink:href=".././sourcefile/params.f90.html" xlink:title="params.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="67.5,-734 0.5,-734 0.5,-710 67.5,-710 67.5,-734"/>
+<text text-anchor="middle" x="34" y="-719.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">params.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge6" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M587,-994C469.07,-1030.86 427.568,-1028.75 309,-994"/>
+</g>
+<!-- sourcefile~shortwave_radiation.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node8" class="node"><title>sourcefile~shortwave_radiation.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node8"><a xlink:href=".././sourcefile/shortwave_radiation.f90.html" xlink:title="shortwave_radiation.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="517.5,-966 390.5,-966 390.5,-942 517.5,-942 517.5,-966"/>
+<text text-anchor="middle" x="454" y="-951.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">shortwave_radiation.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~shortwave_radiation.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge7" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~shortwave_radiation.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M825,-794C756.61,-787.03 653.867,-971.241 589,-994"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M587,-994C578.252,-996.734 532.753,-981.891 497.592,-969.517"/>
+<polygon fill="#000000" stroke="#000000" points="498.582,-966.154 487.988,-966.109 496.241,-972.751 498.582,-966.154"/>
+</g>
+<!-- sourcefile~sea_model.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node9" class="node"><title>sourcefile~sea_model.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node9"><a xlink:href=".././sourcefile/sea_model.f90.html" xlink:title="sea_model.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="988.5,-146 905.5,-146 905.5,-122 988.5,-122 988.5,-146"/>
+<text text-anchor="middle" x="947" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sea_model.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~sea_model.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge8" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~sea_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1075,-113C1062.49,-103.626 1025.75,-110.763 994.976,-119.168"/>
+<polygon fill="#000000" stroke="#000000" points="993.905,-115.834 985.235,-121.922 995.81,-122.57 993.905,-115.834"/>
+</g>
+<!-- sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node10" class="node"><title>sourcefile~physical_constants.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node10"><a xlink:href=".././sourcefile/physical_constants.f90.html" xlink:title="physical_constants.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="225.5,-734 104.5,-734 104.5,-710 225.5,-710 225.5,-734"/>
+<text text-anchor="middle" x="165" y="-719.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">physical_constants.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge14" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1075,-716C981.063,-783.28 942.145,-803.606 827,-794"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M825,-794C718.401,-790.395 724.468,-695.608 622,-666 473.012,-622.95 287.294,-677.597 206.584,-706.372"/>
+<polygon fill="#000000" stroke="#000000" points="205.025,-703.214 196.816,-709.912 207.41,-709.795 205.025,-703.214"/>
+</g>
+<!-- sourcefile~sppt.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node11" class="node"><title>sourcefile~sppt.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node11"><a xlink:href=".././sourcefile/sppt.f90.html" xlink:title="sppt.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="730,-614 676,-614 676,-590 730,-590 730,-614"/>
+<text text-anchor="middle" x="703" y="-599.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sppt.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~sppt.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge10" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~sppt.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M946,-638C877.833,-607.225 788.951,-601.754 740.099,-601.337"/>
+<polygon fill="#000000" stroke="#000000" points="740.023,-597.837 730.016,-601.319 740.01,-604.837 740.023,-597.837"/>
+</g>
+<!-- sourcefile~land_model.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node12" class="node"><title>sourcefile~land_model.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node12"><a xlink:href=".././sourcefile/land_model.f90.html" xlink:title="land_model.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="990,-104 904,-104 904,-80 990,-80 990,-104"/>
+<text text-anchor="middle" x="947" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">land_model.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~land_model.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge11" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~land_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1075,-113C1053.78,-97.0958 1024.95,-91.4231 1000.12,-89.9142"/>
+<polygon fill="#000000" stroke="#000000" points="1000.25,-86.4166 990.117,-89.5117 999.968,-93.4109 1000.25,-86.4166"/>
+</g>
+<!-- sourcefile~vertical_diffusion.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node13" class="node"><title>sourcefile~vertical_diffusion.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node13"><a xlink:href=".././sourcefile/vertical_diffusion.f90.html" xlink:title="vertical_diffusion.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="509,-806 399,-806 399,-782 509,-782 509,-806"/>
+<text text-anchor="middle" x="454" y="-791.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vertical_diffusion.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~vertical_diffusion.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge12" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~vertical_diffusion.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M587,-794C564.96,-793.097 540.832,-792.873 519.303,-792.945"/>
+<polygon fill="#000000" stroke="#000000" points="519.269,-789.445 509.288,-793 519.307,-796.445 519.269,-789.445"/>
+</g>
+<!-- sourcefile~humidity.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node14" class="node"><title>sourcefile~humidity.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node14"><a xlink:href=".././sourcefile/humidity.f90.html" xlink:title="humidity.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="982,-24 912,-24 912,-0 982,-0 982,-24"/>
+<text text-anchor="middle" x="947" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">humidity.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~humidity.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge13" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~humidity.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1192.45,-353.992C1186.43,-312.706 1160.64,-175.695 1077,-113"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1075,-113C1034.69,-82.7819 1030.45,-68.0326 990,-38 986.075,-35.0861 981.816,-32.1809 977.566,-29.4248"/>
+<polygon fill="#000000" stroke="#000000" points="979.295,-26.3774 968.965,-24.0224 975.571,-32.3052 979.295,-26.3774"/>
+</g>
+<!-- sourcefile~precipitation.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node15" class="node"><title>sourcefile~precipitation.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node15"><a xlink:href=".././sourcefile/precipitation.f90.html" xlink:title="precipitation.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="498,-764 410,-764 410,-740 498,-740 498,-764"/>
+<text text-anchor="middle" x="454" y="-749.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">precipitation.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~precipitation.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge9" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~precipitation.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M587,-794C582.47,-793.814 537.462,-779.27 501.243,-767.35"/>
+<polygon fill="#000000" stroke="#000000" points="501.894,-763.879 491.301,-764.071 499.702,-770.527 501.894,-763.879"/>
+</g>
+<!-- sourcefile~auxiliaries.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node16" class="node"><title>sourcefile~auxiliaries.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node16"><a xlink:href=".././sourcefile/auxiliaries.f90.html" xlink:title="auxiliaries.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="865,-144 787,-144 787,-120 865,-120 865,-144"/>
+<text text-anchor="middle" x="826" y="-129.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">auxiliaries.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~auxiliaries.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge15" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~auxiliaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1075,-113C1011.12,-67.7974 976.511,-41.5615 904,-71 883.324,-79.3943 885.516,-92.1734 868,-106 864.405,-108.838 860.488,-111.643 856.549,-114.3"/>
+<polygon fill="#000000" stroke="#000000" points="854.492,-111.463 848.005,-119.84 858.3,-117.337 854.492,-111.463"/>
+</g>
+<!-- sourcefile~spectral.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge16" class="edge"><title>sourcefile~spectral.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M573.627,-530.053C559.809,-542.453 537.561,-562.265 518,-579 451.117,-636.219 370.516,-702.083 331.86,-733.484"/>
+<polygon fill="#000000" stroke="#000000" points="329.393,-730.979 323.834,-739.998 333.804,-736.414 329.393,-730.979"/>
+</g>
+<!-- sourcefile~spectral.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge17" class="edge"><title>sourcefile~spectral.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M575.241,-505.734C536.724,-467.098 410.973,-353.189 309,-400"/>
+</g>
+<!-- sourcefile~spectral.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge20" class="edge"><title>sourcefile~spectral.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M553.865,-513.307C489.034,-504.833 348.311,-490.132 309,-516"/>
+</g>
+<!-- sourcefile~legendre.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node18" class="node"><title>sourcefile~legendre.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node18"><a xlink:href=".././sourcefile/legendre.f90.html" xlink:title="legendre.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="490.5,-490 417.5,-490 417.5,-466 490.5,-466 490.5,-490"/>
+<text text-anchor="middle" x="454" y="-475.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">legendre.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~spectral.f90&#45;&gt;sourcefile~legendre.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge18" class="edge"><title>sourcefile~spectral.f90&#45;&gt;sourcefile~legendre.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M553.691,-507.906C537.602,-503.031 518.046,-497.105 500.599,-491.818"/>
+<polygon fill="#000000" stroke="#000000" points="501.198,-488.342 490.612,-488.792 499.168,-495.041 501.198,-488.342"/>
+</g>
+<!-- sourcefile~fourier.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node22" class="node"><title>sourcefile~fourier.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node22"><a xlink:href=".././sourcefile/fourier.f90.html" xlink:title="fourier.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="484.5,-570 423.5,-570 423.5,-546 484.5,-546 484.5,-570"/>
+<text text-anchor="middle" x="454" y="-555.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fourier.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~spectral.f90&#45;&gt;sourcefile~fourier.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge19" class="edge"><title>sourcefile~spectral.f90&#45;&gt;sourcefile~fourier.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M553.691,-528.094C535.693,-533.548 513.357,-540.316 494.488,-546.034"/>
+<polygon fill="#000000" stroke="#000000" points="493.251,-542.752 484.695,-549.001 495.281,-549.451 493.251,-542.752"/>
+</g>
+<!-- sourcefile~longwave_radiation.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge22" class="edge"><title>sourcefile~longwave_radiation.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M439.851,-861.92C427.024,-850.08 407.014,-831.465 390,-815 373.74,-799.264 371.835,-792.925 354,-779 349.799,-775.72 345.168,-772.529 340.523,-769.558"/>
+<polygon fill="#000000" stroke="#000000" points="342.04,-766.383 331.683,-764.149 338.386,-772.354 342.04,-766.383"/>
+</g>
+<!-- sourcefile~longwave_radiation.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge21" class="edge"><title>sourcefile~longwave_radiation.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M307,-872C246.256,-856.595 225.778,-890.806 166,-872"/>
+</g>
+<!-- sourcefile~longwave_radiation.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge23" class="edge"><title>sourcefile~longwave_radiation.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M392.279,-879.378C366.27,-880.093 335.78,-878.791 309,-872"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M307,-872C241.17,-855.305 195.382,-780.751 176.152,-743.429"/>
+<polygon fill="#000000" stroke="#000000" points="179.235,-741.769 171.638,-734.384 172.972,-744.894 179.235,-741.769"/>
+</g>
+<!-- sourcefile~mod_radcon.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node21" class="node"><title>sourcefile~mod_radcon.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node21"><a xlink:href=".././sourcefile/mod_radcon.f90.html" xlink:title="mod_radcon.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="353.5,-924 262.5,-924 262.5,-900 353.5,-900 353.5,-924"/>
+<text text-anchor="middle" x="308" y="-909.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mod_radcon.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~longwave_radiation.f90&#45;&gt;sourcefile~mod_radcon.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge24" class="edge"><title>sourcefile~longwave_radiation.f90&#45;&gt;sourcefile~mod_radcon.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M407.438,-886.023C393.512,-889.698 378.055,-893.777 363.594,-897.593"/>
+<polygon fill="#000000" stroke="#000000" points="362.549,-894.249 353.773,-900.185 364.335,-901.017 362.549,-894.249"/>
+</g>
+<!-- sourcefile~geometry.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge25" class="edge"><title>sourcefile~geometry.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M297.351,-764.132C271.041,-796.543 197.889,-882.032 166,-872"/>
+</g>
+<!-- sourcefile~geometry.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge26" class="edge"><title>sourcefile~geometry.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M269.954,-744.118C258.38,-741.655 245.241,-738.86 232.292,-736.105"/>
+<polygon fill="#000000" stroke="#000000" points="232.965,-732.67 222.455,-734.012 231.508,-739.516 232.965,-732.67"/>
+</g>
+<!-- sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge27" class="edge"><title>sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M946,-559C798.244,-637.963 742.701,-613.343 589,-680"/>
+</g>
+<!-- sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge28" class="edge"><title>sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1071.39,-378.25C1060.13,-413.981 1021.88,-518.132 948,-559"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M946,-559C897.05,-586.077 875.736,-545.46 827,-518"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M825,-518C767.16,-485.41 798.522,-433.07 748,-390 733.508,-377.645 607.844,-328.753 589,-326"/>
+</g>
+<!-- sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge32" class="edge"><title>sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M825,-518C648.377,-434.831 575.633,-396.56 390,-457 347.65,-470.789 346.027,-491.25 309,-516"/>
+</g>
+<!-- sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~land_model.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge30" class="edge"><title>sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~land_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1074.14,-353.848C1070.74,-314.349 1055.06,-187.834 990,-113 989.158,-112.031 988.26,-111.102 987.317,-110.211"/>
+<polygon fill="#000000" stroke="#000000" points="989.431,-107.422 979.365,-104.116 985.173,-112.978 989.431,-107.422"/>
+</g>
+<!-- sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~humidity.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge31" class="edge"><title>sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~humidity.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1073.04,-353.953C1066.03,-312.774 1039.92,-174.445 990,-71 983.36,-57.2397 973.561,-43.2493 965.097,-32.3475"/>
+<polygon fill="#000000" stroke="#000000" points="967.662,-29.9514 958.682,-24.33 962.197,-34.3248 967.662,-29.9514"/>
+</g>
+<!-- sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~mod_radcon.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge29" class="edge"><title>sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~mod_radcon.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1074.67,-378.159C1072.88,-420.805 1061.57,-565.66 990,-652 952.356,-697.413 572.687,-872.892 518,-895 490.886,-905.961 483.266,-906.496 455,-914"/>
+</g>
+<!-- sourcefile~boundaries.f90&#45;&gt;sourcefile~spectral.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge33" class="edge"><title>sourcefile~boundaries.f90&#45;&gt;sourcefile~spectral.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M817.214,-338.006C804.514,-356.885 777.753,-393.844 748,-418 712.805,-446.574 696.218,-441.617 658,-466 641.921,-476.258 624.793,-489.154 611.624,-499.537"/>
+<polygon fill="#000000" stroke="#000000" points="609.227,-496.972 603.593,-505.944 613.593,-502.444 609.227,-496.972"/>
+</g>
+<!-- sourcefile~boundaries.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge34" class="edge"><title>sourcefile~boundaries.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M805.063,-313.928C781.569,-301.012 741.03,-282.779 704,-286"/>
+</g>
+<!-- sourcefile~boundaries.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge36" class="edge"><title>sourcefile~boundaries.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M813.759,-338.108C793.941,-358.224 750.466,-397.017 704,-404"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M702,-404C564.592,-424.651 512.23,-357.914 390,-424 366.542,-436.683 371.585,-451.953 354,-472 335.554,-493.028 331.784,-499.773 309,-516"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M307,-516C236.766,-562.947 191.74,-657.835 174.254,-700.437"/>
+<polygon fill="#000000" stroke="#000000" points="170.952,-699.268 170.491,-709.853 177.452,-701.865 170.952,-699.268"/>
+</g>
+<!-- sourcefile~input_output.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node17" class="node"><title>sourcefile~input_output.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node17"><a xlink:href=".././sourcefile/input_output.f90.html" xlink:title="input_output.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="748,-338 658,-338 658,-314 748,-314 748,-338"/>
+<text text-anchor="middle" x="703" y="-323.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~boundaries.f90&#45;&gt;sourcefile~input_output.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge35" class="edge"><title>sourcefile~boundaries.f90&#45;&gt;sourcefile~input_output.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M783.697,-326C775.52,-326 766.821,-326 758.289,-326"/>
+<polygon fill="#000000" stroke="#000000" points="758.01,-322.5 748.01,-326 758.01,-329.5 758.01,-322.5"/>
+</g>
+<!-- sourcefile~shortwave_radiation.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge38" class="edge"><title>sourcefile~shortwave_radiation.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M435.678,-941.829C421.51,-931.031 401.931,-914.05 390,-895 361.347,-849.251 387.337,-821.457 354,-779 351.341,-775.614 348.131,-772.558 344.664,-769.826"/>
+<polygon fill="#000000" stroke="#000000" points="346.467,-766.818 336.244,-764.035 342.5,-772.586 346.467,-766.818"/>
+</g>
+<!-- sourcefile~shortwave_radiation.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge37" class="edge"><title>sourcefile~shortwave_radiation.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M423.579,-966.121C388.056,-980.062 330.413,-1000.28 309,-994"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M307,-994C227.477,-970.694 244.883,-897.39 166,-872"/>
+</g>
+<!-- sourcefile~shortwave_radiation.f90&#45;&gt;sourcefile~mod_radcon.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge39" class="edge"><title>sourcefile~shortwave_radiation.f90&#45;&gt;sourcefile~mod_radcon.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M411.735,-941.964C395.617,-937.263 376.97,-931.825 360.021,-926.881"/>
+<polygon fill="#000000" stroke="#000000" points="360.851,-923.477 350.271,-924.037 358.891,-930.197 360.851,-923.477"/>
+</g>
+<!-- sourcefile~sea_model.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge40" class="edge"><title>sourcefile~sea_model.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M825,-404C744.015,-475.686 726.218,-497.073 658,-581 624.172,-622.618 636.693,-655.468 589,-680"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M587,-680C531.618,-704.018 513.944,-698.974 455,-712"/>
+</g>
+<!-- sourcefile~sea_model.f90&#45;&gt;sourcefile~boundaries.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge42" class="edge"><title>sourcefile~sea_model.f90&#45;&gt;sourcefile~boundaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M919.505,-146.133C913.69,-149.861 908.065,-154.473 904,-160 865.938,-211.758 905.781,-248.037 868,-300 866.017,-302.727 863.653,-305.236 861.075,-307.53"/>
+<polygon fill="#000000" stroke="#000000" points="858.715,-304.928 852.868,-313.764 862.949,-310.502 858.715,-304.928"/>
+</g>
+<!-- sourcefile~sea_model.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge44" class="edge"><title>sourcefile~sea_model.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M919.395,-146.018C913.723,-149.552 908.188,-153.875 904,-159 873.317,-196.552 898.82,-224.56 868,-262 854.581,-278.302 845.22,-275.329 827,-286"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M825,-286C778.596,-313.179 757.575,-281.339 704,-286"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M702,-286C648.925,-290.617 641.716,-333.7 589,-326"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M587,-326C526.343,-317.14 510.911,-260.865 455,-286"/>
+</g>
+<!-- sourcefile~sea_model.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge47" class="edge"><title>sourcefile~sea_model.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M943.733,-146.142C935.455,-187.417 903.26,-324.183 827,-404"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M825,-404C787.85,-442.883 757.181,-396.007 704,-404"/>
+</g>
+<!-- sourcefile~sea_model.f90&#45;&gt;sourcefile~auxiliaries.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge48" class="edge"><title>sourcefile~sea_model.f90&#45;&gt;sourcefile~auxiliaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M905.38,-133.317C895.685,-133.154 885.245,-132.979 875.244,-132.811"/>
+<polygon fill="#000000" stroke="#000000" points="875.089,-129.308 865.032,-132.639 874.972,-136.307 875.089,-129.308"/>
+</g>
+<!-- sourcefile~sea_model.f90&#45;&gt;sourcefile~input_output.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge41" class="edge"><title>sourcefile~sea_model.f90&#45;&gt;sourcefile~input_output.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M825,-286C804.388,-298.072 779.64,-307.076 757.911,-313.453"/>
+<polygon fill="#000000" stroke="#000000" points="756.841,-310.118 748.166,-316.2 758.74,-316.856 756.841,-310.118"/>
+</g>
+<!-- sourcefile~date.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node19" class="node"><title>sourcefile~date.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node19"><a xlink:href=".././sourcefile/date.f90.html" xlink:title="date.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="615,-298 561,-298 561,-274 615,-274 615,-298"/>
+<text text-anchor="middle" x="588" y="-283.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">date.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~sea_model.f90&#45;&gt;sourcefile~date.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge43" class="edge"><title>sourcefile~sea_model.f90&#45;&gt;sourcefile~date.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M825,-210C772.371,-221.094 754.137,-192.528 704,-212"/>
+</g>
+<!-- sourcefile~interpolation.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_node20" class="node"><title>sourcefile~interpolation.f90</title>
+<g id="a_sourcefile~~physics.f90~~EfferentGraph_node20"><a xlink:href=".././sourcefile/interpolation.f90.html" xlink:title="interpolation.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="747.5,-184 658.5,-184 658.5,-160 747.5,-160 747.5,-184"/>
+<text text-anchor="middle" x="703" y="-169.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">interpolation.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~sea_model.f90&#45;&gt;sourcefile~interpolation.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge45" class="edge"><title>sourcefile~sea_model.f90&#45;&gt;sourcefile~interpolation.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M925.733,-146.144C918.776,-150.419 910.984,-155.325 904,-160 870.092,-182.698 866.927,-201.583 827,-210"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M825,-210C792.285,-216.896 755.81,-202.243 731.544,-189.177"/>
+<polygon fill="#000000" stroke="#000000" points="732.994,-185.976 722.564,-184.112 729.555,-192.073 732.994,-185.976"/>
+</g>
+<!-- sourcefile~sea_model.f90&#45;&gt;sourcefile~mod_radcon.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge46" class="edge"><title>sourcefile~sea_model.f90&#45;&gt;sourcefile~mod_radcon.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M946.497,-146.105C948.035,-197.104 948.481,-397.997 868,-532 795.451,-652.796 734.29,-646.877 622,-732 592.52,-754.348 575.787,-750.103 554,-780 522.458,-823.283 556.068,-857.328 518,-895 497.212,-915.571 483.266,-906.496 455,-914"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M453,-914C424.18,-921.651 390.959,-921.74 363.693,-919.651"/>
+<polygon fill="#000000" stroke="#000000" points="363.826,-916.149 353.557,-918.755 363.21,-923.122 363.826,-916.149"/>
+</g>
+<!-- sourcefile~physical_constants.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge49" class="edge"><title>sourcefile~physical_constants.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M104.409,-722C95.3976,-722 86.2579,-722 77.6987,-722"/>
+<polygon fill="#000000" stroke="#000000" points="77.5938,-718.5 67.5938,-722 77.5938,-725.5 77.5938,-718.5"/>
+</g>
+<!-- sourcefile~sppt.f90&#45;&gt;sourcefile~spectral.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge50" class="edge"><title>sourcefile~sppt.f90&#45;&gt;sourcefile~spectral.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M680.067,-589.997C672.876,-585.811 664.951,-580.924 658,-576 641.08,-564.014 623.191,-548.898 609.868,-537.103"/>
+<polygon fill="#000000" stroke="#000000" points="611.997,-534.31 602.213,-530.245 607.326,-539.525 611.997,-534.31"/>
+</g>
+<!-- sourcefile~sppt.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge51" class="edge"><title>sourcefile~sppt.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M692.975,-614.143C678.958,-632.568 650.581,-668.171 622,-694 594.554,-718.803 578.033,-713.877 554,-742 530.498,-769.501 547.823,-794.525 518,-815 441.106,-867.792 398.999,-809.509 309,-834"/>
+</g>
+<!-- sourcefile~sppt.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge52" class="edge"><title>sourcefile~sppt.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M675.835,-605.021C620.789,-610.331 489.861,-617.424 390,-579 347.435,-562.622 346.883,-490.606 309,-516"/>
+</g>
+<!-- sourcefile~land_model.f90&#45;&gt;sourcefile~boundaries.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge54" class="edge"><title>sourcefile~land_model.f90&#45;&gt;sourcefile~boundaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M913.786,-104.038C910.066,-106.529 906.66,-109.492 904,-113 852.869,-180.446 915.644,-230.046 868,-300 866.102,-302.787 863.796,-305.337 861.257,-307.657"/>
+<polygon fill="#000000" stroke="#000000" points="858.895,-305.058 853.108,-313.933 863.167,-310.604 858.895,-305.058"/>
+</g>
+<!-- sourcefile~land_model.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge56" class="edge"><title>sourcefile~land_model.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M903.964,-85.7023C880.718,-83.7639 851.637,-83.9217 827,-92"/>
+</g>
+<!-- sourcefile~land_model.f90&#45;&gt;sourcefile~auxiliaries.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge58" class="edge"><title>sourcefile~land_model.f90&#45;&gt;sourcefile~auxiliaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M910.296,-104.001C898.52,-107.96 885.254,-112.419 872.83,-116.595"/>
+<polygon fill="#000000" stroke="#000000" points="871.454,-113.365 863.09,-119.869 873.684,-120 871.454,-113.365"/>
+</g>
+<!-- sourcefile~land_model.f90&#45;&gt;sourcefile~input_output.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge53" class="edge"><title>sourcefile~land_model.f90&#45;&gt;sourcefile~input_output.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M914.601,-104.088C910.662,-106.587 906.977,-109.539 904,-113 870.179,-152.318 900.717,-183.759 868,-224 840.875,-257.363 819.727,-248.074 784,-272 767.158,-283.279 764.759,-288.599 748,-300 743.708,-302.92 739.08,-305.863 734.494,-308.666"/>
+<polygon fill="#000000" stroke="#000000" points="732.617,-305.71 725.825,-313.841 736.205,-311.72 732.617,-305.71"/>
+</g>
+<!-- sourcefile~land_model.f90&#45;&gt;sourcefile~date.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge55" class="edge"><title>sourcefile~land_model.f90&#45;&gt;sourcefile~date.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M825,-172C772.248,-192.624 756.798,-191.495 704,-212"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M702,-212C667.65,-225.341 632.893,-250.186 611.171,-267.385"/>
+<polygon fill="#000000" stroke="#000000" points="608.825,-264.781 603.242,-273.786 613.222,-270.228 608.825,-264.781"/>
+</g>
+<!-- sourcefile~land_model.f90&#45;&gt;sourcefile~interpolation.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge57" class="edge"><title>sourcefile~land_model.f90&#45;&gt;sourcefile~interpolation.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M918.009,-104.146C913.146,-106.766 908.281,-109.74 904,-113 884.971,-127.49 887.242,-138.794 868,-153 851.843,-164.929 845.705,-164.687 827,-172"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M825,-172C803.972,-180.221 779.273,-181.539 757.691,-180.301"/>
+<polygon fill="#000000" stroke="#000000" points="757.937,-176.81 747.699,-179.538 757.404,-183.79 757.937,-176.81"/>
+</g>
+<!-- sourcefile~vertical_diffusion.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge60" class="edge"><title>sourcefile~vertical_diffusion.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M411.735,-781.964C394.345,-776.892 374.009,-770.961 356.041,-765.72"/>
+<polygon fill="#000000" stroke="#000000" points="356.915,-762.33 346.335,-762.889 354.955,-769.05 356.915,-762.33"/>
+</g>
+<!-- sourcefile~vertical_diffusion.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge59" class="edge"><title>sourcefile~vertical_diffusion.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M410.186,-806.02C381.562,-814.024 343.049,-824.734 309,-834"/>
+</g>
+<!-- sourcefile~vertical_diffusion.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge61" class="edge"><title>sourcefile~vertical_diffusion.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M398.985,-797.569C371.818,-798.368 338.483,-797.829 309,-793"/>
+</g>
+<!-- sourcefile~humidity.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge62" class="edge"><title>sourcefile~humidity.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M933.384,-24.0381C912.959,-42.6442 870.525,-77.7285 827,-92"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M825,-92C771.179,-109.647 758.908,-118.099 704,-132"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M702,-132C650.354,-145.076 637.234,-149.377 589,-172"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M587,-172C516.819,-204.916 525.701,-254.216 455,-286"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M453,-286C378.55,-319.47 384.234,-368.331 309,-400"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M307,-400C287.695,-408.126 280.973,-405.125 262,-414 215.993,-435.52 204.143,-442.461 166,-476"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M164,-476C92.1008,-539.222 54.1351,-652.338 40.7134,-699.936"/>
+<polygon fill="#000000" stroke="#000000" points="37.2746,-699.242 38.0193,-709.811 44.0278,-701.085 37.2746,-699.242"/>
+</g>
+<!-- sourcefile~precipitation.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge64" class="edge"><title>sourcefile~precipitation.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M409.795,-752C393.056,-752 373.83,-752 356.687,-752"/>
+<polygon fill="#000000" stroke="#000000" points="356.324,-748.5 346.324,-752 356.324,-755.5 356.324,-748.5"/>
+</g>
+<!-- sourcefile~precipitation.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge63" class="edge"><title>sourcefile~precipitation.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M409.863,-763.577C402.991,-766.205 396.134,-769.329 390,-773 371.116,-784.302 371.538,-793.705 354,-807 335.413,-821.09 331.505,-827.876 309,-834"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M307,-834C244.375,-851.042 227.911,-891.477 166,-872"/>
+</g>
+<!-- sourcefile~precipitation.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge65" class="edge"><title>sourcefile~precipitation.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M416.771,-764.057C377.726,-776.772 319.71,-794.754 309,-793"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M307,-793C262.531,-785.716 217.023,-758.503 190.152,-739.963"/>
+<polygon fill="#000000" stroke="#000000" points="191.97,-736.962 181.783,-734.05 187.93,-742.679 191.97,-736.962"/>
+</g>
+<!-- sourcefile~auxiliaries.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge66" class="edge"><title>sourcefile~auxiliaries.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M786.801,-127.251C762.686,-125.411 731.085,-125.143 704,-132"/>
+</g>
+<!-- sourcefile~input_output.f90&#45;&gt;sourcefile~spectral.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge67" class="edge"><title>sourcefile~input_output.f90&#45;&gt;sourcefile~spectral.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M694.931,-338.01C676.144,-369.932 624.798,-457.175 601.18,-497.304"/>
+<polygon fill="#000000" stroke="#000000" points="598.122,-495.601 596.066,-505.994 604.155,-499.151 598.122,-495.601"/>
+</g>
+<!-- sourcefile~input_output.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge68" class="edge"><title>sourcefile~input_output.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M698.159,-338.154C685.502,-377.849 644.63,-503.185 622,-539 564.915,-629.344 558.522,-685.466 455,-712"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M453,-712C420.282,-719.23 383.929,-729.345 355.934,-737.594"/>
+<polygon fill="#000000" stroke="#000000" points="354.61,-734.336 346.021,-740.54 356.604,-741.046 354.61,-734.336"/>
+</g>
+<!-- sourcefile~input_output.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge70" class="edge"><title>sourcefile~input_output.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M657.781,-328.951C636.83,-329.598 611.518,-329.289 589,-326"/>
+</g>
+<!-- sourcefile~input_output.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge71" class="edge"><title>sourcefile~input_output.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M657.722,-334.877C646.141,-336.889 633.64,-338.787 622,-340 596.346,-342.674 411.949,-334.453 390,-348 361.566,-365.549 374.314,-387.471 354,-414 319.6,-458.925 294.393,-455.607 262,-502 216.132,-567.692 185.012,-658.801 172.359,-700.096"/>
+<polygon fill="#000000" stroke="#000000" points="169,-699.113 169.477,-709.698 175.704,-701.126 169,-699.113"/>
+</g>
+<!-- sourcefile~input_output.f90&#45;&gt;sourcefile~date.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge69" class="edge"><title>sourcefile~input_output.f90&#45;&gt;sourcefile~date.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M668.096,-313.999C654.495,-309.184 638.802,-303.629 624.998,-298.743"/>
+<polygon fill="#000000" stroke="#000000" points="625.932,-295.361 615.338,-295.323 623.596,-301.959 625.932,-295.361"/>
+</g>
+<!-- sourcefile~legendre.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge73" class="edge"><title>sourcefile~legendre.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M436.245,-490.141C422.234,-501.042 402.575,-518.188 390,-537 347.563,-600.486 323.298,-689.259 313.759,-729.993"/>
+<polygon fill="#000000" stroke="#000000" points="310.304,-729.402 311.504,-739.928 317.13,-730.951 310.304,-729.402"/>
+</g>
+<!-- sourcefile~legendre.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge72" class="edge"><title>sourcefile~legendre.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M420.398,-465.938C362.336,-446.765 240.171,-417.165 166,-476"/>
+</g>
+<!-- sourcefile~legendre.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge74" class="edge"><title>sourcefile~legendre.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M417.268,-481.022C386.44,-485.05 341.83,-494.396 309,-516"/>
+</g>
+<!-- sourcefile~date.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge75" class="edge"><title>sourcefile~date.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M560.884,-279.936C533.268,-274.872 489.07,-270.684 455,-286"/>
+</g>
+<!-- sourcefile~interpolation.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge77" class="edge"><title>sourcefile~interpolation.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M658.256,-163.536C636.475,-161.379 610.314,-162.003 589,-172"/>
+</g>
+<!-- sourcefile~interpolation.f90&#45;&gt;sourcefile~date.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge76" class="edge"><title>sourcefile~interpolation.f90&#45;&gt;sourcefile~date.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M677.609,-184.245C670.905,-188.172 663.871,-192.853 658,-198 635.292,-217.907 614.706,-246.111 602.046,-265.18"/>
+<polygon fill="#000000" stroke="#000000" points="599.004,-263.438 596.493,-273.731 604.875,-267.25 599.004,-263.438"/>
+</g>
+<!-- sourcefile~mod_radcon.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge78" class="edge"><title>sourcefile~mod_radcon.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M262.355,-900.032C234.526,-892.399 198.04,-882.079 166,-872"/>
+</g>
+<!-- sourcefile~fourier.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge80" class="edge"><title>sourcefile~fourier.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M423.279,-565.004C411.709,-568.973 399.078,-575.006 390,-584 360.857,-612.876 371.798,-632.035 354,-669 343.657,-690.481 330.54,-714.347 321.141,-730.952"/>
+<polygon fill="#000000" stroke="#000000" points="317.999,-729.397 316.085,-739.818 324.079,-732.865 317.999,-729.397"/>
+</g>
+<!-- sourcefile~fourier.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~physics.f90~~EfferentGraph_edge79" class="edge"><title>sourcefile~fourier.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M423.211,-562.101C412.149,-564.602 399.896,-568.606 390,-575 314.669,-623.67 315.735,-659.195 262,-731 216.577,-791.698 238.318,-894.751 166,-872"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M164,-872C102.435,-852.184 61.6462,-780.367 44.3774,-743.767"/>
+<polygon fill="#000000" stroke="#000000" points="47.4637,-742.099 40.1327,-734.45 41.0937,-745.001 47.4637,-742.099"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefilephysicsf90EfferentGraph = svgPanZoom('#sourcefilephysicsf90EfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="189pt" height="32pt"
+ viewBox="0.00 0.00 189.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28 185,-28 185,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node"><title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="66.25,-24 -0.25,-24 -0.25,-0 66.25,-0 66.25,-24"/>
+<text text-anchor="middle" x="33" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node"><title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="181.25,-24 84.75,-24 84.75,-0 181.25,-0 181.25,-24"/>
+<text text-anchor="middle" x="133" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+      
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Files dependent on this one</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: sourcefile~~physics.f90~~AfferentGraph Pages: 1 -->
+<svg id="sourcefilephysicsf90AfferentGraph" width="550pt" height="72pt"
+ viewBox="0.00 0.00 550.00 72.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~physics.f90~~AfferentGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 68)">
+<title>sourcefile~~physics.f90~~AfferentGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-68 546,-68 546,4 -4,4"/>
+<!-- sourcefile~physics.f90 -->
+<g id="sourcefile~~physics.f90~~AfferentGraph_node1" class="node"><title>sourcefile~physics.f90</title>
+<polygon fill="none" stroke="black" points="66,-44 0,-44 0,-20 66,-20 66,-44"/>
+<text text-anchor="middle" x="33" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50">physics.f90</text>
+</g>
+<!-- sourcefile~tendencies.f90 -->
+<g id="sourcefile~~physics.f90~~AfferentGraph_node2" class="node"><title>sourcefile~tendencies.f90</title>
+<g id="a_sourcefile~~physics.f90~~AfferentGraph_node2"><a xlink:href=".././sourcefile/tendencies.f90.html" xlink:title="tendencies.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="184,-24 102,-24 102,-0 184,-0 184,-24"/>
+<text text-anchor="middle" x="143" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tendencies.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tendencies.f90&#45;&gt;sourcefile~physics.f90 -->
+<g id="sourcefile~~physics.f90~~AfferentGraph_edge1" class="edge"><title>sourcefile~tendencies.f90&#45;&gt;sourcefile~physics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M101.785,-19.4473C93.428,-20.9948 84.5992,-22.6298 76.1742,-24.19"/>
+<polygon fill="#000000" stroke="#000000" points="75.3523,-20.7826 66.1568,-26.045 76.627,-27.6656 75.3523,-20.7826"/>
+</g>
+<!-- sourcefile~initialization.f90 -->
+<g id="sourcefile~~physics.f90~~AfferentGraph_node3" class="node"><title>sourcefile~initialization.f90</title>
+<g id="a_sourcefile~~physics.f90~~AfferentGraph_node3"><a xlink:href=".././sourcefile/initialization.f90.html" xlink:title="initialization.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="439.5,-64 354.5,-64 354.5,-40 439.5,-40 439.5,-64"/>
+<text text-anchor="middle" x="397" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialization.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~physics.f90 -->
+<g id="sourcefile~~physics.f90~~AfferentGraph_edge2" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~physics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M354.474,-49.7057C285.052,-45.8703 146.173,-38.1974 76.263,-34.335"/>
+<polygon fill="#000000" stroke="#000000" points="76.2384,-30.8284 66.0605,-33.7713 75.8522,-37.8177 76.2384,-30.8284"/>
+</g>
+<!-- sourcefile~time_stepping.f90 -->
+<g id="sourcefile~~physics.f90~~AfferentGraph_node4" class="node"><title>sourcefile~time_stepping.f90</title>
+<g id="a_sourcefile~~physics.f90~~AfferentGraph_node4"><a xlink:href=".././sourcefile/time_stepping.f90.html" xlink:title="time_stepping.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="317.5,-24 220.5,-24 220.5,-0 317.5,-0 317.5,-24"/>
+<text text-anchor="middle" x="269" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">time_stepping.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~time_stepping.f90 -->
+<g id="sourcefile~~physics.f90~~AfferentGraph_edge6" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~time_stepping.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M358.196,-39.9987C345.48,-35.9618 331.124,-31.4045 317.745,-27.1571"/>
+<polygon fill="#000000" stroke="#000000" points="318.803,-23.821 308.213,-24.1311 316.685,-30.4929 318.803,-23.821"/>
+</g>
+<!-- sourcefile~time_stepping.f90&#45;&gt;sourcefile~tendencies.f90 -->
+<g id="sourcefile~~physics.f90~~AfferentGraph_edge3" class="edge"><title>sourcefile~time_stepping.f90&#45;&gt;sourcefile~tendencies.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M220.413,-12C211.773,-12 202.738,-12 194.031,-12"/>
+<polygon fill="#000000" stroke="#000000" points="194.002,-8.5001 184.002,-12 194.002,-15.5001 194.002,-8.5001"/>
+</g>
+<!-- sourcefile~speedy.f90 -->
+<g id="sourcefile~~physics.f90~~AfferentGraph_node5" class="node"><title>sourcefile~speedy.f90</title>
+<g id="a_sourcefile~~physics.f90~~AfferentGraph_node5"><a xlink:href=".././sourcefile/speedy.f90.html" xlink:title="speedy.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="541.5,-44 476.5,-44 476.5,-20 541.5,-20 541.5,-44"/>
+<text text-anchor="middle" x="509" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">speedy.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~initialization.f90 -->
+<g id="sourcefile~~physics.f90~~AfferentGraph_edge4" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~initialization.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M476.478,-37.7312C468.086,-39.257 458.797,-40.9461 449.632,-42.6124"/>
+<polygon fill="#000000" stroke="#000000" points="448.997,-39.1703 439.785,-44.4028 450.25,-46.0574 448.997,-39.1703"/>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~time_stepping.f90 -->
+<g id="sourcefile~~physics.f90~~AfferentGraph_edge5" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~time_stepping.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M476.395,-29.3442C438.581,-26.1664 374.525,-20.7837 327.785,-16.8559"/>
+<polygon fill="#000000" stroke="#000000" points="328.051,-13.366 317.793,-16.0162 327.465,-20.3414 328.051,-13.366"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="189pt" height="32pt"
+ viewBox="0.00 0.00 189.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28 185,-28 185,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node"><title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="66.25,-24 -0.25,-24 -0.25,-0 66.25,-0 66.25,-24"/>
+<text text-anchor="middle" x="33" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node"><title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="181.25,-24 84.75,-24 84.75,-0 181.25,-0 181.25,-24"/>
+<text text-anchor="middle" x="133" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-1">Modules</a></h3></div>
+  <div id="mods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/physics.html">physics</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/physics.f90.html#src">physics.f90</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="k">module </span><span class="n">physics</span>
+<a name="ln-2"></a>    <span class="k">use </span><span class="n">params</span>
+<a name="ln-3"></a>
+<a name="ln-4"></a>    <span class="k">implicit none</span>
+<a name="ln-5"></a>
+<a name="ln-6"></a><span class="k">    private</span>
+<a name="ln-7"></a><span class="k">    public </span><span class="n">initialize_physics</span><span class="p">,</span> <span class="n">get_physical_tendencies</span>
+<a name="ln-8"></a>
+<a name="ln-9"></a><span class="k">contains</span>
+<a name="ln-10"></a>    <span class="c">! Initialize physical parametrization routines</span>
+<a name="ln-11"></a>    <span class="k">subroutine </span><span class="n">initialize_physics</span>
+<a name="ln-12"></a>        <span class="k">use </span><span class="n">physical_constants</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">grav</span><span class="p">,</span> <span class="n">cp</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">sigl</span><span class="p">,</span> <span class="n">sigh</span><span class="p">,</span> <span class="n">grdsig</span><span class="p">,</span> <span class="n">grdscp</span><span class="p">,</span> <span class="n">wvi</span>
+<a name="ln-13"></a>        <span class="k">use </span><span class="n">geometry</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">hsg</span><span class="p">,</span> <span class="n">fsg</span><span class="p">,</span> <span class="n">dhs</span>
+<a name="ln-14"></a>
+<a name="ln-15"></a>        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">k</span>
+<a name="ln-16"></a>
+<a name="ln-17"></a>        <span class="c">! 1.2 Functions of sigma and latitude</span>
+<a name="ln-18"></a>        <span class="n">sigh</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="n">hsg</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-19"></a>
+<a name="ln-20"></a>        <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">kx</span>
+<a name="ln-21"></a>            <span class="n">sigl</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="nb">log</span><span class="p">(</span><span class="n">fsg</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+<a name="ln-22"></a>            <span class="n">sigh</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">hsg</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-23"></a>            <span class="n">grdsig</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">grav</span><span class="o">/</span><span class="p">(</span><span class="n">dhs</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">p0</span><span class="p">)</span>
+<a name="ln-24"></a>            <span class="n">grdscp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">grdsig</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">/</span><span class="n">cp</span>
+<a name="ln-25"></a>        <span class="k">end do</span>
+<a name="ln-26"></a>
+<a name="ln-27"></a>        <span class="c">! Weights for vertical interpolation at half-levels(1,kx) and surface</span>
+<a name="ln-28"></a>        <span class="c">! Note that for phys.par. half-lev(k) is between full-lev k and k+1</span>
+<a name="ln-29"></a>        <span class="c">! Fhalf(k) = Ffull(k)+WVI(K,2)*(Ffull(k+1)-Ffull(k))</span>
+<a name="ln-30"></a>        <span class="c">! Fsurf = Ffull(kx)+WVI(kx,2)*(Ffull(kx)-Ffull(kx-1))</span>
+<a name="ln-31"></a>        <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">kx</span><span class="o">-</span><span class="mi">1</span>
+<a name="ln-32"></a>            <span class="n">wvi</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">sigl</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="n">sigl</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+<a name="ln-33"></a>            <span class="n">wvi</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="nb">log</span><span class="p">(</span><span class="n">sigh</span><span class="p">(</span><span class="n">k</span><span class="p">))</span><span class="o">-</span><span class="n">sigl</span><span class="p">(</span><span class="n">k</span><span class="p">))</span><span class="o">*</span><span class="n">wvi</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-34"></a>        <span class="k">end do</span>
+<a name="ln-35"></a>
+<a name="ln-36"></a><span class="k">        </span><span class="n">wvi</span><span class="p">(</span><span class="n">kx</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.</span>
+<a name="ln-37"></a>        <span class="n">wvi</span><span class="p">(</span><span class="n">kx</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="nb">log</span><span class="p">(</span><span class="mf">0.99</span><span class="p">)</span><span class="o">-</span><span class="n">sigl</span><span class="p">(</span><span class="n">kx</span><span class="p">))</span><span class="o">*</span><span class="n">wvi</span><span class="p">(</span><span class="n">kx</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-38"></a>    <span class="k">end</span>
+<a name="ln-39"></a>
+<a name="ln-40"></a>    <span class="c">! Compute physical parametrization tendencies for u, v, t, q and add them to</span>
+<a name="ln-41"></a>    <span class="c">! dynamical grid-point tendencies</span>
+<a name="ln-42"></a>    <span class="c">! Input-only  arguments:   vor   : vorticity (sp)</span>
+<a name="ln-43"></a>    <span class="c">!                          div   : divergence (sp)</span>
+<a name="ln-44"></a>    <span class="c">!                          t     : temperature (sp)</span>
+<a name="ln-45"></a>    <span class="c">!                          q     : specific humidity (sp)</span>
+<a name="ln-46"></a>    <span class="c">!                          phi   : geopotential (sp)</span>
+<a name="ln-47"></a>    <span class="c">!                          psl   : log of sfc pressure (sp)</span>
+<a name="ln-48"></a>    <span class="c">! Input-output arguments:  utend  : u-wind tendency (gp)</span>
+<a name="ln-49"></a>    <span class="c">!                          vtend  : v-wind tendency (gp)</span>
+<a name="ln-50"></a>    <span class="c">!                          ttend  : temp. tendency (gp)</span>
+<a name="ln-51"></a>    <span class="c">!                          qtend  : spec. hum. tendency (gp)</span>
+<a name="ln-52"></a>    <span class="k">subroutine </span><span class="n">get_physical_tendencies</span><span class="p">(</span><span class="n">vor</span><span class="p">,</span> <span class="n">div</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">psl</span><span class="p">,</span> <span class="n">utend</span><span class="p">,</span> <span class="n">vtend</span><span class="p">,</span> <span class="n">ttend</span><span class="p">,</span> <span class="n">qtend</span><span class="p">)</span>
+<a name="ln-53"></a>        <span class="k">use </span><span class="n">auxiliaries</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">precnv</span><span class="p">,</span> <span class="n">precls</span><span class="p">,</span> <span class="n">cbmf</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">ssrd</span><span class="p">,</span> <span class="n">ssr</span><span class="p">,</span> <span class="n">slrd</span><span class="p">,</span> <span class="n">slr</span><span class="p">,</span> <span class="n">olr</span><span class="p">,</span> <span class="n">slru</span><span class="p">,</span> <span class="n">ustr</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-54"></a>            <span class="p">&amp;</span> <span class="n">vstr</span><span class="p">,</span> <span class="n">shf</span><span class="p">,</span> <span class="n">evap</span><span class="p">,</span> <span class="n">hfluxn</span>
+<a name="ln-55"></a>        <span class="k">use </span><span class="n">physical_constants</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">sigh</span><span class="p">,</span> <span class="n">grdsig</span><span class="p">,</span> <span class="n">grdscp</span><span class="p">,</span> <span class="n">cp</span>
+<a name="ln-56"></a>        <span class="k">use </span><span class="n">geometry</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">fsg</span>
+<a name="ln-57"></a>        <span class="k">use </span><span class="n">boundaries</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">phis0</span>
+<a name="ln-58"></a>        <span class="k">use </span><span class="n">land_model</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">fmask_l</span>
+<a name="ln-59"></a>        <span class="k">use </span><span class="n">sea_model</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">sst_am</span><span class="p">,</span> <span class="n">ssti_om</span><span class="p">,</span> <span class="n">sea_coupling_flag</span>
+<a name="ln-60"></a>        <span class="k">use </span><span class="n">sppt</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">mu</span><span class="p">,</span> <span class="n">gen_sppt</span>
+<a name="ln-61"></a>        <span class="k">use </span><span class="n">precipitation</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">convective_precipitation</span><span class="p">,</span> <span class="n">large_scale_precipitation</span>
+<a name="ln-62"></a>        <span class="k">use </span><span class="n">shortwave_radiation</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">get_shortwave_rad_fluxes</span><span class="p">,</span> <span class="n">clouds</span><span class="p">,</span> <span class="n">compute_shortwave</span>
+<a name="ln-63"></a>        <span class="k">use </span><span class="n">longwave_radiation</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">get_longwave_rad_fluxes</span>
+<a name="ln-64"></a>        <span class="k">use </span><span class="n">surface_fluxes</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">get_surface_fluxes</span>
+<a name="ln-65"></a>        <span class="k">use </span><span class="n">vertical_diffusion</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">get_vertical_diffusion_tend</span>
+<a name="ln-66"></a>        <span class="k">use </span><span class="n">humidity</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">spec_hum_to_rel_hum</span>
+<a name="ln-67"></a>        <span class="k">use </span><span class="n">spectral</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">spec_to_grid</span><span class="p">,</span> <span class="n">uvspec</span>
+<a name="ln-68"></a>
+<a name="ln-69"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">vor</span><span class="p">,</span> <span class="n">div</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">phi</span>
+<a name="ln-70"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">psl</span>
+<a name="ln-71"></a>        <span class="kt">real</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">,</span><span class="n">kx</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">utend</span><span class="p">,</span> <span class="n">vtend</span><span class="p">,</span> <span class="n">ttend</span><span class="p">,</span> <span class="n">qtend</span>
+<a name="ln-72"></a>
+<a name="ln-73"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ucos</span><span class="p">,</span> <span class="n">vcos</span>
+<a name="ln-74"></a>        <span class="kt">real</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">)</span> <span class="kd">::</span> <span class="n">pslg</span><span class="p">,</span> <span class="n">rps</span><span class="p">,</span> <span class="n">gse</span>
+<a name="ln-75"></a>        <span class="kt">real</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">,</span><span class="n">kx</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ug</span><span class="p">,</span> <span class="n">vg</span><span class="p">,</span> <span class="n">tg</span><span class="p">,</span> <span class="n">qg</span><span class="p">,</span> <span class="n">phig</span><span class="p">,</span> <span class="n">utend_dyn</span><span class="p">,</span> <span class="n">vtend_dyn</span><span class="p">,</span> <span class="n">ttend_dyn</span><span class="p">,</span> <span class="n">qtend_dyn</span>
+<a name="ln-76"></a>        <span class="kt">real</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">,</span><span class="n">kx</span><span class="p">)</span> <span class="kd">::</span> <span class="n">se</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">qsat</span>
+<a name="ln-77"></a>        <span class="kt">real</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">)</span> <span class="kd">::</span> <span class="n">psg</span><span class="p">,</span> <span class="n">ts</span><span class="p">,</span> <span class="n">tskin</span><span class="p">,</span> <span class="n">u0</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">cloudc</span><span class="p">,</span> <span class="n">clstr</span><span class="p">,</span> <span class="n">cltop</span><span class="p">,</span> <span class="n">prtop</span>
+<a name="ln-78"></a>        <span class="kt">real</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">,</span><span class="n">kx</span><span class="p">)</span> <span class="kd">::</span> <span class="n">tt_cnv</span><span class="p">,</span> <span class="n">qt_cnv</span><span class="p">,</span> <span class="n">tt_lsc</span><span class="p">,</span> <span class="n">qt_lsc</span><span class="p">,</span> <span class="n">tt_rsw</span><span class="p">,</span> <span class="n">tt_rlw</span><span class="p">,</span> <span class="n">ut_pbl</span><span class="p">,</span> <span class="n">vt_pbl</span><span class="p">,&amp;</span>
+<a name="ln-79"></a>            <span class="p">&amp;</span> <span class="n">tt_pbl</span><span class="p">,</span> <span class="n">qt_pbl</span>
+<a name="ln-80"></a>        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">iptop</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">),</span> <span class="n">icltop</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">icnv</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">),</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span>
+<a name="ln-81"></a>        <span class="kt">real</span> <span class="kd">::</span> <span class="n">sppt</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">,</span><span class="n">kx</span><span class="p">)</span>
+<a name="ln-82"></a>
+<a name="ln-83"></a>        <span class="c">! Keep a copy of the original (dynamics only) tendencies</span>
+<a name="ln-84"></a>        <span class="n">utend_dyn</span> <span class="o">=</span> <span class="n">utend</span>
+<a name="ln-85"></a>        <span class="n">vtend_dyn</span> <span class="o">=</span> <span class="n">vtend</span>
+<a name="ln-86"></a>        <span class="n">ttend_dyn</span> <span class="o">=</span> <span class="n">ttend</span>
+<a name="ln-87"></a>        <span class="n">qtend_dyn</span> <span class="o">=</span> <span class="n">qtend</span>
+<a name="ln-88"></a>
+<a name="ln-89"></a>        <span class="c">! =========================================================================</span>
+<a name="ln-90"></a>        <span class="c">! Compute grid-point fields</span>
+<a name="ln-91"></a>        <span class="c">! =========================================================================</span>
+<a name="ln-92"></a>
+<a name="ln-93"></a>        <span class="c">! Convert model spectral variables to grid-point variables</span>
+<a name="ln-94"></a>        <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">kx</span>
+<a name="ln-95"></a>            <span class="k">call </span><span class="n">uvspec</span><span class="p">(</span><span class="n">vor</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">),</span> <span class="n">div</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">),</span> <span class="n">ucos</span><span class="p">,</span> <span class="n">vcos</span><span class="p">)</span>
+<a name="ln-96"></a>            <span class="n">ug</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span>   <span class="o">=</span> <span class="n">spec_to_grid</span><span class="p">(</span><span class="n">ucos</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<a name="ln-97"></a>            <span class="n">vg</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span>   <span class="o">=</span> <span class="n">spec_to_grid</span><span class="p">(</span><span class="n">vcos</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<a name="ln-98"></a>            <span class="n">tg</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span>   <span class="o">=</span> <span class="n">spec_to_grid</span><span class="p">(</span><span class="n">t</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-99"></a>            <span class="n">qg</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span>   <span class="o">=</span> <span class="n">spec_to_grid</span><span class="p">(</span><span class="n">q</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-100"></a>            <span class="n">phig</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">spec_to_grid</span><span class="p">(</span><span class="n">phi</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-101"></a>        <span class="k">end do</span>
+<a name="ln-102"></a>
+<a name="ln-103"></a><span class="k">        </span><span class="n">pslg</span> <span class="o">=</span> <span class="n">spec_to_grid</span><span class="p">(</span><span class="n">psl</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-104"></a>
+<a name="ln-105"></a>        <span class="c">! =========================================================================</span>
+<a name="ln-106"></a>        <span class="c">! Compute thermodynamic variables</span>
+<a name="ln-107"></a>        <span class="c">! =========================================================================</span>
+<a name="ln-108"></a>
+<a name="ln-109"></a>        <span class="n">psg</span> <span class="o">=</span> <span class="nb">exp</span><span class="p">(</span><span class="n">pslg</span><span class="p">)</span>
+<a name="ln-110"></a>        <span class="n">rps</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">psg</span>
+<a name="ln-111"></a>
+<a name="ln-112"></a>        <span class="n">qg</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">qg</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<a name="ln-113"></a>        <span class="n">se</span> <span class="o">=</span> <span class="n">cp</span><span class="o">*</span><span class="n">tg</span> <span class="o">+</span> <span class="n">phig</span>
+<a name="ln-114"></a>
+<a name="ln-115"></a>        <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">kx</span>
+<a name="ln-116"></a>            <span class="k">call </span><span class="n">spec_hum_to_rel_hum</span><span class="p">(</span><span class="n">tg</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">),</span> <span class="n">psg</span><span class="p">,</span> <span class="n">fsg</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">qg</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">),</span> <span class="n">rh</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">),</span> <span class="n">qsat</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">))</span>
+<a name="ln-117"></a>        <span class="k">end do</span>
+<a name="ln-118"></a>
+<a name="ln-119"></a>        <span class="c">! =========================================================================</span>
+<a name="ln-120"></a>        <span class="c">! Precipitation</span>
+<a name="ln-121"></a>        <span class="c">! =========================================================================</span>
+<a name="ln-122"></a>
+<a name="ln-123"></a>        <span class="c">! Deep convection</span>
+<a name="ln-124"></a>        <span class="k">call </span><span class="n">convective_precipitation</span><span class="p">(</span><span class="n">psg</span><span class="p">,</span> <span class="n">se</span><span class="p">,</span> <span class="n">qg</span><span class="p">,</span> <span class="n">qsat</span><span class="p">,</span> <span class="n">iptop</span><span class="p">,</span> <span class="n">cbmf</span><span class="p">,</span> <span class="n">precnv</span><span class="p">,</span> <span class="n">tt_cnv</span><span class="p">,</span> <span class="n">qt_cnv</span><span class="p">)</span>
+<a name="ln-125"></a>
+<a name="ln-126"></a>        <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">kx</span>
+<a name="ln-127"></a>            <span class="n">tt_cnv</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">tt_cnv</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">rps</span><span class="o">*</span><span class="n">grdscp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<a name="ln-128"></a>            <span class="n">qt_cnv</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">qt_cnv</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">rps</span><span class="o">*</span><span class="n">grdsig</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<a name="ln-129"></a>        <span class="k">end do</span>
+<a name="ln-130"></a>
+<a name="ln-131"></a><span class="k">        </span><span class="n">icnv</span> <span class="o">=</span> <span class="n">kx</span> <span class="o">-</span> <span class="n">iptop</span>
+<a name="ln-132"></a>
+<a name="ln-133"></a>        <span class="c">! Large-scale condensation</span>
+<a name="ln-134"></a>        <span class="k">call </span><span class="n">large_scale_precipitation</span><span class="p">(</span><span class="n">psg</span><span class="p">,</span> <span class="n">qg</span><span class="p">,</span> <span class="n">qsat</span><span class="p">,</span> <span class="n">iptop</span><span class="p">,</span> <span class="n">precls</span><span class="p">,</span> <span class="n">tt_lsc</span><span class="p">,</span> <span class="n">qt_lsc</span><span class="p">)</span>
+<a name="ln-135"></a>
+<a name="ln-136"></a>        <span class="n">ttend</span> <span class="o">=</span> <span class="n">ttend</span> <span class="o">+</span> <span class="n">tt_cnv</span> <span class="o">+</span> <span class="n">tt_lsc</span>
+<a name="ln-137"></a>        <span class="n">qtend</span> <span class="o">=</span> <span class="n">qtend</span> <span class="o">+</span> <span class="n">qt_cnv</span> <span class="o">+</span> <span class="n">qt_lsc</span>
+<a name="ln-138"></a>
+<a name="ln-139"></a>        <span class="c">! =========================================================================</span>
+<a name="ln-140"></a>        <span class="c">! Radiation (shortwave and longwave) and surface fluxes</span>
+<a name="ln-141"></a>        <span class="c">! =========================================================================</span>
+<a name="ln-142"></a>
+<a name="ln-143"></a>        <span class="c">! Compute shortwave tendencies and initialize lw transmissivity</span>
+<a name="ln-144"></a>        <span class="c">! The shortwave radiation may be called at selected time steps</span>
+<a name="ln-145"></a>        <span class="k">if</span> <span class="p">(</span><span class="n">compute_shortwave</span><span class="p">)</span> <span class="k">then</span>
+<a name="ln-146"></a><span class="k">            </span><span class="n">gse</span> <span class="o">=</span> <span class="p">(</span><span class="n">se</span><span class="p">(:,:,</span><span class="n">kx</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">se</span><span class="p">(:,:,</span><span class="n">kx</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">phig</span><span class="p">(:,:,</span><span class="n">kx</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">phig</span><span class="p">(:,:,</span><span class="n">kx</span><span class="p">))</span>
+<a name="ln-147"></a>
+<a name="ln-148"></a>            <span class="k">call </span><span class="n">clouds</span><span class="p">(</span><span class="n">qg</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">precnv</span><span class="p">,</span> <span class="n">precls</span><span class="p">,</span> <span class="n">iptop</span><span class="p">,</span> <span class="n">gse</span><span class="p">,</span> <span class="n">fmask_l</span><span class="p">,</span> <span class="n">icltop</span><span class="p">,</span> <span class="n">cloudc</span><span class="p">,</span> <span class="n">clstr</span><span class="p">)</span>
+<a name="ln-149"></a>
+<a name="ln-150"></a>            <span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ix</span>
+<a name="ln-151"></a>                <span class="k">do </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">il</span>
+<a name="ln-152"></a>                    <span class="n">cltop</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">sigh</span><span class="p">(</span><span class="n">icltop</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">psg</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+<a name="ln-153"></a>                    <span class="n">prtop</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">iptop</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
+<a name="ln-154"></a>                <span class="k">end do</span>
+<a name="ln-155"></a><span class="k">            end do</span>
+<a name="ln-156"></a>
+<a name="ln-157"></a><span class="k">            call </span><span class="n">get_shortwave_rad_fluxes</span><span class="p">(</span><span class="n">psg</span><span class="p">,</span> <span class="n">qg</span><span class="p">,</span> <span class="n">icltop</span><span class="p">,</span> <span class="n">cloudc</span><span class="p">,</span> <span class="n">clstr</span><span class="p">,</span> <span class="n">ssrd</span><span class="p">,</span> <span class="n">ssr</span><span class="p">,</span> <span class="n">tsr</span><span class="p">,</span> <span class="n">tt_rsw</span><span class="p">)</span>
+<a name="ln-158"></a>
+<a name="ln-159"></a>            <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">kx</span>
+<a name="ln-160"></a>                <span class="n">tt_rsw</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">tt_rsw</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">rps</span><span class="o">*</span><span class="n">grdscp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<a name="ln-161"></a>            <span class="k">end do</span>
+<a name="ln-162"></a><span class="k">        end if</span>
+<a name="ln-163"></a>
+<a name="ln-164"></a>        <span class="c">! Compute downward longwave fluxes</span>
+<a name="ln-165"></a>        <span class="k">call </span><span class="n">get_longwave_rad_fluxes</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">tg</span><span class="p">,</span> <span class="n">ts</span><span class="p">,</span> <span class="n">slrd</span><span class="p">,</span> <span class="n">slru</span><span class="p">(:,:,</span><span class="mi">3</span><span class="p">),</span> <span class="n">slr</span><span class="p">,</span> <span class="n">olr</span><span class="p">,</span> <span class="n">tt_rlw</span><span class="p">)</span>
+<a name="ln-166"></a>
+<a name="ln-167"></a>        <span class="c">! Compute surface fluxes and land skin temperature</span>
+<a name="ln-168"></a>        <span class="k">call </span><span class="n">get_surface_fluxes</span><span class="p">(</span><span class="n">psg</span><span class="p">,</span> <span class="n">ug</span><span class="p">,</span> <span class="n">vg</span><span class="p">,</span> <span class="n">tg</span><span class="p">,</span> <span class="n">qg</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">phig</span><span class="p">,</span> <span class="n">phis0</span><span class="p">,</span> <span class="n">fmask_l</span><span class="p">,</span> <span class="n">sst_am</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-169"></a>    		<span class="p">&amp;</span> <span class="n">ssrd</span><span class="p">,</span> <span class="n">slrd</span><span class="p">,</span> <span class="n">ustr</span><span class="p">,</span> <span class="n">vstr</span><span class="p">,</span> <span class="n">shf</span><span class="p">,</span> <span class="n">evap</span><span class="p">,</span> <span class="n">slru</span><span class="p">,</span> <span class="n">hfluxn</span><span class="p">,</span> <span class="n">ts</span><span class="p">,</span> <span class="n">tskin</span><span class="p">,</span> <span class="n">u0</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="p">.</span><span class="n">true</span><span class="p">.)</span>
+<a name="ln-170"></a>
+<a name="ln-171"></a>        <span class="c">! Recompute sea fluxes in case of anomaly coupling</span>
+<a name="ln-172"></a>        <span class="k">if</span> <span class="p">(</span><span class="n">sea_coupling_flag</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<a name="ln-173"></a><span class="k">           call </span><span class="n">get_surface_fluxes</span><span class="p">(</span><span class="n">psg</span><span class="p">,</span> <span class="n">ug</span><span class="p">,</span> <span class="n">vg</span><span class="p">,</span> <span class="n">tg</span><span class="p">,</span> <span class="n">qg</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">phig</span><span class="p">,</span> <span class="n">phis0</span><span class="p">,</span> <span class="n">fmask_l</span><span class="p">,</span> <span class="n">ssti_om</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-174"></a>    	   	<span class="p">&amp;</span> <span class="n">ssrd</span><span class="p">,</span> <span class="n">slrd</span><span class="p">,</span> <span class="n">ustr</span><span class="p">,</span> <span class="n">vstr</span><span class="p">,</span> <span class="n">shf</span><span class="p">,</span> <span class="n">evap</span><span class="p">,</span> <span class="n">slru</span><span class="p">,</span> <span class="n">hfluxn</span><span class="p">,</span> <span class="n">ts</span><span class="p">,</span> <span class="n">tskin</span><span class="p">,</span> <span class="n">u0</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="p">.</span><span class="n">false</span><span class="p">.)</span>
+<a name="ln-175"></a>        <span class="k">end if</span>
+<a name="ln-176"></a>
+<a name="ln-177"></a>        <span class="c">! Compute upward longwave fluxes, convert them to tendencies and add</span>
+<a name="ln-178"></a>    	<span class="c">! shortwave tendencies</span>
+<a name="ln-179"></a>        <span class="k">call </span><span class="n">get_longwave_rad_fluxes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">tg</span><span class="p">,</span> <span class="n">ts</span><span class="p">,</span> <span class="n">slrd</span><span class="p">,</span> <span class="n">slru</span><span class="p">(:,:,</span><span class="mi">3</span><span class="p">),</span> <span class="n">slr</span><span class="p">,</span> <span class="n">olr</span><span class="p">,</span> <span class="n">tt_rlw</span><span class="p">)</span>
+<a name="ln-180"></a>
+<a name="ln-181"></a>        <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">kx</span>
+<a name="ln-182"></a>            <span class="n">tt_rlw</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">tt_rlw</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">rps</span><span class="o">*</span><span class="n">grdscp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<a name="ln-183"></a>        <span class="k">end do</span>
+<a name="ln-184"></a>
+<a name="ln-185"></a><span class="k">        </span><span class="n">ttend</span> <span class="o">=</span> <span class="n">ttend</span> <span class="o">+</span> <span class="n">tt_rsw</span> <span class="o">+</span> <span class="n">tt_rlw</span>
+<a name="ln-186"></a>
+<a name="ln-187"></a>        <span class="c">! =========================================================================</span>
+<a name="ln-188"></a>        <span class="c">! Planetary boundary later interactions with lower troposphere</span>
+<a name="ln-189"></a>        <span class="c">! =========================================================================</span>
+<a name="ln-190"></a>
+<a name="ln-191"></a>        <span class="c">! Vertical diffusion and shallow convection</span>
+<a name="ln-192"></a>        <span class="k">call </span><span class="n">get_vertical_diffusion_tend</span><span class="p">(</span><span class="n">se</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">qg</span><span class="p">,</span> <span class="n">qsat</span><span class="p">,</span> <span class="n">phig</span><span class="p">,</span> <span class="n">icnv</span><span class="p">,</span> <span class="n">ut_pbl</span><span class="p">,</span> <span class="n">vt_pbl</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-193"></a>            <span class="p">&amp;</span> <span class="n">tt_pbl</span><span class="p">,</span> <span class="n">qt_pbl</span><span class="p">)</span>
+<a name="ln-194"></a>
+<a name="ln-195"></a>        <span class="c">! Add tendencies due to surface fluxes</span>
+<a name="ln-196"></a>        <span class="n">ut_pbl</span><span class="p">(:,:,</span><span class="n">kx</span><span class="p">)</span> <span class="o">=</span> <span class="n">ut_pbl</span><span class="p">(:,:,</span><span class="n">kx</span><span class="p">)</span> <span class="o">+</span> <span class="n">ustr</span><span class="p">(:,:,</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">rps</span><span class="o">*</span><span class="n">grdsig</span><span class="p">(</span><span class="n">kx</span><span class="p">)</span>
+<a name="ln-197"></a>        <span class="n">vt_pbl</span><span class="p">(:,:,</span><span class="n">kx</span><span class="p">)</span> <span class="o">=</span> <span class="n">vt_pbl</span><span class="p">(:,:,</span><span class="n">kx</span><span class="p">)</span> <span class="o">+</span> <span class="n">vstr</span><span class="p">(:,:,</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">rps</span><span class="o">*</span><span class="n">grdsig</span><span class="p">(</span><span class="n">kx</span><span class="p">)</span>
+<a name="ln-198"></a>        <span class="n">tt_pbl</span><span class="p">(:,:,</span><span class="n">kx</span><span class="p">)</span> <span class="o">=</span> <span class="n">tt_pbl</span><span class="p">(:,:,</span><span class="n">kx</span><span class="p">)</span>  <span class="o">+</span> <span class="n">shf</span><span class="p">(:,:,</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">rps</span><span class="o">*</span><span class="n">grdscp</span><span class="p">(</span><span class="n">kx</span><span class="p">)</span>
+<a name="ln-199"></a>        <span class="n">qt_pbl</span><span class="p">(:,:,</span><span class="n">kx</span><span class="p">)</span> <span class="o">=</span> <span class="n">qt_pbl</span><span class="p">(:,:,</span><span class="n">kx</span><span class="p">)</span> <span class="o">+</span> <span class="n">evap</span><span class="p">(:,:,</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">rps</span><span class="o">*</span><span class="n">grdsig</span><span class="p">(</span><span class="n">kx</span><span class="p">)</span>
+<a name="ln-200"></a>
+<a name="ln-201"></a>        <span class="n">utend</span> <span class="o">=</span> <span class="n">utend</span> <span class="o">+</span> <span class="n">ut_pbl</span>
+<a name="ln-202"></a>        <span class="n">vtend</span> <span class="o">=</span> <span class="n">vtend</span> <span class="o">+</span> <span class="n">vt_pbl</span>
+<a name="ln-203"></a>        <span class="n">ttend</span> <span class="o">=</span> <span class="n">ttend</span> <span class="o">+</span> <span class="n">tt_pbl</span>
+<a name="ln-204"></a>        <span class="n">qtend</span> <span class="o">=</span> <span class="n">qtend</span> <span class="o">+</span> <span class="n">qt_pbl</span>
+<a name="ln-205"></a>
+<a name="ln-206"></a>        <span class="c">! Add SPPT noise</span>
+<a name="ln-207"></a>        <span class="k">if</span> <span class="p">(</span><span class="n">sppt_on</span><span class="p">)</span> <span class="k">then</span>
+<a name="ln-208"></a><span class="k">            </span><span class="n">sppt</span> <span class="o">=</span> <span class="n">gen_sppt</span><span class="p">()</span>
+<a name="ln-209"></a>
+<a name="ln-210"></a>            <span class="c">! The physical contribution to the tendency is *tend - *tend_dyn, where * is u, v, t, q</span>
+<a name="ln-211"></a>            <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="n">kx</span>
+<a name="ln-212"></a>                <span class="n">utend</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sppt</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">mu</span><span class="p">(</span><span class="n">k</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">utend</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="n">utend_dyn</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-213"></a>    				<span class="p">&amp;</span> <span class="o">+</span> <span class="n">utend_dyn</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span>
+<a name="ln-214"></a>                <span class="n">vtend</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sppt</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">mu</span><span class="p">(</span><span class="n">k</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">vtend</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="n">vtend_dyn</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-215"></a>    				<span class="p">&amp;</span> <span class="o">+</span> <span class="n">vtend_dyn</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span>
+<a name="ln-216"></a>                <span class="n">ttend</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sppt</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">mu</span><span class="p">(</span><span class="n">k</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">ttend</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="n">ttend_dyn</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-217"></a>    				<span class="p">&amp;</span> <span class="o">+</span> <span class="n">ttend_dyn</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span>
+<a name="ln-218"></a>                <span class="n">qtend</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sppt</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">mu</span><span class="p">(</span><span class="n">k</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">qtend</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="n">qtend_dyn</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-219"></a>    				<span class="p">&amp;</span> <span class="o">+</span> <span class="n">qtend_dyn</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span>
+<a name="ln-220"></a>            <span class="k">end do</span>
+<a name="ln-221"></a><span class="k">        end if</span>
+<a name="ln-222"></a><span class="k">    end</span>
+<a name="ln-223"></a><span class="k">end module</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2019 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> SPEEDY.f90 was developed by Sam Hatfield</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

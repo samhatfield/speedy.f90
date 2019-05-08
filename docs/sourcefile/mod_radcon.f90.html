@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="An intermediate complexity atmospheric general circulation model">
+    
+    <meta name="author" content="Sam Hatfield" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>mod_radcon.f90 &ndash; SPEEDY.f90</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">SPEEDY.f90 </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            <li><a href="../program/speedy.html">Program</a></li>
+      
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../program/speedy.html">Program</a></li>
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>mod_radcon.f90
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.4% of total for source files.">18 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/mod_radcon.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">mod_radcon.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-0">Modules</a></h3></div>
+  <div id="mods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/mod_radcon.html">mod_radcon</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/mod_radcon.f90.html#src">mod_radcon.f90</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: sourcefile~~mod_radcon.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefilemod_radconf90EfferentGraph" width="204pt" height="32pt"
+ viewBox="0.00 0.00 204.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~mod_radcon.f90~~EfferentGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>sourcefile~~mod_radcon.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28 200,-28 200,4 -4,4"/>
+<!-- sourcefile~mod_radcon.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~EfferentGraph_node1" class="node"><title>sourcefile~mod_radcon.f90</title>
+<polygon fill="none" stroke="black" points="195.5,-24 104.5,-24 104.5,-0 195.5,-0 195.5,-24"/>
+<text text-anchor="middle" x="150" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">mod_radcon.f90</text>
+</g>
+<!-- sourcefile~params.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~EfferentGraph_node2" class="node"><title>sourcefile~params.f90</title>
+<g id="a_sourcefile~~mod_radcon.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/params.f90.html" xlink:title="params.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="67.5,-24 0.5,-24 0.5,-0 67.5,-0 67.5,-24"/>
+<text text-anchor="middle" x="34" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">params.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~mod_radcon.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~EfferentGraph_edge1" class="edge"><title>sourcefile~mod_radcon.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M104.271,-12C95.5793,-12 86.4876,-12 77.8576,-12"/>
+<polygon fill="#000000" stroke="#000000" points="77.6178,-8.5001 67.6177,-12 77.6177,-15.5001 77.6178,-8.5001"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="189pt" height="32pt"
+ viewBox="0.00 0.00 189.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28 185,-28 185,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node"><title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="66.25,-24 -0.25,-24 -0.25,-0 66.25,-0 66.25,-24"/>
+<text text-anchor="middle" x="33" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node"><title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="181.25,-24 84.75,-24 84.75,-0 181.25,-0 181.25,-24"/>
+<text text-anchor="middle" x="133" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+      
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Files dependent on this one</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: sourcefile~~mod_radcon.f90~~AfferentGraph Pages: 1 -->
+<svg id="sourcefilemod_radconf90AfferentGraph" width="641pt" height="138pt"
+ viewBox="0.00 0.00 641.00 138.44" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph" class="graph" transform="scale(0.761283 0.761283) rotate(0) translate(4 177.854)">
+<title>sourcefile~~mod_radcon.f90~~AfferentGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-177.854 838,-177.854 838,4 -4,4"/>
+<!-- sourcefile~mod_radcon.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_node1" class="node"><title>sourcefile~mod_radcon.f90</title>
+<polygon fill="none" stroke="black" points="91.5,-108 0.5,-108 0.5,-84 91.5,-84 91.5,-108"/>
+<text text-anchor="middle" x="46" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50">mod_radcon.f90</text>
+</g>
+<!-- sourcefile~longwave_radiation.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_node2" class="node"><title>sourcefile~longwave_radiation.f90</title>
+<g id="a_sourcefile~~mod_radcon.f90~~AfferentGraph_node2"><a xlink:href=".././sourcefile/longwave_radiation.f90.html" xlink:title="longwave_radiation.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="253.5,-66 130.5,-66 130.5,-42 253.5,-42 253.5,-66"/>
+<text text-anchor="middle" x="192" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">longwave_radiation.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~longwave_radiation.f90&#45;&gt;sourcefile~mod_radcon.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge1" class="edge"><title>sourcefile~longwave_radiation.f90&#45;&gt;sourcefile~mod_radcon.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M149.735,-66.0355C133.617,-70.7366 114.97,-76.1755 98.0213,-81.1188"/>
+<polygon fill="#000000" stroke="#000000" points="96.8906,-77.8027 88.2706,-83.9627 98.8507,-84.5227 96.8906,-77.8027"/>
+</g>
+<!-- sourcefile~surface_fluxes.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_node3" class="node"><title>sourcefile~surface_fluxes.f90</title>
+<g id="a_sourcefile~~mod_radcon.f90~~AfferentGraph_node3"><a xlink:href=".././sourcefile/surface_fluxes.f90.html" xlink:title="surface_fluxes.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="242,-108 142,-108 142,-84 242,-84 242,-108"/>
+<text text-anchor="middle" x="192" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">surface_fluxes.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~mod_radcon.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge2" class="edge"><title>sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~mod_radcon.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M141.846,-96C128.988,-96 115.046,-96 101.909,-96"/>
+<polygon fill="#000000" stroke="#000000" points="101.583,-92.5001 91.5825,-96 101.582,-99.5001 101.583,-92.5001"/>
+</g>
+<!-- sourcefile~shortwave_radiation.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_node4" class="node"><title>sourcefile~shortwave_radiation.f90</title>
+<g id="a_sourcefile~~mod_radcon.f90~~AfferentGraph_node4"><a xlink:href=".././sourcefile/shortwave_radiation.f90.html" xlink:title="shortwave_radiation.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="255.5,-150 128.5,-150 128.5,-126 255.5,-126 255.5,-150"/>
+<text text-anchor="middle" x="192" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">shortwave_radiation.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~shortwave_radiation.f90&#45;&gt;sourcefile~mod_radcon.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge3" class="edge"><title>sourcefile~shortwave_radiation.f90&#45;&gt;sourcefile~mod_radcon.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M149.735,-125.964C133.617,-121.263 114.97,-115.825 98.0213,-110.881"/>
+<polygon fill="#000000" stroke="#000000" points="98.8507,-107.477 88.2706,-108.037 96.8906,-114.197 98.8507,-107.477"/>
+</g>
+<!-- sourcefile~forcing.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_node5" class="node"><title>sourcefile~forcing.f90</title>
+<g id="a_sourcefile~~mod_radcon.f90~~AfferentGraph_node5"><a xlink:href=".././sourcefile/forcing.f90.html" xlink:title="forcing.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="356.5,-108 293.5,-108 293.5,-84 356.5,-84 356.5,-108"/>
+<text text-anchor="middle" x="325" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">forcing.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~forcing.f90&#45;&gt;sourcefile~mod_radcon.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge4" class="edge"><title>sourcefile~forcing.f90&#45;&gt;sourcefile~mod_radcon.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M315.564,-108.105C304.116,-123.348 282.071,-148.779 256,-159 203.036,-179.764 181.81,-177.463 128,-159 103.032,-150.433 79.831,-130.678 64.7164,-115.556"/>
+<polygon fill="#000000" stroke="#000000" points="67.0425,-112.926 57.5829,-108.154 62.0022,-117.783 67.0425,-112.926"/>
+</g>
+<!-- sourcefile~forcing.f90&#45;&gt;sourcefile~longwave_radiation.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge7" class="edge"><title>sourcefile~forcing.f90&#45;&gt;sourcefile~longwave_radiation.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M293.286,-86.1529C277.462,-81.0794 257.821,-74.7824 240.127,-69.1095"/>
+<polygon fill="#000000" stroke="#000000" points="241.125,-65.754 230.534,-66.0338 238.988,-72.4198 241.125,-65.754"/>
+</g>
+<!-- sourcefile~forcing.f90&#45;&gt;sourcefile~surface_fluxes.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge9" class="edge"><title>sourcefile~forcing.f90&#45;&gt;sourcefile~surface_fluxes.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M293.286,-96C281.055,-96 266.543,-96 252.413,-96"/>
+<polygon fill="#000000" stroke="#000000" points="252.229,-92.5001 242.229,-96 252.229,-99.5001 252.229,-92.5001"/>
+</g>
+<!-- sourcefile~forcing.f90&#45;&gt;sourcefile~shortwave_radiation.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge12" class="edge"><title>sourcefile~forcing.f90&#45;&gt;sourcefile~shortwave_radiation.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M293.286,-105.847C277.462,-110.921 257.821,-117.218 240.127,-122.891"/>
+<polygon fill="#000000" stroke="#000000" points="238.988,-119.58 230.534,-125.966 241.125,-126.246 238.988,-119.58"/>
+</g>
+<!-- sourcefile~sea_model.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_node6" class="node"><title>sourcefile~sea_model.f90</title>
+<g id="a_sourcefile~~mod_radcon.f90~~AfferentGraph_node6"><a xlink:href=".././sourcefile/sea_model.f90.html" xlink:title="sea_model.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="233.5,-24 150.5,-24 150.5,-0 233.5,-0 233.5,-24"/>
+<text text-anchor="middle" x="192" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sea_model.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~forcing.f90&#45;&gt;sourcefile~sea_model.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge18" class="edge"><title>sourcefile~forcing.f90&#45;&gt;sourcefile~sea_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M303.737,-83.9464C299.695,-81.2037 295.592,-78.16 292,-75 273.54,-58.7617 276.402,-46.7184 256,-33 251.967,-30.288 247.553,-27.8998 242.995,-25.8022"/>
+<polygon fill="#000000" stroke="#000000" points="244.087,-22.4669 233.508,-21.8941 241.421,-28.9393 244.087,-22.4669"/>
+</g>
+<!-- sourcefile~sea_model.f90&#45;&gt;sourcefile~mod_radcon.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge5" class="edge"><title>sourcefile~sea_model.f90&#45;&gt;sourcefile~mod_radcon.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M150.491,-23.2369C142.824,-25.9905 135.014,-29.2463 128,-33 105.529,-45.0262 82.8769,-63.2859 67.2639,-77.0563"/>
+<polygon fill="#000000" stroke="#000000" points="64.8716,-74.5005 59.7792,-83.7913 69.5539,-79.704 64.8716,-74.5005"/>
+</g>
+<!-- sourcefile~speedy.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_node7" class="node"><title>sourcefile~speedy.f90</title>
+<g id="a_sourcefile~~mod_radcon.f90~~AfferentGraph_node7"><a xlink:href=".././sourcefile/speedy.f90.html" xlink:title="speedy.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="833.5,-66 768.5,-66 768.5,-42 833.5,-42 833.5,-66"/>
+<text text-anchor="middle" x="801" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">speedy.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~shortwave_radiation.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge10" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~shortwave_radiation.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M434,-136C377.862,-128.463 313.706,-129.456 265.709,-132.066"/>
+<polygon fill="#000000" stroke="#000000" points="265.502,-128.572 255.721,-132.645 265.907,-135.56 265.502,-128.572"/>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~forcing.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge13" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~forcing.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M688,-136C579.07,-162.044 547.547,-146.058 436,-136"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M434,-136C407.535,-132.447 379.291,-121.715 358.326,-112.262"/>
+<polygon fill="#000000" stroke="#000000" points="359.782,-109.079 349.239,-108.039 356.832,-115.427 359.782,-109.079"/>
+</g>
+<!-- sourcefile~coupler.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_node8" class="node"><title>sourcefile~coupler.f90</title>
+<g id="a_sourcefile~~mod_radcon.f90~~AfferentGraph_node8"><a xlink:href=".././sourcefile/coupler.f90.html" xlink:title="coupler.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="594,-26 528,-26 528,-2 594,-2 594,-26"/>
+<text text-anchor="middle" x="561" y="-11.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">coupler.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~coupler.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge19" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~coupler.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M768.497,-42.9172C757.118,-39.2759 744.096,-35.5203 732,-33 689.053,-24.0518 639.066,-19.1041 604.463,-16.5194"/>
+<polygon fill="#000000" stroke="#000000" points="604.467,-13.0109 594.243,-15.7914 603.969,-19.9932 604.467,-13.0109"/>
+</g>
+<!-- sourcefile~initialization.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_node10" class="node"><title>sourcefile~initialization.f90</title>
+<g id="a_sourcefile~~mod_radcon.f90~~AfferentGraph_node10"><a xlink:href=".././sourcefile/initialization.f90.html" xlink:title="initialization.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="731.5,-66 646.5,-66 646.5,-42 731.5,-42 731.5,-66"/>
+<text text-anchor="middle" x="689" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialization.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~initialization.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge23" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~initialization.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M768.478,-54C760.176,-54 750.994,-54 741.924,-54"/>
+<polygon fill="#000000" stroke="#000000" points="741.785,-50.5001 731.785,-54 741.785,-57.5001 741.785,-50.5001"/>
+</g>
+<!-- sourcefile~time_stepping.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_node12" class="node"><title>sourcefile~time_stepping.f90</title>
+<g id="a_sourcefile~~mod_radcon.f90~~AfferentGraph_node12"><a xlink:href=".././sourcefile/time_stepping.f90.html" xlink:title="time_stepping.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="609.5,-106 512.5,-106 512.5,-82 609.5,-82 609.5,-106"/>
+<text text-anchor="middle" x="561" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">time_stepping.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~time_stepping.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge25" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~time_stepping.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M790.058,-66.0792C772.461,-86.245 733.553,-125.587 690,-136"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M688,-136C670.522,-140.179 627.614,-123.698 596.725,-110.166"/>
+<polygon fill="#000000" stroke="#000000" points="598.125,-106.958 587.566,-106.088 595.277,-113.353 598.125,-106.958"/>
+</g>
+<!-- sourcefile~coupler.f90&#45;&gt;sourcefile~sea_model.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge15" class="edge"><title>sourcefile~coupler.f90&#45;&gt;sourcefile~sea_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M527.73,-15.979C482.508,-18.3025 397.767,-21.0156 326,-14"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M324,-14C297.586,-11.1255 268.002,-10.4578 243.641,-10.5816"/>
+<polygon fill="#000000" stroke="#000000" points="243.51,-7.08255 233.544,-10.6789 243.578,-14.0822 243.51,-7.08255"/>
+</g>
+<!-- sourcefile~physics.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_node9" class="node"><title>sourcefile~physics.f90</title>
+<g id="a_sourcefile~~mod_radcon.f90~~AfferentGraph_node9"><a xlink:href=".././sourcefile/physics.f90.html" xlink:title="physics.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="358,-66 292,-66 292,-42 358,-42 358,-66"/>
+<text text-anchor="middle" x="325" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">physics.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~longwave_radiation.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge6" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~longwave_radiation.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M291.954,-54C283.352,-54 273.699,-54 263.883,-54"/>
+<polygon fill="#000000" stroke="#000000" points="263.632,-50.5001 253.632,-54 263.632,-57.5001 263.632,-50.5001"/>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~surface_fluxes.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge8" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~surface_fluxes.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M291.954,-64.2744C276.504,-69.2278 257.659,-75.2695 240.577,-80.7464"/>
+<polygon fill="#000000" stroke="#000000" points="239.216,-77.5073 230.762,-83.8932 241.353,-84.173 239.216,-77.5073"/>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~shortwave_radiation.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge11" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~shortwave_radiation.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M303.737,-66.0536C299.695,-68.7963 295.592,-71.84 292,-75 273.54,-91.2383 276.402,-103.282 256,-117 253.578,-118.628 251.019,-120.14 248.374,-121.542"/>
+<polygon fill="#000000" stroke="#000000" points="246.68,-118.472 239.123,-125.898 249.661,-124.805 246.68,-118.472"/>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~sea_model.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge16" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~sea_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M291.954,-43.7256C276.504,-38.7722 257.659,-32.7305 240.577,-27.2536"/>
+<polygon fill="#000000" stroke="#000000" points="241.353,-23.827 230.762,-24.1068 239.216,-30.4927 241.353,-23.827"/>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~forcing.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge14" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~forcing.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M434,-54C405.085,-54.0876 374.594,-67.3162 353.412,-78.9022"/>
+<polygon fill="#000000" stroke="#000000" points="351.612,-75.8994 344.655,-83.89 355.077,-81.982 351.612,-75.8994"/>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~sea_model.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge17" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~sea_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M646.086,-53.9224C596.077,-53.8477 509.937,-53.776 436,-54"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M434,-54C382.814,-54.1551 376.886,-19.5377 326,-14"/>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~coupler.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge20" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~coupler.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M650.196,-41.9987C635.568,-37.3549 618.77,-32.0223 603.785,-27.2652"/>
+<polygon fill="#000000" stroke="#000000" points="604.831,-23.9252 594.241,-24.2353 602.713,-30.5971 604.831,-23.9252"/>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~physics.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge22" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~physics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M434,-54C412.285,-54.0658 388.115,-54.0721 368.154,-54.0592"/>
+<polygon fill="#000000" stroke="#000000" points="368.138,-50.5593 358.135,-54.0509 368.132,-57.5593 368.138,-50.5593"/>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~time_stepping.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge26" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~time_stepping.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M650.196,-66.0013C637.48,-70.0382 623.124,-74.5955 609.745,-78.8429"/>
+<polygon fill="#000000" stroke="#000000" points="608.685,-75.5071 600.213,-81.8689 610.803,-82.179 608.685,-75.5071"/>
+</g>
+<!-- sourcefile~tendencies.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_node11" class="node"><title>sourcefile~tendencies.f90</title>
+<g id="a_sourcefile~~mod_radcon.f90~~AfferentGraph_node11"><a xlink:href=".././sourcefile/tendencies.f90.html" xlink:title="tendencies.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="476,-106 394,-106 394,-82 476,-82 476,-106"/>
+<text text-anchor="middle" x="435" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tendencies.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tendencies.f90&#45;&gt;sourcefile~physics.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge21" class="edge"><title>sourcefile~tendencies.f90&#45;&gt;sourcefile~physics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M401.596,-81.9987C390.928,-78.0474 378.913,-73.5975 367.655,-69.4277"/>
+<polygon fill="#000000" stroke="#000000" points="368.602,-66.0461 358.009,-65.855 366.17,-72.6103 368.602,-66.0461"/>
+</g>
+<!-- sourcefile~time_stepping.f90&#45;&gt;sourcefile~tendencies.f90 -->
+<g id="sourcefile~~mod_radcon.f90~~AfferentGraph_edge24" class="edge"><title>sourcefile~time_stepping.f90&#45;&gt;sourcefile~tendencies.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M512.413,-94C503.773,-94 494.738,-94 486.031,-94"/>
+<polygon fill="#000000" stroke="#000000" points="486.002,-90.5001 476.002,-94 486.002,-97.5001 486.002,-90.5001"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefilemod_radconf90AfferentGraph = svgPanZoom('#sourcefilemod_radconf90AfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="189pt" height="32pt"
+ viewBox="0.00 0.00 189.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28 185,-28 185,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node"><title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="66.25,-24 -0.25,-24 -0.25,-0 66.25,-0 66.25,-24"/>
+<text text-anchor="middle" x="33" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node"><title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="181.25,-24 84.75,-24 84.75,-0 181.25,-0 181.25,-24"/>
+<text text-anchor="middle" x="133" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-1">Modules</a></h3></div>
+  <div id="mods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/mod_radcon.html">mod_radcon</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/mod_radcon.f90.html#src">mod_radcon.f90</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="k">module </span><span class="n">mod_radcon</span>
+<a name="ln-2"></a>    <span class="k">use </span><span class="n">params</span>
+<a name="ln-3"></a>
+<a name="ln-4"></a>    <span class="k">implicit none</span>
+<a name="ln-5"></a>
+<a name="ln-6"></a><span class="k">    private</span>
+<a name="ln-7"></a><span class="k">    public </span><span class="n">albsea</span><span class="p">,</span> <span class="n">albice</span><span class="p">,</span> <span class="n">albsn</span><span class="p">,</span> <span class="n">epslw</span><span class="p">,</span> <span class="n">emisfc</span><span class="p">,</span> <span class="n">ablco2_ref</span>
+<a name="ln-8"></a>    <span class="k">public </span><span class="n">fband</span>
+<a name="ln-9"></a>    <span class="k">public </span><span class="n">alb_l</span><span class="p">,</span> <span class="n">alb_s</span><span class="p">,</span> <span class="n">albsfc</span><span class="p">,</span> <span class="n">snowc</span>
+<a name="ln-10"></a>    <span class="k">public </span><span class="n">tau2</span><span class="p">,</span> <span class="n">st4a</span><span class="p">,</span> <span class="n">stratc</span><span class="p">,</span> <span class="n">flux</span>
+<a name="ln-11"></a>
+<a name="ln-12"></a>    <span class="c">! Radiation and cloud constants</span>
+<a name="ln-13"></a>
+<a name="ln-14"></a>    <span class="c">! albsea = Albedo over sea</span>
+<a name="ln-15"></a>    <span class="c">! albice = Albedo over sea ice (for ice fraction = 1)</span>
+<a name="ln-16"></a>    <span class="c">! albsn  = Albedo over snow (for snow cover = 1)</span>
+<a name="ln-17"></a>
+<a name="ln-18"></a>    <span class="c">! epslw  = fraction of blackbody spectrum absorbed/emitted by PBL only</span>
+<a name="ln-19"></a>    <span class="c">! emisfc = longwave surface emissivity</span>
+<a name="ln-20"></a>
+<a name="ln-21"></a>    <span class="kt">real</span> <span class="kd">::</span> <span class="n">albsea</span> <span class="o">=</span> <span class="mf">0.07</span>
+<a name="ln-22"></a>    <span class="kt">real</span> <span class="kd">::</span> <span class="n">albice</span> <span class="o">=</span> <span class="mf">0.60</span>
+<a name="ln-23"></a>    <span class="kt">real</span> <span class="kd">::</span> <span class="n">albsn</span>  <span class="o">=</span> <span class="mf">0.60</span>
+<a name="ln-24"></a>
+<a name="ln-25"></a>    <span class="kt">real</span> <span class="kd">::</span> <span class="n">epslw</span>  <span class="o">=</span>  <span class="mf">0.05</span>
+<a name="ln-26"></a>    <span class="kt">real</span> <span class="kd">::</span> <span class="n">emisfc</span> <span class="o">=</span>  <span class="mf">0.98</span>
+<a name="ln-27"></a>
+<a name="ln-28"></a>    <span class="kt">real</span> <span class="kd">::</span> <span class="n">ablco2_ref</span>
+<a name="ln-29"></a>
+<a name="ln-30"></a>    <span class="c">! Time-invariant fields (initial. in radset)</span>
+<a name="ln-31"></a>    <span class="c">! fband  = energy fraction emitted in each LW band = f(T)</span>
+<a name="ln-32"></a>    <span class="kt">real</span> <span class="kd">::</span> <span class="n">fband</span><span class="p">(</span><span class="mi">100</span><span class="p">:</span><span class="mi">400</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<a name="ln-33"></a>
+<a name="ln-34"></a>    <span class="c">! Radiative properties of the surface (updated in fordate)</span>
+<a name="ln-35"></a>    <span class="c">! alb_l  = daily-mean albedo over land (bare-land + snow)</span>
+<a name="ln-36"></a>    <span class="c">! alb_s  = daily-mean albedo over sea  (open sea + sea ice)</span>
+<a name="ln-37"></a>    <span class="c">! albsfc = combined surface albedo (land + sea)</span>
+<a name="ln-38"></a>    <span class="c">! snowc  = effective snow cover (fraction)</span>
+<a name="ln-39"></a>    <span class="kt">real</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">)</span> <span class="kd">::</span> <span class="n">alb_l</span><span class="p">,</span> <span class="n">alb_s</span><span class="p">,</span> <span class="n">albsfc</span><span class="p">,</span> <span class="n">snowc</span>
+<a name="ln-40"></a>
+<a name="ln-41"></a>    <span class="c">! Transmissivity and blackbody rad. (updated in radsw/radlw)</span>
+<a name="ln-42"></a>    <span class="c">! tau2   = transmissivity of atmospheric layers</span>
+<a name="ln-43"></a>    <span class="c">! st4a   = blackbody emission from full and half atmospheric levels</span>
+<a name="ln-44"></a>    <span class="c">! stratc = stratospheric correction term</span>
+<a name="ln-45"></a>    <span class="c">! flux   = radiative flux in different spectral bands</span>
+<a name="ln-46"></a>    <span class="kt">real</span> <span class="kd">::</span> <span class="n">tau2</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">st4a</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">stratc</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">flux</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<a name="ln-47"></a><span class="k">end module</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2019 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> SPEEDY.f90 was developed by Sam Hatfield</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="An intermediate complexity atmospheric general circulation model">
+    
+    <meta name="author" content="Sam Hatfield" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>spectral.f90 &ndash; SPEEDY.f90</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">SPEEDY.f90 </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            <li><a href="../program/speedy.html">Program</a></li>
+      
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../program/speedy.html">Program</a></li>
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>spectral.f90
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 4.0% of total for source files.">179 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/spectral.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">spectral.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-0">Modules</a></h3></div>
+  <div id="mods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/spectral.html">spectral</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/spectral.f90.html#src">spectral.f90</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: sourcefile~~spectral.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefilespectralf90EfferentGraph" width="560pt" height="157pt"
+ viewBox="0.00 0.00 560.00 157.20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~spectral.f90~~EfferentGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 153.198)">
+<title>sourcefile~~spectral.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-153.198 556,-153.198 556,4 -4,4"/>
+<!-- sourcefile~spectral.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_node1" class="node"><title>sourcefile~spectral.f90</title>
+<polygon fill="none" stroke="black" points="552,-76.0481 484,-76.0481 484,-52.0481 552,-52.0481 552,-76.0481"/>
+<text text-anchor="middle" x="518" y="-61.6481" font-family="Helvetica,sans-Serif" font-size="10.50">spectral.f90</text>
+</g>
+<!-- sourcefile~geometry.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_node2" class="node"><title>sourcefile~geometry.f90</title>
+<g id="a_sourcefile~~spectral.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/geometry.f90.html" xlink:title="geometry.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="338,-76.0481 262,-76.0481 262,-52.0481 338,-52.0481 338,-76.0481"/>
+<text text-anchor="middle" x="300" y="-61.6481" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~spectral.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_edge1" class="edge"><title>sourcefile~spectral.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M483.723,-64.0481C447.504,-64.0481 389.293,-64.0481 348.325,-64.0481"/>
+<polygon fill="#000000" stroke="#000000" points="348.305,-60.5482 338.305,-64.0481 348.305,-67.5482 348.305,-60.5482"/>
+</g>
+<!-- sourcefile~params.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_node3" class="node"><title>sourcefile~params.f90</title>
+<g id="a_sourcefile~~spectral.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/params.f90.html" xlink:title="params.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="67.5,-76.0481 0.5,-76.0481 0.5,-52.0481 67.5,-52.0481 67.5,-76.0481"/>
+<text text-anchor="middle" x="34" y="-61.6481" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">params.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~spectral.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_edge2" class="edge"><title>sourcefile~spectral.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M507.25,-76.2703C495.056,-90.5977 472.75,-113.81 448,-125.048 388.017,-152.285 366.615,-138.184 301,-144.048"/>
+</g>
+<!-- sourcefile~legendre.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_node4" class="node"><title>sourcefile~legendre.f90</title>
+<g id="a_sourcefile~~spectral.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/legendre.f90.html" xlink:title="legendre.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="447.5,-36.0481 374.5,-36.0481 374.5,-12.0481 447.5,-12.0481 447.5,-36.0481"/>
+<text text-anchor="middle" x="411" y="-21.6481" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">legendre.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~spectral.f90&#45;&gt;sourcefile~legendre.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_edge3" class="edge"><title>sourcefile~spectral.f90&#45;&gt;sourcefile~legendre.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M485.497,-52.0467C475.414,-48.2059 464.095,-43.8938 453.417,-39.8258"/>
+<polygon fill="#000000" stroke="#000000" points="454.435,-36.4685 443.844,-36.1792 451.943,-43.0099 454.435,-36.4685"/>
+</g>
+<!-- sourcefile~fourier.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_node5" class="node"><title>sourcefile~fourier.f90</title>
+<g id="a_sourcefile~~spectral.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/fourier.f90.html" xlink:title="fourier.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="441.5,-116.048 380.5,-116.048 380.5,-92.0481 441.5,-92.0481 441.5,-116.048"/>
+<text text-anchor="middle" x="411" y="-101.648" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fourier.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~spectral.f90&#45;&gt;sourcefile~fourier.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_edge4" class="edge"><title>sourcefile~spectral.f90&#45;&gt;sourcefile~fourier.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M485.497,-76.0494C474.751,-80.143 462.6,-84.772 451.317,-89.07"/>
+<polygon fill="#000000" stroke="#000000" points="449.782,-85.9095 441.683,-92.7402 452.274,-92.4509 449.782,-85.9095"/>
+</g>
+<!-- sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_node6" class="node"><title>sourcefile~physical_constants.f90</title>
+<g id="a_sourcefile~~spectral.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/physical_constants.f90.html" xlink:title="physical_constants.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="225.5,-76.0481 104.5,-76.0481 104.5,-52.0481 225.5,-52.0481 225.5,-76.0481"/>
+<text text-anchor="middle" x="165" y="-61.6481" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">physical_constants.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~spectral.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_edge5" class="edge"><title>sourcefile~spectral.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M507.896,-51.8008C496.026,-36.9754 473.719,-12.7867 448,-3.04805 424.405,5.88616 269.319,-7.8845 262,-10.0481 235.997,-17.7342 209.347,-33.4728 190.745,-45.9854"/>
+<polygon fill="#000000" stroke="#000000" points="188.537,-43.2567 182.297,-51.8194 192.515,-49.0167 188.537,-43.2567"/>
+</g>
+<!-- sourcefile~geometry.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_edge6" class="edge"><title>sourcefile~geometry.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M289.137,-76.3008C268.509,-100.365 218.367,-150.899 166,-144.048"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M164,-144.048C119.823,-138.268 77.7329,-105.231 54.2413,-83.4591"/>
+<polygon fill="#000000" stroke="#000000" points="56.3842,-80.666 46.7347,-76.2912 51.55,-85.7286 56.3842,-80.666"/>
+</g>
+<!-- sourcefile~geometry.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_edge7" class="edge"><title>sourcefile~geometry.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M261.952,-64.0481C253.743,-64.0481 244.783,-64.0481 235.743,-64.0481"/>
+<polygon fill="#000000" stroke="#000000" points="235.539,-60.5481 225.539,-64.0481 235.539,-67.5481 235.539,-60.5481"/>
+</g>
+<!-- sourcefile~legendre.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_edge9" class="edge"><title>sourcefile~legendre.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M377.296,-36.0494C366.723,-39.9294 354.84,-44.2904 343.655,-48.3947"/>
+<polygon fill="#000000" stroke="#000000" points="342.239,-45.1861 334.057,-51.917 344.651,-51.7576 342.239,-45.1861"/>
+</g>
+<!-- sourcefile~legendre.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_edge8" class="edge"><title>sourcefile~legendre.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M374.114,-22.7238C352.833,-22.2685 325.345,-22.2545 301,-24.0481"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M299,-24.0481C212.158,-30.4459 189.405,-26.0657 104,-43.0481 95.2554,-44.7869 86.0373,-47.183 77.2856,-49.7363"/>
+<polygon fill="#000000" stroke="#000000" points="76.2059,-46.4063 67.653,-52.6591 78.2384,-53.1047 76.2059,-46.4063"/>
+</g>
+<!-- sourcefile~legendre.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_edge10" class="edge"><title>sourcefile~legendre.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M299,-24.0481C265.523,-26.5143 229.125,-38.1273 202.882,-48.2096"/>
+<polygon fill="#000000" stroke="#000000" points="201.363,-45.0465 193.349,-51.9765 203.935,-51.5567 201.363,-45.0465"/>
+</g>
+<!-- sourcefile~fourier.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_edge12" class="edge"><title>sourcefile~fourier.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M380.215,-93.1179C368.875,-88.9564 355.724,-84.1303 343.435,-79.6204"/>
+<polygon fill="#000000" stroke="#000000" points="344.408,-76.2494 333.814,-76.09 341.996,-82.8209 344.408,-76.2494"/>
+</g>
+<!-- sourcefile~fourier.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_edge11" class="edge"><title>sourcefile~fourier.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M387.847,-116.104C366.377,-126.825 332.522,-141.231 301,-144.048"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M299,-144.048C240.124,-149.31 224.612,-151.716 166,-144.048"/>
+</g>
+<!-- sourcefile~physical_constants.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~spectral.f90~~EfferentGraph_edge13" class="edge"><title>sourcefile~physical_constants.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M104.409,-64.0481C95.3976,-64.0481 86.2579,-64.0481 77.6987,-64.0481"/>
+<polygon fill="#000000" stroke="#000000" points="77.5938,-60.5482 67.5938,-64.0481 77.5938,-67.5482 77.5938,-60.5482"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="189pt" height="32pt"
+ viewBox="0.00 0.00 189.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28 185,-28 185,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node"><title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="66.25,-24 -0.25,-24 -0.25,-0 66.25,-0 66.25,-24"/>
+<text text-anchor="middle" x="33" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node"><title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="181.25,-24 84.75,-24 84.75,-0 181.25,-0 181.25,-24"/>
+<text text-anchor="middle" x="133" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+      
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Files dependent on this one</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: sourcefile~~spectral.f90~~AfferentGraph Pages: 1 -->
+<svg id="sourcefilespectralf90AfferentGraph" width="641pt" height="242pt"
+ viewBox="0.00 0.00 641.00 242.30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~spectral.f90~~AfferentGraph" class="graph" transform="scale(0.544143 0.544143) rotate(0) translate(4 441.29)">
+<title>sourcefile~~spectral.f90~~AfferentGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-441.29 1174,-441.29 1174,4 -4,4"/>
+<!-- sourcefile~spectral.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_node1" class="node"><title>sourcefile~spectral.f90</title>
+<polygon fill="none" stroke="black" points="68,-266.246 0,-266.246 0,-242.246 68,-242.246 68,-266.246"/>
+<text text-anchor="middle" x="34" y="-251.846" font-family="Helvetica,sans-Serif" font-size="10.50">spectral.f90</text>
+</g>
+<!-- sourcefile~physics.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_node2" class="node"><title>sourcefile~physics.f90</title>
+<g id="a_sourcefile~~spectral.f90~~AfferentGraph_node2"><a xlink:href=".././sourcefile/physics.f90.html" xlink:title="physics.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="684,-234.246 618,-234.246 618,-210.246 684,-210.246 684,-234.246"/>
+<text text-anchor="middle" x="651" y="-219.846" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">physics.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~spectral.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge1" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~spectral.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M624.878,-210.112C599.721,-199.078 559.592,-184.475 523,-184.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M521,-184.246C482.291,-184.003 474.165,-171.718 436,-165.246 364.092,-153.052 345.846,-142.643 273,-146.246"/>
+</g>
+<!-- sourcefile~sppt.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_node5" class="node"><title>sourcefile~sppt.f90</title>
+<g id="a_sourcefile~~spectral.f90~~AfferentGraph_node5"><a xlink:href=".././sourcefile/sppt.f90.html" xlink:title="sppt.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="420,-198.246 366,-198.246 366,-174.246 420,-174.246 420,-198.246"/>
+<text text-anchor="middle" x="393" y="-183.846" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sppt.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~sppt.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge20" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~sppt.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M521,-184.246C490.515,-184.055 455.917,-184.654 430.54,-185.245"/>
+<polygon fill="#000000" stroke="#000000" points="430.179,-181.752 420.267,-185.495 430.35,-188.75 430.179,-181.752"/>
+</g>
+<!-- sourcefile~boundaries.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_node6" class="node"><title>sourcefile~boundaries.f90</title>
+<g id="a_sourcefile~~spectral.f90~~AfferentGraph_node6"><a xlink:href=".././sourcefile/boundaries.f90.html" xlink:title="boundaries.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="314,-266.246 230,-266.246 230,-242.246 314,-242.246 314,-266.246"/>
+<text text-anchor="middle" x="272" y="-251.846" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">boundaries.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~boundaries.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge21" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~boundaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M521,-184.246C461.55,-183.874 450.542,-207.877 394,-226.246"/>
+</g>
+<!-- sourcefile~land_model.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_node12" class="node"><title>sourcefile~land_model.f90</title>
+<g id="a_sourcefile~~spectral.f90~~AfferentGraph_node12"><a xlink:href=".././sourcefile/land_model.f90.html" xlink:title="land_model.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="436,-335.246 350,-335.246 350,-311.246 436,-311.246 436,-335.246"/>
+<text text-anchor="middle" x="393" y="-320.846" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">land_model.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~land_model.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge39" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~land_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M521,-184.246C458.157,-183.852 480.815,-253.188 436,-297.246 432.973,-300.222 429.546,-303.019 425.987,-305.595"/>
+<polygon fill="#000000" stroke="#000000" points="423.964,-302.738 417.57,-311.186 427.837,-308.569 423.964,-302.738"/>
+</g>
+<!-- sourcefile~sea_model.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_node13" class="node"><title>sourcefile~sea_model.f90</title>
+<g id="a_sourcefile~~spectral.f90~~AfferentGraph_node13"><a xlink:href=".././sourcefile/sea_model.f90.html" xlink:title="sea_model.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="563.5,-274.246 480.5,-274.246 480.5,-250.246 563.5,-250.246 563.5,-274.246"/>
+<text text-anchor="middle" x="522" y="-259.846" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sea_model.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~sea_model.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge43" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~sea_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M617.953,-232.34C603.713,-236.824 586.651,-242.198 570.942,-247.146"/>
+<polygon fill="#000000" stroke="#000000" points="569.86,-243.817 561.373,-250.16 571.963,-250.494 569.86,-243.817"/>
+</g>
+<!-- sourcefile~surface_fluxes.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_node16" class="node"><title>sourcefile~surface_fluxes.f90</title>
+<g id="a_sourcefile~~spectral.f90~~AfferentGraph_node16"><a xlink:href=".././sourcefile/surface_fluxes.f90.html" xlink:title="surface_fluxes.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="572,-316.246 472,-316.246 472,-292.246 572,-292.246 572,-316.246"/>
+<text text-anchor="middle" x="522" y="-301.846" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">surface_fluxes.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~surface_fluxes.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge48" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~surface_fluxes.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M628.463,-234.345C621.705,-238.463 614.354,-243.286 608,-248.246 590.41,-261.977 590.566,-270.866 572,-283.246 569.732,-284.758 567.337,-286.201 564.875,-287.569"/>
+<polygon fill="#000000" stroke="#000000" points="563.1,-284.545 555.769,-292.194 566.27,-290.786 563.1,-284.545"/>
+</g>
+<!-- sourcefile~input_output.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_node3" class="node"><title>sourcefile~input_output.f90</title>
+<g id="a_sourcefile~~spectral.f90~~AfferentGraph_node3"><a xlink:href=".././sourcefile/input_output.f90.html" xlink:title="input_output.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="194,-266.246 104,-266.246 104,-242.246 194,-242.246 194,-266.246"/>
+<text text-anchor="middle" x="149" y="-251.846" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~input_output.f90&#45;&gt;sourcefile~spectral.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge2" class="edge"><title>sourcefile~input_output.f90&#45;&gt;sourcefile~spectral.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M103.988,-254.246C95.5288,-254.246 86.6768,-254.246 78.2426,-254.246"/>
+<polygon fill="#000000" stroke="#000000" points="78.2164,-250.746 68.2164,-254.246 78.2163,-257.746 78.2164,-250.746"/>
+</g>
+<!-- sourcefile~initialization.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_node4" class="node"><title>sourcefile~initialization.f90</title>
+<g id="a_sourcefile~~spectral.f90~~AfferentGraph_node4"><a xlink:href=".././sourcefile/initialization.f90.html" xlink:title="initialization.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1067.5,-295.246 982.5,-295.246 982.5,-271.246 1067.5,-271.246 1067.5,-295.246"/>
+<text text-anchor="middle" x="1025" y="-280.846" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialization.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~spectral.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge3" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~spectral.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M770,-222.246C638.297,-175.65 597.435,-183.751 472,-122.246 434.591,-103.903 434.064,-58.8084 394,-70.2459"/>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~physics.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge12" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~physics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M770,-222.246C745.883,-213.713 717.217,-213.505 694.178,-215.53"/>
+<polygon fill="#000000" stroke="#000000" points="693.606,-212.071 684.026,-216.596 694.336,-219.033 693.606,-212.071"/>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~input_output.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge13" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~input_output.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1006.09,-295.286C966.217,-321.181 866.187,-381.125 772,-397.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M770,-397.246C586.386,-430.87 522.717,-467.052 350,-396.246 306.367,-378.358 317.559,-338.683 273,-323.246"/>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~boundaries.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge22" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~boundaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M770,-222.246C717.795,-203.776 707.181,-257.602 652,-262.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M650,-262.246C614.225,-265.257 607.362,-247.445 572,-241.246 493.801,-227.538 469.507,-201.716 394,-226.246"/>
+</g>
+<!-- sourcefile~time_stepping.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_node7" class="node"><title>sourcefile~time_stepping.f90</title>
+<g id="a_sourcefile~~spectral.f90~~AfferentGraph_node7"><a xlink:href=".././sourcefile/time_stepping.f90.html" xlink:title="time_stepping.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="945.5,-137.246 848.5,-137.246 848.5,-113.246 945.5,-113.246 945.5,-137.246"/>
+<text text-anchor="middle" x="897" y="-122.846" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">time_stepping.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~time_stepping.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge28" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~time_stepping.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1014.32,-271.11C992.845,-244.179 941,-179.166 914.378,-145.783"/>
+<polygon fill="#000000" stroke="#000000" points="916.856,-143.277 907.885,-137.641 911.383,-147.641 916.856,-143.277"/>
+</g>
+<!-- sourcefile~forcing.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_node8" class="node"><title>sourcefile~forcing.f90</title>
+<g id="a_sourcefile~~spectral.f90~~AfferentGraph_node8"><a xlink:href=".././sourcefile/forcing.f90.html" xlink:title="forcing.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="682.5,-392.246 619.5,-392.246 619.5,-368.246 682.5,-368.246 682.5,-392.246"/>
+<text text-anchor="middle" x="651" y="-377.846" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">forcing.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~forcing.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge30" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~forcing.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M896,-283.246C831.422,-286.059 835.798,-348.855 772,-359.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M770,-359.246C744.176,-363.452 715.252,-368.593 692.503,-372.735"/>
+<polygon fill="#000000" stroke="#000000" points="691.727,-369.319 682.519,-374.561 692.986,-376.205 691.727,-369.319"/>
+</g>
+<!-- sourcefile~prognostics.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_node9" class="node"><title>sourcefile~prognostics.f90</title>
+<g id="a_sourcefile~~spectral.f90~~AfferentGraph_node9"><a xlink:href=".././sourcefile/prognostics.f90.html" xlink:title="prognostics.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="693.5,-122.246 608.5,-122.246 608.5,-98.2459 693.5,-98.2459 693.5,-122.246"/>
+<text text-anchor="middle" x="651" y="-107.846" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">prognostics.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~prognostics.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge33" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~prognostics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M982.267,-282.335C957.72,-282.027 926.083,-282.022 898,-283.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M896,-283.246C834.64,-285.919 829.902,-242.731 772,-222.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M770,-222.246C722.872,-205.572 684.506,-158.418 665.314,-130.9"/>
+<polygon fill="#000000" stroke="#000000" points="668.059,-128.713 659.555,-122.393 662.263,-132.637 668.059,-128.713"/>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~sea_model.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge44" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~sea_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M650,-262.246C624.928,-264.356 596.974,-264.585 573.688,-264.191"/>
+<polygon fill="#000000" stroke="#000000" points="573.753,-260.691 563.682,-263.979 573.605,-267.69 573.753,-260.691"/>
+</g>
+<!-- sourcefile~coupler.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_node15" class="node"><title>sourcefile~coupler.f90</title>
+<g id="a_sourcefile~~spectral.f90~~AfferentGraph_node15"><a xlink:href=".././sourcefile/coupler.f90.html" xlink:title="coupler.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="804,-313.246 738,-313.246 738,-289.246 804,-289.246 804,-313.246"/>
+<text text-anchor="middle" x="771" y="-298.846" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">coupler.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~coupler.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge47" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~coupler.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M896,-283.246C868.644,-284.438 838.211,-288.809 814.341,-292.945"/>
+<polygon fill="#000000" stroke="#000000" points="813.435,-289.552 804.206,-294.755 814.666,-296.443 813.435,-289.552"/>
+</g>
+<!-- sourcefile~sppt.f90&#45;&gt;sourcefile~spectral.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge10" class="edge"><title>sourcefile~sppt.f90&#45;&gt;sourcefile~spectral.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M371.617,-174.228C348.445,-161.808 309.137,-144.458 273,-146.246"/>
+</g>
+<!-- sourcefile~boundaries.f90&#45;&gt;sourcefile~spectral.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge5" class="edge"><title>sourcefile~boundaries.f90&#45;&gt;sourcefile~spectral.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M265.28,-241.931C250.258,-211.606 206.89,-136.471 150,-146.246"/>
+</g>
+<!-- sourcefile~boundaries.f90&#45;&gt;sourcefile~input_output.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge14" class="edge"><title>sourcefile~boundaries.f90&#45;&gt;sourcefile~input_output.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M229.697,-254.246C221.52,-254.246 212.821,-254.246 204.289,-254.246"/>
+<polygon fill="#000000" stroke="#000000" points="204.01,-250.746 194.01,-254.246 204.01,-257.746 204.01,-250.746"/>
+</g>
+<!-- sourcefile~time_stepping.f90&#45;&gt;sourcefile~spectral.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge6" class="edge"><title>sourcefile~time_stepping.f90&#45;&gt;sourcefile~spectral.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M848.162,-114.399C814.661,-106.29 769.08,-94.2251 730,-80.2459 657.512,-54.3163 647.276,-25.3821 572,-9.24594 528.543,0.0695205 514.02,5.23374 472,-9.24594 430.392,-23.5838 436.175,-57.6736 394,-70.2459"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M392,-70.2459C331.656,-87.4732 335.718,-144.089 273,-146.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M271,-146.246C217.254,-148.095 203.001,-137.139 150,-146.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M148,-146.246C100.182,-154.462 64.0395,-203.88 46.5876,-232.941"/>
+<polygon fill="#000000" stroke="#000000" points="43.3678,-231.518 41.3958,-241.928 49.4289,-235.02 43.3678,-231.518"/>
+</g>
+<!-- sourcefile~time_stepping.f90&#45;&gt;sourcefile~prognostics.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge31" class="edge"><title>sourcefile~time_stepping.f90&#45;&gt;sourcefile~prognostics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M876.877,-137.394C860.41,-147.091 835.633,-159.906 812,-165.246 776.452,-173.278 764.74,-176.262 730,-165.246 707.611,-158.146 686.102,-142.046 671.362,-129.09"/>
+<polygon fill="#000000" stroke="#000000" points="673.655,-126.444 663.907,-122.292 668.939,-131.616 673.655,-126.444"/>
+</g>
+<!-- sourcefile~tendencies.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_node11" class="node"><title>sourcefile~tendencies.f90</title>
+<g id="a_sourcefile~~spectral.f90~~AfferentGraph_node11"><a xlink:href=".././sourcefile/tendencies.f90.html" xlink:title="tendencies.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="812,-156.246 730,-156.246 730,-132.246 812,-132.246 812,-156.246"/>
+<text text-anchor="middle" x="771" y="-141.846" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tendencies.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~time_stepping.f90&#45;&gt;sourcefile~tendencies.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge37" class="edge"><title>sourcefile~time_stepping.f90&#45;&gt;sourcefile~tendencies.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M848.413,-132.538C839.773,-133.861 830.738,-135.246 822.031,-136.58"/>
+<polygon fill="#000000" stroke="#000000" points="821.357,-133.142 812.002,-138.117 822.417,-140.061 821.357,-133.142"/>
+</g>
+<!-- sourcefile~forcing.f90&#45;&gt;sourcefile~spectral.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge7" class="edge"><title>sourcefile~forcing.f90&#45;&gt;sourcefile~spectral.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M392,-382.246C319.474,-364.247 300.531,-361.932 230,-337.246 172.694,-317.189 108.244,-288.502 69.67,-270.645"/>
+<polygon fill="#000000" stroke="#000000" points="70.9838,-267.396 60.4407,-266.351 68.0305,-273.743 70.9838,-267.396"/>
+</g>
+<!-- sourcefile~forcing.f90&#45;&gt;sourcefile~boundaries.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge23" class="edge"><title>sourcefile~forcing.f90&#45;&gt;sourcefile~boundaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M521,-382.246C464.864,-376.349 448.783,-395.842 394,-382.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M392,-382.246C367.568,-376.183 367.551,-362.291 350,-344.246 327.62,-321.237 303.905,-292.826 288.803,-274.156"/>
+<polygon fill="#000000" stroke="#000000" points="291.497,-271.921 282.506,-266.317 286.04,-276.305 291.497,-271.921"/>
+</g>
+<!-- sourcefile~forcing.f90&#45;&gt;sourcefile~land_model.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge40" class="edge"><title>sourcefile~forcing.f90&#45;&gt;sourcefile~land_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M619.371,-382.784C593.591,-384.429 555.786,-385.69 523,-382.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M521,-382.246C482.884,-378.242 443.554,-356.797 418.957,-340.909"/>
+<polygon fill="#000000" stroke="#000000" points="420.858,-337.97 410.592,-335.35 416.983,-343.8 420.858,-337.97"/>
+</g>
+<!-- sourcefile~forcing.f90&#45;&gt;sourcefile~sea_model.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge45" class="edge"><title>sourcefile~forcing.f90&#45;&gt;sourcefile~sea_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M625.197,-367.992C619.07,-364.175 612.873,-359.552 608,-354.246 584.069,-328.188 597.81,-307.445 572,-283.246 570.747,-282.071 569.418,-280.956 568.03,-279.898"/>
+<polygon fill="#000000" stroke="#000000" points="569.872,-276.921 559.569,-274.452 566.083,-282.807 569.872,-276.921"/>
+</g>
+<!-- sourcefile~forcing.f90&#45;&gt;sourcefile~surface_fluxes.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge49" class="edge"><title>sourcefile~forcing.f90&#45;&gt;sourcefile~surface_fluxes.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M629.876,-368.204C608.914,-355.659 575.871,-335.885 552.073,-321.644"/>
+<polygon fill="#000000" stroke="#000000" points="553.828,-318.615 543.45,-316.484 550.234,-324.622 553.828,-318.615"/>
+</g>
+<!-- sourcefile~prognostics.f90&#45;&gt;sourcefile~spectral.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge8" class="edge"><title>sourcefile~prognostics.f90&#45;&gt;sourcefile~spectral.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M608.359,-106.562C583.484,-105.113 551.317,-104.558 523,-108.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M521,-108.246C462.577,-115.856 450.539,-53.6774 394,-70.2459"/>
+</g>
+<!-- sourcefile~prognostics.f90&#45;&gt;sourcefile~input_output.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge17" class="edge"><title>sourcefile~prognostics.f90&#45;&gt;sourcefile~input_output.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M521,-108.246C384.944,-121.097 238.077,-200.968 178.002,-236.838"/>
+<polygon fill="#000000" stroke="#000000" points="175.872,-234.035 169.12,-242.2 179.49,-240.028 175.872,-234.035"/>
+</g>
+<!-- sourcefile~prognostics.f90&#45;&gt;sourcefile~boundaries.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge25" class="edge"><title>sourcefile~prognostics.f90&#45;&gt;sourcefile~boundaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M521,-108.246C463.264,-113.699 482.409,-172.47 436,-207.246 419.605,-219.532 413.485,-219.916 394,-226.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M392,-226.246C370.044,-233.379 345.262,-239.505 324.019,-244.193"/>
+<polygon fill="#000000" stroke="#000000" points="323.254,-240.777 314.218,-246.31 324.732,-247.62 323.254,-240.777"/>
+</g>
+<!-- sourcefile~diagnostics.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_node10" class="node"><title>sourcefile~diagnostics.f90</title>
+<g id="a_sourcefile~~spectral.f90~~AfferentGraph_node10"><a xlink:href=".././sourcefile/diagnostics.f90.html" xlink:title="diagnostics.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="564,-42.2459 480,-42.2459 480,-18.2459 564,-18.2459 564,-42.2459"/>
+<text text-anchor="middle" x="522" y="-27.8459" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">diagnostics.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~prognostics.f90&#45;&gt;sourcefile~diagnostics.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge35" class="edge"><title>sourcefile~prognostics.f90&#45;&gt;sourcefile~diagnostics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M630.711,-98.0957C609.422,-84.6851 574.971,-62.9834 550.776,-47.7426"/>
+<polygon fill="#000000" stroke="#000000" points="552.381,-44.617 542.054,-42.2484 548.65,-50.5398 552.381,-44.617"/>
+</g>
+<!-- sourcefile~diagnostics.f90&#45;&gt;sourcefile~spectral.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge9" class="edge"><title>sourcefile~diagnostics.f90&#45;&gt;sourcefile~spectral.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M484.163,-42.2778C458.876,-50.4314 424.502,-61.3074 394,-70.2459"/>
+</g>
+<!-- sourcefile~tendencies.f90&#45;&gt;sourcefile~spectral.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge4" class="edge"><title>sourcefile~tendencies.f90&#45;&gt;sourcefile~spectral.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M750.608,-132.203C743.974,-127.937 736.572,-123.01 730,-118.246 713.365,-106.187 713.15,-96.6887 694,-89.2459 631.737,-65.0473 458.104,-51.4605 394,-70.2459"/>
+</g>
+<!-- sourcefile~tendencies.f90&#45;&gt;sourcefile~physics.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge11" class="edge"><title>sourcefile~tendencies.f90&#45;&gt;sourcefile~physics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M751.821,-156.263C732.302,-169.165 701.092,-189.795 678.767,-204.553"/>
+<polygon fill="#000000" stroke="#000000" points="676.806,-201.653 670.394,-210.087 680.666,-207.493 676.806,-201.653"/>
+</g>
+<!-- sourcefile~tendencies.f90&#45;&gt;sourcefile~prognostics.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge34" class="edge"><title>sourcefile~tendencies.f90&#45;&gt;sourcefile~prognostics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M729.721,-132.64C721.281,-130.208 712.27,-127.612 703.485,-125.081"/>
+<polygon fill="#000000" stroke="#000000" points="704.283,-121.668 693.705,-122.263 702.345,-128.395 704.283,-121.668"/>
+</g>
+<!-- sourcefile~land_model.f90&#45;&gt;sourcefile~input_output.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge18" class="edge"><title>sourcefile~land_model.f90&#45;&gt;sourcefile~input_output.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M349.856,-329.863C326.577,-331.899 297.499,-331.733 273,-323.246"/>
+</g>
+<!-- sourcefile~land_model.f90&#45;&gt;sourcefile~boundaries.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge26" class="edge"><title>sourcefile~land_model.f90&#45;&gt;sourcefile~boundaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M371.272,-311.227C352.277,-300.213 323.944,-283.785 302.575,-271.394"/>
+<polygon fill="#000000" stroke="#000000" points="304.297,-268.347 293.89,-266.359 300.785,-274.403 304.297,-268.347"/>
+</g>
+<!-- sourcefile~sea_model.f90&#45;&gt;sourcefile~input_output.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge15" class="edge"><title>sourcefile~sea_model.f90&#45;&gt;sourcefile~input_output.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M392,-283.246C336.501,-289.005 325.723,-341.511 273,-323.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M271,-323.246C235.542,-310.962 198.612,-288.218 175.022,-272.208"/>
+<polygon fill="#000000" stroke="#000000" points="176.883,-269.239 166.665,-266.437 172.906,-275 176.883,-269.239"/>
+</g>
+<!-- sourcefile~sea_model.f90&#45;&gt;sourcefile~boundaries.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge24" class="edge"><title>sourcefile~sea_model.f90&#45;&gt;sourcefile~boundaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M480.275,-270.268C455.444,-274.837 423.008,-280.236 394,-283.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M392,-283.246C363.869,-286.165 332.849,-278.224 309.534,-269.918"/>
+<polygon fill="#000000" stroke="#000000" points="310.637,-266.594 300.044,-266.367 308.183,-273.15 310.637,-266.594"/>
+</g>
+<!-- sourcefile~speedy.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_node14" class="node"><title>sourcefile~speedy.f90</title>
+<g id="a_sourcefile~~spectral.f90~~AfferentGraph_node14"><a xlink:href=".././sourcefile/speedy.f90.html" xlink:title="speedy.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1169.5,-295.246 1104.5,-295.246 1104.5,-271.246 1169.5,-271.246 1169.5,-295.246"/>
+<text text-anchor="middle" x="1137" y="-280.846" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">speedy.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~input_output.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge16" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~input_output.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M896,-397.246C841.008,-400.873 826.21,-387.319 772,-397.246"/>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~initialization.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge19" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~initialization.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1104.48,-283.246C1096.18,-283.246 1086.99,-283.246 1077.92,-283.246"/>
+<polygon fill="#000000" stroke="#000000" points="1077.78,-279.746 1067.78,-283.246 1077.78,-286.746 1077.78,-279.746"/>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~time_stepping.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge27" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~time_stepping.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1024,-66.2459C985.635,-48.4692 940.822,-82.5921 916.318,-105.948"/>
+<polygon fill="#000000" stroke="#000000" points="913.761,-103.554 909.11,-113.074 918.683,-108.533 913.761,-103.554"/>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~forcing.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge29" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~forcing.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1024,-360.246C969.366,-380.777 956.238,-393.405 898,-397.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M896,-397.246C838.484,-401.04 828.891,-349.98 772,-359.246"/>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~prognostics.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge32" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~prognostics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M770,-66.2459C737.195,-64.3388 702.238,-79.8362 678.963,-92.9597"/>
+<polygon fill="#000000" stroke="#000000" points="676.894,-90.1154 670.043,-98.1972 680.439,-96.1516 676.894,-90.1154"/>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~diagnostics.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge36" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~diagnostics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1134.75,-270.99C1129.88,-230.943 1108.2,-104.336 1026,-66.2459"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1024,-66.2459C922.379,-19.159 883.811,-72.7462 772,-66.2459"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M770,-66.2459C760.327,-66.1435 643.952,-48.6653 574.451,-38.1035"/>
+<polygon fill="#000000" stroke="#000000" points="574.551,-34.5786 564.138,-36.5349 573.498,-41.499 574.551,-34.5786"/>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~coupler.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge46" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~coupler.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1124.22,-295.411C1105.47,-313.773 1066.79,-347.752 1026,-360.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1024,-360.246C944.653,-384.551 848.635,-343.079 801.298,-318.088"/>
+<polygon fill="#000000" stroke="#000000" points="802.961,-315.008 792.499,-313.334 799.633,-321.167 802.961,-315.008"/>
+</g>
+<!-- sourcefile~coupler.f90&#45;&gt;sourcefile~land_model.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge38" class="edge"><title>sourcefile~coupler.f90&#45;&gt;sourcefile~land_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M650,-340.246C579.378,-341.479 498.02,-334.661 446.325,-329.294"/>
+<polygon fill="#000000" stroke="#000000" points="446.389,-325.781 436.076,-328.208 445.652,-332.742 446.389,-325.781"/>
+</g>
+<!-- sourcefile~coupler.f90&#45;&gt;sourcefile~sea_model.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge42" class="edge"><title>sourcefile~coupler.f90&#45;&gt;sourcefile~sea_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M747.226,-313.332C723.981,-324.56 686.516,-339.643 652,-340.246"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M650,-340.246C607.07,-340.995 609.304,-304.505 572,-283.246 569.186,-281.642 566.225,-280.084 563.21,-278.59"/>
+<polygon fill="#000000" stroke="#000000" points="564.638,-275.394 554.098,-274.314 561.665,-281.731 564.638,-275.394"/>
+</g>
+<!-- sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~land_model.f90 -->
+<g id="sourcefile~~spectral.f90~~AfferentGraph_edge41" class="edge"><title>sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~land_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M471.898,-311.592C463.562,-312.839 454.875,-314.139 446.456,-315.398"/>
+<polygon fill="#000000" stroke="#000000" points="445.733,-311.967 436.361,-316.908 446.769,-318.89 445.733,-311.967"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefilespectralf90AfferentGraph = svgPanZoom('#sourcefilespectralf90AfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="189pt" height="32pt"
+ viewBox="0.00 0.00 189.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28 185,-28 185,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node"><title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="66.25,-24 -0.25,-24 -0.25,-0 66.25,-0 66.25,-24"/>
+<text text-anchor="middle" x="33" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node"><title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="181.25,-24 84.75,-24 84.75,-0 181.25,-0 181.25,-24"/>
+<text text-anchor="middle" x="133" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-1">Modules</a></h3></div>
+  <div id="mods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/spectral.html">spectral</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/spectral.f90.html#src">spectral.f90</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="k">module </span><span class="n">spectral</span>
+<a name="ln-2"></a>    <span class="k">use </span><span class="n">params</span>
+<a name="ln-3"></a>
+<a name="ln-4"></a>    <span class="k">implicit none</span>
+<a name="ln-5"></a>
+<a name="ln-6"></a><span class="k">    private</span>
+<a name="ln-7"></a><span class="k">    public </span><span class="n">el2</span>
+<a name="ln-8"></a>    <span class="k">public </span><span class="n">initialize_spectral</span>
+<a name="ln-9"></a>    <span class="k">public </span><span class="n">laplacian</span><span class="p">,</span> <span class="n">inverse_laplacian</span><span class="p">,</span> <span class="n">spec_to_grid</span><span class="p">,</span> <span class="n">grid_to_spec</span>
+<a name="ln-10"></a>    <span class="k">public </span><span class="n">grad</span><span class="p">,</span> <span class="n">vds</span><span class="p">,</span> <span class="n">uvspec</span><span class="p">,</span> <span class="n">vdspec</span><span class="p">,</span> <span class="n">trunct</span>
+<a name="ln-11"></a>
+<a name="ln-12"></a>    <span class="kt">real</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span> <span class="kd">::</span> <span class="n">el2</span><span class="p">,</span> <span class="n">elm2</span><span class="p">,</span> <span class="n">el4</span><span class="p">,</span> <span class="n">trfilt</span>
+<a name="ln-13"></a>    <span class="kt">real</span> <span class="kd">::</span> <span class="n">gradx</span><span class="p">(</span><span class="n">mx</span><span class="p">),</span> <span class="n">gradym</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">),</span> <span class="n">gradyp</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+<a name="ln-14"></a>    <span class="kt">real</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span> <span class="kd">::</span> <span class="n">uvdx</span><span class="p">,</span> <span class="n">uvdym</span><span class="p">,</span> <span class="n">uvdyp</span>
+<a name="ln-15"></a>    <span class="kt">real</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span> <span class="kd">::</span> <span class="n">vddym</span><span class="p">,</span> <span class="n">vddyp</span>
+<a name="ln-16"></a>
+<a name="ln-17"></a><span class="k">contains</span>
+<a name="ln-18"></a>    <span class="c">! Initialize spectral transforms</span>
+<a name="ln-19"></a>    <span class="k">subroutine </span><span class="n">initialize_spectral</span>
+<a name="ln-20"></a>        <span class="k">use </span><span class="n">physical_constants</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">rearth</span>
+<a name="ln-21"></a>        <span class="k">use </span><span class="n">fourier</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">initialize_fourier</span>
+<a name="ln-22"></a>        <span class="k">use </span><span class="n">legendre</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">initialize_legendre</span><span class="p">,</span> <span class="n">epsi</span>
+<a name="ln-23"></a>
+<a name="ln-24"></a>        <span class="kt">real</span> <span class="kd">::</span> <span class="n">el1</span>
+<a name="ln-25"></a>        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">m</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">wavenum_tot</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">),</span> <span class="n">mm</span><span class="p">(</span><span class="n">mx</span><span class="p">)</span>
+<a name="ln-26"></a>
+<a name="ln-27"></a>        <span class="c">! Initialize Fourier transforms</span>
+<a name="ln-28"></a>        <span class="k">call </span><span class="n">initialize_fourier</span>
+<a name="ln-29"></a>
+<a name="ln-30"></a>        <span class="c">! Initialize Legendre transforms</span>
+<a name="ln-31"></a>        <span class="k">call </span><span class="n">initialize_legendre</span>
+<a name="ln-32"></a>
+<a name="ln-33"></a>        <span class="c">!  MM = zonal wavenumber = m</span>
+<a name="ln-34"></a>        <span class="c">!  wavenum_tot = total wavenumber of spherical harmonic = l</span>
+<a name="ln-35"></a>        <span class="c">!  L2 = l*(l+1)</span>
+<a name="ln-36"></a>        <span class="c">!  EL2 = l*(l+1)/(a**2)</span>
+<a name="ln-37"></a>        <span class="c">!  EL4 = EL2*EL2 ; for biharmonic diffusion</span>
+<a name="ln-38"></a>        <span class="c">!  ELM2 = 1./EL2</span>
+<a name="ln-39"></a>        <span class="c">!  TRFILT used to filter out &quot;non-triangular&quot; part of rhomboidal truncation</span>
+<a name="ln-40"></a>        <span class="k">do </span><span class="n">n</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nx</span>
+<a name="ln-41"></a>            <span class="k">do </span><span class="n">m</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mx</span>
+<a name="ln-42"></a>                <span class="n">mm</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-43"></a>                <span class="n">wavenum_tot</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">mm</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">+</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-44"></a>                <span class="n">el2</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wavenum_tot</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">wavenum_tot</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">rearth</span><span class="o">**</span><span class="mf">2.0</span><span class="p">)</span>
+<a name="ln-45"></a>                <span class="n">el4</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">el2</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="o">**</span><span class="mf">2.0</span>
+<a name="ln-46"></a>                <span class="k">if</span> <span class="p">(</span><span class="n">wavenum_tot</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">trunc</span><span class="p">)</span> <span class="k">then</span>
+<a name="ln-47"></a><span class="k">                    </span><span class="n">trfilt</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0</span>
+<a name="ln-48"></a>                <span class="k">else</span>
+<a name="ln-49"></a><span class="k">                    </span><span class="n">trfilt</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.0</span>
+<a name="ln-50"></a>                <span class="k">end if</span>
+<a name="ln-51"></a><span class="k">            end do</span>
+<a name="ln-52"></a><span class="k">        end do</span>
+<a name="ln-53"></a>
+<a name="ln-54"></a><span class="k">        </span><span class="n">elm2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.0</span>
+<a name="ln-55"></a>        <span class="n">elm2</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="n">mx</span><span class="p">,:)</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">el2</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="n">mx</span><span class="p">,:)</span>
+<a name="ln-56"></a>        <span class="n">elm2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="n">nx</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">el2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="n">nx</span><span class="p">)</span>
+<a name="ln-57"></a>
+<a name="ln-58"></a>        <span class="c">! quantities required by subroutines GRAD, UVSPEC, and VDS</span>
+<a name="ln-59"></a>        <span class="c">! saved in spectral</span>
+<a name="ln-60"></a>        <span class="k">do </span><span class="n">m</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mx</span>
+<a name="ln-61"></a>            <span class="k">do </span><span class="n">n</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nx</span>
+<a name="ln-62"></a>                <span class="n">m1</span> <span class="o">=</span> <span class="n">mm</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<a name="ln-63"></a>                <span class="n">m2</span> <span class="o">=</span> <span class="n">m1</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-64"></a>                <span class="n">el1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wavenum_tot</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">))</span>
+<a name="ln-65"></a>                <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">then</span>
+<a name="ln-66"></a><span class="k">                    </span><span class="n">gradx</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>   <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span><span class="o">/</span><span class="n">rearth</span>
+<a name="ln-67"></a>                    <span class="n">uvdx</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="o">=</span> <span class="o">-</span><span class="n">rearth</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">m1</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-68"></a>                    <span class="n">uvdym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.0</span>
+<a name="ln-69"></a>                    <span class="n">vddym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.0</span>
+<a name="ln-70"></a>                <span class="k">else</span>
+<a name="ln-71"></a><span class="k">                    </span><span class="n">uvdx</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>   <span class="o">=</span> <span class="o">-</span><span class="n">rearth</span><span class="o">*</span><span class="nb">float</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">el1</span><span class="o">*</span><span class="p">(</span><span class="n">el1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+<a name="ln-72"></a>                    <span class="n">gradym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">el1</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span><span class="o">*</span><span class="n">epsi</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">rearth</span>
+<a name="ln-73"></a>                    <span class="n">uvdym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>  <span class="o">=</span> <span class="o">-</span><span class="n">rearth</span><span class="o">*</span><span class="n">epsi</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">el1</span>
+<a name="ln-74"></a>                    <span class="n">vddym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>  <span class="o">=</span> <span class="p">(</span><span class="n">el1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">epsi</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">rearth</span>
+<a name="ln-75"></a>                <span class="k">end if</span>
+<a name="ln-76"></a><span class="k">                </span><span class="n">gradyp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">el1</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">)</span><span class="o">*</span><span class="n">epsi</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">rearth</span>
+<a name="ln-77"></a>                <span class="n">uvdyp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>  <span class="o">=</span> <span class="o">-</span><span class="n">rearth</span><span class="o">*</span><span class="n">epsi</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">el1</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+<a name="ln-78"></a>                <span class="n">vddyp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>  <span class="o">=</span> <span class="n">el1</span><span class="o">*</span><span class="n">epsi</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">rearth</span>
+<a name="ln-79"></a>            <span class="k">end do</span>
+<a name="ln-80"></a><span class="k">        end do</span>
+<a name="ln-81"></a><span class="k">    end</span>
+<a name="ln-82"></a>
+<a name="ln-83"></a><span class="k">    function </span><span class="n">laplacian</span><span class="p">(</span><span class="n">input</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<a name="ln-84"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">input</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+<a name="ln-85"></a>        <span class="kt">complex</span> <span class="kd">::</span> <span class="n">output</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+<a name="ln-86"></a>
+<a name="ln-87"></a>        <span class="n">output</span> <span class="o">=</span> <span class="o">-</span><span class="n">input</span><span class="o">*</span><span class="n">el2</span>
+<a name="ln-88"></a>    <span class="k">end function</span>
+<a name="ln-89"></a>
+<a name="ln-90"></a><span class="k">    function </span><span class="n">inverse_laplacian</span><span class="p">(</span><span class="n">input</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<a name="ln-91"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">input</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+<a name="ln-92"></a>        <span class="kt">complex</span> <span class="kd">::</span> <span class="n">output</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+<a name="ln-93"></a>
+<a name="ln-94"></a>        <span class="n">output</span> <span class="o">=</span> <span class="o">-</span><span class="n">input</span><span class="o">*</span><span class="n">elm2</span>
+<a name="ln-95"></a>    <span class="k">end function</span>
+<a name="ln-96"></a>
+<a name="ln-97"></a><span class="k">    function </span><span class="n">spec_to_grid</span><span class="p">(</span><span class="n">vorm</span><span class="p">,</span> <span class="n">kcos</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">vorg</span><span class="p">)</span>
+<a name="ln-98"></a>        <span class="k">use </span><span class="n">legendre</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">legendre_inv</span>
+<a name="ln-99"></a>        <span class="k">use </span><span class="n">fourier</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">fourier_inv</span>
+<a name="ln-100"></a>
+<a name="ln-101"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">vorm</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+<a name="ln-102"></a>        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">kcos</span>
+<a name="ln-103"></a>
+<a name="ln-104"></a>        <span class="kt">real</span> <span class="kd">::</span> <span class="n">vorg</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">)</span>
+<a name="ln-105"></a>        <span class="kt">real</span> <span class="kd">::</span> <span class="n">vorm_r</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+<a name="ln-106"></a>
+<a name="ln-107"></a>        <span class="n">vorm_r</span> <span class="o">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="nb">transfer</span><span class="p">(</span><span class="n">vorm</span><span class="p">,</span> <span class="n">vorm_r</span><span class="p">),</span> <span class="p">(</span><span class="o">/</span> <span class="mi">2</span><span class="o">*</span><span class="n">mx</span><span class="p">,</span> <span class="n">nx</span> <span class="o">/</span><span class="p">))</span>
+<a name="ln-108"></a>        <span class="n">vorg</span> <span class="o">=</span> <span class="n">fourier_inv</span><span class="p">(</span><span class="n">legendre_inv</span><span class="p">(</span><span class="n">vorm_r</span><span class="p">),</span> <span class="n">kcos</span><span class="p">)</span>
+<a name="ln-109"></a>    <span class="k">end function</span>
+<a name="ln-110"></a>
+<a name="ln-111"></a><span class="k">    function </span><span class="n">grid_to_spec</span><span class="p">(</span><span class="n">vorg</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">vorm</span><span class="p">)</span>
+<a name="ln-112"></a>        <span class="k">use </span><span class="n">legendre</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">legendre_dir</span>
+<a name="ln-113"></a>        <span class="k">use </span><span class="n">fourier</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">fourier_dir</span>
+<a name="ln-114"></a>
+<a name="ln-115"></a>        <span class="kt">real</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">vorg</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">)</span>
+<a name="ln-116"></a>        <span class="kt">complex</span> <span class="kd">::</span> <span class="n">vorm</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+<a name="ln-117"></a>        <span class="kt">real</span> <span class="kd">::</span> <span class="n">vorm_r</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+<a name="ln-118"></a>
+<a name="ln-119"></a>        <span class="n">vorm_r</span> <span class="o">=</span> <span class="n">legendre_dir</span><span class="p">(</span><span class="n">fourier_dir</span><span class="p">(</span><span class="n">vorg</span><span class="p">))</span>
+<a name="ln-120"></a>        <span class="n">vorm</span> <span class="o">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="nb">transfer</span><span class="p">(</span><span class="n">vorm_r</span><span class="p">,</span> <span class="n">vorm</span><span class="p">),</span> <span class="p">(</span><span class="o">/</span> <span class="n">mx</span><span class="p">,</span> <span class="n">nx</span> <span class="o">/</span><span class="p">))</span>
+<a name="ln-121"></a>    <span class="k">end function</span>
+<a name="ln-122"></a>
+<a name="ln-123"></a><span class="k">    subroutine </span><span class="n">grad</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span><span class="n">psdx</span><span class="p">,</span><span class="n">psdy</span><span class="p">)</span>
+<a name="ln-124"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">psi</span>
+<a name="ln-125"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">psdx</span><span class="p">,</span> <span class="n">psdy</span>
+<a name="ln-126"></a>
+<a name="ln-127"></a>        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span>
+<a name="ln-128"></a>
+<a name="ln-129"></a>        <span class="k">do </span><span class="n">n</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nx</span>
+<a name="ln-130"></a>            <span class="n">psdx</span><span class="p">(:,</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">gradx</span><span class="o">*</span><span class="n">psi</span><span class="p">(:,</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<a name="ln-131"></a>        <span class="k">end do</span>
+<a name="ln-132"></a>
+<a name="ln-133"></a><span class="k">        do </span><span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">mx</span>
+<a name="ln-134"></a>            <span class="n">psdy</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="o">=</span>  <span class="n">gradyp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">psi</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-135"></a>            <span class="n">psdy</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">gradym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span><span class="o">*</span><span class="n">psi</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">trunc</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-136"></a>        <span class="k">end do</span>
+<a name="ln-137"></a>
+<a name="ln-138"></a><span class="k">        do </span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">trunc</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-139"></a>            <span class="k">do </span><span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">mx</span>
+<a name="ln-140"></a>                <span class="n">psdy</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">gradym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="n">psi</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">gradyp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="n">psi</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-141"></a>            <span class="k">end do</span>
+<a name="ln-142"></a><span class="k">        end do</span>
+<a name="ln-143"></a><span class="k">    end</span>
+<a name="ln-144"></a>
+<a name="ln-145"></a><span class="k">    subroutine </span><span class="n">vds</span><span class="p">(</span><span class="n">ucosm</span><span class="p">,</span><span class="n">vcosm</span><span class="p">,</span><span class="n">vorm</span><span class="p">,</span><span class="n">divm</span><span class="p">)</span>
+<a name="ln-146"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ucosm</span><span class="p">,</span> <span class="n">vcosm</span>
+<a name="ln-147"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">vorm</span><span class="p">,</span> <span class="n">divm</span>
+<a name="ln-148"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span> <span class="kd">::</span> <span class="n">zc</span><span class="p">,</span> <span class="n">zp</span>
+<a name="ln-149"></a>
+<a name="ln-150"></a>        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span>
+<a name="ln-151"></a>
+<a name="ln-152"></a>        <span class="k">do </span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nx</span>
+<a name="ln-153"></a>            <span class="n">zp</span><span class="p">(:,</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">gradx</span><span class="o">*</span><span class="n">ucosm</span><span class="p">(:,</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<a name="ln-154"></a>            <span class="n">zc</span><span class="p">(:,</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">gradx</span><span class="o">*</span><span class="n">vcosm</span><span class="p">(:,</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<a name="ln-155"></a>        <span class="k">end do</span>
+<a name="ln-156"></a>
+<a name="ln-157"></a><span class="k">        do </span><span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">mx</span>
+<a name="ln-158"></a>            <span class="n">vorm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="o">=</span> <span class="n">zc</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">vddyp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">ucosm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-159"></a>            <span class="n">vorm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span> <span class="o">=</span> <span class="n">vddym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span><span class="o">*</span><span class="n">ucosm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">trunc</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-160"></a>            <span class="n">divm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="o">=</span> <span class="n">zp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">vddyp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">vcosm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-161"></a>            <span class="n">divm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">vddym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span><span class="o">*</span><span class="n">vcosm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">trunc</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-162"></a>        <span class="k">end do</span>
+<a name="ln-163"></a>
+<a name="ln-164"></a><span class="k">        do </span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">trunc</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-165"></a>            <span class="k">do </span><span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">mx</span>
+<a name="ln-166"></a>                <span class="n">vorm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span>  <span class="n">vddym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="n">ucosm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">vddyp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="n">ucosm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">zc</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+<a name="ln-167"></a>                <span class="n">divm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">vddym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="n">vcosm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">vddyp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="n">vcosm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">zp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+<a name="ln-168"></a>            <span class="k">end do</span>
+<a name="ln-169"></a><span class="k">        end do</span>
+<a name="ln-170"></a><span class="k">    end</span>
+<a name="ln-171"></a>
+<a name="ln-172"></a><span class="k">    subroutine </span><span class="n">uvspec</span><span class="p">(</span><span class="n">vorm</span><span class="p">,</span><span class="n">divm</span><span class="p">,</span><span class="n">ucosm</span><span class="p">,</span><span class="n">vcosm</span><span class="p">)</span>
+<a name="ln-173"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">vorm</span><span class="p">,</span><span class="n">divm</span>
+<a name="ln-174"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ucosm</span><span class="p">,</span><span class="n">vcosm</span>
+<a name="ln-175"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span> <span class="kd">::</span> <span class="n">zc</span><span class="p">,</span><span class="n">zp</span>
+<a name="ln-176"></a>
+<a name="ln-177"></a>        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span>
+<a name="ln-178"></a>
+<a name="ln-179"></a>        <span class="n">zp</span> <span class="o">=</span> <span class="n">uvdx</span><span class="o">*</span><span class="n">vorm</span><span class="o">*</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<a name="ln-180"></a>        <span class="n">zc</span> <span class="o">=</span> <span class="n">uvdx</span><span class="o">*</span><span class="n">divm</span><span class="o">*</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<a name="ln-181"></a>
+<a name="ln-182"></a>        <span class="k">do </span><span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">mx</span>
+<a name="ln-183"></a>            <span class="n">ucosm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="o">=</span>  <span class="n">zc</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">uvdyp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">vorm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-184"></a>            <span class="n">ucosm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span> <span class="o">=</span>  <span class="n">uvdym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span><span class="o">*</span><span class="n">vorm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">trunc</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-185"></a>            <span class="n">vcosm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="o">=</span>  <span class="n">zp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">uvdyp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">divm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-186"></a>            <span class="n">vcosm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">uvdym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span><span class="o">*</span><span class="n">divm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">trunc</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-187"></a>        <span class="k">end do</span>
+<a name="ln-188"></a>
+<a name="ln-189"></a><span class="k">        do </span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">trunc</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-190"></a>            <span class="k">do </span><span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">mx</span>
+<a name="ln-191"></a>              <span class="n">vcosm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">uvdym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="n">divm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">uvdyp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="n">divm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">zp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+<a name="ln-192"></a>              <span class="n">ucosm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span>  <span class="n">uvdym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="n">vorm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">uvdyp</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="n">vorm</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">zc</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+<a name="ln-193"></a>            <span class="k">end do</span>
+<a name="ln-194"></a><span class="k">        end do</span>
+<a name="ln-195"></a><span class="k">    end</span>
+<a name="ln-196"></a>
+<a name="ln-197"></a><span class="k">    subroutine </span><span class="n">vdspec</span><span class="p">(</span><span class="n">ug</span><span class="p">,</span><span class="n">vg</span><span class="p">,</span><span class="n">vorm</span><span class="p">,</span><span class="n">divm</span><span class="p">,</span><span class="n">kcos</span><span class="p">)</span>
+<a name="ln-198"></a>        <span class="k">use </span><span class="n">geometry</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">cosgr</span><span class="p">,</span> <span class="n">cosgr2</span>
+<a name="ln-199"></a>
+<a name="ln-200"></a>        <span class="kt">real</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ug</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">),</span> <span class="n">vg</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">)</span>
+<a name="ln-201"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">vorm</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">),</span> <span class="n">divm</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+<a name="ln-202"></a>        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">kcos</span>
+<a name="ln-203"></a>        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span>
+<a name="ln-204"></a>        <span class="kt">real</span> <span class="kd">::</span> <span class="n">ug1</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">),</span> <span class="n">vg1</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">)</span>
+<a name="ln-205"></a>        <span class="kt">complex</span> <span class="kd">::</span> <span class="n">specu</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">),</span> <span class="n">specv</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+<a name="ln-206"></a>
+<a name="ln-207"></a>        <span class="k">if</span> <span class="p">(</span><span class="n">kcos</span><span class="p">.</span><span class="n">eq</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span> <span class="k">then</span>
+<a name="ln-208"></a><span class="k">            do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">il</span>
+<a name="ln-209"></a>                <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ix</span>
+<a name="ln-210"></a>                    <span class="n">ug1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">=</span><span class="n">ug</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">cosgr</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<a name="ln-211"></a>                    <span class="n">vg1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">=</span><span class="n">vg</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">cosgr</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<a name="ln-212"></a>                <span class="k">end do</span>
+<a name="ln-213"></a><span class="k">            end do</span>
+<a name="ln-214"></a><span class="k">        else</span>
+<a name="ln-215"></a><span class="k">            do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">il</span>
+<a name="ln-216"></a>                <span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ix</span>
+<a name="ln-217"></a>                    <span class="n">ug1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">=</span><span class="n">ug</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">cosgr2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<a name="ln-218"></a>                    <span class="n">vg1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">=</span><span class="n">vg</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">cosgr2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<a name="ln-219"></a>                <span class="k">end do</span>
+<a name="ln-220"></a><span class="k">            end do</span>
+<a name="ln-221"></a><span class="k">        end if</span>
+<a name="ln-222"></a>
+<a name="ln-223"></a><span class="k">        </span><span class="n">specu</span> <span class="o">=</span> <span class="n">grid_to_spec</span><span class="p">(</span><span class="n">ug1</span><span class="p">)</span>
+<a name="ln-224"></a>        <span class="n">specv</span> <span class="o">=</span> <span class="n">grid_to_spec</span><span class="p">(</span><span class="n">vg1</span><span class="p">)</span>
+<a name="ln-225"></a>        <span class="k">call </span><span class="n">vds</span><span class="p">(</span><span class="n">specu</span><span class="p">,</span><span class="n">specv</span><span class="p">,</span><span class="n">vorm</span><span class="p">,</span><span class="n">divm</span><span class="p">)</span>
+<a name="ln-226"></a>    <span class="k">end</span>
+<a name="ln-227"></a>
+<a name="ln-228"></a><span class="k">    subroutine </span><span class="n">trunct</span><span class="p">(</span><span class="n">vor</span><span class="p">)</span>
+<a name="ln-229"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">vor</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+<a name="ln-230"></a>
+<a name="ln-231"></a>        <span class="n">vor</span> <span class="o">=</span> <span class="n">vor</span> <span class="o">*</span> <span class="n">trfilt</span>
+<a name="ln-232"></a>    <span class="k">end</span>
+<a name="ln-233"></a><span class="k">end module</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2019 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> SPEEDY.f90 was developed by Sam Hatfield</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

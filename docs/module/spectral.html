@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="An intermediate complexity atmospheric general circulation model">
+    
+    <meta name="author" content="Sam Hatfield" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>spectral &ndash; SPEEDY.f90</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">SPEEDY.f90 </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            <li><a href="../program/speedy.html">Program</a></li>
+      
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../program/speedy.html">Program</a></li>
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>spectral 
+    <small>Module</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 5.3% of total for modules and submodules.">179 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/spectral.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/spectral.f90.html'>spectral.f90</a></li>
+    
+  
+     <li class="active">spectral</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-el2">el2</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-elm2">elm2</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-el4">el4</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-trfilt">trfilt</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-gradx">gradx</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-gradym">gradym</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-gradyp">gradyp</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-uvdx">uvdx</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-uvdym">uvdym</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-uvdyp">uvdyp</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-vddym">vddym</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-vddyp">vddyp</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
+  <div id="funcs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-laplacian">laplacian</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-inverse_laplacian">inverse_laplacian</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-spec_to_grid">spec_to_grid</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-grid_to_spec">grid_to_spec</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-0" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-initialize_spectral">initialize_spectral</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-grad">grad</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-vds">vds</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-uvspec">uvspec</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-vdspec">vdspec</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-trunct">trunct</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    
+      <br>
+    
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    
+    <li><a href='../module/params.html'>params</a></li>
+    
+  </ul>
+      </li>
+      
+      
+      
+      <li class="list-group-item">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: module~~spectral~~UsesGraph Pages: 1 -->
+<svg id="modulespectralUsesGraph" width="152pt" height="32pt"
+ viewBox="0.00 0.00 152.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~spectral~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>module~~spectral~~UsesGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28 148,-28 148,4 -4,4"/>
+<!-- module~spectral -->
+<g id="module~~spectral~~UsesGraph_node1" class="node"><title>module~spectral</title>
+<polygon fill="none" stroke="black" points="144,-24 90,-24 90,-0 144,-0 144,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">spectral</text>
+</g>
+<!-- module~params -->
+<g id="module~~spectral~~UsesGraph_node2" class="node"><title>module~params</title>
+<g id="a_module~~spectral~~UsesGraph_node2"><a xlink:href=".././module/params.html" xlink:title="params">
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,-0 54,-0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">params</text>
+</a>
+</g>
+</g>
+<!-- module~spectral&#45;&gt;module~params -->
+<g id="module~~spectral~~UsesGraph_edge1" class="edge"><title>module~spectral&#45;&gt;module~params</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M89.5971,-12C81.6068,-12 72.6894,-12 64.1759,-12"/>
+<polygon fill="#000000" stroke="#000000" points="64.081,-8.5001 54.081,-12 64.081,-15.5001 64.081,-8.5001"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="489pt" height="32pt"
+ viewBox="0.00 0.00 489.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28 485,-28 485,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node"><title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,-0 54,-0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node"><title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="139.25,-24 72.75,-24 72.75,-0 139.25,-0 139.25,-24"/>
+<text text-anchor="middle" x="106" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node"><title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="222,-24 158,-24 158,-0 222,-0 222,-24"/>
+<text text-anchor="middle" x="190" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node"><title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="294,-24 240,-24 240,-0 294,-0 294,-24"/>
+<text text-anchor="middle" x="267" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node"><title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="366,-24 312,-24 312,-0 366,-0 366,-24"/>
+<text text-anchor="middle" x="339" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node"><title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="481.25,-24 384.75,-24 384.75,-0 481.25,-0 481.25,-24"/>
+<text text-anchor="middle" x="433" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses.
+    </p>
+    </div></div></div></div>
+      </li>
+      
+      </ul>
+    </div>
+    
+
+    
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Used by</h3>
+      </div>
+      <ul class="list-group">
+  
+  
+  <li class="list-group-item">
+    <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: module~~spectral~~UsedByGraph Pages: 1 -->
+<svg id="modulespectralUsedByGraph" width="238pt" height="494pt"
+ viewBox="0.00 0.00 238.00 494.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~spectral~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 490)">
+<title>module~~spectral~~UsedByGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-490 234,-490 234,4 -4,4"/>
+<!-- module~spectral -->
+<g id="module~~spectral~~UsedByGraph_node1" class="node"><title>module~spectral</title>
+<polygon fill="none" stroke="black" points="54,-255 0,-255 0,-231 54,-231 54,-255"/>
+<text text-anchor="middle" x="27" y="-240.6" font-family="Helvetica,sans-Serif" font-size="10.50">spectral</text>
+</g>
+<!-- proc~initialize -->
+<g id="module~~spectral~~UsedByGraph_node2" class="node"><title>proc~initialize</title>
+<g id="a_module~~spectral~~UsedByGraph_node2"><a xlink:href=".././proc/initialize.html" xlink:title="initialize">
+<polygon fill="#d9534f" stroke="#d9534f" points="187,-486 133,-486 133,-462 187,-462 187,-486"/>
+<text text-anchor="middle" x="160" y="-471.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize&#45;&gt;module~spectral -->
+<g id="module~~spectral~~UsedByGraph_edge1" class="edge"><title>proc~initialize&#45;&gt;module~spectral</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M132.964,-472.035C118.536,-469.631 101.286,-464.381 90,-453 38.2766,-400.842 29.3122,-307.777 28.0257,-265.276"/>
+<polygon fill="#000000" stroke="#000000" points="31.523,-265.093 27.8397,-255.159 24.5242,-265.221 31.523,-265.093"/>
+</g>
+<!-- proc~gen_sppt -->
+<g id="module~~spectral~~UsedByGraph_node3" class="node"><title>proc~gen_sppt</title>
+<g id="a_module~~spectral~~UsedByGraph_node3"><a xlink:href=".././proc/gen_sppt.html" xlink:title="gen_sppt">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="188.5,-444 131.5,-444 131.5,-420 188.5,-420 188.5,-444"/>
+<text text-anchor="middle" x="160" y="-429.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">gen_sppt</text>
+</a>
+</g>
+</g>
+<!-- proc~gen_sppt&#45;&gt;module~spectral -->
+<g id="module~~spectral~~UsedByGraph_edge3" class="edge"><title>proc~gen_sppt&#45;&gt;module~spectral</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M131.209,-429.379C117.303,-426.745 101.111,-421.484 90,-411 48.1706,-371.533 34.4198,-301.386 30.0096,-265.503"/>
+<polygon fill="#000000" stroke="#000000" points="33.4432,-264.701 28.8822,-255.139 26.4842,-265.458 33.4432,-264.701"/>
+</g>
+<!-- proc~set_forcing -->
+<g id="module~~spectral~~UsedByGraph_node4" class="node"><title>proc~set_forcing</title>
+<g id="a_module~~spectral~~UsedByGraph_node4"><a xlink:href=".././proc/set_forcing.html" xlink:title="set_forcing">
+<polygon fill="#d9534f" stroke="#d9534f" points="192.5,-402 127.5,-402 127.5,-378 192.5,-378 192.5,-402"/>
+<text text-anchor="middle" x="160" y="-387.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">set_forcing</text>
+</a>
+</g>
+</g>
+<!-- proc~set_forcing&#45;&gt;module~spectral -->
+<g id="module~~spectral~~UsedByGraph_edge4" class="edge"><title>proc~set_forcing&#45;&gt;module~spectral</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M127.162,-385.923C114.452,-382.959 100.4,-377.839 90,-369 57.6934,-341.54 40.6677,-293.239 33.0708,-265.086"/>
+<polygon fill="#000000" stroke="#000000" points="36.3744,-263.874 30.5303,-255.036 29.5879,-265.589 36.3744,-263.874"/>
+</g>
+<!-- proc~get_grid_point_tendencies -->
+<g id="module~~spectral~~UsedByGraph_node5" class="node"><title>proc~get_grid_point_tendencies</title>
+<g id="a_module~~spectral~~UsedByGraph_node5"><a xlink:href=".././proc/get_grid_point_tendencies.html" xlink:title="get_grid_point_tendencies">
+<polygon fill="#d9534f" stroke="#d9534f" points="229.5,-360 90.5,-360 90.5,-336 229.5,-336 229.5,-360"/>
+<text text-anchor="middle" x="160" y="-345.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_grid_point_tendencies</text>
+</a>
+</g>
+</g>
+<!-- proc~get_grid_point_tendencies&#45;&gt;module~spectral -->
+<g id="module~~spectral~~UsedByGraph_edge5" class="edge"><title>proc~get_grid_point_tendencies&#45;&gt;module~spectral</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M106.444,-335.959C100.631,-333.496 95.0107,-330.541 90,-327 66.9534,-310.713 49.0069,-283.167 38.4815,-264.08"/>
+<polygon fill="#000000" stroke="#000000" points="41.566,-262.426 33.7935,-255.226 35.3797,-265.702 41.566,-262.426"/>
+</g>
+<!-- proc~step_field_2d -->
+<g id="module~~spectral~~UsedByGraph_node6" class="node"><title>proc~step_field_2d</title>
+<g id="a_module~~spectral~~UsedByGraph_node6"><a xlink:href=".././proc/step_field_2d.html" xlink:title="step_field_2d">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="198,-318 122,-318 122,-294 198,-294 198,-318"/>
+<text text-anchor="middle" x="160" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_field_2d</text>
+</a>
+</g>
+</g>
+<!-- proc~step_field_2d&#45;&gt;module~spectral -->
+<g id="module~~spectral~~UsedByGraph_edge6" class="edge"><title>proc~step_field_2d&#45;&gt;module~spectral</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M121.702,-296.872C111.205,-293.713 99.9439,-289.747 90,-285 76.4837,-278.547 62.5767,-269.396 51.3679,-261.283"/>
+<polygon fill="#000000" stroke="#000000" points="53.1285,-258.23 43.0161,-255.07 48.9503,-263.847 53.1285,-258.23"/>
+</g>
+<!-- proc~spectral_truncation -->
+<g id="module~~spectral~~UsedByGraph_node7" class="node"><title>proc~spectral_truncation</title>
+<g id="a_module~~spectral~~UsedByGraph_node7"><a xlink:href=".././proc/spectral_truncation.html" xlink:title="spectral_truncation">
+<polygon fill="#d9534f" stroke="#d9534f" points="211.5,-276 108.5,-276 108.5,-252 211.5,-252 211.5,-276"/>
+<text text-anchor="middle" x="160" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">spectral_truncation</text>
+</a>
+</g>
+</g>
+<!-- proc~spectral_truncation&#45;&gt;module~spectral -->
+<g id="module~~spectral~~UsedByGraph_edge7" class="edge"><title>proc~spectral_truncation&#45;&gt;module~spectral</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M108.352,-255.881C93.6642,-253.526 77.9247,-251.003 64.3033,-248.82"/>
+<polygon fill="#000000" stroke="#000000" points="64.7802,-245.351 54.3522,-247.224 63.6721,-252.263 64.7802,-245.351"/>
+</g>
+<!-- proc~get_spectral_tendencies -->
+<g id="module~~spectral~~UsedByGraph_node8" class="node"><title>proc~get_spectral_tendencies</title>
+<g id="a_module~~spectral~~UsedByGraph_node8"><a xlink:href=".././proc/get_spectral_tendencies.html" xlink:title="get_spectral_tendencies">
+<polygon fill="#d9534f" stroke="#d9534f" points="224.5,-234 95.5,-234 95.5,-210 224.5,-210 224.5,-234"/>
+<text text-anchor="middle" x="160" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_spectral_tendencies</text>
+</a>
+</g>
+</g>
+<!-- proc~get_spectral_tendencies&#45;&gt;module~spectral -->
+<g id="module~~spectral~~UsedByGraph_edge8" class="edge"><title>proc~get_spectral_tendencies&#45;&gt;module~spectral</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M95.4187,-232.192C84.6951,-233.911 73.9028,-235.642 64.193,-237.198"/>
+<polygon fill="#000000" stroke="#000000" points="63.456,-233.771 54.1361,-238.81 64.564,-240.683 63.456,-233.771"/>
+</g>
+<!-- proc~check_diagnostics -->
+<g id="module~~spectral~~UsedByGraph_node9" class="node"><title>proc~check_diagnostics</title>
+<g id="a_module~~spectral~~UsedByGraph_node9"><a xlink:href=".././proc/check_diagnostics.html" xlink:title="check_diagnostics">
+<polygon fill="#d9534f" stroke="#d9534f" points="210,-192 110,-192 110,-168 210,-168 210,-192"/>
+<text text-anchor="middle" x="160" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">check_diagnostics</text>
+</a>
+</g>
+</g>
+<!-- proc~check_diagnostics&#45;&gt;module~spectral -->
+<g id="module~~spectral~~UsedByGraph_edge9" class="edge"><title>proc~check_diagnostics&#45;&gt;module~spectral</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M112.618,-192.015C104.913,-194.603 97.1189,-197.601 90,-201 76.4837,-207.453 62.5767,-216.604 51.3679,-224.717"/>
+<polygon fill="#000000" stroke="#000000" points="48.9503,-222.153 43.0161,-230.93 53.1285,-227.77 48.9503,-222.153"/>
+</g>
+<!-- proc~get_physical_tendencies -->
+<g id="module~~spectral~~UsedByGraph_node10" class="node"><title>proc~get_physical_tendencies</title>
+<g id="a_module~~spectral~~UsedByGraph_node10"><a xlink:href=".././proc/get_physical_tendencies.html" xlink:title="get_physical_tendencies">
+<polygon fill="#d9534f" stroke="#d9534f" points="225,-150 95,-150 95,-126 225,-126 225,-150"/>
+<text text-anchor="middle" x="160" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_physical_tendencies</text>
+</a>
+</g>
+</g>
+<!-- proc~get_physical_tendencies&#45;&gt;module~spectral -->
+<g id="module~~spectral~~UsedByGraph_edge10" class="edge"><title>proc~get_physical_tendencies&#45;&gt;module~spectral</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M106.444,-150.041C100.631,-152.504 95.0107,-155.459 90,-159 66.9534,-175.287 49.0069,-202.833 38.4815,-221.92"/>
+<polygon fill="#000000" stroke="#000000" points="35.3797,-220.298 33.7935,-230.774 41.566,-223.574 35.3797,-220.298"/>
+</g>
+<!-- proc~step_field_3d -->
+<g id="module~~spectral~~UsedByGraph_node11" class="node"><title>proc~step_field_3d</title>
+<g id="a_module~~spectral~~UsedByGraph_node11"><a xlink:href=".././proc/step_field_3d.html" xlink:title="step_field_3d">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="198,-108 122,-108 122,-84 198,-84 198,-108"/>
+<text text-anchor="middle" x="160" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_field_3d</text>
+</a>
+</g>
+</g>
+<!-- proc~step_field_3d&#45;&gt;module~spectral -->
+<g id="module~~spectral~~UsedByGraph_edge11" class="edge"><title>proc~step_field_3d&#45;&gt;module~spectral</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M121.851,-101.427C110.654,-104.521 98.9684,-109.377 90,-117 57.6934,-144.46 40.6677,-192.761 33.0708,-220.914"/>
+<polygon fill="#000000" stroke="#000000" points="29.5879,-220.411 30.5303,-230.964 36.3744,-222.126 29.5879,-220.411"/>
+</g>
+<!-- proc~initialize_from_rest_state -->
+<g id="module~~spectral~~UsedByGraph_node12" class="node"><title>proc~initialize_from_rest_state</title>
+<g id="a_module~~spectral~~UsedByGraph_node12"><a xlink:href=".././proc/initialize_from_rest_state.html" xlink:title="initialize_from_rest_state">
+<polygon fill="#d9534f" stroke="#d9534f" points="225.5,-66 94.5,-66 94.5,-42 225.5,-42 225.5,-66"/>
+<text text-anchor="middle" x="160" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_from_rest_state</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize_from_rest_state&#45;&gt;module~spectral -->
+<g id="module~~spectral~~UsedByGraph_edge12" class="edge"><title>proc~initialize_from_rest_state&#45;&gt;module~spectral</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M102.644,-66.1014C98.042,-68.5434 93.7341,-71.4768 90,-75 48.1706,-114.467 34.4198,-184.614 30.0096,-220.497"/>
+<polygon fill="#000000" stroke="#000000" points="26.4842,-220.542 28.8822,-230.861 33.4432,-221.299 26.4842,-220.542"/>
+</g>
+<!-- proc~output -->
+<g id="module~~spectral~~UsedByGraph_node13" class="node"><title>proc~output</title>
+<g id="a_module~~spectral~~UsedByGraph_node13"><a xlink:href=".././proc/output.html" xlink:title="output">
+<polygon fill="#d9534f" stroke="#d9534f" points="187,-24 133,-24 133,-0 187,-0 187,-24"/>
+<text text-anchor="middle" x="160" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">output</text>
+</a>
+</g>
+</g>
+<!-- proc~output&#45;&gt;module~spectral -->
+<g id="module~~spectral~~UsedByGraph_edge2" class="edge"><title>proc~output&#45;&gt;module~spectral</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M132.964,-13.9646C118.536,-16.3694 101.286,-21.6194 90,-33 38.2766,-85.1575 29.3122,-178.223 28.0257,-220.724"/>
+<polygon fill="#000000" stroke="#000000" points="24.5242,-220.779 27.8397,-230.841 31.523,-220.907 24.5242,-220.779"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="489pt" height="32pt"
+ viewBox="0.00 0.00 489.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28 485,-28 485,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node"><title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,-0 54,-0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node"><title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="139.25,-24 72.75,-24 72.75,-0 139.25,-0 139.25,-24"/>
+<text text-anchor="middle" x="106" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node"><title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="222,-24 158,-24 158,-0 222,-0 222,-24"/>
+<text text-anchor="middle" x="190" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node"><title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="294,-24 240,-24 240,-0 294,-0 294,-24"/>
+<text text-anchor="middle" x="267" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node"><title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="366,-24 312,-24 312,-0 366,-0 366,-24"/>
+<text text-anchor="middle" x="339" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node"><title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="481.25,-24 384.75,-24 384.75,-0 481.25,-0 481.25,-24"/>
+<text text-anchor="middle" x="433" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses.
+    </p>
+    </div></div></div></div>
+  </li>
+  
+      </ul>
+    </div>
+    
+
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-el2">el2</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-elm2">elm2</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-el4">el4</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-trfilt">trfilt</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-gradx">gradx</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-gradym">gradym</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-gradyp">gradyp</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-uvdx">uvdx</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-uvdym">uvdym</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-uvdyp">uvdyp</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-vddym">vddym</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#variable-vddyp">vddyp</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
+  <div id="funcs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-laplacian">laplacian</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-inverse_laplacian">inverse_laplacian</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-spec_to_grid">spec_to_grid</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-grid_to_spec">grid_to_spec</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-1" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-initialize_spectral">initialize_spectral</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-grad">grad</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-vds">vds</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-uvspec">uvspec</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-vdspec">vdspec</a>
+      
+      <a class="list-group-item" href="../module/spectral.html#proc-trunct">trunct</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    <section>
+    <h2>Variables</h2>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-el2"></span>real,</td>
+  
+  <td>public,</td>
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>el2</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-elm2"></span>real,</td>
+  
+  <td>private,</td>
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>elm2</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-el4"></span>real,</td>
+  
+  <td>private,</td>
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>el4</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-trfilt"></span>real,</td>
+  
+  <td>private,</td>
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>trfilt</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-gradx"></span>real,</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>gradx</strong>(mx)</td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-gradym"></span>real,</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>gradym</strong>(mx,nx)</td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-gradyp"></span>real,</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>gradyp</strong>(mx,nx)</td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-uvdx"></span>real,</td>
+  
+  <td>private,</td>
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>uvdx</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-uvdym"></span>real,</td>
+  
+  <td>private,</td>
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>uvdym</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-uvdyp"></span>real,</td>
+  
+  <td>private,</td>
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>uvdyp</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-vddym"></span>real,</td>
+  
+  <td>private,</td>
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>vddym</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-vddyp"></span>real,</td>
+  
+  <td>private,</td>
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>vddyp</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+     
+    <section>
+    <h2>Functions</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-laplacian"></span><h3>
+public function <a href='../proc/laplacian.html'>laplacian</a>(input) result(output)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>input</strong>(mx,nx)</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>complex
+  (mx,nx)</small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-inverse_laplacian"></span><h3>
+public function <a href='../proc/inverse_laplacian.html'>inverse_laplacian</a>(input) result(output)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>input</strong>(mx,nx)</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>complex
+  (mx,nx)</small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-spec_to_grid"></span><h3>
+public function <a href='../proc/spec_to_grid.html'>spec_to_grid</a>(vorm, kcos) result(vorg)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>vorm</strong>(mx,nx)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>kcos</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>real
+  (ix,il)</small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-grid_to_spec"></span><h3>
+public function <a href='../proc/grid_to_spec.html'>grid_to_spec</a>(vorg) result(vorm)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>vorg</strong>(ix,il)</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>complex
+  (mx,nx)</small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    </section>
+    <br>
+    
+
+    
+    <section>
+    <h2>Subroutines</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-initialize_spectral"></span><h3>
+public subroutine <a href='../proc/initialize_spectral.html'>initialize_spectral</a>()
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      <em>None</em>
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-grad"></span><h3>
+public subroutine <a href='../proc/grad.html'>grad</a>(psi, psdx, psdy)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>psi</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>psdx</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>psdy</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-vds"></span><h3>
+public subroutine <a href='../proc/vds.html'>vds</a>(ucosm, vcosm, vorm, divm)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td></td>
+  <td></td>
+  
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>ucosm</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td></td>
+  <td></td>
+  
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>vcosm</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>vorm</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>divm</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-uvspec"></span><h3>
+public subroutine <a href='../proc/uvspec.html'>uvspec</a>(vorm, divm, ucosm, vcosm)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>vorm</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>divm</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>ucosm</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>dimension(mx,nx)</td><td>::</td>
+  <td><strong>vcosm</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-vdspec"></span><h3>
+public subroutine <a href='../proc/vdspec.html'>vdspec</a>(ug, vg, vorm, divm, kcos)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ug</strong>(ix,il)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>vg</strong>(ix,il)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>vorm</strong>(mx,nx)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>divm</strong>(mx,nx)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>kcos</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-trunct"></span><h3>
+public subroutine <a href='../proc/trunct.html'>trunct</a>(vor)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>vor</strong>(mx,nx)</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    </section>    
+    <br>
+    
+    
+    
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2019 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> SPEEDY.f90 was developed by Sam Hatfield</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

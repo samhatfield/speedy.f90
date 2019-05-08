@@ -1,7 +1,7 @@
 project: SPEEDY.f90
 summary: An intermediate complexity atmospheric general circulation model
 src_dir: ./source/
-output_dir: ./doc
+output_dir: ./docs
 project_github: https://github.com/samhatfield/speedy.f90
 author: Sam Hatfield
 author_description: Graduate student in Predictability of Weather and Climate Group, Atmospheric, Oceanic and Planetary Physics, University of Oxford.
@@ -14,13 +14,11 @@ predocmark_alt: >
 display: public
          protected
          private
-source: false
+source: true
 graph: true
 search: true
 macro: TEST
        LOGIC=.true.
-extra_mods: json_module: http://jacobwilliams.github.io/json-fortran/
-            futility: http://cmacmackin.github.io
 license: by-nc
 extra_filetypes: sh #
 

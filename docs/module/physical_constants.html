@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="An intermediate complexity atmospheric general circulation model">
+    
+    <meta name="author" content="Sam Hatfield" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>physical_constants &ndash; SPEEDY.f90</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">SPEEDY.f90 </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            <li><a href="../program/speedy.html">Program</a></li>
+      
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../program/speedy.html">Program</a></li>
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>physical_constants 
+    <small>Module</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.7% of total for modules and submodules.">24 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/physical_constants.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/physical_constants.f90.html'>physical_constants.f90</a></li>
+    
+  
+     <li class="active">physical_constants</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-rearth">rearth</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-omega">omega</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-grav">grav</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-akap">akap</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-rgas">rgas</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-p0">p0</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-rd">rd</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-cp">cp</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-alhc">alhc</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-alhs">alhs</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-sbc">sbc</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-sigl">sigl</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-sigh">sigh</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-grdsig">grdsig</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-grdscp">grdscp</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-wvi">wvi</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    
+      <br>
+    
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    
+    <li><a href='../module/params.html'>params</a></li>
+    
+  </ul>
+      </li>
+      
+      
+      
+      <li class="list-group-item">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: module~~physical_constants~~UsesGraph Pages: 1 -->
+<svg id="modulephysical_constantsUsesGraph" width="202pt" height="32pt"
+ viewBox="0.00 0.00 202.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~physical_constants~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>module~~physical_constants~~UsesGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28 198,-28 198,4 -4,4"/>
+<!-- module~physical_constants -->
+<g id="module~~physical_constants~~UsesGraph_node1" class="node"><title>module~physical_constants</title>
+<polygon fill="none" stroke="black" points="193.5,-24 90.5,-24 90.5,-0 193.5,-0 193.5,-24"/>
+<text text-anchor="middle" x="142" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">physical_constants</text>
+</g>
+<!-- module~params -->
+<g id="module~~physical_constants~~UsesGraph_node2" class="node"><title>module~params</title>
+<g id="a_module~~physical_constants~~UsesGraph_node2"><a xlink:href=".././module/params.html" xlink:title="params">
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,-0 54,-0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">params</text>
+</a>
+</g>
+</g>
+<!-- module~physical_constants&#45;&gt;module~params -->
+<g id="module~~physical_constants~~UsesGraph_edge1" class="edge"><title>module~physical_constants&#45;&gt;module~params</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M90.4492,-12C81.6071,-12 72.5685,-12 64.2126,-12"/>
+<polygon fill="#000000" stroke="#000000" points="64.0597,-8.5001 54.0597,-12 64.0597,-15.5001 64.0597,-8.5001"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="489pt" height="32pt"
+ viewBox="0.00 0.00 489.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28 485,-28 485,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node"><title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,-0 54,-0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node"><title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="139.25,-24 72.75,-24 72.75,-0 139.25,-0 139.25,-24"/>
+<text text-anchor="middle" x="106" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node"><title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="222,-24 158,-24 158,-0 222,-0 222,-24"/>
+<text text-anchor="middle" x="190" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node"><title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="294,-24 240,-24 240,-0 294,-0 294,-24"/>
+<text text-anchor="middle" x="267" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node"><title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="366,-24 312,-24 312,-0 366,-0 366,-24"/>
+<text text-anchor="middle" x="339" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node"><title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="481.25,-24 384.75,-24 384.75,-0 481.25,-0 481.25,-24"/>
+<text text-anchor="middle" x="433" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses.
+    </p>
+    </div></div></div></div>
+      </li>
+      
+      </ul>
+    </div>
+    
+
+    
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Used by</h3>
+      </div>
+      <ul class="list-group">
+  
+  
+  <li class="list-group-item">
+    <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: module~~physical_constants~~UsedByGraph Pages: 1 -->
+<svg id="modulephysical_constantsUsedByGraph" width="296pt" height="956pt"
+ viewBox="0.00 0.00 296.00 956.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~physical_constants~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 952)">
+<title>module~~physical_constants~~UsedByGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-952 292,-952 292,4 -4,4"/>
+<!-- module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_node1" class="node"><title>module~physical_constants</title>
+<polygon fill="none" stroke="black" points="103.5,-486 0.5,-486 0.5,-462 103.5,-462 103.5,-486"/>
+<text text-anchor="middle" x="52" y="-471.6" font-family="Helvetica,sans-Serif" font-size="10.50">physical_constants</text>
+</g>
+<!-- proc~initialize_implicit -->
+<g id="module~~physical_constants~~UsedByGraph_node2" class="node"><title>proc~initialize_implicit</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node2"><a xlink:href=".././proc/initialize_implicit.html" xlink:title="initialize_implicit">
+<polygon fill="#d9534f" stroke="#d9534f" points="258,-948 170,-948 170,-924 258,-924 258,-948"/>
+<text text-anchor="middle" x="214" y="-933.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_implicit</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize_implicit&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge1" class="edge"><title>proc~initialize_implicit&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M169.707,-931.677C158.676,-928.584 147.759,-923.451 140,-915 82.5365,-852.411 59.8831,-577.216 54.3973,-496.393"/>
+<polygon fill="#000000" stroke="#000000" points="57.8837,-496.07 53.7354,-486.321 50.8988,-496.529 57.8837,-496.07"/>
+</g>
+<!-- proc~gen_sppt -->
+<g id="module~~physical_constants~~UsedByGraph_node3" class="node"><title>proc~gen_sppt</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node3"><a xlink:href=".././proc/gen_sppt.html" xlink:title="gen_sppt">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="242.5,-906 185.5,-906 185.5,-882 242.5,-882 242.5,-906"/>
+<text text-anchor="middle" x="214" y="-891.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">gen_sppt</text>
+</a>
+</g>
+</g>
+<!-- proc~gen_sppt&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge2" class="edge"><title>proc~gen_sppt&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M185.154,-892.74C169.789,-890.57 151.539,-885.32 140,-873 87.792,-817.26 61.8407,-572.754 54.928,-496.676"/>
+<polygon fill="#000000" stroke="#000000" points="58.3813,-495.992 54.013,-486.339 51.4085,-496.609 58.3813,-495.992"/>
+</g>
+<!-- proc~run_sea_model -->
+<g id="module~~physical_constants~~UsedByGraph_node4" class="node"><title>proc~run_sea_model</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node4"><a xlink:href=".././proc/run_sea_model.html" xlink:title="run_sea_model">
+<polygon fill="#d9534f" stroke="#d9534f" points="257.5,-864 170.5,-864 170.5,-840 257.5,-840 257.5,-864"/>
+<text text-anchor="middle" x="214" y="-849.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_sea_model</text>
+</a>
+</g>
+</g>
+<!-- proc~run_sea_model&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge3" class="edge"><title>proc~run_sea_model&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M170.33,-847.556C159.173,-844.471 148.036,-839.373 140,-831 92.8292,-781.851 63.812,-566.233 55.4897,-496.116"/>
+<polygon fill="#000000" stroke="#000000" points="58.9637,-495.688 54.3321,-486.159 52.0105,-496.497 58.9637,-495.688"/>
+</g>
+<!-- proc~set_forcing -->
+<g id="module~~physical_constants~~UsedByGraph_node5" class="node"><title>proc~set_forcing</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node5"><a xlink:href=".././proc/set_forcing.html" xlink:title="set_forcing">
+<polygon fill="#d9534f" stroke="#d9534f" points="246.5,-822 181.5,-822 181.5,-798 246.5,-798 246.5,-822"/>
+<text text-anchor="middle" x="214" y="-807.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">set_forcing</text>
+</a>
+</g>
+</g>
+<!-- proc~set_forcing&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge4" class="edge"><title>proc~set_forcing&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M181.405,-807.851C167.033,-805.297 150.852,-799.968 140,-789 58.0725,-706.197 51.598,-553.6 52.246,-496.418"/>
+<polygon fill="#000000" stroke="#000000" points="55.7475,-496.372 52.4503,-486.303 48.7489,-496.23 55.7475,-496.372"/>
+</g>
+<!-- proc~setgam -->
+<g id="module~~physical_constants~~UsedByGraph_node6" class="node"><title>proc~setgam</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node6"><a xlink:href=".././proc/setgam.html" xlink:title="setgam">
+<polygon fill="#d9534f" stroke="#d9534f" points="241,-780 187,-780 187,-756 241,-756 241,-780"/>
+<text text-anchor="middle" x="214" y="-765.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">setgam</text>
+</a>
+</g>
+</g>
+<!-- proc~setgam&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge5" class="edge"><title>proc~setgam&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M186.996,-766.532C171.501,-764.337 152.483,-759.133 140,-747 68.0526,-677.067 55.4714,-547.862 53.3712,-496.198"/>
+<polygon fill="#000000" stroke="#000000" points="56.8674,-496.018 53.0589,-486.131 49.8708,-496.235 56.8674,-496.018"/>
+</g>
+<!-- proc~initialize_geopotential -->
+<g id="module~~physical_constants~~UsedByGraph_node7" class="node"><title>proc~initialize_geopotential</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node7"><a xlink:href=".././proc/initialize_geopotential.html" xlink:title="initialize_geopotential">
+<polygon fill="#d9534f" stroke="#d9534f" points="271.5,-738 156.5,-738 156.5,-714 271.5,-714 271.5,-738"/>
+<text text-anchor="middle" x="214" y="-723.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_geopotential</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize_geopotential&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge6" class="edge"><title>proc~initialize_geopotential&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M156.314,-715.61C150.354,-712.857 144.749,-709.383 140,-705 78.033,-647.807 59.9262,-542.056 54.8649,-496.187"/>
+<polygon fill="#000000" stroke="#000000" points="58.3365,-495.726 53.8618,-486.123 51.371,-496.42 58.3365,-495.726"/>
+</g>
+<!-- proc~initialize_legendre -->
+<g id="module~~physical_constants~~UsedByGraph_node8" class="node"><title>proc~initialize_legendre</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node8"><a xlink:href=".././proc/initialize_legendre.html" xlink:title="initialize_legendre">
+<polygon fill="#d9534f" stroke="#d9534f" points="263,-696 165,-696 165,-672 263,-672 263,-696"/>
+<text text-anchor="middle" x="214" y="-681.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_legendre</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize_legendre&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge7" class="edge"><title>proc~initialize_legendre&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M164.858,-676.509C155.88,-673.434 147.102,-669.101 140,-663 87.907,-618.247 65.204,-535.722 56.9694,-496.214"/>
+<polygon fill="#000000" stroke="#000000" points="60.3797,-495.416 55.0181,-486.278 53.5109,-496.765 60.3797,-495.416"/>
+</g>
+<!-- proc~initialize_physics -->
+<g id="module~~physical_constants~~UsedByGraph_node9" class="node"><title>proc~initialize_physics</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node9"><a xlink:href=".././proc/initialize_physics.html" xlink:title="initialize_physics">
+<polygon fill="#d9534f" stroke="#d9534f" points="259.5,-654 168.5,-654 168.5,-630 259.5,-630 259.5,-654"/>
+<text text-anchor="middle" x="214" y="-639.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_physics</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize_physics&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge8" class="edge"><title>proc~initialize_physics&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M168.384,-634.905C158.348,-631.813 148.241,-627.373 140,-621 97.6358,-588.239 71.7482,-528.55 60.1724,-496.225"/>
+<polygon fill="#000000" stroke="#000000" points="63.3526,-494.71 56.7922,-486.391 56.7327,-496.985 63.3526,-494.71"/>
+</g>
+<!-- proc~output -->
+<g id="module~~physical_constants~~UsedByGraph_node10" class="node"><title>proc~output</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node10"><a xlink:href=".././proc/output.html" xlink:title="output">
+<polygon fill="#d9534f" stroke="#d9534f" points="241,-612 187,-612 187,-588 241,-588 241,-612"/>
+<text text-anchor="middle" x="214" y="-597.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">output</text>
+</a>
+</g>
+</g>
+<!-- proc~output&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge9" class="edge"><title>proc~output&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M186.748,-596.363C172.089,-593.411 154.014,-588.171 140,-579 106.599,-557.141 79.4544,-518.525 64.8149,-494.709"/>
+<polygon fill="#000000" stroke="#000000" points="67.7939,-492.871 59.6607,-486.081 61.7845,-496.461 67.7939,-492.871"/>
+</g>
+<!-- proc~initialize_geometry -->
+<g id="module~~physical_constants~~UsedByGraph_node11" class="node"><title>proc~initialize_geometry</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node11"><a xlink:href=".././proc/initialize_geometry.html" xlink:title="initialize_geometry">
+<polygon fill="#d9534f" stroke="#d9534f" points="264.5,-570 163.5,-570 163.5,-546 264.5,-546 264.5,-570"/>
+<text text-anchor="middle" x="214" y="-555.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_geometry</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize_geometry&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge10" class="edge"><title>proc~initialize_geometry&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M163.434,-546.269C155.422,-543.66 147.35,-540.582 140,-537 115.874,-525.244 91.3792,-506.796 74.5546,-492.895"/>
+<polygon fill="#000000" stroke="#000000" points="76.3988,-489.872 66.4982,-486.1 71.8856,-495.222 76.3988,-489.872"/>
+</g>
+<!-- proc~initialize_horizontal_diffusion -->
+<g id="module~~physical_constants~~UsedByGraph_node12" class="node"><title>proc~initialize_horizontal_diffusion</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node12"><a xlink:href=".././proc/initialize_horizontal_diffusion.html" xlink:title="initialize_horizontal_diffusion">
+<polygon fill="#d9534f" stroke="#d9534f" points="288,-528 140,-528 140,-504 288,-504 288,-528"/>
+<text text-anchor="middle" x="214" y="-513.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_horizontal_diffusion</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize_horizontal_diffusion&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge11" class="edge"><title>proc~initialize_horizontal_diffusion&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M167.15,-503.964C148.907,-499.176 127.746,-493.621 108.636,-488.605"/>
+<polygon fill="#000000" stroke="#000000" points="109.417,-485.191 98.8563,-486.037 107.64,-491.962 109.417,-485.191"/>
+</g>
+<!-- proc~get_longwave_rad_fluxes -->
+<g id="module~~physical_constants~~UsedByGraph_node13" class="node"><title>proc~get_longwave_rad_fluxes</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node13"><a xlink:href=".././proc/get_longwave_rad_fluxes.html" xlink:title="get_longwave_rad_fluxes">
+<polygon fill="#d9534f" stroke="#d9534f" points="281,-486 147,-486 147,-462 281,-462 281,-486"/>
+<text text-anchor="middle" x="214" y="-471.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_longwave_rad_fluxes</text>
+</a>
+</g>
+</g>
+<!-- proc~get_longwave_rad_fluxes&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge12" class="edge"><title>proc~get_longwave_rad_fluxes&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M146.998,-474C136.039,-474 124.718,-474 113.893,-474"/>
+<polygon fill="#000000" stroke="#000000" points="113.694,-470.5 103.694,-474 113.694,-477.5 113.694,-470.5"/>
+</g>
+<!-- proc~initialize_spectral -->
+<g id="module~~physical_constants~~UsedByGraph_node14" class="node"><title>proc~initialize_spectral</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node14"><a xlink:href=".././proc/initialize_spectral.html" xlink:title="initialize_spectral">
+<polygon fill="#d9534f" stroke="#d9534f" points="261,-444 167,-444 167,-420 261,-420 261,-444"/>
+<text text-anchor="middle" x="214" y="-429.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_spectral</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize_spectral&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge13" class="edge"><title>proc~initialize_spectral&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M167.15,-444.036C148.907,-448.824 127.746,-454.379 108.636,-459.395"/>
+<polygon fill="#000000" stroke="#000000" points="107.64,-456.038 98.8563,-461.963 109.417,-462.809 107.64,-456.038"/>
+</g>
+<!-- proc~initialize_from_rest_state -->
+<g id="module~~physical_constants~~UsedByGraph_node15" class="node"><title>proc~initialize_from_rest_state</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node15"><a xlink:href=".././proc/initialize_from_rest_state.html" xlink:title="initialize_from_rest_state">
+<polygon fill="#d9534f" stroke="#d9534f" points="279.5,-402 148.5,-402 148.5,-378 279.5,-378 279.5,-402"/>
+<text text-anchor="middle" x="214" y="-387.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_from_rest_state</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize_from_rest_state&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge14" class="edge"><title>proc~initialize_from_rest_state&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M162.271,-402.113C154.642,-404.639 146.994,-407.592 140,-411 115.874,-422.756 91.3792,-441.204 74.5546,-455.105"/>
+<polygon fill="#000000" stroke="#000000" points="71.8856,-452.778 66.4982,-461.9 76.3988,-458.128 71.8856,-452.778"/>
+</g>
+<!-- proc~large_scale_precipitation -->
+<g id="module~~physical_constants~~UsedByGraph_node16" class="node"><title>proc~large_scale_precipitation</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node16"><a xlink:href=".././proc/large_scale_precipitation.html" xlink:title="large_scale_precipitation">
+<polygon fill="#d9534f" stroke="#d9534f" points="279.5,-360 148.5,-360 148.5,-336 279.5,-336 279.5,-360"/>
+<text text-anchor="middle" x="214" y="-345.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">large_scale_precipitation</text>
+</a>
+</g>
+</g>
+<!-- proc~large_scale_precipitation&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge15" class="edge"><title>proc~large_scale_precipitation&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M157.605,-360.046C151.419,-362.508 145.407,-365.461 140,-369 106.599,-390.859 79.4544,-429.475 64.8149,-453.291"/>
+<polygon fill="#000000" stroke="#000000" points="61.7845,-451.539 59.6607,-461.919 67.7939,-455.129 61.7845,-451.539"/>
+</g>
+<!-- proc~get_surface_fluxes -->
+<g id="module~~physical_constants~~UsedByGraph_node17" class="node"><title>proc~get_surface_fluxes</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node17"><a xlink:href=".././proc/get_surface_fluxes.html" xlink:title="get_surface_fluxes">
+<polygon fill="#d9534f" stroke="#d9534f" points="265.5,-318 162.5,-318 162.5,-294 265.5,-294 265.5,-318"/>
+<text text-anchor="middle" x="214" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_surface_fluxes</text>
+</a>
+</g>
+</g>
+<!-- proc~get_surface_fluxes&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge16" class="edge"><title>proc~get_surface_fluxes&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M162.294,-315.144C154.331,-318.065 146.572,-321.918 140,-327 97.6358,-359.761 71.7482,-419.45 60.1724,-451.775"/>
+<polygon fill="#000000" stroke="#000000" points="56.7327,-451.015 56.7922,-461.609 63.3526,-453.29 56.7327,-451.015"/>
+</g>
+<!-- proc~get_spectral_tendencies -->
+<g id="module~~physical_constants~~UsedByGraph_node18" class="node"><title>proc~get_spectral_tendencies</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node18"><a xlink:href=".././proc/get_spectral_tendencies.html" xlink:title="get_spectral_tendencies">
+<polygon fill="#d9534f" stroke="#d9534f" points="278.5,-276 149.5,-276 149.5,-252 278.5,-252 278.5,-276"/>
+<text text-anchor="middle" x="214" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_spectral_tendencies</text>
+</a>
+</g>
+</g>
+<!-- proc~get_spectral_tendencies&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge17" class="edge"><title>proc~get_spectral_tendencies&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M153.696,-276.101C148.761,-278.543 144.101,-281.477 140,-285 87.907,-329.753 65.204,-412.278 56.9694,-451.786"/>
+<polygon fill="#000000" stroke="#000000" points="53.5109,-451.235 55.0181,-461.722 60.3797,-452.584 53.5109,-451.235"/>
+</g>
+<!-- proc~get_physical_tendencies -->
+<g id="module~~physical_constants~~UsedByGraph_node19" class="node"><title>proc~get_physical_tendencies</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node19"><a xlink:href=".././proc/get_physical_tendencies.html" xlink:title="get_physical_tendencies">
+<polygon fill="#d9534f" stroke="#d9534f" points="279,-234 149,-234 149,-210 279,-210 279,-234"/>
+<text text-anchor="middle" x="214" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_physical_tendencies</text>
+</a>
+</g>
+</g>
+<!-- proc~get_physical_tendencies&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge18" class="edge"><title>proc~get_physical_tendencies&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M152.713,-234.167C148.102,-236.599 143.779,-239.512 140,-243 78.033,-300.193 59.9262,-405.944 54.8649,-451.813"/>
+<polygon fill="#000000" stroke="#000000" points="51.371,-451.58 53.8618,-461.877 58.3365,-452.274 51.371,-451.58"/>
+</g>
+<!-- proc~initialize_boundaries -->
+<g id="module~~physical_constants~~UsedByGraph_node20" class="node"><title>proc~initialize_boundaries</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node20"><a xlink:href=".././proc/initialize_boundaries.html" xlink:title="initialize_boundaries">
+<polygon fill="#d9534f" stroke="#d9534f" points="268.5,-192 159.5,-192 159.5,-168 268.5,-168 268.5,-192"/>
+<text text-anchor="middle" x="214" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize_boundaries</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize_boundaries&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge19" class="edge"><title>proc~initialize_boundaries&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M159.387,-188.687C152.231,-191.675 145.485,-195.669 140,-201 68.0526,-270.933 55.4714,-400.138 53.3712,-451.802"/>
+<polygon fill="#000000" stroke="#000000" points="49.8708,-451.765 53.0589,-461.869 56.8674,-451.982 49.8708,-451.765"/>
+</g>
+<!-- proc~get_grid_point_tendencies -->
+<g id="module~~physical_constants~~UsedByGraph_node21" class="node"><title>proc~get_grid_point_tendencies</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node21"><a xlink:href=".././proc/get_grid_point_tendencies.html" xlink:title="get_grid_point_tendencies">
+<polygon fill="#d9534f" stroke="#d9534f" points="283.5,-150 144.5,-150 144.5,-126 283.5,-126 283.5,-150"/>
+<text text-anchor="middle" x="214" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_grid_point_tendencies</text>
+</a>
+</g>
+</g>
+<!-- proc~get_grid_point_tendencies&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge20" class="edge"><title>proc~get_grid_point_tendencies&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M151.669,-150.196C147.397,-152.627 143.432,-155.531 140,-159 58.0725,-241.803 51.598,-394.4 52.246,-451.582"/>
+<polygon fill="#000000" stroke="#000000" points="48.7489,-451.77 52.4503,-461.697 55.7475,-451.628 48.7489,-451.77"/>
+</g>
+<!-- proc~get_vertical_diffusion_tend -->
+<g id="module~~physical_constants~~UsedByGraph_node22" class="node"><title>proc~get_vertical_diffusion_tend</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node22"><a xlink:href=".././proc/get_vertical_diffusion_tend.html" xlink:title="get_vertical_diffusion_tend">
+<polygon fill="#d9534f" stroke="#d9534f" points="284,-108 144,-108 144,-84 284,-84 284,-108"/>
+<text text-anchor="middle" x="214" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_vertical_diffusion_tend</text>
+</a>
+</g>
+</g>
+<!-- proc~get_vertical_diffusion_tend&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge21" class="edge"><title>proc~get_vertical_diffusion_tend&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M151.552,-108.082C147.306,-110.538 143.379,-113.48 140,-117 92.8292,-166.149 63.812,-381.767 55.4897,-451.884"/>
+<polygon fill="#000000" stroke="#000000" points="52.0105,-451.503 54.3321,-461.841 58.9637,-452.312 52.0105,-451.503"/>
+</g>
+<!-- proc~set_orog_land_sfc_drag -->
+<g id="module~~physical_constants~~UsedByGraph_node23" class="node"><title>proc~set_orog_land_sfc_drag</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node23"><a xlink:href=".././proc/set_orog_land_sfc_drag.html" xlink:title="set_orog_land_sfc_drag">
+<polygon fill="#d9534f" stroke="#d9534f" points="278,-66 150,-66 150,-42 278,-42 278,-66"/>
+<text text-anchor="middle" x="214" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">set_orog_land_sfc_drag</text>
+</a>
+</g>
+</g>
+<!-- proc~set_orog_land_sfc_drag&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge22" class="edge"><title>proc~set_orog_land_sfc_drag&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M151.115,-66.194C147.022,-68.6292 143.245,-71.535 140,-75 87.792,-130.74 61.8407,-375.246 54.928,-451.324"/>
+<polygon fill="#000000" stroke="#000000" points="51.4085,-451.391 54.013,-461.661 58.3813,-452.008 51.4085,-451.391"/>
+</g>
+<!-- proc~convective_precipitation -->
+<g id="module~~physical_constants~~UsedByGraph_node24" class="node"><title>proc~convective_precipitation</title>
+<g id="a_module~~physical_constants~~UsedByGraph_node24"><a xlink:href=".././proc/convective_precipitation.html" xlink:title="convective_precipitation">
+<polygon fill="#d9534f" stroke="#d9534f" points="277.5,-24 150.5,-24 150.5,-0 277.5,-0 277.5,-24"/>
+<text text-anchor="middle" x="214" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">convective_precipitation</text>
+</a>
+</g>
+</g>
+<!-- proc~convective_precipitation&#45;&gt;module~physical_constants -->
+<g id="module~~physical_constants~~UsedByGraph_edge23" class="edge"><title>proc~convective_precipitation&#45;&gt;module~physical_constants</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M151.039,-24.1228C146.962,-26.574 143.211,-29.5029 140,-33 82.5365,-95.5887 59.8831,-370.784 54.3973,-451.607"/>
+<polygon fill="#000000" stroke="#000000" points="50.8988,-451.471 53.7354,-461.679 57.8837,-451.93 50.8988,-451.471"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="489pt" height="32pt"
+ viewBox="0.00 0.00 489.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28 485,-28 485,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node"><title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,-0 54,-0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node"><title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="139.25,-24 72.75,-24 72.75,-0 139.25,-0 139.25,-24"/>
+<text text-anchor="middle" x="106" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node"><title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="222,-24 158,-24 158,-0 222,-0 222,-24"/>
+<text text-anchor="middle" x="190" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node"><title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="294,-24 240,-24 240,-0 294,-0 294,-24"/>
+<text text-anchor="middle" x="267" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node"><title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="366,-24 312,-24 312,-0 366,-0 366,-24"/>
+<text text-anchor="middle" x="339" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node"><title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="481.25,-24 384.75,-24 384.75,-0 481.25,-0 481.25,-24"/>
+<text text-anchor="middle" x="433" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses.
+    </p>
+    </div></div></div></div>
+  </li>
+  
+      </ul>
+    </div>
+    
+
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-rearth">rearth</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-omega">omega</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-grav">grav</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-akap">akap</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-rgas">rgas</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-p0">p0</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-rd">rd</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-cp">cp</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-alhc">alhc</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-alhs">alhs</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-sbc">sbc</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-sigl">sigl</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-sigh">sigh</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-grdsig">grdsig</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-grdscp">grdscp</a>
+      
+      <a class="list-group-item" href="../module/physical_constants.html#variable-wvi">wvi</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    <section>
+    <h2>Variables</h2>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-rearth"></span>real,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>rearth</strong></td><td> =</td><td>6.371e+6</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-omega"></span>real,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>omega</strong></td><td> =</td><td>7.292e-05</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-grav"></span>real,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>grav</strong></td><td> =</td><td>9.81</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-akap"></span>real,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>akap</strong></td><td> =</td><td>2.0/7.0</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-rgas"></span>real,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>rgas</strong></td><td> =</td><td>akap*1004.0</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-p0"></span>real,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>p0</strong></td><td> =</td><td>1.e+5</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-rd"></span>real,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>rd</strong></td><td> =</td><td>287.0</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-cp"></span>real,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>cp</strong></td><td> =</td><td>1004.0</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-alhc"></span>real,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>alhc</strong></td><td> =</td><td>2501.0</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-alhs"></span>real,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>alhs</strong></td><td> =</td><td>2801.0</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-sbc"></span>real,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>sbc</strong></td><td> =</td><td>5.67e-8</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-sigl"></span>real,</td>
+  
+  <td>public,</td>
+  <td>dimension(kx)</td><td>::</td>
+  <td><strong>sigl</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-sigh"></span>real,</td>
+  
+  <td>public,</td>
+  <td>dimension(0:kx)</td><td>::</td>
+  <td><strong>sigh</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-grdsig"></span>real,</td>
+  
+  <td>public,</td>
+  <td>dimension(kx)</td><td>::</td>
+  <td><strong>grdsig</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-grdscp"></span>real,</td>
+  
+  <td>public,</td>
+  <td>dimension(kx)</td><td>::</td>
+  <td><strong>grdscp</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-wvi"></span>real,</td>
+  
+  <td>public,</td>
+  <td>dimension(kx,2)</td><td>::</td>
+  <td><strong>wvi</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2019 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> SPEEDY.f90 was developed by Sam Hatfield</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="An intermediate complexity atmospheric general circulation model">
+    
+    <meta name="author" content="Sam Hatfield" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>input_output.f90 &ndash; SPEEDY.f90</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">SPEEDY.f90 </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            <li><a href="../program/speedy.html">Program</a></li>
+      
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../program/speedy.html">Program</a></li>
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>input_output.f90
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 3.3% of total for source files.">148 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/input_output.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">input_output.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-0">Modules</a></h3></div>
+  <div id="mods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/input_output.html">input_output</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/input_output.f90.html#src">input_output.f90</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: sourcefile~~input_output.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefileinput_outputf90EfferentGraph" width="641pt" height="243pt"
+ viewBox="0.00 0.00 641.00 242.66" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~input_output.f90~~EfferentGraph" class="graph" transform="scale(0.934402 0.934402) rotate(0) translate(4 255.693)">
+<title>sourcefile~~input_output.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-255.693 682,-255.693 682,4 -4,4"/>
+<!-- sourcefile~input_output.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_node1" class="node"><title>sourcefile~input_output.f90</title>
+<polygon fill="none" stroke="black" points="678,-162 588,-162 588,-138 678,-138 678,-162"/>
+<text text-anchor="middle" x="633" y="-147.6" font-family="Helvetica,sans-Serif" font-size="10.50">input_output.f90</text>
+</g>
+<!-- sourcefile~spectral.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_node2" class="node"><title>sourcefile~spectral.f90</title>
+<g id="a_sourcefile~~input_output.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/spectral.f90.html" xlink:title="spectral.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="552,-162 484,-162 484,-138 552,-138 552,-162"/>
+<text text-anchor="middle" x="518" y="-147.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">spectral.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~input_output.f90&#45;&gt;sourcefile~spectral.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge1" class="edge"><title>sourcefile~input_output.f90&#45;&gt;sourcefile~spectral.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M587.988,-150C579.529,-150 570.677,-150 562.243,-150"/>
+<polygon fill="#000000" stroke="#000000" points="562.216,-146.5 552.216,-150 562.216,-153.5 562.216,-146.5"/>
+</g>
+<!-- sourcefile~geometry.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_node3" class="node"><title>sourcefile~geometry.f90</title>
+<g id="a_sourcefile~~input_output.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/geometry.f90.html" xlink:title="geometry.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="338,-222 262,-222 262,-198 338,-198 338,-222"/>
+<text text-anchor="middle" x="300" y="-207.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~input_output.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge2" class="edge"><title>sourcefile~input_output.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M618.524,-162.059C585.461,-190.259 496.831,-257.581 412,-250"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M410,-250C381.216,-250.865 350.613,-238.308 329.186,-227.04"/>
+<polygon fill="#000000" stroke="#000000" points="330.762,-223.913 320.311,-222.17 327.394,-230.049 330.762,-223.913"/>
+</g>
+<!-- sourcefile~date.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_node4" class="node"><title>sourcefile~date.f90</title>
+<g id="a_sourcefile~~input_output.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/date.f90.html" xlink:title="date.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="327,-24 273,-24 273,-0 327,-0 327,-24"/>
+<text text-anchor="middle" x="300" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">date.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~input_output.f90&#45;&gt;sourcefile~date.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge3" class="edge"><title>sourcefile~input_output.f90&#45;&gt;sourcefile~date.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M615.403,-137.952C580.096,-113.413 494.044,-59.3323 412,-52"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M410,-52C384.976,-45.9103 357.78,-35.9358 336.813,-27.4709"/>
+<polygon fill="#000000" stroke="#000000" points="337.933,-24.1474 327.353,-23.5842 335.273,-30.6221 337.933,-24.1474"/>
+</g>
+<!-- sourcefile~params.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_node5" class="node"><title>sourcefile~params.f90</title>
+<g id="a_sourcefile~~input_output.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/params.f90.html" xlink:title="params.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="67.5,-122 0.5,-122 0.5,-98 67.5,-98 67.5,-122"/>
+<text text-anchor="middle" x="34" y="-107.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">params.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~input_output.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge4" class="edge"><title>sourcefile~input_output.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M410,-250C361.577,-251.456 349.371,-252.658 301,-250"/>
+</g>
+<!-- sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_node6" class="node"><title>sourcefile~physical_constants.f90</title>
+<g id="a_sourcefile~~input_output.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/physical_constants.f90.html" xlink:title="physical_constants.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="225.5,-122 104.5,-122 104.5,-98 225.5,-98 225.5,-122"/>
+<text text-anchor="middle" x="165" y="-107.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">physical_constants.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~input_output.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge5" class="edge"><title>sourcefile~input_output.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M410,-52C345.253,-36.2436 326.556,-59.4768 262,-76 243.099,-80.8377 222.657,-87.8217 205.513,-94.2031"/>
+<polygon fill="#000000" stroke="#000000" points="203.947,-91.0534 195.836,-97.8699 206.428,-97.5991 203.947,-91.0534"/>
+</g>
+<!-- sourcefile~spectral.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge6" class="edge"><title>sourcefile~spectral.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M483.735,-158.932C454.73,-166.754 411.54,-178.482 374,-189 365.512,-191.378 356.479,-193.946 347.765,-196.443"/>
+<polygon fill="#000000" stroke="#000000" points="346.753,-193.092 338.109,-199.217 348.686,-199.82 346.753,-193.092"/>
+</g>
+<!-- sourcefile~spectral.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge7" class="edge"><title>sourcefile~spectral.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M500.929,-137.858C487.51,-128.38 467.494,-115.728 448,-109 385.728,-87.5071 366.877,-90 301,-90"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M299,-90C239.297,-87.049 224.36,-57.0668 166,-70"/>
+</g>
+<!-- sourcefile~spectral.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge10" class="edge"><title>sourcefile~spectral.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M299,-90C276.726,-90 252.585,-92.777 231.06,-96.2615"/>
+<polygon fill="#000000" stroke="#000000" points="230.321,-92.8368 221.048,-97.962 231.493,-99.738 230.321,-92.8368"/>
+</g>
+<!-- sourcefile~fourier.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_node7" class="node"><title>sourcefile~fourier.f90</title>
+<g id="a_sourcefile~~input_output.f90~~EfferentGraph_node7"><a xlink:href=".././sourcefile/fourier.f90.html" xlink:title="fourier.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="441.5,-222 380.5,-222 380.5,-198 441.5,-198 441.5,-222"/>
+<text text-anchor="middle" x="411" y="-207.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fourier.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~spectral.f90&#45;&gt;sourcefile~fourier.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge9" class="edge"><title>sourcefile~spectral.f90&#45;&gt;sourcefile~fourier.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M495.752,-162.142C480.381,-170.925 459.391,-182.919 442.27,-192.703"/>
+<polygon fill="#000000" stroke="#000000" points="440.163,-189.876 433.217,-197.876 443.636,-195.954 440.163,-189.876"/>
+</g>
+<!-- sourcefile~legendre.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_node8" class="node"><title>sourcefile~legendre.f90</title>
+<g id="a_sourcefile~~input_output.f90~~EfferentGraph_node8"><a xlink:href=".././sourcefile/legendre.f90.html" xlink:title="legendre.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="447.5,-142 374.5,-142 374.5,-118 447.5,-118 447.5,-142"/>
+<text text-anchor="middle" x="411" y="-127.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">legendre.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~spectral.f90&#45;&gt;sourcefile~legendre.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge8" class="edge"><title>sourcefile~spectral.f90&#45;&gt;sourcefile~legendre.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M483.777,-143.672C475.396,-142.075 466.253,-140.334 457.387,-138.645"/>
+<polygon fill="#000000" stroke="#000000" points="458.027,-135.204 447.548,-136.771 456.717,-142.08 458.027,-135.204"/>
+</g>
+<!-- sourcefile~geometry.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge11" class="edge"><title>sourcefile~geometry.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M261.845,-216.247C234.585,-219.352 197.061,-220.501 166,-210"/>
+</g>
+<!-- sourcefile~geometry.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge12" class="edge"><title>sourcefile~geometry.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M281.57,-197.988C275.351,-193.64 268.322,-188.655 262,-184 236.757,-165.416 208.388,-143.405 189.077,-128.247"/>
+<polygon fill="#000000" stroke="#000000" points="191.162,-125.434 181.138,-122.001 186.833,-130.935 191.162,-125.434"/>
+</g>
+<!-- sourcefile~date.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge13" class="edge"><title>sourcefile~date.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M278.211,-24.1019C252.741,-38.198 207.809,-60.7346 166,-70"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M164,-70C134.595,-76.5165 102.221,-86.564 77.2612,-94.9584"/>
+<polygon fill="#000000" stroke="#000000" points="76.0752,-91.6648 67.7374,-98.2018 78.3319,-98.2911 76.0752,-91.6648"/>
+</g>
+<!-- sourcefile~physical_constants.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge14" class="edge"><title>sourcefile~physical_constants.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M104.409,-110C95.3976,-110 86.2579,-110 77.6987,-110"/>
+<polygon fill="#000000" stroke="#000000" points="77.5938,-106.5 67.5938,-110 77.5938,-113.5 77.5938,-106.5"/>
+</g>
+<!-- sourcefile~fourier.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge16" class="edge"><title>sourcefile~fourier.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M380.215,-210C370.375,-210 359.171,-210 348.35,-210"/>
+<polygon fill="#000000" stroke="#000000" points="348.15,-206.5 338.15,-210 348.15,-213.5 348.15,-206.5"/>
+</g>
+<!-- sourcefile~fourier.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge15" class="edge"><title>sourcefile~fourier.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M391.445,-222.036C370.324,-234.472 334.411,-251.836 301,-250"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M299,-250C237.366,-246.613 224.476,-229.768 166,-210"/>
+</g>
+<!-- sourcefile~legendre.f90&#45;&gt;sourcefile~geometry.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge18" class="edge"><title>sourcefile~legendre.f90&#45;&gt;sourcefile~geometry.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M393.06,-142.046C387.011,-146.397 380.169,-151.376 374,-156 357.781,-168.158 354.297,-171.947 338,-184 334.52,-186.573 330.824,-189.244 327.165,-191.851"/>
+<polygon fill="#000000" stroke="#000000" points="324.969,-189.117 318.816,-197.741 329.004,-194.836 324.969,-189.117"/>
+</g>
+<!-- sourcefile~legendre.f90&#45;&gt;sourcefile~params.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge17" class="edge"><title>sourcefile~legendre.f90&#45;&gt;sourcefile~params.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M299,-170C237.843,-178.367 224.476,-229.768 166,-210"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M164,-210C117.452,-194.264 74.7781,-153.967 52.0856,-129.6"/>
+<polygon fill="#000000" stroke="#000000" points="54.4967,-127.049 45.1792,-122.006 49.3179,-131.759 54.4967,-127.049"/>
+</g>
+<!-- sourcefile~legendre.f90&#45;&gt;sourcefile~physical_constants.f90 -->
+<g id="sourcefile~~input_output.f90~~EfferentGraph_edge19" class="edge"><title>sourcefile~legendre.f90&#45;&gt;sourcefile~physical_constants.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M386.103,-142.185C364.522,-152.348 331.556,-165.82 301,-170"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M299,-170C256.834,-175.769 212.73,-148.123 187.393,-128.437"/>
+<polygon fill="#000000" stroke="#000000" points="189.534,-125.668 179.549,-122.126 185.146,-131.122 189.534,-125.668"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefileinput_outputf90EfferentGraph = svgPanZoom('#sourcefileinput_outputf90EfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="189pt" height="32pt"
+ viewBox="0.00 0.00 189.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28 185,-28 185,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node"><title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="66.25,-24 -0.25,-24 -0.25,-0 66.25,-0 66.25,-24"/>
+<text text-anchor="middle" x="33" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node"><title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="181.25,-24 84.75,-24 84.75,-0 181.25,-0 181.25,-24"/>
+<text text-anchor="middle" x="133" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+      
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Files dependent on this one</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: sourcefile~~input_output.f90~~AfferentGraph Pages: 1 -->
+<svg id="sourcefileinput_outputf90AfferentGraph" width="641pt" height="184pt"
+ viewBox="0.00 0.00 641.00 184.43" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~input_output.f90~~AfferentGraph" class="graph" transform="scale(0.596834 0.596834) rotate(0) translate(4 305.007)">
+<title>sourcefile~~input_output.f90~~AfferentGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-305.007 1070,-305.007 1070,4 -4,4"/>
+<!-- sourcefile~input_output.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_node1" class="node"><title>sourcefile~input_output.f90</title>
+<polygon fill="none" stroke="black" points="90,-72.3891 0,-72.3891 0,-48.3891 90,-48.3891 90,-72.3891"/>
+<text text-anchor="middle" x="45" y="-57.9891" font-family="Helvetica,sans-Serif" font-size="10.50">input_output.f90</text>
+</g>
+<!-- sourcefile~initialization.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_node2" class="node"><title>sourcefile~initialization.f90</title>
+<g id="a_sourcefile~~input_output.f90~~AfferentGraph_node2"><a xlink:href=".././sourcefile/initialization.f90.html" xlink:title="initialization.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="963.5,-168.389 878.5,-168.389 878.5,-144.389 963.5,-144.389 963.5,-168.389"/>
+<text text-anchor="middle" x="921" y="-153.989" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialization.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~input_output.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge1" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~input_output.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M893.39,-168.442C853.702,-186.042 776.339,-218.901 708,-239.389 561.635,-283.27 520.346,-302.181 368,-290.389 313.288,-286.154 296.81,-292.119 246,-271.389 207.06,-255.502 205.269,-237.678 169,-216.389"/>
+</g>
+<!-- sourcefile~boundaries.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_node3" class="node"><title>sourcefile~boundaries.f90</title>
+<g id="a_sourcefile~~input_output.f90~~AfferentGraph_node3"><a xlink:href=".././sourcefile/boundaries.f90.html" xlink:title="boundaries.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="210,-72.3891 126,-72.3891 126,-48.3891 210,-48.3891 210,-72.3891"/>
+<text text-anchor="middle" x="168" y="-57.9891" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">boundaries.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~boundaries.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge9" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~boundaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M792,-156.389C736.912,-157.973 722.366,-165.42 668,-156.389"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M666,-156.389C646.585,-153.164 641.778,-149.154 626,-137.389 606.826,-123.092 611.849,-107.12 590,-97.3891 468.2,-43.1439 421.868,-117.1 290,-97.3891"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M288,-97.3891C261.251,-92.8061 232.145,-83.831 209.413,-75.8683"/>
+<polygon fill="#000000" stroke="#000000" points="210.364,-72.4911 199.769,-72.4173 208.005,-79.0819 210.364,-72.4911"/>
+</g>
+<!-- sourcefile~sea_model.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_node4" class="node"><title>sourcefile~sea_model.f90</title>
+<g id="a_sourcefile~~input_output.f90~~AfferentGraph_node4"><a xlink:href=".././sourcefile/sea_model.f90.html" xlink:title="sea_model.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="459.5,-168.389 376.5,-168.389 376.5,-144.389 459.5,-144.389 459.5,-168.389"/>
+<text text-anchor="middle" x="418" y="-153.989" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sea_model.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~sea_model.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge16" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~sea_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M666,-156.389C598.74,-145.994 519.942,-148.488 469.764,-151.885"/>
+<polygon fill="#000000" stroke="#000000" points="469.23,-148.414 459.505,-152.619 469.729,-155.396 469.23,-148.414"/>
+</g>
+<!-- sourcefile~prognostics.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_node6" class="node"><title>sourcefile~prognostics.f90</title>
+<g id="a_sourcefile~~input_output.f90~~AfferentGraph_node6"><a xlink:href=".././sourcefile/prognostics.f90.html" xlink:title="prognostics.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="589.5,-50.3891 504.5,-50.3891 504.5,-26.3891 589.5,-26.3891 589.5,-50.3891"/>
+<text text-anchor="middle" x="547" y="-35.9891" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">prognostics.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~prognostics.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge20" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~prognostics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M878.278,-155.788C853.735,-155.585 822.098,-155.581 794,-156.389"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M792,-156.389C745.88,-157.715 747.674,-118.943 708,-95.3891 691.076,-85.3417 686.739,-82.4049 668,-76.3891"/>
+</g>
+<!-- sourcefile~coupler.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_node8" class="node"><title>sourcefile~coupler.f90</title>
+<g id="a_sourcefile~~input_output.f90~~AfferentGraph_node8"><a xlink:href=".././sourcefile/coupler.f90.html" xlink:title="coupler.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="700,-208.389 634,-208.389 634,-184.389 700,-184.389 700,-208.389"/>
+<text text-anchor="middle" x="667" y="-193.989" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">coupler.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~coupler.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge27" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~coupler.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M792,-156.389C760.074,-157.654 725.629,-169.701 701.164,-180.246"/>
+<polygon fill="#000000" stroke="#000000" points="699.689,-177.071 691.978,-184.337 702.537,-183.466 699.689,-177.071"/>
+</g>
+<!-- sourcefile~physics.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_node9" class="node"><title>sourcefile~physics.f90</title>
+<g id="a_sourcefile~~input_output.f90~~AfferentGraph_node9"><a xlink:href=".././sourcefile/physics.f90.html" xlink:title="physics.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="580,-130.389 514,-130.389 514,-106.389 580,-106.389 580,-130.389"/>
+<text text-anchor="middle" x="547" y="-115.989" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">physics.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~physics.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge29" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~physics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M666,-156.389C638.764,-152.18 609.251,-142.674 586.554,-134.223"/>
+<polygon fill="#000000" stroke="#000000" points="587.546,-130.856 576.955,-130.562 585.051,-137.396 587.546,-130.856"/>
+</g>
+<!-- sourcefile~forcing.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_node12" class="node"><title>sourcefile~forcing.f90</title>
+<g id="a_sourcefile~~input_output.f90~~AfferentGraph_node12"><a xlink:href=".././sourcefile/forcing.f90.html" xlink:title="forcing.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="578.5,-248.389 515.5,-248.389 515.5,-224.389 578.5,-224.389 578.5,-248.389"/>
+<text text-anchor="middle" x="547" y="-233.989" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">forcing.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~forcing.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge34" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~forcing.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M792,-156.389C745.897,-158.216 750.964,-200.569 708,-217.389 669.453,-232.48 622.006,-236.473 588.829,-237.155"/>
+<polygon fill="#000000" stroke="#000000" points="588.548,-233.658 578.588,-237.271 588.627,-240.658 588.548,-233.658"/>
+</g>
+<!-- sourcefile~time_stepping.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_node13" class="node"><title>sourcefile~time_stepping.f90</title>
+<g id="a_sourcefile~~input_output.f90~~AfferentGraph_node13"><a xlink:href=".././sourcefile/time_stepping.f90.html" xlink:title="time_stepping.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="841.5,-90.3891 744.5,-90.3891 744.5,-66.3891 841.5,-66.3891 841.5,-90.3891"/>
+<text text-anchor="middle" x="793" y="-75.9891" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">time_stepping.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~initialization.f90&#45;&gt;sourcefile~time_stepping.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge36" class="edge"><title>sourcefile~initialization.f90&#45;&gt;sourcefile~time_stepping.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M900.589,-144.373C879.654,-131.413 846.125,-110.657 822.266,-95.8869"/>
+<polygon fill="#000000" stroke="#000000" points="823.986,-92.8354 813.641,-90.5478 820.301,-98.7873 823.986,-92.8354"/>
+</g>
+<!-- sourcefile~boundaries.f90&#45;&gt;sourcefile~input_output.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge2" class="edge"><title>sourcefile~boundaries.f90&#45;&gt;sourcefile~input_output.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M125.697,-60.3891C117.52,-60.3891 108.821,-60.3891 100.289,-60.3891"/>
+<polygon fill="#000000" stroke="#000000" points="100.01,-56.8892 90.01,-60.3891 100.01,-63.8892 100.01,-56.8892"/>
+</g>
+<!-- sourcefile~sea_model.f90&#45;&gt;sourcefile~input_output.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge3" class="edge"><title>sourcefile~sea_model.f90&#45;&gt;sourcefile~input_output.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M288,-176.389C232.361,-172.195 217.12,-244.634 169,-216.389"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M167,-216.389C112.117,-184.174 73.195,-116.628 55.9521,-81.9467"/>
+<polygon fill="#000000" stroke="#000000" points="58.9875,-80.1836 51.4851,-72.7026 52.6848,-83.2293 58.9875,-80.1836"/>
+</g>
+<!-- sourcefile~sea_model.f90&#45;&gt;sourcefile~boundaries.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge11" class="edge"><title>sourcefile~sea_model.f90&#45;&gt;sourcefile~boundaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M376.302,-167.675C351.481,-173.339 319.046,-178.579 290,-176.389"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M288,-176.389C235.073,-172.399 196.761,-114.238 179.391,-81.8246"/>
+<polygon fill="#000000" stroke="#000000" points="182.371,-79.9668 174.68,-72.6802 176.149,-83.1728 182.371,-79.9668"/>
+</g>
+<!-- sourcefile~speedy.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_node5" class="node"><title>sourcefile~speedy.f90</title>
+<g id="a_sourcefile~~input_output.f90~~AfferentGraph_node5"><a xlink:href=".././sourcefile/speedy.f90.html" xlink:title="speedy.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1065.5,-168.389 1000.5,-168.389 1000.5,-144.389 1065.5,-144.389 1065.5,-168.389"/>
+<text text-anchor="middle" x="1033" y="-153.989" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">speedy.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~input_output.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge4" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~input_output.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1025.91,-144.117C1011.96,-117.693 974.758,-56.3564 922,-38.3891"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M920,-38.3891C813.98,-2.28265 779.618,-47.6269 668,-38.3891"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M666,-38.3891C631.002,-36.6071 624.726,-22.0984 590,-17.3891 511.252,-6.70951 404.055,16.8709 169,-20.3891"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M167,-20.3891C137.891,-24.6956 106.368,-35.3239 82.7971,-44.5429"/>
+<polygon fill="#000000" stroke="#000000" points="81.192,-41.4155 73.2122,-48.385 83.7966,-47.9129 81.192,-41.4155"/>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~initialization.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge7" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~initialization.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1000.48,-156.389C992.176,-156.389 982.994,-156.389 973.924,-156.389"/>
+<polygon fill="#000000" stroke="#000000" points="973.785,-152.889 963.785,-156.389 973.785,-159.889 973.785,-152.889"/>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~prognostics.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge19" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~prognostics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M666,-38.3891C644.343,-36.5967 620.373,-36.2897 599.726,-36.5449"/>
+<polygon fill="#000000" stroke="#000000" points="599.511,-33.0479 589.572,-36.7179 599.631,-40.0469 599.511,-33.0479"/>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~coupler.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge26" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~coupler.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1025.49,-168.544C1010.97,-194.191 973.136,-253.294 922,-275.389"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M920,-275.389C838.716,-310.51 736.656,-247.681 691.427,-214.7"/>
+<polygon fill="#000000" stroke="#000000" points="693.271,-211.71 683.162,-208.54 689.088,-217.322 693.271,-211.71"/>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~forcing.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge33" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~forcing.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M920,-275.389C807.931,-331.507 653.396,-280.838 584.13,-252.504"/>
+<polygon fill="#000000" stroke="#000000" points="585.121,-249.125 574.544,-248.501 582.423,-255.585 585.121,-249.125"/>
+</g>
+<!-- sourcefile~speedy.f90&#45;&gt;sourcefile~time_stepping.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge35" class="edge"><title>sourcefile~speedy.f90&#45;&gt;sourcefile~time_stepping.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M920,-38.3891C903.018,-32.6058 859.791,-48.8018 828.705,-62.2901"/>
+<polygon fill="#000000" stroke="#000000" points="827.222,-59.1188 819.49,-66.3618 830.051,-65.5216 827.222,-59.1188"/>
+</g>
+<!-- sourcefile~prognostics.f90&#45;&gt;sourcefile~input_output.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge5" class="edge"><title>sourcefile~prognostics.f90&#45;&gt;sourcefile~input_output.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M504.319,-38.5461C453.654,-38.7383 365.555,-39.0769 290,-39.3891"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M288,-39.3891C234.442,-39.6104 221.898,-12.0038 169,-20.3891"/>
+</g>
+<!-- sourcefile~prognostics.f90&#45;&gt;sourcefile~boundaries.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge12" class="edge"><title>sourcefile~prognostics.f90&#45;&gt;sourcefile~boundaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M288,-39.3891C265.554,-39.4818 241.084,-43.1652 220.203,-47.4216"/>
+<polygon fill="#000000" stroke="#000000" points="219.313,-44.0326 210.265,-49.5439 220.775,-50.8782 219.313,-44.0326"/>
+</g>
+<!-- sourcefile~land_model.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_node7" class="node"><title>sourcefile~land_model.f90</title>
+<g id="a_sourcefile~~input_output.f90~~AfferentGraph_node7"><a xlink:href=".././sourcefile/land_model.f90.html" xlink:title="land_model.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="332,-228.389 246,-228.389 246,-204.389 332,-204.389 332,-228.389"/>
+<text text-anchor="middle" x="289" y="-213.989" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">land_model.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~land_model.f90&#45;&gt;sourcefile~input_output.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge6" class="edge"><title>sourcefile~land_model.f90&#45;&gt;sourcefile~input_output.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M245.886,-226.39C221.788,-229.775 191.895,-229.828 169,-216.389"/>
+</g>
+<!-- sourcefile~land_model.f90&#45;&gt;sourcefile~boundaries.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge13" class="edge"><title>sourcefile~land_model.f90&#45;&gt;sourcefile~boundaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M263.866,-204.187C257.598,-200.317 251.164,-195.655 246,-190.389 214.08,-157.839 190.012,-109.568 177.846,-81.9246"/>
+<polygon fill="#000000" stroke="#000000" points="180.928,-80.2307 173.774,-72.4156 174.493,-82.986 180.928,-80.2307"/>
+</g>
+<!-- sourcefile~coupler.f90&#45;&gt;sourcefile~sea_model.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge14" class="edge"><title>sourcefile~coupler.f90&#45;&gt;sourcefile~sea_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M633.896,-197.719C610.138,-198.38 577.004,-198.624 548,-196.389"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M546,-196.389C514.055,-193.927 479.474,-182.406 454.475,-172.357"/>
+<polygon fill="#000000" stroke="#000000" points="455.633,-169.048 445.054,-168.457 452.955,-175.516 455.633,-169.048"/>
+</g>
+<!-- sourcefile~coupler.f90&#45;&gt;sourcefile~land_model.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge22" class="edge"><title>sourcefile~coupler.f90&#45;&gt;sourcefile~land_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M546,-196.389C475.369,-190.946 393.786,-199.967 342.061,-207.592"/>
+<polygon fill="#000000" stroke="#000000" points="341.491,-204.138 332.127,-209.093 342.537,-211.059 341.491,-204.138"/>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~boundaries.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge8" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~boundaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M513.981,-115.074C488.192,-113.078 451.078,-111.726 419,-116.389"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M417,-116.389C360.521,-124.599 346.446,-105.826 290,-97.3891"/>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~sea_model.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge15" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~sea_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M513.953,-127.978C500.33,-132.054 484.123,-136.903 468.99,-141.431"/>
+<polygon fill="#000000" stroke="#000000" points="467.815,-138.13 459.238,-144.349 469.822,-144.836 467.815,-138.13"/>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~land_model.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge23" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~land_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M417,-116.389C393.885,-119.749 386.154,-120.692 368,-135.389 345.293,-153.772 352.918,-169.993 332,-190.389 328.961,-193.353 325.526,-196.142 321.964,-198.714"/>
+<polygon fill="#000000" stroke="#000000" points="319.941,-195.856 313.542,-204.301 323.81,-201.689 319.941,-195.856"/>
+</g>
+<!-- sourcefile~surface_fluxes.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_node11" class="node"><title>sourcefile~surface_fluxes.f90</title>
+<g id="a_sourcefile~~input_output.f90~~AfferentGraph_node11"><a xlink:href=".././sourcefile/surface_fluxes.f90.html" xlink:title="surface_fluxes.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="468,-248.389 368,-248.389 368,-224.389 468,-224.389 468,-248.389"/>
+<text text-anchor="middle" x="418" y="-233.989" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">surface_fluxes.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~physics.f90&#45;&gt;sourcefile~surface_fluxes.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge31" class="edge"><title>sourcefile~physics.f90&#45;&gt;sourcefile~surface_fluxes.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M532.887,-130.573C510.832,-151.064 466.145,-192.585 439.78,-217.081"/>
+<polygon fill="#000000" stroke="#000000" points="437.175,-214.724 432.232,-224.095 441.94,-219.852 437.175,-214.724"/>
+</g>
+<!-- sourcefile~tendencies.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_node10" class="node"><title>sourcefile~tendencies.f90</title>
+<g id="a_sourcefile~~input_output.f90~~AfferentGraph_node10"><a xlink:href=".././sourcefile/tendencies.f90.html" xlink:title="tendencies.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="708,-128.389 626,-128.389 626,-104.389 708,-104.389 708,-128.389"/>
+<text text-anchor="middle" x="667" y="-113.989" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tendencies.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tendencies.f90&#45;&gt;sourcefile~prognostics.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge21" class="edge"><title>sourcefile~tendencies.f90&#45;&gt;sourcefile~prognostics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M646.748,-104.147C640.126,-99.8642 632.695,-94.9784 626,-90.3891 609.721,-79.2298 606.401,-75.368 590,-64.3891 585.853,-61.6132 581.422,-58.756 577.049,-55.9979"/>
+<polygon fill="#000000" stroke="#000000" points="578.606,-52.8445 568.267,-50.5332 574.908,-58.788 578.606,-52.8445"/>
+</g>
+<!-- sourcefile~tendencies.f90&#45;&gt;sourcefile~physics.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge28" class="edge"><title>sourcefile~tendencies.f90&#45;&gt;sourcefile~physics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M625.721,-117.072C614.373,-117.264 601.994,-117.474 590.52,-117.668"/>
+<polygon fill="#000000" stroke="#000000" points="590.231,-114.173 580.292,-117.842 590.349,-121.172 590.231,-114.173"/>
+</g>
+<!-- sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~land_model.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge25" class="edge"><title>sourcefile~surface_fluxes.f90&#45;&gt;sourcefile~land_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M367.898,-228.657C359.562,-227.344 350.875,-225.976 342.456,-224.65"/>
+<polygon fill="#000000" stroke="#000000" points="342.784,-221.158 332.361,-223.06 341.695,-228.073 342.784,-221.158"/>
+</g>
+<!-- sourcefile~forcing.f90&#45;&gt;sourcefile~boundaries.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge10" class="edge"><title>sourcefile~forcing.f90&#45;&gt;sourcefile~boundaries.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M417,-276.389C339.099,-279.202 306.003,-287.149 246,-237.389 197.402,-197.087 178.63,-120.239 172.106,-82.465"/>
+<polygon fill="#000000" stroke="#000000" points="175.547,-81.8172 170.514,-72.4937 168.634,-82.9203 175.547,-81.8172"/>
+</g>
+<!-- sourcefile~forcing.f90&#45;&gt;sourcefile~sea_model.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge17" class="edge"><title>sourcefile~forcing.f90&#45;&gt;sourcefile~sea_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M526.313,-224.267C519.263,-219.909 511.265,-214.945 504,-210.389 484.755,-198.319 463.148,-184.59 446.535,-173.996"/>
+<polygon fill="#000000" stroke="#000000" points="448.178,-170.893 437.866,-168.463 444.412,-176.793 448.178,-170.893"/>
+</g>
+<!-- sourcefile~forcing.f90&#45;&gt;sourcefile~land_model.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge24" class="edge"><title>sourcefile~forcing.f90&#45;&gt;sourcefile~land_model.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M521.41,-248.482C496.331,-259.763 455.962,-275.055 419,-276.389"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M417,-276.389C377.281,-277.823 336.66,-253.111 312.384,-234.964"/>
+<polygon fill="#000000" stroke="#000000" points="314.262,-231.991 304.212,-228.636 309.976,-237.526 314.262,-231.991"/>
+</g>
+<!-- sourcefile~forcing.f90&#45;&gt;sourcefile~surface_fluxes.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge32" class="edge"><title>sourcefile~forcing.f90&#45;&gt;sourcefile~surface_fluxes.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M515.257,-236.389C504.135,-236.389 491.167,-236.389 478.42,-236.389"/>
+<polygon fill="#000000" stroke="#000000" points="478.283,-232.889 468.283,-236.389 478.283,-239.889 478.283,-232.889"/>
+</g>
+<!-- sourcefile~time_stepping.f90&#45;&gt;sourcefile~prognostics.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge18" class="edge"><title>sourcefile~time_stepping.f90&#45;&gt;sourcefile~prognostics.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M744.431,-84.0124C720.904,-85.2034 692.395,-84.2205 668,-76.3891"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M666,-76.3891C642.632,-68.8872 616.668,-60.5286 595.058,-53.5651"/>
+<polygon fill="#000000" stroke="#000000" points="596.052,-50.2082 585.46,-50.4719 593.905,-56.8707 596.052,-50.2082"/>
+</g>
+<!-- sourcefile~time_stepping.f90&#45;&gt;sourcefile~tendencies.f90 -->
+<g id="sourcefile~~input_output.f90~~AfferentGraph_edge30" class="edge"><title>sourcefile~time_stepping.f90&#45;&gt;sourcefile~tendencies.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M752.766,-90.4125C741.457,-93.8779 728.976,-97.7029 717.147,-101.328"/>
+<polygon fill="#000000" stroke="#000000" points="715.94,-98.0369 707.405,-104.313 717.991,-104.73 715.94,-98.0369"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefileinput_outputf90AfferentGraph = svgPanZoom('#sourcefileinput_outputf90AfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.36.0 (20140111.2315)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="189pt" height="32pt"
+ viewBox="0.00 0.00 189.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28 185,-28 185,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node"><title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="66.25,-24 -0.25,-24 -0.25,-0 66.25,-0 66.25,-24"/>
+<text text-anchor="middle" x="33" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node"><title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="181.25,-24 84.75,-24 84.75,-0 181.25,-0 181.25,-24"/>
+<text text-anchor="middle" x="133" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-1">Modules</a></h3></div>
+  <div id="mods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/input_output.html">input_output</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/input_output.f90.html#src">input_output.f90</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="k">module </span><span class="n">input_output</span>
+<a name="ln-2"></a>    <span class="k">use </span><span class="n">netcdf</span>
+<a name="ln-3"></a>    <span class="k">use </span><span class="n">params</span>
+<a name="ln-4"></a>
+<a name="ln-5"></a>    <span class="k">implicit none</span>
+<a name="ln-6"></a>
+<a name="ln-7"></a><span class="k">    private</span>
+<a name="ln-8"></a><span class="k">    public </span><span class="n">output</span><span class="p">,</span> <span class="n">load_boundary_file</span>
+<a name="ln-9"></a>
+<a name="ln-10"></a>    <span class="k">interface </span><span class="n">load_boundary_file</span>
+<a name="ln-11"></a>        <span class="k">module procedure </span><span class="n">load_boundary_file_2d</span>
+<a name="ln-12"></a>        <span class="k">module procedure </span><span class="n">load_boundary_file_one_month_from_year</span>
+<a name="ln-13"></a>        <span class="k">module procedure </span><span class="n">load_boundary_file_one_month_from_long</span>
+<a name="ln-14"></a>    <span class="k">end interface</span>
+<a name="ln-15"></a>
+<a name="ln-16"></a><span class="k">contains</span>
+<a name="ln-17"></a><span class="k">    function </span><span class="n">load_boundary_file_2d</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">field_name</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+<a name="ln-18"></a>        <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">field_name</span>
+<a name="ln-19"></a>
+<a name="ln-20"></a>        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">ncid</span><span class="p">,</span> <span class="n">varid</span>
+<a name="ln-21"></a>        <span class="kt">real</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">)</span> <span class="kd">::</span> <span class="n">raw_input</span>
+<a name="ln-22"></a>        <span class="kt">real</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">)</span> <span class="kd">::</span> <span class="n">field</span>
+<a name="ln-23"></a>
+<a name="ln-24"></a>        <span class="c">! Open boundary file, read variable and then close</span>
+<a name="ln-25"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">nf90_nowrite</span><span class="p">,</span> <span class="n">ncid</span><span class="p">))</span>
+<a name="ln-26"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_inq_varid</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">varid</span><span class="p">))</span>
+<a name="ln-27"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_get_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">varid</span><span class="p">,</span> <span class="n">raw_input</span><span class="p">,</span> <span class="n">start</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span><span class="p">),</span> <span class="nb">count</span> <span class="o">=</span>  <span class="p">(</span><span class="o">/</span> <span class="n">ix</span><span class="p">,</span> <span class="n">il</span> <span class="o">/</span><span class="p">)))</span>
+<a name="ln-28"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_close</span><span class="p">(</span><span class="n">ncid</span><span class="p">))</span>
+<a name="ln-29"></a>        <span class="n">field</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(:,</span><span class="n">il</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-30"></a>
+<a name="ln-31"></a>        <span class="c">! Fix undefined values</span>
+<a name="ln-32"></a>        <span class="k">where</span> <span class="p">(</span><span class="n">field</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">999</span><span class="p">)</span> <span class="n">field</span> <span class="o">=</span> <span class="mf">0.0</span>
+<a name="ln-33"></a>    <span class="k">end</span>
+<a name="ln-34"></a>
+<a name="ln-35"></a><span class="k">    function </span><span class="n">load_boundary_file_one_month_from_year</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">month</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+<a name="ln-36"></a>        <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">field_name</span>
+<a name="ln-37"></a>        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">month</span>
+<a name="ln-38"></a>
+<a name="ln-39"></a>        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">ncid</span><span class="p">,</span> <span class="n">varid</span>
+<a name="ln-40"></a>        <span class="kt">real</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span> <span class="kd">::</span> <span class="n">raw_input</span>
+<a name="ln-41"></a>        <span class="kt">real</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">)</span> <span class="kd">::</span> <span class="n">field</span>
+<a name="ln-42"></a>
+<a name="ln-43"></a>        <span class="c">! Open boundary file, read variable and then close</span>
+<a name="ln-44"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">nf90_nowrite</span><span class="p">,</span> <span class="n">ncid</span><span class="p">))</span>
+<a name="ln-45"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_inq_varid</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">varid</span><span class="p">))</span>
+<a name="ln-46"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_get_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">varid</span><span class="p">,</span> <span class="n">raw_input</span><span class="p">))</span>
+<a name="ln-47"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_close</span><span class="p">(</span><span class="n">ncid</span><span class="p">))</span>
+<a name="ln-48"></a>        <span class="n">field</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(:,</span><span class="n">il</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">month</span><span class="p">)</span>
+<a name="ln-49"></a>
+<a name="ln-50"></a>        <span class="c">! Fix undefined values</span>
+<a name="ln-51"></a>        <span class="k">where</span> <span class="p">(</span><span class="n">field</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">999</span><span class="p">)</span> <span class="n">field</span> <span class="o">=</span> <span class="mf">0.0</span>
+<a name="ln-52"></a>    <span class="k">end</span>
+<a name="ln-53"></a>
+<a name="ln-54"></a><span class="k">    function </span><span class="n">load_boundary_file_one_month_from_long</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-55"></a>        <span class="p">&amp;</span> <span class="k">result</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+<a name="ln-56"></a>        <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">field_name</span>
+<a name="ln-57"></a>        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">month</span><span class="p">,</span> <span class="n">length</span>
+<a name="ln-58"></a>
+<a name="ln-59"></a>        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">ncid</span><span class="p">,</span> <span class="n">varid</span>
+<a name="ln-60"></a>        <span class="kt">real</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">,</span><span class="n">length</span><span class="p">)</span> <span class="kd">::</span> <span class="n">raw_input</span>
+<a name="ln-61"></a>        <span class="kt">real</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">)</span> <span class="kd">::</span> <span class="n">field</span>
+<a name="ln-62"></a>
+<a name="ln-63"></a>        <span class="c">! Open boundary file, read variable and then close</span>
+<a name="ln-64"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">nf90_nowrite</span><span class="p">,</span> <span class="n">ncid</span><span class="p">))</span>
+<a name="ln-65"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_inq_varid</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">varid</span><span class="p">))</span>
+<a name="ln-66"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_get_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">varid</span><span class="p">,</span> <span class="n">raw_input</span><span class="p">))</span>
+<a name="ln-67"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_close</span><span class="p">(</span><span class="n">ncid</span><span class="p">))</span>
+<a name="ln-68"></a>        <span class="n">field</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(:,</span><span class="n">il</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">month</span><span class="p">)</span>
+<a name="ln-69"></a>
+<a name="ln-70"></a>        <span class="c">! Fix undefined values</span>
+<a name="ln-71"></a>        <span class="k">where</span> <span class="p">(</span><span class="n">field</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">999</span><span class="p">)</span> <span class="n">field</span> <span class="o">=</span> <span class="mf">0.0</span>
+<a name="ln-72"></a>    <span class="k">end</span>
+<a name="ln-73"></a>
+<a name="ln-74"></a><span class="k">    subroutine </span><span class="n">output</span><span class="p">(</span><span class="n">timestep</span><span class="p">,</span> <span class="n">vor</span><span class="p">,</span> <span class="n">div</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">ps</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
+<a name="ln-75"></a>        <span class="k">use </span><span class="n">geometry</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">radang</span><span class="p">,</span> <span class="n">fsg</span>
+<a name="ln-76"></a>        <span class="k">use </span><span class="n">physical_constants</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">p0</span><span class="p">,</span> <span class="n">grav</span>
+<a name="ln-77"></a>        <span class="k">use </span><span class="n">date</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">model_datetime</span><span class="p">,</span> <span class="n">start_datetime</span>
+<a name="ln-78"></a>        <span class="k">use </span><span class="n">spectral</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">spec_to_grid</span><span class="p">,</span> <span class="n">uvspec</span>
+<a name="ln-79"></a>
+<a name="ln-80"></a>        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">timestep</span>
+<a name="ln-81"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="kd">::</span>  <span class="n">vor</span><span class="p">,</span> <span class="n">div</span><span class="p">,</span> <span class="n">t</span>
+<a name="ln-82"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ps</span>
+<a name="ln-83"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">ntr</span><span class="p">)</span> <span class="kd">::</span> <span class="n">tr</span>
+<a name="ln-84"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">,</span><span class="n">kx</span><span class="p">)</span> <span class="kd">::</span> <span class="n">phi</span>
+<a name="ln-85"></a>        <span class="kt">complex</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">mx</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ucos</span><span class="p">,</span> <span class="n">vcos</span>
+<a name="ln-86"></a>        <span class="kt">real</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">,</span><span class="n">kx</span><span class="p">)</span> <span class="kd">::</span> <span class="n">u_grid</span><span class="p">,</span> <span class="n">v_grid</span><span class="p">,</span> <span class="n">t_grid</span><span class="p">,</span> <span class="n">q_grid</span><span class="p">,</span> <span class="n">phi_grid</span>
+<a name="ln-87"></a>        <span class="kt">real</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ps_grid</span>
+<a name="ln-88"></a>        <span class="kt">real</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">,</span><span class="n">kx</span><span class="p">)</span> <span class="kd">::</span> <span class="n">u_out</span><span class="p">,</span> <span class="n">v_out</span><span class="p">,</span> <span class="n">t_out</span><span class="p">,</span> <span class="n">q_out</span><span class="p">,</span> <span class="n">phi_out</span>
+<a name="ln-89"></a>        <span class="kt">real</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="k">dimension</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">il</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ps_out</span>
+<a name="ln-90"></a>        <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span> <span class="kd">::</span> <span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;yyyymmddhhmm.nc&#39;</span>
+<a name="ln-91"></a>        <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span> <span class="kd">::</span> <span class="n">time_template</span> <span class="o">=</span> <span class="s1">&#39;hours since yyyy-mm-dd hh:mm:0.0&#39;</span>
+<a name="ln-92"></a>        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">k</span><span class="p">,</span> <span class="n">ncid</span>
+<a name="ln-93"></a>        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">timedim</span><span class="p">,</span> <span class="n">latdim</span><span class="p">,</span> <span class="n">londim</span><span class="p">,</span> <span class="n">levdim</span>
+<a name="ln-94"></a>        <span class="kt">integer</span> <span class="kd">::</span> <span class="n">timevar</span><span class="p">,</span> <span class="n">latvar</span><span class="p">,</span> <span class="n">lonvar</span><span class="p">,</span> <span class="n">levvar</span><span class="p">,</span> <span class="n">uvar</span><span class="p">,</span> <span class="n">vvar</span><span class="p">,</span> <span class="n">tvar</span><span class="p">,</span> <span class="n">qvar</span><span class="p">,</span> <span class="n">phivar</span><span class="p">,</span> <span class="n">psvar</span>
+<a name="ln-95"></a>
+<a name="ln-96"></a>        <span class="c">! Construct file_name</span>
+<a name="ln-97"></a>        <span class="k">write</span> <span class="p">(</span><span class="n">file_name</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">),</span><span class="s1">&#39;(i4.4)&#39;</span><span class="p">)</span> <span class="n">model_datetime</span><span class="p">%</span><span class="n">year</span>
+<a name="ln-98"></a>        <span class="k">write</span> <span class="p">(</span><span class="n">file_name</span><span class="p">(</span><span class="mi">5</span><span class="p">:</span><span class="mi">6</span><span class="p">),</span><span class="s1">&#39;(i2.2)&#39;</span><span class="p">)</span> <span class="n">model_datetime</span><span class="p">%</span><span class="n">month</span>
+<a name="ln-99"></a>        <span class="k">write</span> <span class="p">(</span><span class="n">file_name</span><span class="p">(</span><span class="mi">7</span><span class="p">:</span><span class="mi">8</span><span class="p">),</span><span class="s1">&#39;(i2.2)&#39;</span><span class="p">)</span> <span class="n">model_datetime</span><span class="p">%</span><span class="n">day</span>
+<a name="ln-100"></a>        <span class="k">write</span> <span class="p">(</span><span class="n">file_name</span><span class="p">(</span><span class="mi">9</span><span class="p">:</span><span class="mi">10</span><span class="p">),</span><span class="s1">&#39;(i2.2)&#39;</span><span class="p">)</span> <span class="n">model_datetime</span><span class="p">%</span><span class="n">hour</span>
+<a name="ln-101"></a>        <span class="k">write</span> <span class="p">(</span><span class="n">file_name</span><span class="p">(</span><span class="mi">11</span><span class="p">:</span><span class="mi">12</span><span class="p">),</span><span class="s1">&#39;(i2.2)&#39;</span><span class="p">)</span> <span class="n">model_datetime</span><span class="p">%</span><span class="n">minute</span>
+<a name="ln-102"></a>
+<a name="ln-103"></a>        <span class="c">! Construct time string</span>
+<a name="ln-104"></a>        <span class="k">write</span> <span class="p">(</span><span class="n">time_template</span><span class="p">(</span><span class="mi">13</span><span class="p">:</span><span class="mi">16</span><span class="p">),</span><span class="s1">&#39;(i4.4)&#39;</span><span class="p">)</span> <span class="n">start_datetime</span><span class="p">%</span><span class="n">year</span>
+<a name="ln-105"></a>        <span class="k">write</span> <span class="p">(</span><span class="n">time_template</span><span class="p">(</span><span class="mi">18</span><span class="p">:</span><span class="mi">19</span><span class="p">),</span><span class="s1">&#39;(i2.2)&#39;</span><span class="p">)</span> <span class="n">start_datetime</span><span class="p">%</span><span class="n">month</span>
+<a name="ln-106"></a>        <span class="k">write</span> <span class="p">(</span><span class="n">time_template</span><span class="p">(</span><span class="mi">21</span><span class="p">:</span><span class="mi">22</span><span class="p">),</span><span class="s1">&#39;(i2.2)&#39;</span><span class="p">)</span> <span class="n">start_datetime</span><span class="p">%</span><span class="n">day</span>
+<a name="ln-107"></a>        <span class="k">write</span> <span class="p">(</span><span class="n">time_template</span><span class="p">(</span><span class="mi">24</span><span class="p">:</span><span class="mi">25</span><span class="p">),</span><span class="s1">&#39;(i2.2)&#39;</span><span class="p">)</span> <span class="n">start_datetime</span><span class="p">%</span><span class="n">hour</span>
+<a name="ln-108"></a>        <span class="k">write</span> <span class="p">(</span><span class="n">time_template</span><span class="p">(</span><span class="mi">27</span><span class="p">:</span><span class="mi">28</span><span class="p">),</span><span class="s1">&#39;(i2.2)&#39;</span><span class="p">)</span> <span class="n">start_datetime</span><span class="p">%</span><span class="n">minute</span>
+<a name="ln-109"></a>
+<a name="ln-110"></a>        <span class="c">! Create NetCDF output file</span>
+<a name="ln-111"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_create</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">nf90_clobber</span><span class="p">,</span> <span class="n">ncid</span><span class="p">))</span>
+<a name="ln-112"></a>
+<a name="ln-113"></a>        <span class="c">! Define time</span>
+<a name="ln-114"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_def_dim</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">nf90_unlimited</span><span class="p">,</span> <span class="n">timedim</span><span class="p">))</span>
+<a name="ln-115"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_def_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">nf90_real4</span><span class="p">,</span> <span class="n">timedim</span><span class="p">,</span> <span class="n">timevar</span><span class="p">))</span>
+<a name="ln-116"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_att</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">timevar</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="n">time_template</span><span class="p">))</span>
+<a name="ln-117"></a>
+<a name="ln-118"></a>        <span class="c">! Define space</span>
+<a name="ln-119"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_def_dim</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">,</span> <span class="n">ix</span><span class="p">,</span> <span class="n">londim</span><span class="p">))</span>
+<a name="ln-120"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_def_dim</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="s2">&quot;lat&quot;</span><span class="p">,</span> <span class="n">il</span><span class="p">,</span> <span class="n">latdim</span><span class="p">))</span>
+<a name="ln-121"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_def_dim</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="s2">&quot;lev&quot;</span><span class="p">,</span> <span class="n">kx</span><span class="p">,</span> <span class="n">levdim</span><span class="p">))</span>
+<a name="ln-122"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_def_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">,</span> <span class="n">nf90_real4</span><span class="p">,</span> <span class="n">londim</span><span class="p">,</span> <span class="n">lonvar</span><span class="p">))</span>
+<a name="ln-123"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_att</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">lonvar</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">))</span>
+<a name="ln-124"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_def_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="s2">&quot;lat&quot;</span><span class="p">,</span> <span class="n">nf90_real4</span><span class="p">,</span> <span class="n">latdim</span><span class="p">,</span> <span class="n">latvar</span><span class="p">))</span>
+<a name="ln-125"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_att</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">latvar</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">))</span>
+<a name="ln-126"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_def_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="s2">&quot;lev&quot;</span><span class="p">,</span> <span class="n">nf90_real4</span><span class="p">,</span> <span class="n">levdim</span><span class="p">,</span> <span class="n">levvar</span><span class="p">))</span>
+<a name="ln-127"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_att</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">levvar</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">,</span> <span class="s2">&quot;atmosphere_sigma_coordinate&quot;</span><span class="p">))</span>
+<a name="ln-128"></a>
+<a name="ln-129"></a>        <span class="c">! Define prognostic fields</span>
+<a name="ln-130"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_def_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="s2">&quot;u&quot;</span><span class="p">,</span> <span class="n">nf90_real4</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span> <span class="n">londim</span><span class="p">,</span> <span class="n">latdim</span><span class="p">,</span> <span class="n">levdim</span><span class="p">,</span> <span class="n">timedim</span> <span class="o">/</span><span class="p">),</span> <span class="n">uvar</span><span class="p">))</span>
+<a name="ln-131"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_att</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">uvar</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">,</span> <span class="s2">&quot;eastward_wind&quot;</span><span class="p">))</span>
+<a name="ln-132"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_att</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">uvar</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;m/s&quot;</span><span class="p">))</span>
+<a name="ln-133"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_def_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">nf90_real4</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span> <span class="n">londim</span><span class="p">,</span> <span class="n">latdim</span><span class="p">,</span> <span class="n">levdim</span><span class="p">,</span> <span class="n">timedim</span> <span class="o">/</span><span class="p">),</span> <span class="n">vvar</span><span class="p">))</span>
+<a name="ln-134"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_att</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">vvar</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">,</span> <span class="s2">&quot;northward_wind&quot;</span><span class="p">))</span>
+<a name="ln-135"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_att</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">vvar</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;m/s&quot;</span><span class="p">))</span>
+<a name="ln-136"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_def_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="n">nf90_real4</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span> <span class="n">londim</span><span class="p">,</span> <span class="n">latdim</span><span class="p">,</span> <span class="n">levdim</span><span class="p">,</span> <span class="n">timedim</span> <span class="o">/</span><span class="p">),</span> <span class="n">tvar</span><span class="p">))</span>
+<a name="ln-137"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_att</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">tvar</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">,</span> <span class="s2">&quot;air_temperature&quot;</span><span class="p">))</span>
+<a name="ln-138"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_att</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">tvar</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;K&quot;</span><span class="p">))</span>
+<a name="ln-139"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_def_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="n">nf90_real4</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span> <span class="n">londim</span><span class="p">,</span> <span class="n">latdim</span><span class="p">,</span> <span class="n">levdim</span><span class="p">,</span> <span class="n">timedim</span> <span class="o">/</span><span class="p">),</span> <span class="n">qvar</span><span class="p">))</span>
+<a name="ln-140"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_att</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">qvar</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">,</span> <span class="s2">&quot;specific_humidity&quot;</span><span class="p">))</span>
+<a name="ln-141"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_att</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">qvar</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">))</span>
+<a name="ln-142"></a>
+<a name="ln-143"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_def_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="s2">&quot;phi&quot;</span><span class="p">,</span> <span class="n">nf90_real4</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span> <span class="n">londim</span><span class="p">,</span> <span class="n">latdim</span><span class="p">,</span> <span class="n">levdim</span><span class="p">,</span> <span class="n">timedim</span> <span class="o">/</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-144"></a>            <span class="p">&amp;</span> <span class="n">phivar</span><span class="p">))</span>
+<a name="ln-145"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_att</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">phivar</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">,</span> <span class="s2">&quot;geopotential_height&quot;</span><span class="p">))</span>
+<a name="ln-146"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_att</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">phivar</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">))</span>
+<a name="ln-147"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_def_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="s2">&quot;ps&quot;</span><span class="p">,</span> <span class="n">nf90_real4</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span> <span class="n">londim</span><span class="p">,</span> <span class="n">latdim</span><span class="p">,</span> <span class="n">timedim</span> <span class="o">/</span><span class="p">),</span> <span class="n">psvar</span><span class="p">))</span>
+<a name="ln-148"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_att</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">psvar</span><span class="p">,</span> <span class="s2">&quot;long_name&quot;</span><span class="p">,</span> <span class="s2">&quot;surface_air_pressure&quot;</span><span class="p">))</span>
+<a name="ln-149"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_att</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">psvar</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;Pa&quot;</span><span class="p">))</span>
+<a name="ln-150"></a>
+<a name="ln-151"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_enddef</span><span class="p">(</span><span class="n">ncid</span><span class="p">))</span>
+<a name="ln-152"></a>
+<a name="ln-153"></a>        <span class="c">! Write dimensions to file</span>
+<a name="ln-154"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">timevar</span><span class="p">,</span> <span class="n">timestep</span><span class="o">*</span><span class="mi">2</span><span class="mf">4.0</span><span class="o">/</span><span class="kt">real</span><span class="p">(</span><span class="n">nsteps</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span>               <span class="p">(</span><span class="o">/</span> <span class="mi">1</span> <span class="o">/</span><span class="p">)))</span>
+<a name="ln-155"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">lonvar</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span> <span class="p">(</span><span class="mf">3.75</span><span class="o">*</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ix</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span><span class="p">),</span>                 <span class="p">(</span><span class="o">/</span> <span class="mi">1</span> <span class="o">/</span><span class="p">)))</span>
+<a name="ln-156"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">latvar</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span> <span class="p">(</span><span class="n">radang</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="mi">9</span><span class="mf">0.0</span><span class="o">/</span><span class="nb">asin</span><span class="p">(</span><span class="mf">1.0</span><span class="p">),</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">il</span><span class="p">)</span> <span class="o">/</span><span class="p">),</span> <span class="p">(</span><span class="o">/</span> <span class="mi">1</span> <span class="o">/</span><span class="p">)))</span>
+<a name="ln-157"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">levvar</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span> <span class="p">(</span><span class="n">fsg</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="o">/</span><span class="p">),</span>                    <span class="p">(</span><span class="o">/</span> <span class="mi">1</span> <span class="o">/</span><span class="p">)))</span>
+<a name="ln-158"></a>
+<a name="ln-159"></a>        <span class="c">! Convert prognostic fields from spectral space to grid point space</span>
+<a name="ln-160"></a>        <span class="k">do </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">kx</span>
+<a name="ln-161"></a>           <span class="k">call </span><span class="n">uvspec</span><span class="p">(</span><span class="n">vor</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">div</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">ucos</span><span class="p">,</span> <span class="n">vcos</span><span class="p">)</span>
+<a name="ln-162"></a>           <span class="n">u_grid</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span>   <span class="o">=</span> <span class="n">spec_to_grid</span><span class="p">(</span><span class="n">ucos</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<a name="ln-163"></a>           <span class="n">v_grid</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span>   <span class="o">=</span> <span class="n">spec_to_grid</span><span class="p">(</span><span class="n">vcos</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<a name="ln-164"></a>           <span class="n">t_grid</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span>   <span class="o">=</span> <span class="n">spec_to_grid</span><span class="p">(</span><span class="n">t</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-165"></a>           <span class="n">q_grid</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span>   <span class="o">=</span> <span class="n">spec_to_grid</span><span class="p">(</span><span class="n">tr</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-166"></a>           <span class="n">phi_grid</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">spec_to_grid</span><span class="p">(</span><span class="n">phi</span><span class="p">(:,:,</span><span class="n">k</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-167"></a>        <span class="k">end do</span>
+<a name="ln-168"></a><span class="k">        </span><span class="n">ps_grid</span> <span class="o">=</span> <span class="n">spec_to_grid</span><span class="p">(</span><span class="n">ps</span><span class="p">(:,:,</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-169"></a>
+<a name="ln-170"></a>        <span class="c">! Output date</span>
+<a name="ln-171"></a>        <span class="k">print</span> <span class="s1">&#39;(A,I4.4,A,I2.2,A,I2.2,A,I2.2,A,I2.2)&#39;</span><span class="p">,&amp;</span>
+<a name="ln-172"></a>            <span class="p">&amp;</span> <span class="s1">&#39;Write gridded dataset for year/month/date/hour/minute: &#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-173"></a>            <span class="p">&amp;</span> <span class="n">model_datetime</span><span class="p">%</span><span class="n">year</span><span class="p">,</span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="n">model_datetime</span><span class="p">%</span><span class="n">month</span><span class="p">,</span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="n">model_datetime</span><span class="p">%</span><span class="n">day</span><span class="p">,</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-174"></a>            <span class="p">&amp;</span> <span class="n">model_datetime</span><span class="p">%</span><span class="n">hour</span><span class="p">,</span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="n">model_datetime</span><span class="p">%</span><span class="n">minute</span>
+<a name="ln-175"></a>
+<a name="ln-176"></a>        <span class="c">! Preprocess output variables</span>
+<a name="ln-177"></a>        <span class="n">u_out</span> <span class="o">=</span> <span class="kt">real</span><span class="p">(</span><span class="n">u_grid</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<a name="ln-178"></a>        <span class="n">v_out</span> <span class="o">=</span> <span class="kt">real</span><span class="p">(</span><span class="n">v_grid</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<a name="ln-179"></a>        <span class="n">t_out</span> <span class="o">=</span> <span class="kt">real</span><span class="p">(</span><span class="n">t_grid</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<a name="ln-180"></a>        <span class="n">q_out</span> <span class="o">=</span> <span class="kt">real</span><span class="p">(</span><span class="n">q_grid</span><span class="o">*</span><span class="mf">1.0e-3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="c">! kg/kg</span>
+<a name="ln-181"></a>        <span class="n">phi_out</span> <span class="o">=</span> <span class="kt">real</span><span class="p">(</span><span class="n">phi_grid</span><span class="o">/</span><span class="n">grav</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>   <span class="c">! m</span>
+<a name="ln-182"></a>        <span class="n">ps_out</span> <span class="o">=</span> <span class="kt">real</span><span class="p">(</span><span class="n">p0</span><span class="o">*</span><span class="nb">exp</span><span class="p">(</span><span class="n">ps_grid</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span><span class="c">! Pa</span>
+<a name="ln-183"></a>
+<a name="ln-184"></a>        <span class="c">! Write prognostic variables to file</span>
+<a name="ln-185"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">uvar</span><span class="p">,</span> <span class="n">u_out</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span><span class="p">)))</span>
+<a name="ln-186"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">vvar</span><span class="p">,</span> <span class="n">v_out</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span><span class="p">)))</span>
+<a name="ln-187"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">tvar</span><span class="p">,</span> <span class="n">t_out</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span><span class="p">)))</span>
+<a name="ln-188"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">qvar</span><span class="p">,</span> <span class="n">q_out</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span><span class="p">)))</span>
+<a name="ln-189"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">phivar</span><span class="p">,</span> <span class="n">phi_out</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span><span class="p">)))</span>
+<a name="ln-190"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_put_var</span><span class="p">(</span><span class="n">ncid</span><span class="p">,</span> <span class="n">psvar</span><span class="p">,</span> <span class="n">ps_out</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span><span class="p">)))</span>
+<a name="ln-191"></a>
+<a name="ln-192"></a>        <span class="k">call </span><span class="n">check</span><span class="p">(</span><span class="n">nf90_close</span><span class="p">(</span><span class="n">ncid</span><span class="p">))</span>
+<a name="ln-193"></a>    <span class="k">end subroutine</span>
+<a name="ln-194"></a>
+<a name="ln-195"></a>    <span class="c">! Handles any errors from the NetCDF API</span>
+<a name="ln-196"></a>    <span class="k">subroutine </span><span class="n">check</span><span class="p">(</span><span class="n">ierr</span><span class="p">)</span>
+<a name="ln-197"></a>        <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ierr</span>
+<a name="ln-198"></a>
+<a name="ln-199"></a>        <span class="k">if</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="n">nf90_noerr</span><span class="p">)</span> <span class="k">then</span>
+<a name="ln-200"></a><span class="k">            print</span> <span class="o">*</span><span class="p">,</span> <span class="nb">trim</span><span class="p">(</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">nf90_strerror</span><span class="p">(</span><span class="n">ierr</span><span class="p">)))</span>
+<a name="ln-201"></a>            <span class="k">stop</span>
+<a name="ln-202"></a><span class="k">        end if</span>
+<a name="ln-203"></a><span class="k">    end subroutine</span>
+<a name="ln-204"></a><span class="k">end module</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2019 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> SPEEDY.f90 was developed by Sam Hatfield</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>
