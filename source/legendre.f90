@@ -1,3 +1,6 @@
+!> author: Sam Hatfield, Fred Kucharski, Franco Molteni
+!  date: 09/05/2019
+!  For computing direct and inverse Legendre transforms.
 module legendre
     use params
 
@@ -7,26 +10,23 @@ module legendre
     public initialize_legendre, legendre_dir, legendre_inv
     public epsi
 
-    real :: cpol(2*mx,nx,iy)
-    real :: consq(mx+1)
-    real :: epsi(mx+1,nx+1), repsi(mx+1,nx+1)
-    integer :: nsh2(nx)
-    real, dimension(iy) :: wt
+    real :: cpol(2*mx,nx,iy)  !! The Legendre polynomials
+    real :: epsi(mx+1,nx+1)   !! Epsilon function used for various spectral calculations
+    real :: repsi(mx+1,nx+1)  !! 1/epsi
+    integer :: nsh2(nx)       !! Used for defining shape of spectral triangle
+    real, dimension(iy) :: wt !! Gaussian weights used for integration in direct Legendre transform
 
 contains
+    !> Initializes Legendre transforms and constants used for other subroutines
+    !  that manipulate spherical harmonics.
     subroutine initialize_legendre
         use physical_constants, only: rearth
-
-        ! Initializes Legendre transforms and constants used for other
-        ! subroutines that manipulate spherical harmonics
 
         real :: emm2, ell2, poly(mx,nx)
         integer :: j, n, m, m1, m2, mm(mx), wavenum_tot(mx,nx)
 
-        ! first compute Gaussian latitudes and weights at the IY points from
-        !     pole to equator
-        ! WT(IY) are Gaussian weights for quadratures,
-        !   saved in spectral
+        ! First compute Gaussian latitudes and weights at the IY points from
+        ! pole to equator
         wt = get_weights()
 
         do n = 1, nx
@@ -37,10 +37,6 @@ contains
                 if (wavenum_tot(m,n) <= (trunc + 1) .or. ix /= 4*iy) nsh2(n) = nsh2(n) + 2
 
             end do
-        end do
-
-        do m = 2, mx + 1
-            consq(m) = sqrt(0.5*(2.0*float(m - 1) + 1.0)/float(m - 1))
         end do
 
         do m = 1, mx + 1
@@ -59,9 +55,7 @@ contains
             end do
         end do
 
-        !  generate associated Legendre polynomial
-        !  LGNDRE computes the polynomials at a particular latitiude, POLY(MX,NX)
-        !  polynomials and 'clones' stored in spectral
+        ! Generate associated Legendre polynomials
         do j = 1, iy
             poly = get_legendre_poly(j)
             do n = 1, nx
@@ -73,16 +67,15 @@ contains
                 end do
             end do
         end do
-
     end subroutine
 
-    ! Computes inverse Legendre transformation
+    !> Computes inverse Legendre transformation.
     function legendre_inv(input) result(output)
         ! 2*mx because these arrays actually represent complex variables
-        real, intent(in) :: input(2*mx,nx)
-        real :: output(2*mx,il)
-        real :: even(2*mx),odd(2*mx)
+        real, intent(in) :: input(2*mx,nx)  !! Input field
+        real             :: output(2*mx,il) !! Output field
 
+        real :: even(2*mx),odd(2*mx)
         integer :: j, j1, m, n
 
         ! Loop over Northern Hemisphere, computing odd and even decomposition of
@@ -116,13 +109,13 @@ contains
         end do
     end function
 
-    ! Computes direct Legendre transformation
+    !> Computes direct Legendre transformation.
     function legendre_dir(input) result(output)
         ! 2*mx because these arrays actually represent complex variables
-        real, intent(in) :: input(2*mx,il)
-        real :: output(2*mx,nx)
-        real :: even(2*mx,iy), odd(2*mx,iy)
+        real, intent(in) :: input(2*mx,il)  !! Input field
+        real             :: output(2*mx,nx) !! Output field
 
+        real :: even(2*mx,iy), odd(2*mx,iy)
         integer :: j, j1, m, n
 
         ! Initialise output array
@@ -160,13 +153,13 @@ contains
         end do
     end function
 
+    !> Compute Gaussian weights for direct Legendre transform
     function get_weights() result(w)
-        !   a slightly modified version of a program in Numerical Recipes
-        !       (Cambridge Univ. Press, 1989)
-        !   output:
-        !      w(m) = weights in gaussian quadrature (sum should equal 1.0)
+        ! A slightly modified version of a program in Numerical Recipes
+        ! (Cambridge Univ. Press, 1989).
 
-        real :: w(iy)
+        real :: w(iy) !! Weights in gaussian quadrature (sum should equal 1.0)
+
         real :: z,z1,p1,p2,p3,pp
         real, parameter :: eps = 3.0e-14
         integer :: n, j, i
@@ -196,22 +189,28 @@ contains
         end do
     end function
 
+    !> Compute associated Legendre polynomials at given latitude.
     function get_legendre_poly(j) result(poly)
         use geometry, only: sia_half, coa_half
 
-        integer, intent(in) :: j
-        real :: poly(mx,nx)
-        real, parameter :: small = 1.e-30
+        integer, intent(in) :: j           !! The latitude to compute the polynomials at
+        real                :: poly(mx,nx) !! The Legendre polynomials
 
+        real, parameter :: small = 1.e-30
+        real :: consq(mx)
         integer :: m, n
         real :: alp(mx+1,nx), x, y
         y = coa_half(j)
         x = sia_half(j)
 
+        do m = 1, mx
+            consq(m) = sqrt(0.5*(2.0*float(m) + 1.0)/float(m ))
+        end do
+
         ! start recursion with N=1 (M=L) diagonal
         alp(1,1) = sqrt(0.5)
         do m = 2, mx + 1
-            alp(m,1) = consq(m)*y*alp(m-1,1)
+            alp(m,1) = consq(m-1)*y*alp(m-1,1)
         end do
 
         ! continue with other elements

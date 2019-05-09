@@ -122,6 +122,10 @@
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
      
+     <li><i class="fa fa-pencil"></i> Sam Hatfield, Fred Kucharski, Franco Molteni</li>
+     
+     
+    <li><i class="fa fa-calendar-o"></i> 09/05/2019</li>
      
      
      
@@ -206,7 +210,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    
+    <p>For interpolating fields in time.</p>
       <br>
     
   
@@ -517,6 +521,14 @@ public subroutine <a href='../proc/forint.html'>forint</a>(imon, for12, for1)
   <div class="panel-body">
        
     
+
+
+
+
+
+
+
+<p>Performs linear interpolation of monthly-mean forcing fields.</p>
     
     <h4>Arguments</h4>
     
@@ -542,7 +554,7 @@ public subroutine <a href='../proc/forint.html'>forint</a>(imon, for12, for1)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>imon</strong></td><td></td>
+  <td><strong>imon</strong></td><td><p>The month</p></td>
   
 </tr>
 
@@ -557,7 +569,7 @@ public subroutine <a href='../proc/forint.html'>forint</a>(imon, for12, for1)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>for12</strong>(ix*il,*)</td><td></td>
+  <td><strong>for12</strong>(ix*il,*)</td><td><p>The input field</p></td>
   
 </tr>
 
@@ -572,7 +584,7 @@ public subroutine <a href='../proc/forint.html'>forint</a>(imon, for12, for1)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>for1</strong>(ix*il)</td><td></td>
+  <td><strong>for1</strong>(ix*il)</td><td><p>The output field</p></td>
   
 </tr>
 
@@ -598,6 +610,14 @@ public subroutine <a href='../proc/forin5.html'>forin5</a>(imon, for12, for1)
   <div class="panel-body">
        
     
+
+
+
+
+
+
+
+<p>Performs nonlinear, mean-conserving interpolation of monthly-mean forcing fields.</p>
     
     <h4>Arguments</h4>
     
@@ -623,7 +643,7 @@ public subroutine <a href='../proc/forin5.html'>forin5</a>(imon, for12, for1)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>imon</strong></td><td></td>
+  <td><strong>imon</strong></td><td><p>The month</p></td>
   
 </tr>
 
@@ -638,7 +658,7 @@ public subroutine <a href='../proc/forin5.html'>forin5</a>(imon, for12, for1)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>for12</strong>(ix*il,12)</td><td></td>
+  <td><strong>for12</strong>(ix*il,12)</td><td><p>The input field</p></td>
   
 </tr>
 
@@ -653,7 +673,7 @@ public subroutine <a href='../proc/forin5.html'>forin5</a>(imon, for12, for1)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>for1</strong>(ix*il)</td><td></td>
+  <td><strong>for1</strong>(ix*il)</td><td><p>The output field</p></td>
   
 </tr>
 

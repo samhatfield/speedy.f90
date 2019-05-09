@@ -1,6 +1,6 @@
 !> author: Sam Hatfield, Fred Kucharski, Franco Molteni
 !  date: 08/05/2019
-!  For performing input and output
+!  For performing input and output.
 module input_output
     use netcdf
     use params

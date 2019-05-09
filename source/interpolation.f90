@@ -1,3 +1,6 @@
+!> author: Sam Hatfield, Fred Kucharski, Franco Molteni
+!  date: 09/05/2019
+!  For interpolating fields in time.
 module interpolation
     use date, only: tmonth
     use params, only: ix, il
@@ -8,11 +11,12 @@ module interpolation
     public forint, forin5
 
 contains
-    ! Linear interpolation of monthly-mean forcing
+    !> Performs linear interpolation of monthly-mean forcing fields.
     subroutine forint(imon, for12, for1)
-        integer, intent(in) :: imon
-        real, intent(in) :: for12(ix*il,*)
-        real, intent(inout) :: for1(ix*il)
+        integer, intent(in) :: imon        !! The month
+        real, intent(in) :: for12(ix*il,*) !! The input field
+        real, intent(inout) :: for1(ix*il) !! The output field
+
         integer :: imon2
         real :: wmon
 
@@ -27,13 +31,14 @@ contains
         end if
 
         for1 = for12(:,imon) + wmon*(for12(:,imon2) - for12(:,imon))
-    end
+    end subroutine
 
-    ! Nonlinear, mean-conserving interpolation of monthly-mean forcing fields
+    !> Performs nonlinear, mean-conserving interpolation of monthly-mean forcing fields.
     subroutine forin5(imon, for12, for1)
-        integer, intent(in) :: imon
-        real, intent(in) :: for12(ix*il,12)
-        real, intent(inout) :: for1(ix*il)
+        integer, intent(in) :: imon         !! The month
+        real, intent(in) :: for12(ix*il,12) !! The input field
+        real, intent(inout) :: for1(ix*il)  !! The output field
+
         integer :: im1, im2, ip1, ip2
         real :: c0, t0, t1, t2, wm1, wm2, w0, wp1, wp2
 
@@ -60,5 +65,5 @@ contains
 
         for1 = wm2*for12(:,im2) + wm1*for12(:,im1) + w0*for12(:,imon) +&
             & wp1*for12(:,ip1) + wp2*for12(:,ip2)
-    end
+    end subroutine
 end module

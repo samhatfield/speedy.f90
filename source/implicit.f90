@@ -21,7 +21,8 @@ module implicit
 
 contains
     !> Initialize constants for implicit computation of horizontal diffusion and
-    !  gravity waves
+    !  gravity waves.
+    !
     !  Initialize_implicit initializes constants for the implicit gravity wave computation.
     !  It is assumed that that all implicit steps are of length 2*delt and use
     !  the forward/backward parameter alph. initialize_implicit has to be re-called

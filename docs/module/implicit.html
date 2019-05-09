@@ -391,22 +391,22 @@
 </g>
 </g>
 <!-- proc~first_step&#45;&gt;module~implicit -->
-<g id="module~~implicit~~UsedByGraph_edge4" class="edge"><title>proc~first_step&#45;&gt;module~implicit</title>
+<g id="module~~implicit~~UsedByGraph_edge2" class="edge"><title>proc~first_step&#45;&gt;module~implicit</title>
 <path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M131.757,-131.732C118.77,-128.241 103.221,-123.312 90,-117 76.4837,-110.547 62.5767,-101.396 51.3679,-93.2829"/>
 <polygon fill="#000000" stroke="#000000" points="53.1285,-90.2304 43.0161,-87.0697 48.9503,-95.8467 53.1285,-90.2304"/>
 </g>
-<!-- proc~get_spectral_tendencies -->
-<g id="module~~implicit~~UsedByGraph_node3" class="node"><title>proc~get_spectral_tendencies</title>
-<g id="a_module~~implicit~~UsedByGraph_node3"><a xlink:href=".././proc/get_spectral_tendencies.html" xlink:title="get_spectral_tendencies">
-<polygon fill="#d9534f" stroke="#d9534f" points="224.5,-108 95.5,-108 95.5,-84 224.5,-84 224.5,-108"/>
-<text text-anchor="middle" x="160" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_spectral_tendencies</text>
+<!-- proc~get_grid_point_tendencies -->
+<g id="module~~implicit~~UsedByGraph_node3" class="node"><title>proc~get_grid_point_tendencies</title>
+<g id="a_module~~implicit~~UsedByGraph_node3"><a xlink:href=".././proc/get_grid_point_tendencies.html" xlink:title="get_grid_point_tendencies">
+<polygon fill="#d9534f" stroke="#d9534f" points="229.5,-108 90.5,-108 90.5,-84 229.5,-84 229.5,-108"/>
+<text text-anchor="middle" x="160" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_grid_point_tendencies</text>
 </a>
 </g>
 </g>
-<!-- proc~get_spectral_tendencies&#45;&gt;module~implicit -->
-<g id="module~~implicit~~UsedByGraph_edge1" class="edge"><title>proc~get_spectral_tendencies&#45;&gt;module~implicit</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M95.4187,-85.8076C84.6951,-84.0885 73.9028,-82.3585 64.193,-80.8019"/>
-<polygon fill="#000000" stroke="#000000" points="64.564,-77.3168 54.1361,-79.1898 63.456,-84.2286 64.564,-77.3168"/>
+<!-- proc~get_grid_point_tendencies&#45;&gt;module~implicit -->
+<g id="module~~implicit~~UsedByGraph_edge4" class="edge"><title>proc~get_grid_point_tendencies&#45;&gt;module~implicit</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M90.4307,-85.008C81.377,-83.5566 72.4017,-82.1178 64.1987,-80.8028"/>
+<polygon fill="#000000" stroke="#000000" points="64.7015,-77.3388 54.2735,-79.2118 63.5935,-84.2506 64.7015,-77.3388"/>
 </g>
 <!-- proc~get_tendencies -->
 <g id="module~~implicit~~UsedByGraph_node4" class="node"><title>proc~get_tendencies</title>
@@ -421,16 +421,16 @@
 <path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M117.191,-60.7023C100.238,-63.4199 80.8374,-66.5299 64.4693,-69.1538"/>
 <polygon fill="#000000" stroke="#000000" points="63.5271,-65.76 54.2072,-70.7988 64.6352,-72.6718 63.5271,-65.76"/>
 </g>
-<!-- proc~get_grid_point_tendencies -->
-<g id="module~~implicit~~UsedByGraph_node5" class="node"><title>proc~get_grid_point_tendencies</title>
-<g id="a_module~~implicit~~UsedByGraph_node5"><a xlink:href=".././proc/get_grid_point_tendencies.html" xlink:title="get_grid_point_tendencies">
-<polygon fill="#d9534f" stroke="#d9534f" points="229.5,-24 90.5,-24 90.5,-0 229.5,-0 229.5,-24"/>
-<text text-anchor="middle" x="160" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_grid_point_tendencies</text>
+<!-- proc~get_spectral_tendencies -->
+<g id="module~~implicit~~UsedByGraph_node5" class="node"><title>proc~get_spectral_tendencies</title>
+<g id="a_module~~implicit~~UsedByGraph_node5"><a xlink:href=".././proc/get_spectral_tendencies.html" xlink:title="get_spectral_tendencies">
+<polygon fill="#d9534f" stroke="#d9534f" points="224.5,-24 95.5,-24 95.5,-0 224.5,-0 224.5,-24"/>
+<text text-anchor="middle" x="160" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_spectral_tendencies</text>
 </a>
 </g>
 </g>
-<!-- proc~get_grid_point_tendencies&#45;&gt;module~implicit -->
-<g id="module~~implicit~~UsedByGraph_edge2" class="edge"><title>proc~get_grid_point_tendencies&#45;&gt;module~implicit</title>
+<!-- proc~get_spectral_tendencies&#45;&gt;module~implicit -->
+<g id="module~~implicit~~UsedByGraph_edge1" class="edge"><title>proc~get_spectral_tendencies&#45;&gt;module~implicit</title>
 <path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M112.618,-24.0152C104.913,-26.6035 97.1189,-29.6012 90,-33 76.4837,-39.453 62.5767,-48.6036 51.3679,-56.7171"/>
 <polygon fill="#000000" stroke="#000000" points="48.9503,-54.1533 43.0161,-62.9303 53.1285,-59.7696 48.9503,-54.1533"/>
 </g>
@@ -812,16 +812,7 @@ public subroutine <a href='../proc/initialize_implicit.html'>initialize_implicit
 
 
 <p>Initialize constants for implicit computation of horizontal diffusion and
-  gravity waves
-  Initialize_implicit initializes constants for the implicit gravity wave computation.
-  It is assumed that that all implicit steps are of length 2*delt and use
-  the forward/backward parameter alph. initialize_implicit has to be re-called
-  whenever either of these two parameters is changed. initialize_implicit should
-  be called even if the explicit option is chosen for the gravity wave
-  terms (the reference state temperature tref is subtracted from some
-  terms anyway to reduce roundoff error; also the constants needed for
-  the biharmonic diffusion, which is assumed always to be backwards
-  implicit, are defined in initialize_implicit).</p>
+  gravity waves.</p><a href="../proc/initialize_implicit.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     

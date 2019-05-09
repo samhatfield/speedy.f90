@@ -345,6 +345,8 @@ public subroutine couple_land_atm(day)
 
 
     
+    <p>Exchanges fluxes between land and atmosphere.</p>
+    
 
     <h3>Arguments</h3>
     
@@ -369,7 +371,7 @@ public subroutine couple_land_atm(day)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>day</strong></td><td></td>
+  <td><strong>day</strong></td><td><p>The day (starting at 0 for the first time step)</p></td>
   
 </tr>
 
@@ -403,44 +405,44 @@ public subroutine couple_land_atm(day)
 <polygon fill="none" stroke="black" points="94,-66 -7.10543e-15,-66 -7.10543e-15,-42 94,-42 94,-66"/>
 <text text-anchor="middle" x="47" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">couple_land_atm</text>
 </g>
-<!-- proc~forint -->
-<g id="proc~~couple_land_atm~~CallsGraph_node2" class="node"><title>proc~forint</title>
-<g id="a_proc~~couple_land_atm~~CallsGraph_node2"><a xlink:href=".././proc/forint.html" xlink:title="forint">
-<polygon fill="#d9534f" stroke="#d9534f" points="202,-108 148,-108 148,-84 202,-84 202,-108"/>
-<text text-anchor="middle" x="175" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">forint</text>
-</a>
-</g>
-</g>
-<!-- proc~couple_land_atm&#45;&gt;proc~forint -->
-<g id="proc~~couple_land_atm~~CallsGraph_edge1" class="edge"><title>proc~couple_land_atm&#45;&gt;proc~forint</title>
-<path fill="none" stroke="#000000" d="M84.1065,-66.0355C101.128,-71.7092 121.373,-78.4577 138.337,-84.1125"/>
-<polygon fill="#000000" stroke="#000000" points="137.304,-87.4572 147.897,-87.2992 139.517,-80.8164 137.304,-87.4572"/>
-</g>
-<!-- proc~run_land_model -->
-<g id="proc~~couple_land_atm~~CallsGraph_node3" class="node"><title>proc~run_land_model</title>
-<g id="a_proc~~couple_land_atm~~CallsGraph_node3"><a xlink:href=".././proc/run_land_model.html" xlink:title="run_land_model">
-<polygon fill="#d9534f" stroke="#d9534f" points="220,-66 130,-66 130,-42 220,-42 220,-66"/>
-<text text-anchor="middle" x="175" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_land_model</text>
-</a>
-</g>
-</g>
-<!-- proc~couple_land_atm&#45;&gt;proc~run_land_model -->
-<g id="proc~~couple_land_atm~~CallsGraph_edge2" class="edge"><title>proc~couple_land_atm&#45;&gt;proc~run_land_model</title>
-<path fill="none" stroke="#000000" d="M94.2023,-54C102.491,-54 111.198,-54 119.691,-54"/>
-<polygon fill="#000000" stroke="#000000" points="119.901,-57.5001 129.901,-54 119.901,-50.5001 119.901,-57.5001"/>
-</g>
 <!-- proc~forin5 -->
-<g id="proc~~couple_land_atm~~CallsGraph_node4" class="node"><title>proc~forin5</title>
-<g id="a_proc~~couple_land_atm~~CallsGraph_node4"><a xlink:href=".././proc/forin5.html" xlink:title="forin5">
-<polygon fill="#d9534f" stroke="#d9534f" points="202,-24 148,-24 148,-0 202,-0 202,-24"/>
-<text text-anchor="middle" x="175" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">forin5</text>
+<g id="proc~~couple_land_atm~~CallsGraph_node2" class="node"><title>proc~forin5</title>
+<g id="a_proc~~couple_land_atm~~CallsGraph_node2"><a xlink:href=".././proc/forin5.html" xlink:title="forin5">
+<polygon fill="#d9534f" stroke="#d9534f" points="202,-108 148,-108 148,-84 202,-84 202,-108"/>
+<text text-anchor="middle" x="175" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">forin5</text>
 </a>
 </g>
 </g>
 <!-- proc~couple_land_atm&#45;&gt;proc~forin5 -->
-<g id="proc~~couple_land_atm~~CallsGraph_edge3" class="edge"><title>proc~couple_land_atm&#45;&gt;proc~forin5</title>
-<path fill="none" stroke="#000000" d="M84.1065,-41.9645C101.128,-36.2908 121.373,-29.5423 138.337,-23.8875"/>
-<polygon fill="#000000" stroke="#000000" points="139.517,-27.1836 147.897,-20.7008 137.304,-20.5428 139.517,-27.1836"/>
+<g id="proc~~couple_land_atm~~CallsGraph_edge1" class="edge"><title>proc~couple_land_atm&#45;&gt;proc~forin5</title>
+<path fill="none" stroke="#000000" d="M84.1065,-66.0355C101.128,-71.7092 121.373,-78.4577 138.337,-84.1125"/>
+<polygon fill="#000000" stroke="#000000" points="137.304,-87.4572 147.897,-87.2992 139.517,-80.8164 137.304,-87.4572"/>
+</g>
+<!-- proc~forint -->
+<g id="proc~~couple_land_atm~~CallsGraph_node3" class="node"><title>proc~forint</title>
+<g id="a_proc~~couple_land_atm~~CallsGraph_node3"><a xlink:href=".././proc/forint.html" xlink:title="forint">
+<polygon fill="#d9534f" stroke="#d9534f" points="202,-66 148,-66 148,-42 202,-42 202,-66"/>
+<text text-anchor="middle" x="175" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">forint</text>
+</a>
+</g>
+</g>
+<!-- proc~couple_land_atm&#45;&gt;proc~forint -->
+<g id="proc~~couple_land_atm~~CallsGraph_edge2" class="edge"><title>proc~couple_land_atm&#45;&gt;proc~forint</title>
+<path fill="none" stroke="#000000" d="M94.2023,-54C108.501,-54 124.044,-54 137.582,-54"/>
+<polygon fill="#000000" stroke="#000000" points="137.948,-57.5001 147.948,-54 137.948,-50.5001 137.948,-57.5001"/>
+</g>
+<!-- proc~run_land_model -->
+<g id="proc~~couple_land_atm~~CallsGraph_node4" class="node"><title>proc~run_land_model</title>
+<g id="a_proc~~couple_land_atm~~CallsGraph_node4"><a xlink:href=".././proc/run_land_model.html" xlink:title="run_land_model">
+<polygon fill="#d9534f" stroke="#d9534f" points="220,-24 130,-24 130,-0 220,-0 220,-24"/>
+<text text-anchor="middle" x="175" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">run_land_model</text>
+</a>
+</g>
+</g>
+<!-- proc~couple_land_atm&#45;&gt;proc~run_land_model -->
+<g id="proc~~couple_land_atm~~CallsGraph_edge3" class="edge"><title>proc~couple_land_atm&#45;&gt;proc~run_land_model</title>
+<path fill="none" stroke="#000000" d="M84.1065,-41.9645C97.8143,-37.3952 113.613,-32.1289 128.106,-27.2981"/>
+<polygon fill="#000000" stroke="#000000" points="129.508,-30.52 137.888,-24.0373 127.295,-23.8792 129.508,-30.52"/>
 </g>
 </g>
 </svg>

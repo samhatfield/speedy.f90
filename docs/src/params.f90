@@ -25,7 +25,7 @@ module params
 
     ! Output parameters
     integer, parameter :: nstdia = 36*5        ! Period (number of steps) for diagnostic print-out
-    integer, parameter :: nsteps_out = 1       ! Number of time steps between outputs
+    integer, parameter :: nsteps_out = 9       ! Number of time steps between outputs
 
     ! Physics parameters
     integer, parameter :: iseasc = 1           ! Seasonal cycle flag (0=no, 1=yes)
