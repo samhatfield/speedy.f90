@@ -30,19 +30,8 @@ ln -s $CLIM/snow.nc .
 ln -s $CLIM/soil.nc .
 ln -s $ANOM/sea_surface_temperature_anomaly.nc .
 
-# Write date input file
-cat << EOF >> fort.2
-1982
-01
-01
-00
-00
-1982
-01
-10
-00
-00
-EOF
+# Copy namelist file to run directory
+cp ../namelist.nml $RUNDIR
 
 # Run SPEEDY
 if [ "$1" = "--profile" ]; then
@@ -60,7 +49,7 @@ if [ "$1" = "--profile" ]; then
     sed -e "s/ __.*_MOD_//g" -i profile.txt
 
     # Generate call graph using gprof2dot and graphviz (dot)
-    python $ROOT/scripts/gprof2dot.py --skew 0.1 -n 0.8 -e 0.8 profile.txt\
+    python $ROOT/scripts/gprof2dot.py --skew 0.1 -n 0.8 profile.txt\
         | dot -Tpdf -o profile.pdf
 else
     time ./speedy | tee output.txt

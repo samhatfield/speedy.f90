@@ -44,7 +44,7 @@ program speedy
         model_step = model_step + 1
 
         ! Increment model datetime
-        call newdate(1)
+        call newdate
 
         ! Output
         if (mod(model_step-1, nsteps_out) == 0) call output(model_step-1,  vor, div, t, ps, tr, phi)
