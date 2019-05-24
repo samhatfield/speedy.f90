@@ -58,7 +58,8 @@ contains
         use land_model, only: fmask_l
         use sea_model, only: sst_am, ssti_om, sea_coupling_flag
         use sppt, only: mu, gen_sppt
-        use precipitation, only: convective_precipitation, large_scale_precipitation
+        use convection, only: get_convection_tendencies
+        use large_scale_condensation, only: get_large_scale_condensation_tendencies
         use shortwave_radiation, only: get_shortwave_rad_fluxes, clouds, compute_shortwave
         use longwave_radiation, only: get_longwave_rad_fluxes
         use surface_fluxes, only: get_surface_fluxes
@@ -121,7 +122,7 @@ contains
         ! =========================================================================
 
         ! Deep convection
-        call convective_precipitation(psg, se, qg, qsat, iptop, cbmf, precnv, tt_cnv, qt_cnv)
+        call get_convection_tendencies(psg, se, qg, qsat, iptop, cbmf, precnv, tt_cnv, qt_cnv)
 
         do k = 2, kx
             tt_cnv(:,:,k) = tt_cnv(:,:,k)*rps*grdscp(k)
@@ -131,7 +132,7 @@ contains
         icnv = kx - iptop
 
         ! Large-scale condensation
-        call large_scale_precipitation(psg, qg, qsat, iptop, precls, tt_lsc, qt_lsc)
+        call get_large_scale_condensation_tendencies(psg, qg, qsat, iptop, precls, tt_lsc, qt_lsc)
 
         ttend = ttend + tt_cnv + tt_lsc
         qtend = qtend + qt_cnv + qt_lsc
