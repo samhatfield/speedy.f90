@@ -1,16 +1,17 @@
 module longwave_radiation
+    use params
+
     implicit none
 
     private
-    public get_longwave_rad_fluxes, radset
+    public get_downward_longwave_rad_fluxes, get_upward_longwave_rad_fluxes, radset
+
+    ! Number of radiation bands with tau < 1
+    integer, parameter :: nband = 4
 
 contains
     ! Compute the absorption of longwave radiation
-    ! Input:   imode  = index for operation mode
-    !                   -1 : downward flux only
-    !                    0 : downward + upward flux
-    !                   +1 : upward flux only
-    !          ta     = absolute temperature (3-dim)
+    ! Input:   ta     = absolute temperature (3-dim)
     !          ts     = surface temperature                    [if imode=0]
     !          fsfcd  = downward flux of lw rad. at the sfc.   [if imode=1]
     !          fsfcu  = surface blackbody emission (upward)    [if imode=1]
@@ -20,30 +21,22 @@ contains
     !          fsfc   = net upw. flux of lw rad. at the sfc. [if imode=0,1]
     !          ftop   = outgoing flux of lw rad. at the top  [if imode=0,1]
     !          dfabs  = flux of lw rad. absorbed by each atm. layer (3-dim)
-    subroutine get_longwave_rad_fluxes(imode, ta, ts, fsfcd, fsfcu, fsfc, ftop, dfabs)
-        use params
+
+    ! Compute the downward flux of long-wave radiation
+    subroutine get_downward_longwave_rad_fluxes(ta, fsfcd, dfabs)
         use physical_constants, only: sbc, wvi
-        use geometry, only: dhs
-        use mod_radcon, only: epslw, emisfc, fband, tau2, st4a, stratc, flux
+        use mod_radcon, only: epslw, emisfc, fband, tau2, st4a, flux
 
-        integer, intent(in) :: imode
-
-        ! Number of radiation bands with tau < 1
-        integer, parameter :: nband = 4
-
-        real, intent(in) :: ta(ix,il,kx), ts(ix,il)
-        real, intent(inout) :: fsfcd(ix,il), fsfcu(ix,il), ftop(ix,il), fsfc(ix,il)
-        real, intent(inout) :: dfabs(ix,il,kx)
+        real, intent(in) :: ta(ix,il,kx)
+        real, intent(out) :: fsfcd(ix,il)
+        real, intent(out) :: dfabs(ix,il,kx)
 
         integer :: i, j, jb, k, nl1
-        real :: anis, brad, corlw(ix,il), corlw1(ix,il), corlw2(ix,il), emis, refsfc
+        real :: anis, brad, corlw(ix,il), emis
         real :: st3a(ix,il)
 
         nl1 = kx - 1
 
-        refsfc = 1.0 - emisfc
-
-        if (imode == 1) go to 410
         ! 1. Blackbody emission from atmospheric levels.
         ! The linearized gradient of the blakbody emission is computed
         ! from temperatures at layer boundaries, which are interpolated
@@ -130,21 +123,22 @@ contains
         dfabs(:,:,kx) = dfabs(:,:,kx) - corlw
         fsfcd = fsfcd + corlw
 
-        if (imode == -1) return
+    end
 
-        ! 4. Emission ad absorption of longwave upward flux.
-        !    For upward emission, a correction term depending on the
-        !    local temperature gradient and on the layer transmissivity is
-        !    subtracted from the average (full-level) emission of each layer.
+    ! Compute the absorption of upward long-wave radiation fluxes
+    subroutine get_upward_longwave_rad_fluxes(ta, ts, fsfcd, fsfcu, fsfc, ftop, dfabs)
+        use geometry, only: dhs
+        use mod_radcon, only: epslw, emisfc, fband, tau2, st4a, stratc, flux
 
-        ! 4.1  Surface
+        real, intent(in) :: ta(ix,il,kx), ts(ix,il)
+        real, intent(in) :: fsfcd(ix,il), fsfcu(ix,il)
+        real, intent(out) :: ftop(ix,il), fsfc(ix,il)
+        real, intent(inout) :: dfabs(ix,il,kx)
 
-        ! Black-body (or grey-body) emission
-        fsfcu = emisfc*sbc*ts**4.0
+        integer :: i, j, jb, k
+        real :: brad, corlw1(ix,il), corlw2(ix,il), emis, refsfc
 
-        ! Entry point for upward-only mode (imode = 1)
-     410  continue
-
+        refsfc = 1.0 - emisfc
         fsfc = fsfcu - fsfcd
 
         do jb = 1, nband
