@@ -167,16 +167,16 @@ contains
 
         ! Compute surface fluxes and land skin temperature
         call get_surface_fluxes(psg, ug, vg, tg, qg, rh, phig, phis0, fmask_l, sst_am, &
-    		& ssrd, slrd, ustr, vstr, shf, evap, slru, hfluxn, ts, tskin, u0, v0, t0, .true.)
+                & ssrd, slrd, ustr, vstr, shf, evap, slru, hfluxn, ts, tskin, u0, v0, t0, .true.)
 
         ! Recompute sea fluxes in case of anomaly coupling
         if (sea_coupling_flag > 0) then
            call get_surface_fluxes(psg, ug, vg, tg, qg, rh, phig, phis0, fmask_l, ssti_om, &
-    	   	& ssrd, slrd, ustr, vstr, shf, evap, slru, hfluxn, ts, tskin, u0, v0, t0, .false.)
+                   & ssrd, slrd, ustr, vstr, shf, evap, slru, hfluxn, ts, tskin, u0, v0, t0, .false.)
         end if
 
         ! Compute upward longwave fluxes, convert them to tendencies and add
-    	! shortwave tendencies
+        ! shortwave tendencies
         call get_longwave_rad_fluxes(1, tg, ts, slrd, slru(:,:,3), slr, olr, tt_rlw)
 
         do k = 1, kx
@@ -211,13 +211,13 @@ contains
             ! The physical contribution to the tendency is *tend - *tend_dyn, where * is u, v, t, q
             do k = 1,kx
                 utend(:,:,k) = (1 + sppt(:,:,k)*mu(k))*(utend(:,:,k) - utend_dyn(:,:,k)) &
-    				& + utend_dyn(:,:,k)
+                        & + utend_dyn(:,:,k)
                 vtend(:,:,k) = (1 + sppt(:,:,k)*mu(k))*(vtend(:,:,k) - vtend_dyn(:,:,k)) &
-    				& + vtend_dyn(:,:,k)
+                        & + vtend_dyn(:,:,k)
                 ttend(:,:,k) = (1 + sppt(:,:,k)*mu(k))*(ttend(:,:,k) - ttend_dyn(:,:,k)) &
-    				& + ttend_dyn(:,:,k)
+                        & + ttend_dyn(:,:,k)
                 qtend(:,:,k) = (1 + sppt(:,:,k)*mu(k))*(qtend(:,:,k) - qtend_dyn(:,:,k)) &
-    				& + qtend_dyn(:,:,k)
+                        & + qtend_dyn(:,:,k)
             end do
         end if
     end
