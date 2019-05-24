@@ -108,11 +108,15 @@ contains
         do k = 2, nl1
             abs1 = absdry + absaer*fsg(k)**2
 
-            if (k >= icltop(i,j)) then
-                tau2(:,:,k,1) = exp(-psaz*dhs(k)*(abs1 + abswv1*qa(:,:,k) + acloud))
-            else
-                tau2(:,:,k,1) = exp(-psaz*dhs(k)*(abs1 + abswv1*qa(:,:,k)))
-            endif
+            do i = 1, ix
+                do j = 1, il
+                    if (k >= icltop(i,j)) then
+                        tau2(i,j,k,1) = exp(-psaz(i,j)*dhs(k)*(abs1 + abswv1*qa(i,j,k) + acloud(i,j)))
+                    else
+                        tau2(i,j,k,1) = exp(-psaz(i,j)*dhs(k)*(abs1 + abswv1*qa(i,j,k)))
+                    end if
+                end do
+            end do
         end do
 
         abs1 = absdry + absaer*fsg(kx)**2
@@ -186,7 +190,7 @@ contains
             tau2(:,:,k,1) = exp(-psa*dhs(k)*ablwin)
             tau2(:,:,k,2) = exp(-psa*dhs(k)*ablco2)
             tau2(:,:,k,3) = exp(-psa*dhs(k)*ablwv1*qa(:,:,k))
-            tau2(:,:,k,4) = exp(-psa*dhs(k)*ablwv2*qa(:,:j,k))
+            tau2(:,:,k,4) = exp(-psa*dhs(k)*ablwv2*qa(:,:,k))
         end do
 
         ! Cloudy layers (free troposphere)
