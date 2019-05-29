@@ -1,3 +1,9 @@
+!> Parametrization of large-scale condensation
+!
+!  Large-scale condensation is modelled as a relaxation of humidity to a
+!  sigma-dependent threshold value. The temperature tendency is computed as the
+!  resultant latent heating. Precipitation is diagnosed as all the moisture lost
+!  to condensation falling out of the atmospheric column in the timestep.
 module large_scale_condensation
     use params
 
@@ -6,41 +12,29 @@ module large_scale_condensation
     private
     public get_large_scale_condensation_tendencies
 
-    ! Constants for convection
-    real, parameter :: psmin  = 0.8 ! Minimum (normalised) surface pressure for the occurrence of
-                                    ! convection
-    real, parameter :: trcnv  = 6.0 ! Time of relaxation (in hours) towards reference state
-    real, parameter :: rhbl   = 0.9 ! Relative humidity threshold in the boundary layer
-    real, parameter :: rhil   = 0.7 ! Relative humidity threshold in intermeduate layers for
-                                    ! secondary mass flux
-    real, parameter :: entmax = 0.5 ! Maximum entrainment as a fraction of cloud-base mass flux
-    real, parameter :: smf    = 0.8 ! Ratio between secondary and primary mass flux at cloud-base
-
     ! Constants for large-scale condensation
-    real, parameter :: trlsc  = 4.0  ! Relaxation time (in hours) for specific humidity
-    real, parameter :: rhlsc  = 0.9  ! Maximum relative humidity threshold (at sigma=1)
-    real, parameter :: drhlsc = 0.1  ! Vertical range of relative humidity threshold
-    real, parameter :: rhblsc = 0.95 ! Relative humidity threshold for boundary layer
+    real, parameter :: trlsc  = 4.0  !! Relaxation time (in hours) for specific humidity
+    real, parameter :: rhlsc  = 0.9  !! Maximum relative humidity threshold (at sigma=1)
+    real, parameter :: drhlsc = 0.1  !! Vertical range of relative humidity threshold
+    real, parameter :: rhblsc = 0.95 !! Relative humidity threshold for boundary layer
 
 contains
-    ! Compute large-scale precipitation and associated tendencies of temperature
-    ! and moisture
-    ! Input:   psa    = norm. surface pressure [p/p0]           (2-dim)
-    !          qa     = specific humidity [g/kg]                (3-dim)
-    !          qsat   = saturation spec. hum. [g/kg]            (3-dim)
-    !          itop   = top of convection (layer index)         (2-dim)
-    ! Output:  itop   = top of conv+l.s.condensat.(layer index) (2-dim)
-    !          precls = large-scale precipitation [g/(m^2 s)]   (2-dim)
-    !          dtlsc  = temperature tendency from l.s. cond     (3-dim)
-    !          dqlsc  = hum. tendency [g/(kg s)] from l.s. cond (3-dim)
+    !> Compute large-scale condensation and associated tendencies of temperature
+    !  and moisture
     subroutine get_large_scale_condensation_tendencies(psa, qa, qsat, itop, precls, dtlsc, dqlsc)
         use physical_constants, only: p0, cp, alhc, alhs, grav
         use geometry, only: fsg, dhs
 
-        real, intent(in) :: psa(ix,il), qa(ix,il,kx), qsat(ix,il,kx)
-
-        integer, intent(inout) :: itop(ix,il)
-        real, intent(inout) :: precls(ix,il), dtlsc(ix,il,kx), dqlsc(ix,il,kx)
+        real, intent(in) :: psa(ix,il)        !! Normalised surface pressure [p/p0]
+        real, intent(in) :: qa(ix,il,kx)      !! Specific humidity [g/kg]
+        real, intent(in) :: qsat(ix,il,kx)    !! Saturation specific humidity [g/kg]
+        integer, intent(inout) :: itop(ix,il) !! Cloud top diagnosed from precipitation due to
+                                              !! convection and large-scale condensation
+        real, intent(out) :: precls(ix,il)    !! Precipitation due to large-scale condensation
+        real, intent(out) :: dtlsc(ix,il,kx)  !! Temperature tendency due to large-scale
+                                              !! condensation
+        real, intent(out) :: dqlsc(ix,il,kx)  !! Specific humidity tendency due to large-scale
+                                              !! condensation
 
         integer :: i, j, k
         real :: psa2(ix,il), dqa, dqmax, pfact, prg, qsmax, rhref, rtlsc, sig2, tfact

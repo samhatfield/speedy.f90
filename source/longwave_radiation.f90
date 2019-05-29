@@ -1,3 +1,4 @@
+!> Parametrization of long-wave radiation
 module longwave_radiation
     use params
 
@@ -10,26 +11,15 @@ module longwave_radiation
     integer, parameter :: nband = 4
 
 contains
-    ! Compute the absorption of longwave radiation
-    ! Input:   ta     = absolute temperature (3-dim)
-    !          ts     = surface temperature                    [if imode=0]
-    !          fsfcd  = downward flux of lw rad. at the sfc.   [if imode=1]
-    !          fsfcu  = surface blackbody emission (upward)    [if imode=1]
-    !          dfabs  = DFABS output from RADLW(-1,... )       [if imode=1]
-    ! Output:  fsfcd  = downward flux of lw rad. at the sfc.[if imode=-1,0]
-    !          fsfcu  = surface blackbody emission (upward)  [if imode=  0]
-    !          fsfc   = net upw. flux of lw rad. at the sfc. [if imode=0,1]
-    !          ftop   = outgoing flux of lw rad. at the top  [if imode=0,1]
-    !          dfabs  = flux of lw rad. absorbed by each atm. layer (3-dim)
-
-    ! Compute the downward flux of long-wave radiation
+    !> Compute the downward flux of long-wave radiation
     subroutine get_downward_longwave_rad_fluxes(ta, fsfcd, dfabs)
         use physical_constants, only: sbc, wvi
         use mod_radcon, only: epslw, emisfc, fband, tau2, st4a, flux
 
-        real, intent(in) :: ta(ix,il,kx)
-        real, intent(out) :: fsfcd(ix,il)
-        real, intent(out) :: dfabs(ix,il,kx)
+        real, intent(in)  :: ta(ix,il,kx)    !! Absolute temperature [K]
+        real, intent(out) :: fsfcd(ix,il)    !! Downward flux of long-wave radiation at the surface
+        real, intent(out) :: dfabs(ix,il,kx) !! Flux of long-wave radiation absorbed in each
+                                             !! atmospheric layer
 
         integer :: i, j, jb, k, nl1
         real :: anis, brad, corlw(ix,il), emis
@@ -125,15 +115,22 @@ contains
 
     end
 
-    ! Compute the absorption of upward long-wave radiation fluxes
+    !> Compute the absorption of upward long-wave radiation fluxes
     subroutine get_upward_longwave_rad_fluxes(ta, ts, fsfcd, fsfcu, fsfc, ftop, dfabs)
         use geometry, only: dhs
         use mod_radcon, only: epslw, emisfc, fband, tau2, st4a, stratc, flux
 
-        real, intent(in) :: ta(ix,il,kx), ts(ix,il)
-        real, intent(in) :: fsfcd(ix,il), fsfcu(ix,il)
-        real, intent(out) :: ftop(ix,il), fsfc(ix,il)
-        real, intent(inout) :: dfabs(ix,il,kx)
+        real, intent(in)    :: ta(ix,il,kx)    !! Absolute temperature
+        real, intent(in)    :: ts(ix,il)       !! Surface temperature
+        real, intent(in)    :: fsfcd(ix,il)    !! Downward flux of long-wave radiation at the
+                                               !! surface
+        real, intent(in)    :: fsfcu(ix,il)    !! Surface blackbody emission
+        real, intent(out)   :: fsfc(ix,il)     !! Net upward flux of long-wave radiation at the
+                                               !! surface
+        real, intent(out)   :: ftop(ix,il)     !! Outgoing flux of long-wave radiation at the
+                                               !! top of the atmosphere
+        real, intent(inout) :: dfabs(ix,il,kx) !! Flux of long-wave radiation absorbed in each
+                                               !! atmospheric layer
 
         integer :: i, j, jb, k
         real :: brad, corlw1(ix,il), corlw2(ix,il), emis, refsfc
@@ -195,7 +192,7 @@ contains
         end do
     end
 
-    ! Compute energy fractions in longwave bands as a function of temperature
+    !> Compute energy fractions in longwave bands as a function of temperature
     subroutine radset
         use mod_radcon, only: epslw, fband
 
