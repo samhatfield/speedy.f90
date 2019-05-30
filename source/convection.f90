@@ -39,11 +39,10 @@ contains
         real, intent(out) :: dfqa(ix,il,kx) !! Net flux of specific humidity into each atmospheric
                                             !! layer
 
-        integer :: i, j, k, k1, ktop1, ktop2, nl1, nlp
-        real :: mss(ix,il,2:kx), mse0, mse1, mss0, mss2, msthr, qdif(ix,il)
+        integer :: i, j, k, k1, nl1, nlp
+        real :: qdif(ix,il)
         real :: entr(2:kx-1), delq, enmass, fdq, fds, fm0, fmass, fpsa, fqmax
-        real :: fsq, fuq, fus, qb, qmax, qsatb, qthr0, qthr1, rdps, rlhc, sb, sentr
-        logical :: lqthr
+        real :: fsq, fuq, fus, qb, qmax, qsatb, rdps, sb, sentr
 
         ! 1. Initialization of output and workspace arrays
         nl1 = kx - 1
@@ -59,11 +58,6 @@ contains
         cbmf = 0.0
         precnv = 0.0
 
-        ! Saturation moist static energy
-        do k = 2, kx
-            mss(:,:,k) = se(:,:,k) + alhc*qsat(:,:,k)
-        end do
-
         ! Entrainment profile (up to sigma = 0.5)
         sentr = 0.0
         do k = 2, nl1
@@ -75,58 +69,7 @@ contains
         entr(2:nl1) = entr(2:nl1) * sentr
 
         ! 2. Check of conditions for convection
-        rlhc = 1.0/alhc
-
-        do i = 1, ix
-            do j = 1, il
-                itop(i,j) = nlp
-
-                if (psa(i,j) > psmin) then
-                    ! Minimum of moist static energy in the lowest two levels
-                    mse0 = se(i,j,kx) + alhc*qa(i,j,kx)
-                    mse1 = se(i,j,nl1) + alhc*qa(i,j,nl1)
-                    mse1 = min(mse0, mse1)
-
-                    ! Saturation (or super-saturated) moist static energy in PBL
-                    mss0 = max(mse0, mss(i,j,kx))
-
-                    ktop1 = kx
-                    ktop2 = kx
-
-                    do k = kx-3, 3, -1
-                        mss2 = mss(i,j,k) + wvi(k,2)*(mss(i,j,k+1) - mss(i,j,k))
-
-                        ! Check 1: conditional instability
-                        !          (MSS in PBL > MSS at top level)
-                        if (mss0 > mss2) then
-                           ktop1 = k
-                        end if
-
-                        ! Check 2: gradient of actual moist static energy
-                        !          between lower and upper troposphere
-                        if (mse1 > mss2) then
-                           ktop2 = k
-                           msthr = mss2
-                        end if
-                    end do
-
-                    if (ktop1 < kx) then
-                        ! Check 3: RH > RH_c at both k=NLEV and k=NL1
-                        qthr0 = rhbl*qsat(i,j,kx)
-                        qthr1 = rhbl*qsat(i,j,nl1)
-                        lqthr = (qa(i,j,kx) > qthr0 .and. qa(i,j,nl1) > qthr1)
-
-                        if (ktop2 < kx) then
-                           itop(i,j) = ktop1
-                           qdif(i,j) = max(qa(i,j,kx) - qthr0, (mse0 - msthr)*rlhc)
-                        else if (lqthr) then
-                           itop(i,j) = ktop1
-                           qdif(i,j) = qa(i,j,kx) - qthr0
-                        end if
-                    end if
-                end if
-            end do
-        end do
+        call diagnose_convection(psa, se, qa, qsat, itop, qdif)
 
         ! 3. Convection over selected grid-points
         do i = 1, ix
@@ -209,6 +152,84 @@ contains
                 ! Net flux of dry static energy and moisture
                 dfse(i,j,k) = fus - fds + alhc*precnv(i,j)
                 dfqa(i,j,k) = fuq - fdq - precnv(i,j)
+            end do
+        end do
+    end
+
+    !> Diagnose convectively unstable gridboxes
+    subroutine diagnose_convection(psa, se, qa, qsat, itop, qdif)
+        use physical_constants, only: alhc, wvi
+
+        real, intent(in) :: psa(ix,il)      !! Normalised surface pressure [p/p0]
+        real, intent(in) :: se(ix,il,kx)    !! Dry static energy [c_p.T + g.z]
+        real, intent(in) :: qa(ix,il,kx)    !! Specific humidity [g/kg]
+        real, intent(in) :: qsat(ix,il,kx)  !! Saturation specific humidity [g/kg]
+        integer, intent(out) :: itop(ix,il) !! Top of convection (layer index)
+        real, intent(out) :: qdif(ix,il)    !! Excess humidity in convective gridboxes
+
+        integer :: i, j, k, ktop1, ktop2, nl1, nlp
+        real :: mss(ix,il,2:kx), mse0, mse1, mss0, mss2, msthr
+        real :: qthr0, qthr1, rlhc
+        logical :: lqthr
+
+        nl1 = kx - 1
+        nlp = kx + 1
+
+        ! Saturation moist static energy
+        do k = 2, kx
+            mss(:,:,k) = se(:,:,k) + alhc*qsat(:,:,k)
+        end do
+
+        rlhc = 1.0/alhc
+
+        do i = 1, ix
+            do j = 1, il
+                itop(i,j) = nlp
+
+                if (psa(i,j) > psmin) then
+                    ! Minimum of moist static energy in the lowest two levels
+                    mse0 = se(i,j,kx) + alhc*qa(i,j,kx)
+                    mse1 = se(i,j,nl1) + alhc*qa(i,j,nl1)
+                    mse1 = min(mse0, mse1)
+
+                    ! Saturation (or super-saturated) moist static energy in PBL
+                    mss0 = max(mse0, mss(i,j,kx))
+
+                    ktop1 = kx
+                    ktop2 = kx
+
+                    do k = kx-3, 3, -1
+                        mss2 = mss(i,j,k) + wvi(k,2)*(mss(i,j,k+1) - mss(i,j,k))
+
+                        ! Check 1: conditional instability
+                        !          (MSS in PBL > MSS at top level)
+                        if (mss0 > mss2) then
+                           ktop1 = k
+                        end if
+
+                        ! Check 2: gradient of actual moist static energy
+                        !          between lower and upper troposphere
+                        if (mse1 > mss2) then
+                           ktop2 = k
+                           msthr = mss2
+                        end if
+                    end do
+
+                    if (ktop1 < kx) then
+                        ! Check 3: RH > RH_c at both k=NLEV and k=NL1
+                        qthr0 = rhbl*qsat(i,j,kx)
+                        qthr1 = rhbl*qsat(i,j,nl1)
+                        lqthr = (qa(i,j,kx) > qthr0 .and. qa(i,j,nl1) > qthr1)
+
+                        if (ktop2 < kx) then
+                           itop(i,j) = ktop1
+                           qdif(i,j) = max(qa(i,j,kx) - qthr0, (mse0 - msthr)*rlhc)
+                        else if (lqthr) then
+                           itop(i,j) = ktop1
+                           qdif(i,j) = qa(i,j,kx) - qthr0
+                        end if
+                    end if
+                end if
             end do
         end do
     end
