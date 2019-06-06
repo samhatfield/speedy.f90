@@ -37,18 +37,8 @@ contains
         wvi(kx,2) = (log(0.99)-sigl(kx))*wvi(kx-1,1)
     end
 
-    ! Compute physical parametrization tendencies for u, v, t, q and add them to
-    ! dynamical grid-point tendencies
-    ! Input-only  arguments:   vor   : vorticity (sp)
-    !                          div   : divergence (sp)
-    !                          t     : temperature (sp)
-    !                          q     : specific humidity (sp)
-    !                          phi   : geopotential (sp)
-    !                          psl   : log of sfc pressure (sp)
-    ! Input-output arguments:  utend  : u-wind tendency (gp)
-    !                          vtend  : v-wind tendency (gp)
-    !                          ttend  : temp. tendency (gp)
-    !                          qtend  : spec. hum. tendency (gp)
+    !> Compute physical parametrization tendencies for u, v, t, q and add them
+    !  to the dynamical grid-point tendencies
     subroutine get_physical_tendencies(vor, div, t, q, phi, psl, utend, vtend, ttend, qtend)
         use auxiliaries, only: precnv, precls, cbmf, tsr, ssrd, ssr, slrd, slr, olr, slru, ustr, &
             & vstr, shf, evap, hfluxn
@@ -68,9 +58,17 @@ contains
         use humidity, only: spec_hum_to_rel_hum
         use spectral, only: spec_to_grid, uvspec
 
-        complex, dimension(mx,nx,kx), intent(in) :: vor, div, t, q, phi
-        complex, dimension(mx,nx), intent(in) :: psl
-        real, dimension(ix,il,kx), intent(inout) :: utend, vtend, ttend, qtend
+        complex, intent(in) :: vor(mx,nx,kx) !! Vorticity
+        complex, intent(in) :: div(mx,nx,kx) !! Divergence
+        complex, intent(in) :: t(mx,nx,kx)   !! Temperature
+        complex, intent(in) :: q(mx,nx,kx)   !! Specific Humidity
+        complex, intent(in) :: phi(mx,nx,kx) !! Geopotential
+        complex, intent(in) :: psl(mx,nx)    !! ln(Surface pressure)
+
+        real, intent(inout) :: utend(ix,il,kx) !! Zonal velocity tendency
+        real, intent(inout) :: vtend(ix,il,kx) !! Meridional velocity tendency
+        real, intent(inout) :: ttend(ix,il,kx) !! Temperature tendency
+        real, intent(inout) :: qtend(ix,il,kx) !! Specific humidity tendency
 
         complex, dimension(mx,nx) :: ucos, vcos
         real, dimension(ix,il) :: pslg, rps, gse
