@@ -1,9 +1,17 @@
 !> Parametrization of large-scale condensation
 !
 !  Large-scale condensation is modelled as a relaxation of humidity to a
-!  sigma-dependent threshold value. The temperature tendency is computed as the
-!  resultant latent heating. Precipitation is diagnosed as all the moisture lost
-!  to condensation falling out of the atmospheric column in the timestep.
+!  sigma-dependent threshold value \(RH(\sigma)\).
+!  $$\frac{\partial q}{\partial t} =
+!      -\frac{q - RH(\sigma) q_{sat}}{\tau_{lsc}},$$
+!  where \(\tau_{lsc}\) is the relaxation timescale. The temperature tendency is
+!  computed as the resultant latent heating,
+!  $$\frac{\partial T}{\partial t} =
+!      - \frac{L}{c_p} \frac{\partial q}{\partial t}.$$
+!  Precipitation is diagnosed as all the moisture lost to condensation falling
+!  out of the atmospheric column in the timestep,
+!  $$P = -\frac{1}{g} \sum_{k=2}^N \Delta p \frac{\partial q}{\partial t}.$$
+
 module large_scale_condensation
     use params
 
