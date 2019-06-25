@@ -157,6 +157,15 @@ contains
     end
 
     !> Diagnose convectively unstable gridboxes
+    !
+    !  Convection is activated in gridboxes with conditional instability. This
+    !  is diagnosed by checking for any tropopsheric half level where the
+    !  saturation moist static energy is lower than in the boundary-layer level.
+    !  In gridboxes where this is true, convection is activated if either: there
+    !  is convective instability - the actual moist static energy at the
+    !  tropospheric level is lower than in the boundary-layer level, or, the
+    !  relative humidity in the boundary-layer level and lowest tropospheric
+    !  level exceed a set threshold (rhbl).
     subroutine diagnose_convection(psa, se, qa, qsat, itop, qdif)
         use physical_constants, only: alhc, wvi
 

@@ -1,4 +1,12 @@
 !> Parametrization of vertical diffusion
+!
+! Three different processes are modelled by the vertical diffusion scheme:
+! 1) Shallow convection - A redistribution of moisture and dry static energy
+!    between the lowest two layers where there is conditional instability
+! 2) A slow diffusion of moisture in stable conditions
+! 3) A fast redistribution of dry static energy where the lapse rate is close to
+!    the dry adiabatic limit
+
 module vertical_diffusion
     use params
 
