@@ -26,6 +26,7 @@ LIB=-lnetcdff -lnetcdf
 FILES= \
 	   auxiliaries.o \
 	   boundaries.o \
+	   convection.o \
        coupler.o \
 	   date.o \
 	   diagnostics.o \
@@ -39,6 +40,7 @@ FILES= \
 	   implicit.o \
        initialization.o \
 	   land_model.o \
+	   large_scale_condensation.o \
 	   legendre.o \
 	   longwave_radiation.o \
 	   matrix_inversion.o \
@@ -48,7 +50,6 @@ FILES= \
 	   params.o \
 	   physics.o \
 	   physical_constants.o \
-	   precipitation.o \
 	   prognostics.o \
 	   sea_model.o \
 	   shortwave_radiation.o \
@@ -74,6 +75,7 @@ speedy.o               : params.o date.o input_output.o shortwave_radiation.o ti
                          diagnostics.o
 auxiliaries.o          : params.o
 boundaries.o           : physical_constants.o params.o input_output.o spectral.o
+convection.o           : params.o physical_constants.o
 coupler.o              : land_model.o sea_model.o
 fourier.o              : params.o geometry.o fftpack.o
 geometry.o             : params.o physical_constants.o
@@ -90,6 +92,7 @@ forcing.o              : dynamical_constants.o shortwave_radiation.o params.o \
 						 horizontal_diffusion.o
 land_model.o           : params.o date.o interpolation.o input_output.o boundaries.o\
                          auxiliaries.o
+large_scale_condensation.o : params.o physical_constants.o
 legendre.o             : params.o physical_constants.o geometry.o
 diagnostics.o          : params.o spectral.o
 prognostics.o          : params.o dynamical_constants.o physical_constants.o geometry.o\
@@ -99,15 +102,14 @@ interpolation.o        : params.o date.o
 physical_constants.o   : params.o
 mod_radcon.o           : params.o
 physics.o              : params.o coupler.o physical_constants.o boundaries.o land_model.o\
-                         sea_model.o sppt.o precipitation.o surface_fluxes.o vertical_diffusion.o\
-						 shortwave_radiation.o longwave_radiation.o humidity.o geometry.o\
-						 auxiliaries.o
+                         sea_model.o sppt.o convection.o large_scale_condensation.o surface_fluxes.o\
+                         vertical_diffusion.o shortwave_radiation.o longwave_radiation.o humidity.o\
+                         geometry.o auxiliaries.o
 longwave_radiation.o   : params.o physical_constants.o mod_radcon.o geometry.o
 sea_model.o            : params.o input_output.o boundaries.o geometry.o interpolation.o\
  						 date.o auxiliaries.o mod_radcon.o
 shortwave_radiation.o  : params.o mod_radcon.o geometry.o
 surface_fluxes.o       : params.o physical_constants.o mod_radcon.o land_model.o humidity.o
-precipitation.o        : params.o physical_constants.o
 spectral.o             : params.o physical_constants.o legendre.o fourier.o
 sppt.o                 : params.o physical_constants.o spectral.o
 tendencies.o           : params.o implicit.o prognostics.o physical_constants.o geometry.o\

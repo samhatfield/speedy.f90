@@ -1,3 +1,12 @@
+!> Parametrization of vertical diffusion
+!
+! Three different processes are modelled by the vertical diffusion scheme:
+! 1) Shallow convection - A redistribution of moisture and dry static energy
+!    between the lowest two layers where there is conditional instability
+! 2) A slow diffusion of moisture in stable conditions
+! 3) A fast redistribution of dry static energy where the lapse rate is close to
+!    the dry adiabatic limit
+
 module vertical_diffusion
     use params
 
@@ -7,35 +16,32 @@ module vertical_diffusion
     public get_vertical_diffusion_tend
 
     ! Constants for vertical diffusion and shallow convection.
-    real, parameter :: trshc  = 6.0  ! Relaxation time (in hours) for shallow convection
-    real, parameter :: trvdi  = 24.0 ! Relaxation time (in hours) for moisture diffusion
-    real, parameter :: trvds  = 6.0  ! Relaxation time (in hours) for super-adiabatic conditions
-    real, parameter :: redshc = 0.5  ! Reduction factor of shallow convection in areas of deep
-                                     ! convection
-    real, parameter :: rhgrad = 0.5  ! Maximum gradient of relative humidity (d_RH/d_sigma)
-    real, parameter :: segrad = 0.1  ! Minimum gradient of dry static energy (d_DSE/d_phi)
+    real, parameter :: trshc  = 6.0  !! Relaxation time (in hours) for shallow convection
+    real, parameter :: trvdi  = 24.0 !! Relaxation time (in hours) for moisture diffusion
+    real, parameter :: trvds  = 6.0  !! Relaxation time (in hours) for super-adiabatic conditions
+    real, parameter :: redshc = 0.5  !! Reduction factor of shallow convection in areas of deep
+                                     !! convection
+    real, parameter :: rhgrad = 0.5  !! Maximum gradient of relative humidity (d_RH/d_sigma)
+    real, parameter :: segrad = 0.1  !! Minimum gradient of dry static energy (d_DSE/d_phi)
 
 contains
-    ! Compute tendencies of momentum, energy and moisture due to vertical diffusion
-    ! and shallow convection
-    ! Input:   se     = dry static energy                (3-dim)
-    !          rh     = relative humidity [0-1]          (3-dim)
-    !          qa     = specific humidity [g/kg]         (3-dim)
-    !          qsat   = saturation sp. humidity [g/kg]   (3-dim)
-    !          phi    = geopotential                     (3-dim)
-    !          icnv   = index of deep convection         (2-dim)
-    ! Output:  utenvd = u-wind tendency                  (3-dim)
-    !          vtenvd = v-wind tendency                  (3-dim)
-    !          ttenvd = temperature tendency             (3-dim)
-    !          qtenvd = sp. humidity tendency [g/(kg s)] (3-dim)
+    !> Compute tendencies of momentum, energy and moisture due to vertical diffusion
+    !  and shallow convection
     subroutine get_vertical_diffusion_tend(se, rh, qa, qsat, phi, icnv, utenvd, vtenvd, &
         & ttenvd, qtenvd)
         use physical_constants, only: cp, alhc, sigh
         use geometry, only: fsg, dhs
 
-        real, dimension(ix,il,kx), intent(in) :: se, rh, qa, qsat, phi
-        integer, intent(in) :: icnv(ix,il)
-        real, dimension(ix,il,kx), intent(inout) :: utenvd, vtenvd, ttenvd, qtenvd
+        real, intent(in)    :: se(ix,il,kx)     !! Dry static energy
+        real, intent(in)    :: rh(ix,il,kx)     !! Relative humidity
+        real, intent(in)    :: qa(ix,il,kx)     !! Specific humidity [g/kg]
+        real, intent(in)    :: qsat(ix,il,kx)   !! Saturated specific humidity [g/kg]
+        real, intent(in)    :: phi(ix,il,kx)    !! Geopotential
+        integer, intent(in) :: icnv(ix,il)      !! Sigma-level index of deep convection
+        real, intent(out)   :: utenvd(ix,il,kx) !! u-wind tendency
+        real, intent(out)   :: vtenvd(ix,il,kx) !! v-wind tendency
+        real, intent(out)   :: ttenvd(ix,il,kx) !! Temperature tendency
+        real, intent(out)   :: qtenvd(ix,il,kx) !! Specific humidity tendency
 
         integer :: nl1, i, j, k, k1
         real :: cshc, cvdi, fshcq, fshcse, fvdiq, fvdise, drh0, fvdiq2, dmse, drh
