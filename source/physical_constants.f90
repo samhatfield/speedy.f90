@@ -7,22 +7,21 @@ module physical_constants
     implicit none
 
     private
-    public rearth, omega, grav, akap, rgas
-    public p0, rd, cp, alhc, alhs, sbc
+    public rearth, omega, grav
+    public p0, cp, akap, rgas, alhc, alhs, sbc
     public sigl, sigh, grdsig, grdscp, wvi
 
     ! Physical constants for dynamics
     real, parameter :: rearth = 6.371e+6    !! Radius of Earth (m)
     real, parameter :: omega  = 7.292e-05   !! Rotation rate of Earth (rad/s)
     real, parameter :: grav   = 9.81        !! Gravitational acceleration (m/s/s)
-    real, parameter :: akap   = 2.0/7.0     !! 1 - 1/gamma where gamma is the heat capacity ratio of
-                                            !! a perfect diatomic gas (7/5)
-    real, parameter :: rgas   = akap*1004.0 !! Gas constant per unit mass for dry air (J/K/kg)
 
     ! Physical constants for thermodynamics
     real, parameter :: p0   = 1.e+5   !! Reference pressure (Pa)
-    real, parameter :: rd   = 287.0   !! Gas constant per unit mass for dry air (J/K/kg)
     real, parameter :: cp   = 1004.0  !! Specific heat at constant pressure (J/K/kg)
+    real, parameter :: akap = 2.0/7.0 !! 1 - 1/gamma where gamma is the heat capacity ratio of a
+                                      !! perfect diatomic gas (7/5)
+    real, parameter :: rgas = akap*cp !! Gas constant per unit mass for dry air (J/K/kg)
     real, parameter :: alhc = 2501.0  !! Latent heat of condensation, in J/g for consistency with
                                       !! specific humidity in g/Kg
     real, parameter :: alhs = 2801.0  !! Latent heat of sublimation

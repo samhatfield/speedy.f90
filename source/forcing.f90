@@ -14,7 +14,7 @@ contains
         use dynamical_constants, only: refrh1
         use params
         use horizontal_diffusion, only: tcorh, qcorh
-        use physical_constants, only: rd
+        use physical_constants, only: rgas
         use boundaries, only: phis0, alb0
         use surface_fluxes, only: set_orog_land_sfc_drag
         use date, only: model_datetime, tyear
@@ -81,7 +81,7 @@ contains
 
         ! 4. humidity correction term for horizontal diffusion
         do j = 1, il
-            pexp = 1./(rd * gamlat(j))
+            pexp = 1./(rgas * gamlat(j))
             do i = 1, ix
                 tsfc(i,j) = fmask_l(i,j) * stl_am(i,j) + fmask_s(i,j) * sst_am(i,j)
                 tref(i,j) = tsfc(i,j) + corh(i,j)
