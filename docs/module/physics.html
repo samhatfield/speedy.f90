@@ -130,7 +130,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 3.6% of total for modules and submodules.">123 statements</a>
+    title=" 3.8% of total for modules and submodules.">131 statements</a>
      </li> 
      
      
@@ -342,31 +342,31 @@
 <polygon fill="none" stroke="black" points="54,-45 0,-45 0,-21 54,-21 54,-45"/>
 <text text-anchor="middle" x="27" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">physics</text>
 </g>
-<!-- proc~initialize -->
-<g id="module~~physics~~UsedByGraph_node2" class="node"><title>proc~initialize</title>
-<g id="a_module~~physics~~UsedByGraph_node2"><a xlink:href=".././proc/initialize.html" xlink:title="initialize">
-<polygon fill="#d9534f" stroke="#d9534f" points="187,-66 133,-66 133,-42 187,-42 187,-66"/>
-<text text-anchor="middle" x="160" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize</text>
-</a>
-</g>
-</g>
-<!-- proc~initialize&#45;&gt;module~physics -->
-<g id="module~~physics~~UsedByGraph_edge1" class="edge"><title>proc~initialize&#45;&gt;module~physics</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M132.805,-49.8008C113.081,-46.6389 85.8108,-42.2674 64.032,-38.7761"/>
-<polygon fill="#000000" stroke="#000000" points="64.5775,-35.319 54.1496,-37.1919 63.4695,-42.2307 64.5775,-35.319"/>
-</g>
 <!-- proc~get_grid_point_tendencies -->
-<g id="module~~physics~~UsedByGraph_node3" class="node"><title>proc~get_grid_point_tendencies</title>
-<g id="a_module~~physics~~UsedByGraph_node3"><a xlink:href=".././proc/get_grid_point_tendencies.html" xlink:title="get_grid_point_tendencies">
-<polygon fill="#d9534f" stroke="#d9534f" points="229.5,-24 90.5,-24 90.5,-0 229.5,-0 229.5,-24"/>
-<text text-anchor="middle" x="160" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_grid_point_tendencies</text>
+<g id="module~~physics~~UsedByGraph_node2" class="node"><title>proc~get_grid_point_tendencies</title>
+<g id="a_module~~physics~~UsedByGraph_node2"><a xlink:href=".././proc/get_grid_point_tendencies.html" xlink:title="get_grid_point_tendencies">
+<polygon fill="#d9534f" stroke="#d9534f" points="229.5,-66 90.5,-66 90.5,-42 229.5,-42 229.5,-66"/>
+<text text-anchor="middle" x="160" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_grid_point_tendencies</text>
 </a>
 </g>
 </g>
 <!-- proc~get_grid_point_tendencies&#45;&gt;module~physics -->
-<g id="module~~physics~~UsedByGraph_edge2" class="edge"><title>proc~get_grid_point_tendencies&#45;&gt;module~physics</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M90.4307,-22.992C81.377,-24.4434 72.4017,-25.8822 64.1987,-27.1972"/>
-<polygon fill="#000000" stroke="#000000" points="63.5935,-23.7494 54.2735,-28.7882 64.7015,-30.6612 63.5935,-23.7494"/>
+<g id="module~~physics~~UsedByGraph_edge1" class="edge"><title>proc~get_grid_point_tendencies&#45;&gt;module~physics</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M90.4307,-43.008C81.377,-41.5566 72.4017,-40.1178 64.1987,-38.8028"/>
+<polygon fill="#000000" stroke="#000000" points="64.7015,-35.3388 54.2735,-37.2118 63.5935,-42.2506 64.7015,-35.3388"/>
+</g>
+<!-- proc~initialize -->
+<g id="module~~physics~~UsedByGraph_node3" class="node"><title>proc~initialize</title>
+<g id="a_module~~physics~~UsedByGraph_node3"><a xlink:href=".././proc/initialize.html" xlink:title="initialize">
+<polygon fill="#d9534f" stroke="#d9534f" points="187,-24 133,-24 133,-0 187,-0 187,-24"/>
+<text text-anchor="middle" x="160" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">initialize</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize&#45;&gt;module~physics -->
+<g id="module~~physics~~UsedByGraph_edge2" class="edge"><title>proc~initialize&#45;&gt;module~physics</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M132.805,-16.1992C113.081,-19.3611 85.8108,-23.7326 64.032,-27.2239"/>
+<polygon fill="#000000" stroke="#000000" points="63.4695,-23.7693 54.1496,-28.8081 64.5775,-30.681 63.4695,-23.7693"/>
 </g>
 </g>
 </svg>
@@ -524,6 +524,15 @@ public subroutine <a href='../proc/get_physical_tendencies.html'>get_physical_te
   <div class="panel-body">
        
     
+
+
+
+
+
+
+
+<p>Compute physical parametrization tendencies for u, v, t, q and add them
+  to the dynamical grid-point tendencies</p>
     
     <h4>Arguments</h4>
     
@@ -545,11 +554,11 @@ public subroutine <a href='../proc/get_physical_tendencies.html'>get_physical_te
 <tr>
   
   <td><span class="anchor" ></span>complex,</td>
-  <td>intent(in),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>dimension(mx,nx,kx)</td><td>::</td>
-  <td><strong>vor</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>vor</strong>(mx,nx,kx)</td><td><p>Vorticity</p></td>
   
 </tr>
 
@@ -560,11 +569,11 @@ public subroutine <a href='../proc/get_physical_tendencies.html'>get_physical_te
 <tr>
   
   <td><span class="anchor" ></span>complex,</td>
-  <td>intent(in),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>dimension(mx,nx,kx)</td><td>::</td>
-  <td><strong>div</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>div</strong>(mx,nx,kx)</td><td><p>Divergence</p></td>
   
 </tr>
 
@@ -575,11 +584,11 @@ public subroutine <a href='../proc/get_physical_tendencies.html'>get_physical_te
 <tr>
   
   <td><span class="anchor" ></span>complex,</td>
-  <td>intent(in),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>dimension(mx,nx,kx)</td><td>::</td>
-  <td><strong>t</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>t</strong>(mx,nx,kx)</td><td><p>Temperature</p></td>
   
 </tr>
 
@@ -590,11 +599,11 @@ public subroutine <a href='../proc/get_physical_tendencies.html'>get_physical_te
 <tr>
   
   <td><span class="anchor" ></span>complex,</td>
-  <td>intent(in),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>dimension(mx,nx,kx)</td><td>::</td>
-  <td><strong>q</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>q</strong>(mx,nx,kx)</td><td><p>Specific Humidity</p></td>
   
 </tr>
 
@@ -605,11 +614,11 @@ public subroutine <a href='../proc/get_physical_tendencies.html'>get_physical_te
 <tr>
   
   <td><span class="anchor" ></span>complex,</td>
-  <td>intent(in),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>dimension(mx,nx,kx)</td><td>::</td>
-  <td><strong>phi</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>phi</strong>(mx,nx,kx)</td><td><p>Geopotential</p></td>
   
 </tr>
 
@@ -620,11 +629,11 @@ public subroutine <a href='../proc/get_physical_tendencies.html'>get_physical_te
 <tr>
   
   <td><span class="anchor" ></span>complex,</td>
-  <td>intent(in),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>dimension(mx,nx)</td><td>::</td>
-  <td><strong>psl</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>psl</strong>(mx,nx)</td><td><p>ln(Surface pressure)</p></td>
   
 </tr>
 
@@ -635,11 +644,11 @@ public subroutine <a href='../proc/get_physical_tendencies.html'>get_physical_te
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
+  <td>intent(inout)</td>
   <td></td>
   
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>utend</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>utend</strong>(ix,il,kx)</td><td><p>Zonal velocity tendency</p></td>
   
 </tr>
 
@@ -650,11 +659,11 @@ public subroutine <a href='../proc/get_physical_tendencies.html'>get_physical_te
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
+  <td>intent(inout)</td>
   <td></td>
   
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>vtend</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>vtend</strong>(ix,il,kx)</td><td><p>Meridional velocity tendency</p></td>
   
 </tr>
 
@@ -665,11 +674,11 @@ public subroutine <a href='../proc/get_physical_tendencies.html'>get_physical_te
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
+  <td>intent(inout)</td>
   <td></td>
   
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>ttend</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>ttend</strong>(ix,il,kx)</td><td><p>Temperature tendency</p></td>
   
 </tr>
 
@@ -680,11 +689,11 @@ public subroutine <a href='../proc/get_physical_tendencies.html'>get_physical_te
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
+  <td>intent(inout)</td>
   <td></td>
   
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>qtend</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>qtend</strong>(ix,il,kx)</td><td><p>Specific humidity tendency</p></td>
   
 </tr>
 

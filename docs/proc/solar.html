@@ -130,7 +130,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.7% of total for procedures.">28 statements</a>
+    title=" 0.7% of total for procedures.">29 statements</a>
      </li> 
      
      
@@ -349,7 +349,7 @@ private subroutine solar(tyear, csol, topsr)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>tyear</strong></td><td></td>
+  <td><strong>tyear</strong></td><td><p>time as fraction of year (0-1, 0 = 1jan.h00)</p></td>
   
 </tr>
 
@@ -364,7 +364,7 @@ private subroutine solar(tyear, csol, topsr)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>csol</strong></td><td></td>
+  <td><strong>csol</strong></td><td><p>The solar constant [W/m^2]</p></td>
   
 </tr>
 
@@ -375,11 +375,12 @@ private subroutine solar(tyear, csol, topsr)
 <tr>
   
   <td><span class="anchor" id="variable-topsr"></span>real,</td>
-  <td>intent(inout)</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>topsr</strong>(il)</td><td></td>
+  <td><strong>topsr</strong>(il)</td><td><p>Daily-average insolation at the top of the atmosphere as a
+ function of latitude</p></td>
   
 </tr>
 

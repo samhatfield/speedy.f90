@@ -4,6 +4,11 @@ module params
     private
     public trunc, ix, iy, il, kx, nx, mx, ntr
     public nsteps, nstdia, nsteps_out, iseasc, nstrad, sppt_on, issty0, delt, rob, wil, alph
+    public initialize_params
+
+    ! =========================================================================
+    ! Constant parameters
+    ! =========================================================================
 
     ! Model geometry parameters
     integer, parameter :: trunc = 30         ! Spectral truncation
@@ -19,17 +24,43 @@ module params
     real, parameter    :: delt = 86400.0 / nsteps ! Time step in seconds
     real, parameter    :: rob = 0.05              ! Damping factor in Robert time filter
     real, parameter    :: wil = 0.53              ! Parameter of Williams filter
-    real, parameter :: alph = 0.5                 ! Coefficient for semi-implicit computations
+    real, parameter    :: alph = 0.5              ! Coefficient for semi-implicit computations
                                                   ! 0 -> forward step for gravity wave terms,
                                                   ! 1 -> backward implicit, 0.5 -> centered implicit
-
-    ! Output parameters
-    integer, parameter :: nstdia = 36*5        ! Period (number of steps) for diagnostic print-out
-    integer, parameter :: nsteps_out = 9       ! Number of time steps between outputs
 
     ! Physics parameters
     integer, parameter :: iseasc = 1           ! Seasonal cycle flag (0=no, 1=yes)
     integer, parameter :: nstrad = 3           ! Period (number of steps) for shortwave radiation
     logical, parameter :: sppt_on = .false.    ! Turn on SPPT?
     integer, parameter :: issty0 = 1979        ! Starting year for SST anomaly file
+
+    ! =========================================================================
+    ! User-specified parameters (through the namelist file)
+    ! =========================================================================
+
+    integer :: nstdia     ! Period (number of steps) for diagnostic print-out
+    integer :: nsteps_out ! Number of time steps between outputs
+
+contains
+    !> Initializes user-defined parameters from namelist file.
+    subroutine initialize_params
+        namelist /params/ nsteps_out, nstdia
+        logical :: namelist_file_exists
+
+        ! Set default values
+        nsteps_out = 1
+        nstdia = 36*5
+
+        ! Read namelist file, if it exists
+        inquire(file="namelist.nml", exist=namelist_file_exists)
+        if (namelist_file_exists) then
+            open(10, file="namelist.nml")
+            read(10, nml=params)
+            close(10)
+        end if
+
+        ! Print values to screen
+        write (*,'(A,I5)') 'nsteps_out (frequency of output)  = ', nsteps_out
+        write (*,'(A,I5)') 'nstdia (frequency of diagnostics) = ', nstdia
+    end subroutine
 end module

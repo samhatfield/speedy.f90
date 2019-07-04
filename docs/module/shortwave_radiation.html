@@ -130,7 +130,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 7.6% of total for modules and submodules.">258 statements</a>
+    title=" 7.6% of total for modules and submodules.">266 statements</a>
      </li> 
      
      
@@ -286,7 +286,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    
+    <p>Parametrization of short-wave radiation</p>
       <br>
     
   
@@ -422,31 +422,31 @@
 <polygon fill="none" stroke="black" points="109.5,-66 0.5,-66 0.5,-42 109.5,-42 109.5,-66"/>
 <text text-anchor="middle" x="55" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">shortwave_radiation</text>
 </g>
-<!-- proc~get_physical_tendencies -->
-<g id="module~~shortwave_radiation~~UsedByGraph_node2" class="node"><title>proc~get_physical_tendencies</title>
-<g id="a_module~~shortwave_radiation~~UsedByGraph_node2"><a xlink:href=".././proc/get_physical_tendencies.html" xlink:title="get_physical_tendencies">
-<polygon fill="#d9534f" stroke="#d9534f" points="276,-108 146,-108 146,-84 276,-84 276,-108"/>
-<text text-anchor="middle" x="211" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_physical_tendencies</text>
-</a>
-</g>
-</g>
-<!-- proc~get_physical_tendencies&#45;&gt;module~shortwave_radiation -->
-<g id="module~~shortwave_radiation~~UsedByGraph_edge1" class="edge"><title>proc~get_physical_tendencies&#45;&gt;module~shortwave_radiation</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M165.87,-83.9645C148.391,-79.1975 128.13,-73.6719 109.803,-68.6736"/>
-<polygon fill="#000000" stroke="#000000" points="110.705,-65.2918 100.137,-66.0373 108.863,-72.0452 110.705,-65.2918"/>
-</g>
 <!-- program~speedy -->
-<g id="module~~shortwave_radiation~~UsedByGraph_node3" class="node"><title>program~speedy</title>
-<g id="a_module~~shortwave_radiation~~UsedByGraph_node3"><a xlink:href=".././program/speedy.html" xlink:title="speedy">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="238,-66 184,-66 184,-42 238,-42 238,-66"/>
-<text text-anchor="middle" x="211" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">speedy</text>
+<g id="module~~shortwave_radiation~~UsedByGraph_node2" class="node"><title>program~speedy</title>
+<g id="a_module~~shortwave_radiation~~UsedByGraph_node2"><a xlink:href=".././program/speedy.html" xlink:title="speedy">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="238,-108 184,-108 184,-84 238,-84 238,-108"/>
+<text text-anchor="middle" x="211" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">speedy</text>
 </a>
 </g>
 </g>
 <!-- program~speedy&#45;&gt;module~shortwave_radiation -->
-<g id="module~~shortwave_radiation~~UsedByGraph_edge2" class="edge"><title>program~speedy&#45;&gt;module~shortwave_radiation</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M183.876,-54C166.314,-54 142.36,-54 119.93,-54"/>
-<polygon fill="#000000" stroke="#000000" points="119.76,-50.5001 109.76,-54 119.76,-57.5001 119.76,-50.5001"/>
+<g id="module~~shortwave_radiation~~UsedByGraph_edge1" class="edge"><title>program~speedy&#45;&gt;module~shortwave_radiation</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M183.876,-88.8753C163.649,-83.3587 134.943,-75.5299 109.853,-68.6871"/>
+<polygon fill="#000000" stroke="#000000" points="110.649,-65.2765 100.08,-66.0219 108.807,-72.0298 110.649,-65.2765"/>
+</g>
+<!-- proc~get_physical_tendencies -->
+<g id="module~~shortwave_radiation~~UsedByGraph_node3" class="node"><title>proc~get_physical_tendencies</title>
+<g id="a_module~~shortwave_radiation~~UsedByGraph_node3"><a xlink:href=".././proc/get_physical_tendencies.html" xlink:title="get_physical_tendencies">
+<polygon fill="#d9534f" stroke="#d9534f" points="276,-66 146,-66 146,-42 276,-42 276,-66"/>
+<text text-anchor="middle" x="211" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_physical_tendencies</text>
+</a>
+</g>
+</g>
+<!-- proc~get_physical_tendencies&#45;&gt;module~shortwave_radiation -->
+<g id="module~~shortwave_radiation~~UsedByGraph_edge2" class="edge"><title>proc~get_physical_tendencies&#45;&gt;module~shortwave_radiation</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M145.582,-54C137.144,-54 128.499,-54 120.067,-54"/>
+<polygon fill="#000000" stroke="#000000" points="119.916,-50.5001 109.916,-54 119.916,-57.5001 119.916,-50.5001"/>
 </g>
 <!-- proc~set_forcing -->
 <g id="module~~shortwave_radiation~~UsedByGraph_node4" class="node"><title>proc~set_forcing</title>
@@ -669,9 +669,9 @@
   
   <td><span class="anchor" id="variable-solc"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>solc</strong></td><td> =</td><td>342.0</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>solc</strong></td><td> =</td><td>342.0</td><td><p>Solar constant (area averaged) in W/m^2</p></td>
   
 </tr>
 
@@ -683,9 +683,10 @@
   
   <td><span class="anchor" id="variable-rhcl1"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>rhcl1</strong></td><td> =</td><td>0.30</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>rhcl1</strong></td><td> =</td><td>0.30</td><td><p>Relative humidity threshold corresponding to
+ cloud cover = 0</p></td>
   
 </tr>
 
@@ -697,9 +698,9 @@
   
   <td><span class="anchor" id="variable-rhcl2"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>rhcl2</strong></td><td> =</td><td>1.00</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>rhcl2</strong></td><td> =</td><td>1.00</td><td><p>Relative humidity correponding to cloud cover = 1</p></td>
   
 </tr>
 
@@ -711,9 +712,9 @@
   
   <td><span class="anchor" id="variable-qacl"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>qacl</strong></td><td> =</td><td>0.20</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>qacl</strong></td><td> =</td><td>0.20</td><td><p>Specific humidity threshold for cloud cover</p></td>
   
 </tr>
 
@@ -725,9 +726,10 @@
   
   <td><span class="anchor" id="variable-wpcl"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>wpcl</strong></td><td> =</td><td>0.2</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>wpcl</strong></td><td> =</td><td>0.2</td><td><p>Cloud cover weight for the square-root of precipitation
+ (for p = 1 mm/day)</p></td>
   
 </tr>
 
@@ -739,9 +741,10 @@
   
   <td><span class="anchor" id="variable-pmaxcl"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>pmaxcl</strong></td><td> =</td><td>10.0</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>pmaxcl</strong></td><td> =</td><td>10.0</td><td><p>Maximum value of precipitation (mm/day) contributing to
+ cloud cover</p></td>
   
 </tr>
 
@@ -753,9 +756,9 @@
   
   <td><span class="anchor" id="variable-clsmax"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>clsmax</strong></td><td> =</td><td>0.60</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>clsmax</strong></td><td> =</td><td>0.60</td><td><p>Maximum stratiform cloud cover</p></td>
   
 </tr>
 
@@ -767,9 +770,9 @@
   
   <td><span class="anchor" id="variable-clsminl"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>clsminl</strong></td><td> =</td><td>0.15</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>clsminl</strong></td><td> =</td><td>0.15</td><td><p>Minimum stratiform cloud cover over land (for RH = 1)</p></td>
   
 </tr>
 
@@ -781,9 +784,10 @@
   
   <td><span class="anchor" id="variable-gse_s0"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>gse_s0</strong></td><td> =</td><td>0.25</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>gse_s0</strong></td><td> =</td><td>0.25</td><td><p>Gradient of dry static energy corresponding to stratiform
+ cloud cover = 0</p></td>
   
 </tr>
 
@@ -795,9 +799,10 @@
   
   <td><span class="anchor" id="variable-gse_s1"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>gse_s1</strong></td><td> =</td><td>0.40</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>gse_s1</strong></td><td> =</td><td>0.40</td><td><p>Gradient of dry static energy corresponding to stratiform
+ cloud cover = 1</p></td>
   
 </tr>
 
@@ -809,9 +814,9 @@
   
   <td><span class="anchor" id="variable-albcl"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>albcl</strong></td><td> =</td><td>0.43</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>albcl</strong></td><td> =</td><td>0.43</td><td><p>Cloud albedo (for cloud cover = 1)</p></td>
   
 </tr>
 
@@ -823,9 +828,9 @@
   
   <td><span class="anchor" id="variable-albcls"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>albcls</strong></td><td> =</td><td>0.50</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>albcls</strong></td><td> =</td><td>0.50</td><td><p>Stratiform cloud albedo (for st. cloud cover = 1)</p></td>
   
 </tr>
 
@@ -837,9 +842,9 @@
   
   <td><span class="anchor" id="variable-epssw"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>epssw</strong></td><td> =</td><td>0.020</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>epssw</strong></td><td> =</td><td>0.020</td><td><p>Fraction of incoming solar radiation absorbed by ozone</p></td>
   
 </tr>
 
@@ -851,9 +856,9 @@
   
   <td><span class="anchor" id="variable-absdry"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>absdry</strong></td><td> =</td><td>0.033</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>absdry</strong></td><td> =</td><td>0.033</td><td><p>Absorptivity of dry air (visible band)</p></td>
   
 </tr>
 
@@ -865,9 +870,9 @@
   
   <td><span class="anchor" id="variable-absaer"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>absaer</strong></td><td> =</td><td>0.033</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>absaer</strong></td><td> =</td><td>0.033</td><td><p>Absorptivity of aerosols (visible band)</p></td>
   
 </tr>
 
@@ -879,9 +884,10 @@
   
   <td><span class="anchor" id="variable-abswv1"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>abswv1</strong></td><td> =</td><td>0.022</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>abswv1</strong></td><td> =</td><td>0.022</td><td><p>Absorptivity of water vapour
+ (visible band, for dq = 1 g/kg)</p></td>
   
 </tr>
 
@@ -893,9 +899,10 @@
   
   <td><span class="anchor" id="variable-abswv2"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>abswv2</strong></td><td> =</td><td>15.000</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>abswv2</strong></td><td> =</td><td>15.000</td><td><p>Absorptivity of water vapour
+ (near IR band, for dq = 1 g/kg)</p></td>
   
 </tr>
 
@@ -907,9 +914,9 @@
   
   <td><span class="anchor" id="variable-abscl1"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>abscl1</strong></td><td> =</td><td>0.015</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>abscl1</strong></td><td> =</td><td>0.015</td><td><p>Absorptivity of clouds (visible band, maximum value)</p></td>
   
 </tr>
 
@@ -921,9 +928,10 @@
   
   <td><span class="anchor" id="variable-abscl2"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>abscl2</strong></td><td> =</td><td>0.15</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>abscl2</strong></td><td> =</td><td>0.15</td><td><p>Absorptivity of clouds
+ (visible band, for dq_base = 1 g/kg)</p></td>
   
 </tr>
 
@@ -935,9 +943,9 @@
   
   <td><span class="anchor" id="variable-ablwin"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>ablwin</strong></td><td> =</td><td>0.3</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>ablwin</strong></td><td> =</td><td>0.3</td><td><p>Absorptivity of air in "window" band</p></td>
   
 </tr>
 
@@ -951,7 +959,7 @@
   
   <td>public</td>
   <td></td><td>::</td>
-  <td><strong>ablco2</strong></td><td> =</td><td>6.0</td><td></td>
+  <td><strong>ablco2</strong></td><td> =</td><td>6.0</td><td><p>Absorptivity of air in CO2 band</p></td>
   
 </tr>
 
@@ -963,9 +971,10 @@
   
   <td><span class="anchor" id="variable-ablwv1"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>ablwv1</strong></td><td> =</td><td>0.7</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>ablwv1</strong></td><td> =</td><td>0.7</td><td><p>Absorptivity of water vapour in H2O band 1 (weak),
+ (for dq = 1 g/kg)</p></td>
   
 </tr>
 
@@ -977,9 +986,10 @@
   
   <td><span class="anchor" id="variable-ablwv2"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>ablwv2</strong></td><td> =</td><td>50.0</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>ablwv2</strong></td><td> =</td><td>50.0</td><td><p>Absorptivity of water vapour in H2O band 2 (strong),
+ (for dq = 1 g/kg)</p></td>
   
 </tr>
 
@@ -991,9 +1001,10 @@
   
   <td><span class="anchor" id="variable-ablcl1"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>ablcl1</strong></td><td> =</td><td>12.0</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>ablcl1</strong></td><td> =</td><td>12.0</td><td><p>Absorptivity of "thick" clouds in window band
+ (below cloud top)</p></td>
   
 </tr>
 
@@ -1005,9 +1016,9 @@
   
   <td><span class="anchor" id="variable-ablcl2"></span>real,</td>
   
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>ablcl2</strong></td><td> =</td><td>0.6</td><td></td>
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>ablcl2</strong></td><td> =</td><td>0.6</td><td><p>Absorptivity of "thin" upper clouds in window and H2O bands</p></td>
   
 </tr>
 
@@ -1021,7 +1032,7 @@
   
   <td>private,</td>
   <td>dimension(ix,il)</td><td>::</td>
-  <td><strong>fsol</strong></td><td></td><td></td><td></td>
+  <td><strong>fsol</strong></td><td></td><td></td><td><p>Flux of incoming solar radiation</p></td>
   
 </tr>
 
@@ -1035,7 +1046,7 @@
   
   <td>private,</td>
   <td>dimension(ix,il)</td><td>::</td>
-  <td><strong>ozone</strong></td><td></td><td></td><td></td>
+  <td><strong>ozone</strong></td><td></td><td></td><td><p>Flux absorbed by ozone (lower stratosphere)</p></td>
   
 </tr>
 
@@ -1049,7 +1060,7 @@
   
   <td>private,</td>
   <td>dimension(ix,il)</td><td>::</td>
-  <td><strong>ozupp</strong></td><td></td><td></td><td></td>
+  <td><strong>ozupp</strong></td><td></td><td></td><td><p>Flux absorbed by ozone (upper stratosphere)</p></td>
   
 </tr>
 
@@ -1063,7 +1074,7 @@
   
   <td>private,</td>
   <td>dimension(ix,il)</td><td>::</td>
-  <td><strong>zenit</strong></td><td></td><td></td><td></td>
+  <td><strong>zenit</strong></td><td></td><td></td><td><p>Optical depth ratio (function of solar zenith angle)</p></td>
   
 </tr>
 
@@ -1077,7 +1088,7 @@
   
   <td>private,</td>
   <td>dimension(ix,il)</td><td>::</td>
-  <td><strong>stratz</strong></td><td></td><td></td><td></td>
+  <td><strong>stratz</strong></td><td></td><td></td><td><p>Stratospheric correction for polar night</p></td>
   
 </tr>
 
@@ -1091,7 +1102,7 @@
   
   <td>private,</td>
   <td>dimension(ix,il)</td><td>::</td>
-  <td><strong>qcloud</strong></td><td></td><td></td><td></td>
+  <td><strong>qcloud</strong></td><td></td><td></td><td><p>Equivalent specific humidity of clouds</p></td>
   
 </tr>
 
@@ -1105,7 +1116,7 @@
   
   <td>public,</td>
   <td>parameter</td><td>::</td>
-  <td><strong>increase_co2</strong></td><td> =</td><td>.false.</td><td></td>
+  <td><strong>increase_co2</strong></td><td> =</td><td>.false.</td><td><p>Flag for CO2 optical thickness increase</p></td>
   
 </tr>
 
@@ -1119,7 +1130,9 @@
   
   <td>public</td>
   <td></td><td>::</td>
-  <td><strong>compute_shortwave</strong></td><td> =</td><td>.true.</td><td></td>
+  <td><strong>compute_shortwave</strong></td><td> =</td><td>.true.</td><td><p>Flag for shortwave radiation routine (turned on
+ and off in main loop depending on the value of
+ nstrad)</p></td>
   
 </tr>
 
@@ -1155,6 +1168,15 @@ public subroutine <a href='../proc/get_shortwave_rad_fluxes.html'>get_shortwave_
   <div class="panel-body">
        
     
+
+
+
+
+
+
+
+<p>Compute the absorption of shortwave radiation and initialize arrays
+  for longwave-radiation routines</p>
     
     <h4>Arguments</h4>
     
@@ -1180,7 +1202,7 @@ public subroutine <a href='../proc/get_shortwave_rad_fluxes.html'>get_shortwave_
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>psa</strong>(ix,il)</td><td></td>
+  <td><strong>psa</strong>(ix,il)</td><td><p>Normalised surface pressure [p/p0]</p></td>
   
 </tr>
 
@@ -1195,7 +1217,7 @@ public subroutine <a href='../proc/get_shortwave_rad_fluxes.html'>get_shortwave_
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>qa</strong>(ix,il,kx)</td><td></td>
+  <td><strong>qa</strong>(ix,il,kx)</td><td><p>Specific humidity [g/kg]</p></td>
   
 </tr>
 
@@ -1210,7 +1232,7 @@ public subroutine <a href='../proc/get_shortwave_rad_fluxes.html'>get_shortwave_
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>icltop</strong>(ix,il)</td><td></td>
+  <td><strong>icltop</strong>(ix,il)</td><td><p>Cloud top level</p></td>
   
 </tr>
 
@@ -1225,7 +1247,7 @@ public subroutine <a href='../proc/get_shortwave_rad_fluxes.html'>get_shortwave_
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>cloudc</strong>(ix,il)</td><td></td>
+  <td><strong>cloudc</strong>(ix,il)</td><td><p>Total cloud cover</p></td>
   
 </tr>
 
@@ -1240,7 +1262,7 @@ public subroutine <a href='../proc/get_shortwave_rad_fluxes.html'>get_shortwave_
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>clstr</strong>(ix,il)</td><td></td>
+  <td><strong>clstr</strong>(ix,il)</td><td><p>Stratiform cloud cover</p></td>
   
 </tr>
 
@@ -1251,11 +1273,12 @@ public subroutine <a href='../proc/get_shortwave_rad_fluxes.html'>get_shortwave_
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout)</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>fsfcd</strong>(ix,il)</td><td></td>
+  <td><strong>fsfcd</strong>(ix,il)</td><td><p>Total downward flux of short-wave radiation at the
+ surface</p></td>
   
 </tr>
 
@@ -1266,11 +1289,12 @@ public subroutine <a href='../proc/get_shortwave_rad_fluxes.html'>get_shortwave_
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout)</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>fsfc</strong>(ix,il)</td><td></td>
+  <td><strong>fsfc</strong>(ix,il)</td><td><p>Net downward flux of short-wave radiation at the
+ surface</p></td>
   
 </tr>
 
@@ -1281,11 +1305,12 @@ public subroutine <a href='../proc/get_shortwave_rad_fluxes.html'>get_shortwave_
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout)</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>ftop</strong>(ix,il)</td><td></td>
+  <td><strong>ftop</strong>(ix,il)</td><td><p>Net downward flux of short-wave radiation at the
+ top of the atmosphere</p></td>
   
 </tr>
 
@@ -1296,11 +1321,12 @@ public subroutine <a href='../proc/get_shortwave_rad_fluxes.html'>get_shortwave_
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout)</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>dfabs</strong>(ix,il,kx)</td><td></td>
+  <td><strong>dfabs</strong>(ix,il,kx)</td><td><p>Flux of short-wave radiation absorbed in each
+ atmospheric layer</p></td>
   
 </tr>
 
@@ -1326,6 +1352,15 @@ public subroutine <a href='../proc/get_zonal_average_fields.html'>get_zonal_aver
   <div class="panel-body">
        
     
+
+
+
+
+
+
+
+<p>Compute zonally-averaged fields to be used in the computation of
+  short-wave absorption</p>
     
     <h4>Arguments</h4>
     
@@ -1351,7 +1386,7 @@ public subroutine <a href='../proc/get_zonal_average_fields.html'>get_zonal_aver
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>tyear</strong></td><td></td>
+  <td><strong>tyear</strong></td><td><p>time as fraction of year (0-1, 0 = 1jan.h00)</p></td>
   
 </tr>
 
@@ -1402,7 +1437,7 @@ private subroutine <a href='../proc/solar.html'>solar</a>(tyear, csol, topsr)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>tyear</strong></td><td></td>
+  <td><strong>tyear</strong></td><td><p>time as fraction of year (0-1, 0 = 1jan.h00)</p></td>
   
 </tr>
 
@@ -1417,7 +1452,7 @@ private subroutine <a href='../proc/solar.html'>solar</a>(tyear, csol, topsr)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>csol</strong></td><td></td>
+  <td><strong>csol</strong></td><td><p>The solar constant [W/m^2]</p></td>
   
 </tr>
 
@@ -1428,11 +1463,12 @@ private subroutine <a href='../proc/solar.html'>solar</a>(tyear, csol, topsr)
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout)</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>topsr</strong>(il)</td><td></td>
+  <td><strong>topsr</strong>(il)</td><td><p>Daily-average insolation at the top of the atmosphere as a
+ function of latitude</p></td>
   
 </tr>
 
@@ -1458,6 +1494,14 @@ public subroutine <a href='../proc/clouds.html'>clouds</a>(qa, rh, precnv, precl
   <div class="panel-body">
        
     
+
+
+
+
+
+
+
+<p>Compute cloud-top level and cloud cover</p>
     
     <h4>Arguments</h4>
     
@@ -1483,7 +1527,7 @@ public subroutine <a href='../proc/clouds.html'>clouds</a>(qa, rh, precnv, precl
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>qa</strong>(ix,il,kx)</td><td></td>
+  <td><strong>qa</strong>(ix,il,kx)</td><td><p>Specific humidity [g/kg]</p></td>
   
 </tr>
 
@@ -1498,7 +1542,7 @@ public subroutine <a href='../proc/clouds.html'>clouds</a>(qa, rh, precnv, precl
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>rh</strong>(ix,il,kx)</td><td></td>
+  <td><strong>rh</strong>(ix,il,kx)</td><td><p>Relative humidity</p></td>
   
 </tr>
 
@@ -1513,7 +1557,7 @@ public subroutine <a href='../proc/clouds.html'>clouds</a>(qa, rh, precnv, precl
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>precnv</strong>(ix,il)</td><td></td>
+  <td><strong>precnv</strong>(ix,il)</td><td><p>Convection precipitation</p></td>
   
 </tr>
 
@@ -1528,7 +1572,7 @@ public subroutine <a href='../proc/clouds.html'>clouds</a>(qa, rh, precnv, precl
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>precls</strong>(ix,il)</td><td></td>
+  <td><strong>precls</strong>(ix,il)</td><td><p>Large-scale condensational precipitation</p></td>
   
 </tr>
 
@@ -1558,7 +1602,7 @@ public subroutine <a href='../proc/clouds.html'>clouds</a>(qa, rh, precnv, precl
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>gse</strong>(ix,il)</td><td></td>
+  <td><strong>gse</strong>(ix,il)</td><td><p>Vertical gradient of dry static energy</p></td>
   
 </tr>
 
@@ -1573,7 +1617,7 @@ public subroutine <a href='../proc/clouds.html'>clouds</a>(qa, rh, precnv, precl
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>fmask</strong>(ix,il)</td><td></td>
+  <td><strong>fmask</strong>(ix,il)</td><td><p>Fraction land-sea mask</p></td>
   
 </tr>
 
@@ -1584,11 +1628,11 @@ public subroutine <a href='../proc/clouds.html'>clouds</a>(qa, rh, precnv, precl
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(inout)</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>icltop</strong>(ix,il)</td><td></td>
+  <td><strong>icltop</strong>(ix,il)</td><td><p>Cloud top level</p></td>
   
 </tr>
 
@@ -1599,11 +1643,11 @@ public subroutine <a href='../proc/clouds.html'>clouds</a>(qa, rh, precnv, precl
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout)</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>cloudc</strong>(ix,il)</td><td></td>
+  <td><strong>cloudc</strong>(ix,il)</td><td><p>Total cloud cover</p></td>
   
 </tr>
 
@@ -1614,11 +1658,11 @@ public subroutine <a href='../proc/clouds.html'>clouds</a>(qa, rh, precnv, precl
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout)</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>clstr</strong>(ix,il)</td><td></td>
+  <td><strong>clstr</strong>(ix,il)</td><td><p>Stratiform cloud cover</p></td>
   
 </tr>
 

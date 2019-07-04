@@ -130,7 +130,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 5.3% of total for modules and submodules.">180 statements</a>
+    title=" 5.7% of total for modules and submodules.">197 statements</a>
      </li> 
      
      
@@ -246,7 +246,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    
+    <p>Parametrization of surface fluxes</p>
       <br>
     
   
@@ -578,7 +578,7 @@
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>fwind0</strong></td><td> =</td><td>0.95</td><td></td>
+  <td><strong>fwind0</strong></td><td> =</td><td>0.95</td><td><p>Ratio of near-sfc wind to lowest-level wind</p></td>
   
 </tr>
 
@@ -592,7 +592,9 @@
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>ftemp0</strong></td><td> =</td><td>1.0</td><td></td>
+  <td><strong>ftemp0</strong></td><td> =</td><td>1.0</td><td><p>Weight for near-sfc temperature extrapolation (0-1) :
+  1 : linear extrapolation from two lowest levels
+  0 : constant potential temperature ( = lowest level)</p></td>
   
 </tr>
 
@@ -606,7 +608,9 @@
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>fhum0</strong></td><td> =</td><td>0.0</td><td></td>
+  <td><strong>fhum0</strong></td><td> =</td><td>0.0</td><td><p>Weight for near-sfc specific humidity extrapolation (0-1) :
+  1 : extrap. with constant relative hum. ( = lowest level)
+  0 : constant specific hum. ( = lowest level)</p></td>
   
 </tr>
 
@@ -620,7 +624,7 @@
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>cdl</strong></td><td> =</td><td>2.4e-3</td><td></td>
+  <td><strong>cdl</strong></td><td> =</td><td>2.4e-3</td><td><p>Drag coefficient for momentum over land</p></td>
   
 </tr>
 
@@ -634,7 +638,7 @@
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>cds</strong></td><td> =</td><td>1.0e-3</td><td></td>
+  <td><strong>cds</strong></td><td> =</td><td>1.0e-3</td><td><p>Drag coefficient for momentum over sea</p></td>
   
 </tr>
 
@@ -648,7 +652,7 @@
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>chl</strong></td><td> =</td><td>1.2e-3</td><td></td>
+  <td><strong>chl</strong></td><td> =</td><td>1.2e-3</td><td><p>Heat exchange coefficient over land</p></td>
   
 </tr>
 
@@ -662,7 +666,7 @@
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>chs</strong></td><td> =</td><td>0.9e-3</td><td></td>
+  <td><strong>chs</strong></td><td> =</td><td>0.9e-3</td><td><p>Heat exchange coefficient over sea</p></td>
   
 </tr>
 
@@ -676,7 +680,7 @@
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>vgust</strong></td><td> =</td><td>5.0</td><td></td>
+  <td><strong>vgust</strong></td><td> =</td><td>5.0</td><td><p>Wind speed for sub-grid-scale gusts</p></td>
   
 </tr>
 
@@ -690,7 +694,7 @@
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>ctday</strong></td><td> =</td><td>1.0e-2</td><td></td>
+  <td><strong>ctday</strong></td><td> =</td><td>1.0e-2</td><td><p>Daily-cycle correction (dTskin/dSSRad)</p></td>
   
 </tr>
 
@@ -704,7 +708,7 @@
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>dtheta</strong></td><td> =</td><td>3.0</td><td></td>
+  <td><strong>dtheta</strong></td><td> =</td><td>3.0</td><td><p>Potential temp. gradient for stability correction</p></td>
   
 </tr>
 
@@ -718,7 +722,7 @@
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>fstab</strong></td><td> =</td><td>0.67</td><td></td>
+  <td><strong>fstab</strong></td><td> =</td><td>0.67</td><td><p>Amplitude of stability correction (fraction)</p></td>
   
 </tr>
 
@@ -732,7 +736,7 @@
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>hdrag</strong></td><td> =</td><td>2000.0</td><td></td>
+  <td><strong>hdrag</strong></td><td> =</td><td>2000.0</td><td><p>Height scale for orographic correction</p></td>
   
 </tr>
 
@@ -746,7 +750,7 @@
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>clambda</strong></td><td> =</td><td>7.0</td><td></td>
+  <td><strong>clambda</strong></td><td> =</td><td>7.0</td><td><p>Heat conductivity in skin-to-root soil layer</p></td>
   
 </tr>
 
@@ -760,7 +764,7 @@
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>clambsn</strong></td><td> =</td><td>7.0</td><td></td>
+  <td><strong>clambsn</strong></td><td> =</td><td>7.0</td><td><p>Heat conductivity in soil for snow cover = 1</p></td>
   
 </tr>
 
@@ -810,6 +814,15 @@ public subroutine <a href='../proc/get_surface_fluxes.html'>get_surface_fluxes</
   <div class="panel-body">
        
     
+
+
+
+
+
+
+
+<p>Compute surface fluxes of momentum, energy and moisture, and define surface
+  skin temperature from energy balance</p>
     
     <h4>Arguments</h4>
     
@@ -830,12 +843,12 @@ public subroutine <a href='../proc/get_surface_fluxes.html'>get_surface_fluxes</
   
 <tr>
   
-  <td><span class="anchor" ></span>real</td>
-  <td></td>
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>psa</strong>(ix,il)</td><td></td>
+  <td><strong>psa</strong>(ix,il)</td><td><p>Normalised surface pressure</p></td>
   
 </tr>
 
@@ -846,251 +859,11 @@ public subroutine <a href='../proc/get_surface_fluxes.html'>get_surface_fluxes</
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>ua</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>va</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>ta</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>qa</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>rh</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>phi</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>dimension(ix,il)</td><td>::</td>
-  <td><strong>phi0</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>dimension(ix,il)</td><td>::</td>
-  <td><strong>fmask</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>dimension(ix,il)</td><td>::</td>
-  <td><strong>tsea</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>dimension(ix,il)</td><td>::</td>
-  <td><strong>ssrd</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>dimension(ix,il)</td><td>::</td>
-  <td><strong>slrd</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>dimension(ix,il,3)</td><td>::</td>
-  <td><strong>ustr</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>dimension(ix,il,3)</td><td>::</td>
-  <td><strong>vstr</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>dimension(ix,il,3)</td><td>::</td>
-  <td><strong>shf</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>dimension(ix,il,3)</td><td>::</td>
-  <td><strong>evap</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>dimension(ix,il,3)</td><td>::</td>
-  <td><strong>slru</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout)</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>hfluxn</strong>(ix,il,2)</td><td></td>
+  <td><strong>ua</strong>(ix,il,kx)</td><td><p>u-wind</p></td>
   
 </tr>
 
@@ -1101,11 +874,11 @@ public subroutine <a href='../proc/get_surface_fluxes.html'>get_surface_fluxes</
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>dimension(ix,il)</td><td>::</td>
-  <td><strong>tsfc</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>va</strong>(ix,il,kx)</td><td><p>v-wind</p></td>
   
 </tr>
 
@@ -1116,11 +889,11 @@ public subroutine <a href='../proc/get_surface_fluxes.html'>get_surface_fluxes</
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>dimension(ix,il)</td><td>::</td>
-  <td><strong>tskin</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>ta</strong>(ix,il,kx)</td><td><p>Temperature</p></td>
   
 </tr>
 
@@ -1131,11 +904,11 @@ public subroutine <a href='../proc/get_surface_fluxes.html'>get_surface_fluxes</
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>dimension(ix,il)</td><td>::</td>
-  <td><strong>u0</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>qa</strong>(ix,il,kx)</td><td><p>Specific humidity [g/kg]</p></td>
   
 </tr>
 
@@ -1146,11 +919,11 @@ public subroutine <a href='../proc/get_surface_fluxes.html'>get_surface_fluxes</
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>dimension(ix,il)</td><td>::</td>
-  <td><strong>v0</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>rh</strong>(ix,il,kx)</td><td><p>Relative humidity</p></td>
   
 </tr>
 
@@ -1161,11 +934,11 @@ public subroutine <a href='../proc/get_surface_fluxes.html'>get_surface_fluxes</
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>dimension(ix,il)</td><td>::</td>
-  <td><strong>t0</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>phi</strong>(ix,il,kx)</td><td><p>Geopotential</p></td>
   
 </tr>
 
@@ -1175,8 +948,248 @@ public subroutine <a href='../proc/get_surface_fluxes.html'>get_surface_fluxes</
   
 <tr>
   
-  <td><span class="anchor" ></span>logical</td>
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(in)</td>
   <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>phi0</strong>(ix,il)</td><td><p>Surface geopotential</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>fmask</strong>(ix,il)</td><td><p>Fractional land-sea mask</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tsea</strong>(ix,il)</td><td><p>Sea-surface temperature</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ssrd</strong>(ix,il)</td><td><p>Downward flux of short-wave radiation at the surface</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>slrd</strong>(ix,il)</td><td><p>Downward flux of long-wave radiation at the surface</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ustr</strong>(ix,il,3)</td><td><p>u-stress</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>vstr</strong>(ix,il,3)</td><td><p>v-stress</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>shf</strong>(ix,il,3)</td><td><p>Sensible heat flux</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>evap</strong>(ix,il,3)</td><td><p>Evaporation</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>slru</strong>(ix,il,3)</td><td><p>Upward flux of long-wave radiation at the surface</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>hfluxn</strong>(ix,il,2)</td><td><p>Net downward heat flux</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tsfc</strong>(ix,il)</td><td><p>Surface temperature</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tskin</strong>(ix,il)</td><td><p>Skin surface temperature</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>u0</strong>(ix,il)</td><td><p>Near-surface u-wind</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>v0</strong>(ix,il)</td><td><p>Near-surface v-wind</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>t0</strong>(ix,il)</td><td><p>Near-surface temperature</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>

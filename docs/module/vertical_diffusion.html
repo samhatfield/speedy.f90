@@ -130,7 +130,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.8% of total for modules and submodules.">94 statements</a>
+    title=" 2.9% of total for modules and submodules.">101 statements</a>
      </li> 
      
      
@@ -226,7 +226,13 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    
+    <p>Parametrization of vertical diffusion</p>
+<p>Three different processes are modelled by the vertical diffusion scheme:
+ 1) Shallow convection - A redistribution of moisture and dry static energy
+    between the lowest two layers where there is conditional instability
+ 2) A slow diffusion of moisture in stable conditions
+ 3) A fast redistribution of dry static energy where the lapse rate is close to
+    the dry adiabatic limit</p>
       <br>
     
   
@@ -525,7 +531,7 @@
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
-  <td><strong>trshc</strong></td><td> =</td><td>6.0</td><td></td>
+  <td><strong>trshc</strong></td><td> =</td><td>6.0</td><td><p>Relaxation time (in hours) for shallow convection</p></td>
   
 </tr>
 
@@ -539,7 +545,7 @@
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
-  <td><strong>trvdi</strong></td><td> =</td><td>24.0</td><td></td>
+  <td><strong>trvdi</strong></td><td> =</td><td>24.0</td><td><p>Relaxation time (in hours) for moisture diffusion</p></td>
   
 </tr>
 
@@ -553,7 +559,7 @@
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
-  <td><strong>trvds</strong></td><td> =</td><td>6.0</td><td></td>
+  <td><strong>trvds</strong></td><td> =</td><td>6.0</td><td><p>Relaxation time (in hours) for super-adiabatic conditions</p></td>
   
 </tr>
 
@@ -567,7 +573,8 @@
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
-  <td><strong>redshc</strong></td><td> =</td><td>0.5</td><td></td>
+  <td><strong>redshc</strong></td><td> =</td><td>0.5</td><td><p>Reduction factor of shallow convection in areas of deep
+ convection</p></td>
   
 </tr>
 
@@ -581,7 +588,7 @@
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
-  <td><strong>rhgrad</strong></td><td> =</td><td>0.5</td><td></td>
+  <td><strong>rhgrad</strong></td><td> =</td><td>0.5</td><td><p>Maximum gradient of relative humidity (d_RH/d_sigma)</p></td>
   
 </tr>
 
@@ -595,7 +602,7 @@
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
-  <td><strong>segrad</strong></td><td> =</td><td>0.1</td><td></td>
+  <td><strong>segrad</strong></td><td> =</td><td>0.1</td><td><p>Minimum gradient of dry static energy (d_DSE/d_phi)</p></td>
   
 </tr>
 
@@ -631,6 +638,15 @@ public subroutine <a href='../proc/get_vertical_diffusion_tend.html'>get_vertica
   <div class="panel-body">
        
     
+
+
+
+
+
+
+
+<p>Compute tendencies of momentum, energy and moisture due to vertical diffusion
+  and shallow convection</p>
     
     <h4>Arguments</h4>
     
@@ -652,11 +668,11 @@ public subroutine <a href='../proc/get_vertical_diffusion_tend.html'>get_vertica
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(in),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>se</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>se</strong>(ix,il,kx)</td><td><p>Dry static energy</p></td>
   
 </tr>
 
@@ -667,11 +683,11 @@ public subroutine <a href='../proc/get_vertical_diffusion_tend.html'>get_vertica
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(in),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>rh</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>rh</strong>(ix,il,kx)</td><td><p>Relative humidity</p></td>
   
 </tr>
 
@@ -682,11 +698,11 @@ public subroutine <a href='../proc/get_vertical_diffusion_tend.html'>get_vertica
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(in),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>qa</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>qa</strong>(ix,il,kx)</td><td><p>Specific humidity [g/kg]</p></td>
   
 </tr>
 
@@ -697,11 +713,11 @@ public subroutine <a href='../proc/get_vertical_diffusion_tend.html'>get_vertica
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(in),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>qsat</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>qsat</strong>(ix,il,kx)</td><td><p>Saturated specific humidity [g/kg]</p></td>
   
 </tr>
 
@@ -712,11 +728,11 @@ public subroutine <a href='../proc/get_vertical_diffusion_tend.html'>get_vertica
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(in),</td>
+  <td>intent(in)</td>
   <td></td>
   
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>phi</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>phi</strong>(ix,il,kx)</td><td><p>Geopotential</p></td>
   
 </tr>
 
@@ -731,7 +747,7 @@ public subroutine <a href='../proc/get_vertical_diffusion_tend.html'>get_vertica
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>icnv</strong>(ix,il)</td><td></td>
+  <td><strong>icnv</strong>(ix,il)</td><td><p>Sigma-level index of deep convection</p></td>
   
 </tr>
 
@@ -742,11 +758,11 @@ public subroutine <a href='../proc/get_vertical_diffusion_tend.html'>get_vertica
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
+  <td>intent(out)</td>
   <td></td>
   
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>utenvd</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>utenvd</strong>(ix,il,kx)</td><td><p>u-wind tendency</p></td>
   
 </tr>
 
@@ -757,11 +773,11 @@ public subroutine <a href='../proc/get_vertical_diffusion_tend.html'>get_vertica
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
+  <td>intent(out)</td>
   <td></td>
   
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>vtenvd</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>vtenvd</strong>(ix,il,kx)</td><td><p>v-wind tendency</p></td>
   
 </tr>
 
@@ -772,11 +788,11 @@ public subroutine <a href='../proc/get_vertical_diffusion_tend.html'>get_vertica
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
+  <td>intent(out)</td>
   <td></td>
   
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>ttenvd</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>ttenvd</strong>(ix,il,kx)</td><td><p>Temperature tendency</p></td>
   
 </tr>
 
@@ -787,11 +803,11 @@ public subroutine <a href='../proc/get_vertical_diffusion_tend.html'>get_vertica
 <tr>
   
   <td><span class="anchor" ></span>real,</td>
-  <td>intent(inout),</td>
+  <td>intent(out)</td>
   <td></td>
   
-  <td>dimension(ix,il,kx)</td><td>::</td>
-  <td><strong>qtenvd</strong></td><td></td>
+  <td></td><td>::</td>
+  <td><strong>qtenvd</strong>(ix,il,kx)</td><td><p>Specific humidity tendency</p></td>
   
 </tr>
 

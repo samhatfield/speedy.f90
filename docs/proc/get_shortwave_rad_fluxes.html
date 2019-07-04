@@ -130,7 +130,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.6% of total for procedures.">102 statements</a>
+    title=" 2.7% of total for procedures.">112 statements</a>
      </li> 
      
      
@@ -345,6 +345,9 @@ public subroutine get_shortwave_rad_fluxes(psa, qa, icltop, cloudc, clstr, fsfcd
 
 
     
+    <p>Compute the absorption of shortwave radiation and initialize arrays
+  for longwave-radiation routines</p>
+    
 
     <h3>Arguments</h3>
     
@@ -364,12 +367,12 @@ public subroutine get_shortwave_rad_fluxes(psa, qa, icltop, cloudc, clstr, fsfcd
   
 <tr>
   
-  <td><span class="anchor" id="variable-psa%7E4"></span>real,</td>
+  <td><span class="anchor" id="variable-psa%7E5"></span>real,</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>psa</strong>(ix,il)</td><td></td>
+  <td><strong>psa</strong>(ix,il)</td><td><p>Normalised surface pressure [p/p0]</p></td>
   
 </tr>
 
@@ -379,12 +382,12 @@ public subroutine get_shortwave_rad_fluxes(psa, qa, icltop, cloudc, clstr, fsfcd
   
 <tr>
   
-  <td><span class="anchor" id="variable-qa%7E7"></span>real,</td>
+  <td><span class="anchor" id="variable-qa%7E8"></span>real,</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>qa</strong>(ix,il,kx)</td><td></td>
+  <td><strong>qa</strong>(ix,il,kx)</td><td><p>Specific humidity [g/kg]</p></td>
   
 </tr>
 
@@ -399,7 +402,7 @@ public subroutine get_shortwave_rad_fluxes(psa, qa, icltop, cloudc, clstr, fsfcd
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>icltop</strong>(ix,il)</td><td></td>
+  <td><strong>icltop</strong>(ix,il)</td><td><p>Cloud top level</p></td>
   
 </tr>
 
@@ -414,7 +417,7 @@ public subroutine get_shortwave_rad_fluxes(psa, qa, icltop, cloudc, clstr, fsfcd
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>cloudc</strong>(ix,il)</td><td></td>
+  <td><strong>cloudc</strong>(ix,il)</td><td><p>Total cloud cover</p></td>
   
 </tr>
 
@@ -429,7 +432,7 @@ public subroutine get_shortwave_rad_fluxes(psa, qa, icltop, cloudc, clstr, fsfcd
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>clstr</strong>(ix,il)</td><td></td>
+  <td><strong>clstr</strong>(ix,il)</td><td><p>Stratiform cloud cover</p></td>
   
 </tr>
 
@@ -439,12 +442,13 @@ public subroutine get_shortwave_rad_fluxes(psa, qa, icltop, cloudc, clstr, fsfcd
   
 <tr>
   
-  <td><span class="anchor" id="variable-fsfcd%7E2"></span>real,</td>
-  <td>intent(inout)</td>
+  <td><span class="anchor" id="variable-fsfcd%7E3"></span>real,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>fsfcd</strong>(ix,il)</td><td></td>
+  <td><strong>fsfcd</strong>(ix,il)</td><td><p>Total downward flux of short-wave radiation at the
+ surface</p></td>
   
 </tr>
 
@@ -455,11 +459,12 @@ public subroutine get_shortwave_rad_fluxes(psa, qa, icltop, cloudc, clstr, fsfcd
 <tr>
   
   <td><span class="anchor" id="variable-fsfc%7E2"></span>real,</td>
-  <td>intent(inout)</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>fsfc</strong>(ix,il)</td><td></td>
+  <td><strong>fsfc</strong>(ix,il)</td><td><p>Net downward flux of short-wave radiation at the
+ surface</p></td>
   
 </tr>
 
@@ -470,11 +475,12 @@ public subroutine get_shortwave_rad_fluxes(psa, qa, icltop, cloudc, clstr, fsfcd
 <tr>
   
   <td><span class="anchor" id="variable-ftop%7E2"></span>real,</td>
-  <td>intent(inout)</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>ftop</strong>(ix,il)</td><td></td>
+  <td><strong>ftop</strong>(ix,il)</td><td><p>Net downward flux of short-wave radiation at the
+ top of the atmosphere</p></td>
   
 </tr>
 
@@ -484,12 +490,13 @@ public subroutine get_shortwave_rad_fluxes(psa, qa, icltop, cloudc, clstr, fsfcd
   
 <tr>
   
-  <td><span class="anchor" id="variable-dfabs%7E2"></span>real,</td>
-  <td>intent(inout)</td>
+  <td><span class="anchor" id="variable-dfabs%7E3"></span>real,</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>dfabs</strong>(ix,il,kx)</td><td></td>
+  <td><strong>dfabs</strong>(ix,il,kx)</td><td><p>Flux of short-wave radiation absorbed in each
+ atmospheric layer</p></td>
   
 </tr>
 
