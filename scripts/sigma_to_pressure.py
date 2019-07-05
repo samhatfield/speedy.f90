@@ -5,6 +5,7 @@ from iris import Constraint, save
 from iris.coords import DimCoord
 from cf_units import Unit
 import numpy as np
+from os.path import splitext
 
 # Pressure levels to interpolate to
 p_levels = [25.0, 100.0, 200.0, 300.0, 500.0, 700.0, 850.0, 950.0]
@@ -45,7 +46,9 @@ for proc_cube in proc_cubes:
     proc_cube.add_dim_coord(pressure_level_coord, 1)
 
 for t, slice in enumerate(pₛ.slices_over("time")):
-    print(f"Converting time slice {slice.coord('time').points}")
+    print(f"Converting time slice {t+1} of {pₛ.shape[0]}")
+
+    # Convert sigma levels to equivalent pressure levels (making sure to convert to hPa)
     σ_pressure_levels = slice.data/100.0 * σ_levels[:,None,None]
 
     for proc_cube in proc_cubes:
@@ -54,5 +57,7 @@ for t, slice in enumerate(pₛ.slices_over("time")):
                 proc_cube.data[t,:,lat,lon] \
                     = np.interp(p_levels, σ_pressure_levels[:,lat,lon], proc_cube.data[t,:,lat,lon])
 
-# Save cubes to file (TODO: a more sensible output file name)
-save(proc_cubes, "pressure.nc")
+# Save cubes to file
+new_filename = f"{splitext(args.filename)[0]}_p.nc"
+print(f"Saving to {new_filename}")
+save(proc_cubes, new_filename)
