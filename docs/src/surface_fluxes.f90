@@ -40,7 +40,7 @@ contains
     !  skin temperature from energy balance
     subroutine get_surface_fluxes(psa, ua, va, ta, qa, rh, phi, phi0, fmask, tsea, ssrd, slrd, &
             & ustr, vstr, shf, evap, slru, hfluxn, tsfc, tskin, u0, v0, t0, lfluxland)
-        use physical_constants, only: p0, rd, cp, alhc, sbc, sigl, wvi
+        use physical_constants, only: p0, rgas, cp, alhc, sbc, sigl, wvi
         use geometry, only: coa
         use mod_radcon, only: emisfc, alb_l, alb_s, snowc
         use land_model, only: stl_am, soilw_am
@@ -112,7 +112,7 @@ contains
 
                     ! Extrapolated temperature using actual lapse rate (1:land, 2:sea)
                     t1(i,j,1) = ta(i,j,kx) + dt1
-                    t1(i,j,2) = t1(i,j,1) - phi0(i,j)*dt1/(rd*288.0*sigl(kx))
+                    t1(i,j,2) = t1(i,j,1) - phi0(i,j)*dt1/(rgas*288.0*sigl(kx))
 
                     ! Extrapolated temperature using dry-adiab. lapse rate (1:land, 2:sea)
                     t2(i,j,2) = ta(i,j,kx) + rcp*phi(i,j,kx)
@@ -136,7 +136,7 @@ contains
             end do
 
             ! 1.3 Density * wind speed (including gustiness factor)
-            denvvs(:,:,0) = (p0*psa/(rd*t0))*sqrt(u0**2.0 + v0**2.0 + vgust**2.0)
+            denvvs(:,:,0) = (p0*psa/(rgas*t0))*sqrt(u0**2.0 + v0**2.0 + vgust**2.0)
 
             ! 2. Compute land-sfc. fluxes using prescribed skin temperature
 

@@ -230,8 +230,6 @@ contains
         ! Anomaly w.r.t. final-time climatological temperature
         tanom = stl_lm - stlcl_ob
 
-        print *, stl_lm(1,1:4) - stlcl_ob(1,1:4)
-
         ! Time evolution of temperature anomaly
         tanom = cdland*(tanom + rhcapl*hfluxn(:,:,1))
 
