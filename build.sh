@@ -7,6 +7,9 @@ if [ -z "$NETCDF" ]; then
     exit 1
 fi
 
+# Name of makefile
+MAKE=gfortran.makefile
+
 # Define directory names
 ROOT=`pwd`
 SRC=$ROOT/source
@@ -19,15 +22,15 @@ cd $BIN
 
 # Copy source files
 cp $SRC/*.f90    .
-cp $SRC/makefile .
+cp $SRC/$MAKE .
 
 # Compile SPEEDY and delete source files
-make -s clean
+make -f $MAKE -s clean
 echo 'Compiling SPEEDY'
 if [ "$1" = "--profile" ]; then
-    make -s profile || { echo "Compilation failed"; exit 1; }
+    make -f $MAKE -s profile || { echo "Compilation failed"; exit 1; }
 else
-    make -s || { echo "Compilation failed"; exit 1; }
+    make -f $MAKE -s || { echo "Compilation failed"; exit 1; }
 fi
 
-rm *.f90 *.o makefile *.mod
+rm *.f90 *.o $MAKE *.mod

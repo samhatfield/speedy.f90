@@ -18,10 +18,10 @@ BASE=-fdefault-real-8 -fconvert=swap -Wall
 OPT=-Ofast
 
 # # Location of NetCDF module (netcdf.mod)
-INC=-I$(NETCDF)
+INC=-I$(NETCDF)/include
 
 # Library flags
-LIB=-lnetcdff -lnetcdf
+LIB=-L$(NETCDF)/lib -lnetcdff -lnetcdf
 
 FILES= \
 	   auxiliaries.o \
