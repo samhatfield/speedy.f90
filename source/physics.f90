@@ -78,7 +78,7 @@ contains
         real, dimension(ix,il,kx) :: tt_cnv, qt_cnv, tt_lsc, qt_lsc, tt_rsw, tt_rlw, ut_pbl, vt_pbl,&
             & tt_pbl, qt_pbl
         integer :: iptop(ix,il), icltop(ix,il,2), icnv(ix,il), i, j, k
-        real :: sppt(ix,il,kx)
+        real :: sppt_pattern(ix,il,kx)
 
         ! Keep a copy of the original (dynamics only) tendencies
         utend_dyn = utend
@@ -205,17 +205,17 @@ contains
 
         ! Add SPPT noise
         if (sppt_on) then
-            sppt = gen_sppt()
+            sppt_pattern = gen_sppt()
 
             ! The physical contribution to the tendency is *tend - *tend_dyn, where * is u, v, t, q
             do k = 1,kx
-                utend(:,:,k) = (1 + sppt(:,:,k)*mu(k))*(utend(:,:,k) - utend_dyn(:,:,k)) &
+                utend(:,:,k) = (1 + sppt_pattern(:,:,k)*mu(k))*(utend(:,:,k) - utend_dyn(:,:,k)) &
                         & + utend_dyn(:,:,k)
-                vtend(:,:,k) = (1 + sppt(:,:,k)*mu(k))*(vtend(:,:,k) - vtend_dyn(:,:,k)) &
+                vtend(:,:,k) = (1 + sppt_pattern(:,:,k)*mu(k))*(vtend(:,:,k) - vtend_dyn(:,:,k)) &
                         & + vtend_dyn(:,:,k)
-                ttend(:,:,k) = (1 + sppt(:,:,k)*mu(k))*(ttend(:,:,k) - ttend_dyn(:,:,k)) &
+                ttend(:,:,k) = (1 + sppt_pattern(:,:,k)*mu(k))*(ttend(:,:,k) - ttend_dyn(:,:,k)) &
                         & + ttend_dyn(:,:,k)
-                qtend(:,:,k) = (1 + sppt(:,:,k)*mu(k))*(qtend(:,:,k) - qtend_dyn(:,:,k)) &
+                qtend(:,:,k) = (1 + sppt_pattern(:,:,k)*mu(k))*(qtend(:,:,k) - qtend_dyn(:,:,k)) &
                         & + qtend_dyn(:,:,k)
             end do
         end if
