@@ -8,7 +8,18 @@ import numpy as np
 from os.path import splitext
 
 # Pressure levels to interpolate to
-p_levels = [25.0, 100.0, 200.0, 300.0, 500.0, 700.0, 850.0, 950.0]
+p_levels = np.array([25.0, 100.0, 200.0, 300.0, 500.0, 700.0, 850.0, 950.0], dtype=np.float32)
+
+
+def interpolate_σ_to_p(p_levels, σ_pressure_levels, input):
+    output = input.copy()
+    for lat in range(input.shape[1]):
+        for lon in range(input.shape[2]):
+            output[:,lat,lon] \
+                = np.interp(p_levels, σ_pressure_levels[:,lat,lon], input[:,lat,lon])
+
+    return output
+
 
 # Parse command line arguments
 parser = ArgumentParser(description="Converts the given file from sigma level to pressure level")
@@ -40,10 +51,9 @@ pressure_level_coord = DimCoord(p_levels, units=Unit("hPa"), long_name="air_pres
                                 var_name="lev")
 
 # Copy cubes and replace σ level DimCoord with pressure level DimCoord
-proc_cubes = [cube.copy() for cube in cubes]
-for proc_cube in proc_cubes:
-    proc_cube.remove_coord("atmosphere_sigma_coordinate")
-    proc_cube.add_dim_coord(pressure_level_coord, 1)
+for cube in cubes:
+    cube.remove_coord("atmosphere_sigma_coordinate")
+    cube.add_dim_coord(pressure_level_coord, 1)
 
 for t, slice in enumerate(pₛ.slices_over("time")):
     print(f"Converting time slice {t+1} of {pₛ.shape[0]}")
@@ -51,13 +61,10 @@ for t, slice in enumerate(pₛ.slices_over("time")):
     # Convert sigma levels to equivalent pressure levels (making sure to convert to hPa)
     σ_pressure_levels = slice.data/100.0 * σ_levels[:,None,None]
 
-    for proc_cube in proc_cubes:
-        for lat, _ in enumerate(proc_cube.coord("latitude")):
-            for lon, _ in enumerate(proc_cube.coord("longitude")):
-                proc_cube.data[t,:,lat,lon] \
-                    = np.interp(p_levels, σ_pressure_levels[:,lat,lon], proc_cube.data[t,:,lat,lon])
+    for cube in cubes:
+        cube.data[t,...] = interpolate_σ_to_p(p_levels, σ_pressure_levels, cube.data[t,...])
 
 # Save cubes to file
 new_filename = f"{splitext(args.filename)[0]}_p.nc"
 print(f"Saving to {new_filename}")
-save(proc_cubes, new_filename)
+save(cubes, new_filename)
