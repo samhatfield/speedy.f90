@@ -2,6 +2,7 @@
 !  date: 01/05/2019
 !  For computing direct and inverse Fourier transforms.
 module fourier
+    use types, only: p
     use params
 
     implicit none
@@ -9,7 +10,7 @@ module fourier
     private
     public initialize_fourier, fourier_inv, fourier_dir
 
-    real    :: work(ix) !! Work array required by FFTPACK. Contains trigonometric functions etc.
+    real(p) :: work(ix) !! Work array required by FFTPACK. Contains trigonometric functions etc.
     integer :: ifac(15) !! Work array required by FFTPACK. Contains prime factors
 
 contains
@@ -22,12 +23,12 @@ contains
     function fourier_inv(input, kcos) result(output)
         use geometry, only: cosgr
 
-        real, intent(in)    :: input(2*mx,il) !! Input field
+        real(p), intent(in) :: input(2*mx,il) !! Input field
         integer, intent(in) :: kcos           !! Scale output by cos(lat) (1) or not (0)
-        real                :: output(ix,il)  !! Output field
+        real(p)             :: output(ix,il)  !! Output field
 
         integer :: j, m
-        real :: fvar(ix), ch(ix)
+        real(p) :: fvar(ix), ch(ix)
 
         do j = 1,il
             fvar(1) = input(1,j)
@@ -53,12 +54,12 @@ contains
 
     !> Transforms grid-point data to Fourier coefficients.
     function fourier_dir(input) result(output)
-        real, intent(in) :: input(ix,il)    !! Input field
-        real             :: output(2*mx,il) !! Output field
+        real(p), intent(in) :: input(ix,il)    !! Input field
+        real(p)             :: output(2*mx,il) !! Output field
 
         integer :: j, m
-        real :: fvar(ix), scale
-        real :: ch(ix)
+        real(p) :: fvar(ix), scale
+        real(p) :: ch(ix)
 
         ! Copy grid-point data into working array
         do j = 1, il

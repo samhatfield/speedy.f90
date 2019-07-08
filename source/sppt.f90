@@ -7,6 +7,7 @@
 !  a parametrization of model error.
 !  See ECMWF Tech. Memo. #598 (Palmer et al. 2009).
 module sppt
+    use types, only: p
     use params
 
     implicit none
@@ -16,28 +17,28 @@ module sppt
 
     !> Array for tapering value of SPPT in the different layers of the
     !  atmosphere. A value of 1 means the tendency is not tapered at that level
-    real :: mu(kx) = (/ 1, 1, 1, 1, 1, 1, 1, 1 /)
+    real(p) :: mu(kx) = (/ 1, 1, 1, 1, 1, 1, 1, 1 /)
 
     !> SPPT pattern in spectral space
-    complex :: sppt_spec(mx,nx,kx)
+    complex(p) :: sppt_spec(mx,nx,kx)
 
     !> Flag for controlling first-use behaviour
     logical :: first = .true.
 
     !> Decorrelation time of SPPT perturbation (in hours)
-    real, parameter :: time_decorr = 6.0
+    real(p), parameter :: time_decorr = 6.0
 
     !> Time autocorrelation of spectral AR(1) signals
-    real :: phi = exp(-(24/real(nsteps))/time_decorr)
+    real(p) :: phi = exp(-(24/real(nsteps, p))/time_decorr)
 
     !> Correlation length scale of SPPT perturbation (in metres)
-    real, parameter :: len_decorr = 500000.0
+    real(p), parameter :: len_decorr = 500000.0
 
     !> Standard deviation of SPPT perturbation (in grid point space)
-    real, parameter :: stddev = 0.33
+    real(p), parameter :: stddev = 0.33
 
     !> Total wavenumber-wise standard deviation of spectral signals
-    real :: sigma(mx,nx,kx)
+    real(p) :: sigma(mx,nx,kx)
 
     contains
         !> Generate grid point space SPPT pattern distribution.
@@ -45,11 +46,11 @@ module sppt
             use spectral, only: el2, spec_to_grid
             use physical_constants, only: rearth
 
-            real :: sppt_grid(ix,il,kx) !! The generated grid point pattern
+            real(p) :: sppt_grid(ix,il,kx) !! The generated grid point pattern
 
             integer :: m, n, k
-            complex :: eta(mx,nx,kx)
-            real :: f0, randreal, randimag
+            complex(p) :: eta(mx,nx,kx)
+            real(p) :: f0, randreal, randimag
 
             ! Seed RNG if first use of SPPT
             if (first) call time_seed()
@@ -58,13 +59,13 @@ module sppt
             do m = 1, mx
                 do n = 1, nx
                     do k = 1, kx
-                        randreal = randn(0.0, 1.0)
-                        randimag = randn(0.0, 1.0)
+                        randreal = randn(0.0_p, 1.0_p)
+                        randimag = randn(0.0_p, 1.0_p)
 
                         ! Clip noise to +- 10 standard deviations
                         eta(m,n,k) = cmplx(&
-                            & min(10.0, abs(randreal)) * sign(1.0,randreal),&
-                            & min(10.0, abs(randimag)) * sign(1.0,randimag))
+                            & min(10.0_p, abs(randreal)) * sign(1.0_p,randreal),&
+                            & min(10.0_p, abs(randimag)) * sign(1.0_p,randimag), p)
                     end do
                 end do
             end do
@@ -94,17 +95,17 @@ module sppt
              end do
 
              ! Clip to +/- 1.0
-             sppt_grid = min(1.0, abs(sppt_grid)) * sign(1.0,sppt_grid)
+             sppt_grid = min(1.0_p, abs(sppt_grid)) * sign(1.0_p,sppt_grid)
         end function
 
         !> Generates a random number drawn for the specified normal distribution.
         function randn(mean, stdev)
-            real, intent(in) :: mean  !! The mean of the distribution to draw from
-            real, intent(in) :: stdev !! The standard deviation of the distribution to draw from
-            real             :: randn !! The generated random number
+            real(p), intent(in) :: mean  !! The mean of the distribution to draw from
+            real(p), intent(in) :: stdev !! The standard deviation of the distribution to draw from
+            real(p)             :: randn !! The generated random number
 
-            real :: u, v
-            real :: rand(2)
+            real(p) :: u, v
+            real(p) :: rand(2)
 
             call random_number(rand)
 

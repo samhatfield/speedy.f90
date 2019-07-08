@@ -2,6 +2,7 @@
 !  date: 01/05/2019
 !  For storing all variables related to the model's grid space.
 module geometry
+    use types, only: p
     use params
 
     implicit none
@@ -12,22 +13,22 @@ module geometry
         cosg, cosgr, cosgr2
 
     ! Vertical level parameters
-    real :: hsg(kx+1) !! Half sigma levels
-    real :: dhs(kx)   !! Sigma level thicknesses
-    real :: fsg(kx)   !! Full sigma levels
-    real :: dhsr(kx)  !! 1/(2*sigma level thicknesses)
-    real :: fsgr(kx)  !! akap/(2*full sigma levels)
+    real(p) :: hsg(kx+1) !! Half sigma levels
+    real(p) :: dhs(kx)   !! Sigma level thicknesses
+    real(p) :: fsg(kx)   !! Full sigma levels
+    real(p) :: dhsr(kx)  !! 1/(2*sigma level thicknesses)
+    real(p) :: fsgr(kx)  !! akap/(2*full sigma levels)
 
     ! Functions of latitude and longitude
-    real, dimension(il) :: radang   !! Latitudes in radians
-    real, dimension(il) :: coriol   !! Coriolis parameter as a function of latitude
-    real, dimension(il) :: sia      !! sine(latitude)
-    real, dimension(il) :: coa      !! cosine(latitude)
-    real, dimension(iy) :: sia_half !! sine(latitude) over one hemisphere only
-    real, dimension(il) :: coa_half !! cosine(latitude) over one hemisphere only
-    real, dimension(il) :: cosg     !! Same as coa (TODO: remove)
-    real, dimension(il) :: cosgr    !! 1/coa
-    real, dimension(il) :: cosgr2   !! 1/coa^2
+    real(p), dimension(il) :: radang   !! Latitudes in radians
+    real(p), dimension(il) :: coriol   !! Coriolis parameter as a function of latitude
+    real(p), dimension(il) :: sia      !! sine(latitude)
+    real(p), dimension(il) :: coa      !! cosine(latitude)
+    real(p), dimension(iy) :: sia_half !! sine(latitude) over one hemisphere only
+    real(p), dimension(il) :: coa_half !! cosine(latitude) over one hemisphere only
+    real(p), dimension(il) :: cosg     !! Same as coa (TODO: remove)
+    real(p), dimension(il) :: cosgr    !! 1/coa
+    real(p), dimension(il) :: cosgr2   !! 1/coa^2
 
 contains
     !> Initializes all of the model geometry variables.

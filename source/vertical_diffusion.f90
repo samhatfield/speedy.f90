@@ -6,8 +6,8 @@
 ! 2) A slow diffusion of moisture in stable conditions
 ! 3) A fast redistribution of dry static energy where the lapse rate is close to
 !    the dry adiabatic limit
-
 module vertical_diffusion
+    use types, only: p
     use params
 
     implicit none
@@ -16,13 +16,13 @@ module vertical_diffusion
     public get_vertical_diffusion_tend
 
     ! Constants for vertical diffusion and shallow convection.
-    real, parameter :: trshc  = 6.0  !! Relaxation time (in hours) for shallow convection
-    real, parameter :: trvdi  = 24.0 !! Relaxation time (in hours) for moisture diffusion
-    real, parameter :: trvds  = 6.0  !! Relaxation time (in hours) for super-adiabatic conditions
-    real, parameter :: redshc = 0.5  !! Reduction factor of shallow convection in areas of deep
-                                     !! convection
-    real, parameter :: rhgrad = 0.5  !! Maximum gradient of relative humidity (d_RH/d_sigma)
-    real, parameter :: segrad = 0.1  !! Minimum gradient of dry static energy (d_DSE/d_phi)
+    real(p), parameter :: trshc  = 6.0  !! Relaxation time (in hours) for shallow convection
+    real(p), parameter :: trvdi  = 24.0 !! Relaxation time (in hours) for moisture diffusion
+    real(p), parameter :: trvds  = 6.0  !! Relaxation time (in hours) for super-adiabatic conditions
+    real(p), parameter :: redshc = 0.5  !! Reduction factor of shallow convection in areas of deep
+                                        !! convection
+    real(p), parameter :: rhgrad = 0.5  !! Maximum gradient of relative humidity (d_RH/d_sigma)
+    real(p), parameter :: segrad = 0.1  !! Minimum gradient of dry static energy (d_DSE/d_phi)
 
 contains
     !> Compute tendencies of momentum, energy and moisture due to vertical diffusion
@@ -32,21 +32,21 @@ contains
         use physical_constants, only: cp, alhc, sigh
         use geometry, only: fsg, dhs
 
-        real, intent(in)    :: se(ix,il,kx)     !! Dry static energy
-        real, intent(in)    :: rh(ix,il,kx)     !! Relative humidity
-        real, intent(in)    :: qa(ix,il,kx)     !! Specific humidity [g/kg]
-        real, intent(in)    :: qsat(ix,il,kx)   !! Saturated specific humidity [g/kg]
-        real, intent(in)    :: phi(ix,il,kx)    !! Geopotential
-        integer, intent(in) :: icnv(ix,il)      !! Sigma-level index of deep convection
-        real, intent(out)   :: utenvd(ix,il,kx) !! u-wind tendency
-        real, intent(out)   :: vtenvd(ix,il,kx) !! v-wind tendency
-        real, intent(out)   :: ttenvd(ix,il,kx) !! Temperature tendency
-        real, intent(out)   :: qtenvd(ix,il,kx) !! Specific humidity tendency
+        real(p), intent(in)    :: se(ix,il,kx)     !! Dry static energy
+        real(p), intent(in)    :: rh(ix,il,kx)     !! Relative humidity
+        real(p), intent(in)    :: qa(ix,il,kx)     !! Specific humidity [g/kg]
+        real(p), intent(in)    :: qsat(ix,il,kx)   !! Saturated specific humidity [g/kg]
+        real(p), intent(in)    :: phi(ix,il,kx)    !! Geopotential
+        integer, intent(in)    :: icnv(ix,il)      !! Sigma-level index of deep convection
+        real(p), intent(out)   :: utenvd(ix,il,kx) !! u-wind tendency
+        real(p), intent(out)   :: vtenvd(ix,il,kx) !! v-wind tendency
+        real(p), intent(out)   :: ttenvd(ix,il,kx) !! Temperature tendency
+        real(p), intent(out)   :: qtenvd(ix,il,kx) !! Specific humidity tendency
 
         integer :: nl1, i, j, k, k1
-        real :: cshc, cvdi, fshcq, fshcse, fvdiq, fvdise, drh0, fvdiq2, dmse, drh
-        real :: fluxse, fluxq, fcnv, se0
-        real, dimension(kx) :: rsig, rsig1
+        real(p) :: cshc, cvdi, fshcq, fshcse, fvdiq, fvdise, drh0, fvdiq2, dmse, drh
+        real(p) :: fluxse, fluxq, fcnv, se0
+        real(p), dimension(kx) :: rsig, rsig1
 
         ! 1. Initalization
 

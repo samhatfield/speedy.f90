@@ -2,6 +2,8 @@
 !  date: 01/05/2019
 !  For checking model diagnostics in case of numerical instability.
 module diagnostics
+    use types, only: p
+
     implicit none
 
     private
@@ -15,26 +17,26 @@ contains
         use params
         use spectral, only: inverse_laplacian
 
-        complex, dimension(mx,nx,kx), intent(in) :: vor   !! Spectral vorticity
-        complex, dimension(mx,nx,kx), intent(in) :: div   !! Spectral divergence
-        complex, dimension(mx,nx,kx), intent(in) :: t     !! Spectral temperature
-        integer, intent(in)                      :: istep !! Current time step
+        complex(p), dimension(mx,nx,kx), intent(in) :: vor   !! Spectral vorticity
+        complex(p), dimension(mx,nx,kx), intent(in) :: div   !! Spectral divergence
+        complex(p), dimension(mx,nx,kx), intent(in) :: t     !! Spectral temperature
+        integer, intent(in)                         :: istep !! Current time step
 
         integer :: k, m, n, kk
-        complex :: temp(mx,nx)
-        real :: diag(kx,3)
+        complex(p) :: temp(mx,nx)
+        real(p) :: diag(kx,3)
 
         ! 1. Get global-mean temperature and compute eddy kinetic energy
         do k = 1, kx
             diag(k,1) = 0.0
             diag(k,2) = 0.0
-            diag(k,3) = sqrt(0.5)*real(t(1,1,k))
+            diag(k,3) = sqrt(0.5)*real(t(1,1,k), p)
 
             temp = inverse_laplacian(vor(:,:,k))
 
             do m = 2, mx
                 do n = 1, nx
-                    diag(k,1) = diag(k,1) - real(temp(m,n)*conjg(vor(m,n,k)))
+                    diag(k,1) = diag(k,1) - real(temp(m,n)*conjg(vor(m,n,k)), p)
                 end do
             end do
 
@@ -42,7 +44,7 @@ contains
 
             do m = 2, mx
                 do n = 1, nx
-                    diag(k,2) = diag(k,2) - real(temp(m,n)*conjg(div(m,n,k)))
+                    diag(k,2) = diag(k,2) - real(temp(m,n)*conjg(div(m,n,k)), p)
                 end do
             end do
         end do

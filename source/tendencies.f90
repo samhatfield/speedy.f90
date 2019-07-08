@@ -1,4 +1,5 @@
 module tendencies
+    use types, only: p
     use params
 
     implicit none
@@ -10,8 +11,8 @@ contains
     subroutine get_tendencies(vordt, divdt, tdt, psdt, trdt, j2)
         use implicit, only: implicit_terms
 
-        complex, dimension(mx,nx,kx), intent(inout) ::  vordt, divdt, tdt
-        complex, intent(inout) :: psdt(mx,nx), trdt(mx,nx,kx,ntr)
+        complex(p), dimension(mx,nx,kx), intent(inout) ::  vordt, divdt, tdt
+        complex(p), intent(inout) :: psdt(mx,nx), trdt(mx,nx,kx,ntr)
         integer, intent(in) :: j2
 
         ! =========================================================================
@@ -65,19 +66,19 @@ contains
         !                              -- Isaac
         !************
 
-        complex, dimension(mx,nx,kx), intent(inout) :: vordt, divdt, tdt
-        complex, intent(inout) :: psdt(mx,nx), trdt(mx,nx,kx,ntr)
+        complex(p), dimension(mx,nx,kx), intent(inout) :: vordt, divdt, tdt
+        complex(p), intent(inout) :: psdt(mx,nx), trdt(mx,nx,kx,ntr)
         integer, intent(in) :: j1, j2
 
-        complex :: dumc(mx,nx,2)
+        complex(p) :: dumc(mx,nx,2)
 
-        real, dimension(ix,il,kx) :: utend, vtend, ttend
-        real :: trtend(ix,il,kx,ntr)
+        real(p), dimension(ix,il,kx) :: utend, vtend, ttend
+        real(p) :: trtend(ix,il,kx,ntr)
 
-        real, dimension(ix,il,kx) :: ug, vg, tg, vorg, divg, tgg, puv
-        real, dimension(ix,il) :: px, py, umean, vmean, dmean
-        real :: trg(ix,il,kx,ntr), sigdt(ix,il,kx+1)
-        real :: temp(ix,il,kx+1), sigm(ix,il,kx+1)
+        real(p), dimension(ix,il,kx) :: ug, vg, tg, vorg, divg, tgg, puv
+        real(p), dimension(ix,il) :: px, py, umean, vmean, dmean
+        real(p) :: trg(ix,il,kx,ntr), sigdt(ix,il,kx+1)
+        real(p) :: temp(ix,il,kx+1), sigm(ix,il,kx+1)
 
         integer :: k, i, itr, j
 
@@ -246,10 +247,10 @@ contains
         use implicit, only: tref, tref2, tref3
         use spectral, only: laplacian
 
-        complex, intent(inout) :: psdt(mx,nx), divdt(mx,nx,kx), tdt(mx,nx,kx)
+        complex(p), intent(inout) :: psdt(mx,nx), divdt(mx,nx,kx), tdt(mx,nx,kx)
         integer, intent(in) :: j2
 
-        complex :: dumk(mx,nx,kx+1), dmeanc(mx,nx), sigdtc(mx,nx,kx+1)
+        complex(p) :: dumk(mx,nx,kx+1), dmeanc(mx,nx), sigdtc(mx,nx,kx+1)
 
         integer :: k
 

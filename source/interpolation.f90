@@ -2,6 +2,7 @@
 !  date: 09/05/2019
 !  For interpolating fields in time.
 module interpolation
+    use types, only: p
     use date, only: tmonth
     use params, only: ix, il
 
@@ -14,11 +15,11 @@ contains
     !> Performs linear interpolation of monthly-mean forcing fields.
     subroutine forint(imon, for12, for1)
         integer, intent(in) :: imon        !! The month
-        real, intent(in) :: for12(ix*il,*) !! The input field
-        real, intent(inout) :: for1(ix*il) !! The output field
+        real(p), intent(in) :: for12(ix*il,*) !! The input field
+        real(p), intent(inout) :: for1(ix*il) !! The output field
 
         integer :: imon2
-        real :: wmon
+        real(p) :: wmon
 
         if (tmonth <= 0.5) then
             imon2 = imon - 1
@@ -36,11 +37,11 @@ contains
     !> Performs nonlinear, mean-conserving interpolation of monthly-mean forcing fields.
     subroutine forin5(imon, for12, for1)
         integer, intent(in) :: imon         !! The month
-        real, intent(in) :: for12(ix*il,12) !! The input field
-        real, intent(inout) :: for1(ix*il)  !! The output field
+        real(p), intent(in) :: for12(ix*il,12) !! The input field
+        real(p), intent(inout) :: for1(ix*il)  !! The output field
 
         integer :: im1, im2, ip1, ip2
-        real :: c0, t0, t1, t2, wm1, wm2, w0, wp1, wp2
+        real(p) :: c0, t0, t1, t2, wm1, wm2, w0, wp1, wp2
 
         im2 = imon - 2
         im1 = imon - 1

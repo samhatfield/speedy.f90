@@ -2,6 +2,7 @@
 !  date: 07/05/2019
 !  For performing horizontal diffusion.
 module horizontal_diffusion
+    use types, only: p
     use params
 
     implicit none
@@ -15,19 +16,20 @@ module horizontal_diffusion
         module procedure do_horizontal_diffusion_3d
     end interface
 
-    real :: dmp(mx,nx)  !! Damping coefficient for temperature and vorticity (explicit)
-    real :: dmpd(mx,nx) !! Damping coefficient for divergence (explicit)
-    real :: dmps(mx,nx) !! Damping coefficient for extra diffusion in the stratosphere (explicit)
+    real(p) :: dmp(mx,nx)  !! Damping coefficient for temperature and vorticity (explicit)
+    real(p) :: dmpd(mx,nx) !! Damping coefficient for divergence (explicit)
+    real(p) :: dmps(mx,nx) !! Damping coefficient for extra diffusion in the stratosphere (explicit)
 
-    real :: dmp1(mx,nx)  !! Damping coefficient for temperature and vorticity (implicit)
-    real :: dmp1d(mx,nx) !! Damping coefficient for divergence (implicit)
-    real :: dmp1s(mx,nx) !! Damping coefficient for extra diffusion in the stratosphere (implicit)
+    real(p) :: dmp1(mx,nx)  !! Damping coefficient for temperature and vorticity (implicit)
+    real(p) :: dmp1d(mx,nx) !! Damping coefficient for divergence (implicit)
+    real(p) :: dmp1s(mx,nx) !! Damping coefficient for extra diffusion in the stratosphere
+                            !! (implicit)
 
-    real :: tcorv(kx) !! Vertical component of orographic correction for temperature
-    real :: qcorv(kx) !! Vertical component of orographic correction for humidity
+    real(p) :: tcorv(kx) !! Vertical component of orographic correction for temperature
+    real(p) :: qcorv(kx) !! Vertical component of orographic correction for humidity
 
-    complex :: tcorh(mx,nx) !! Horizontal component of orographic correction for temperature
-    complex :: qcorh(mx,nx) !! Horizontal component of orographic correction for humidity
+    complex(p) :: tcorh(mx,nx) !! Horizontal component of orographic correction for temperature
+    complex(p) :: qcorh(mx,nx) !! Horizontal component of orographic correction for humidity
 
 contains
     !> Initializes the arrays used for horizontal diffusion.
@@ -37,7 +39,7 @@ contains
         use geometry, only: fsg
 
         integer :: j, k, npowhd
-        real :: elap, elapn, hdifd, hdiff, hdifs, qexp, rgam, rlap, twn
+        real(p) :: elap, elapn, hdifd, hdiff, hdifs, qexp, rgam, rlap, twn
 
         ! 1. Definition of constants
         if (mod(nsteps,2) /= 0) stop ' Invalid no. of time steps'
@@ -82,9 +84,9 @@ contains
     !> Adds horizontal diffusion tendency of field to spectral tendency fdt
     !  using damping coefficients dmp and dmp1.
     function do_horizontal_diffusion_2d(field, fdt_in, dmp, dmp1) result(fdt_out)
-        complex, intent(in) :: field(mx,nx), fdt_in(mx,nx)
-        complex :: fdt_out(mx,nx)
-        real, intent(in) :: dmp(mx,nx), dmp1(mx,nx)
+        complex(p), intent(in) :: field(mx,nx), fdt_in(mx,nx)
+        complex(p) :: fdt_out(mx,nx)
+        real(p), intent(in) :: dmp(mx,nx), dmp1(mx,nx)
 
         fdt_out = (fdt_in - dmp*field)*dmp1
     end function
@@ -92,9 +94,9 @@ contains
     !> Adds horizontal diffusion tendency of field to spectral tendency fdt
     !  at all model levels using damping coefficients dmp and dmp1.
     function do_horizontal_diffusion_3d(field, fdt_in, dmp, dmp1) result(fdt_out)
-        complex, intent(in) :: field(mx,nx,kx), fdt_in(mx,nx,kx)
-        complex :: fdt_out(mx,nx,kx)
-        real, intent(in) :: dmp(mx,nx), dmp1(mx,nx)
+        complex(p), intent(in) :: field(mx,nx,kx), fdt_in(mx,nx,kx)
+        complex(p) :: fdt_out(mx,nx,kx)
+        real(p), intent(in) :: dmp(mx,nx), dmp1(mx,nx)
         integer :: k
 
         do k = 1, kx

@@ -2,6 +2,7 @@
 !  date: 07/05/2019
 !  For performing geopotential calculations.
 module geopotential
+    use types, only: p
     use params
 
     implicit none
@@ -9,8 +10,8 @@ module geopotential
     private
     public initialize_geopotential, get_geopotential
 
-    real :: xgeop1(kx) !! Constants for hydrostatic equation
-    real :: xgeop2(kx) !! Constants for hydrostatic equation
+    real(p) :: xgeop1(kx) !! Constants for hydrostatic equation
+    real(p) :: xgeop2(kx) !! Constants for hydrostatic equation
 
 contains
     !> Initializes the arrays used for geopotential calculations
@@ -32,12 +33,12 @@ contains
     function get_geopotential(t, phis) result(phi)
         use geometry, only: hsg, fsg
 
-        complex, intent(in) :: t(mx,nx,kx) !! Spectral temperature
-        complex, intent(in) :: phis(mx,nx) !! Spectral surface geopotential
-        complex :: phi(mx,nx,kx)           !! Spectral geopotential
+        complex(p), intent(in) :: t(mx,nx,kx) !! Spectral temperature
+        complex(p), intent(in) :: phis(mx,nx) !! Spectral surface geopotential
+        complex(p) :: phi(mx,nx,kx)           !! Spectral geopotential
 
         integer :: k
-        real :: corf
+        real(p) :: corf
 
         ! 1. Bottom layer (integration over half a layer)
         phi(:,:,kx) = phis + xgeop1(kx) * t(:,:,kx)

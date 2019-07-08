@@ -1,4 +1,5 @@
 module spectral
+    use types, only: p
     use params
 
     implicit none
@@ -9,10 +10,10 @@ module spectral
     public laplacian, inverse_laplacian, spec_to_grid, grid_to_spec
     public grad, vds, uvspec, vdspec, trunct
 
-    real, dimension(mx,nx) :: el2, elm2, el4, trfilt
-    real :: gradx(mx), gradym(mx,nx), gradyp(mx,nx)
-    real, dimension(mx,nx) :: uvdx, uvdym, uvdyp
-    real, dimension(mx,nx) :: vddym, vddyp
+    real(p), dimension(mx,nx) :: el2, elm2, el4, trfilt
+    real(p) :: gradx(mx), gradym(mx,nx), gradyp(mx,nx)
+    real(p), dimension(mx,nx) :: uvdx, uvdym, uvdyp
+    real(p), dimension(mx,nx) :: vddym, vddyp
 
 contains
     ! Initialize spectral transforms
@@ -21,7 +22,7 @@ contains
         use fourier, only: initialize_fourier
         use legendre, only: initialize_legendre, epsi
 
-        real :: el1
+        real(p) :: el1
         integer :: m, m1, m2, n, wavenum_tot(mx,nx), mm(mx)
 
         ! Initialize Fourier transforms
@@ -81,15 +82,15 @@ contains
     end
 
     function laplacian(input) result(output)
-        complex, intent(in) :: input(mx,nx)
-        complex :: output(mx,nx)
+        complex(p), intent(in) :: input(mx,nx)
+        complex(p) :: output(mx,nx)
 
         output = -input*el2
     end function
 
     function inverse_laplacian(input) result(output)
-        complex, intent(in) :: input(mx,nx)
-        complex :: output(mx,nx)
+        complex(p), intent(in) :: input(mx,nx)
+        complex(p) :: output(mx,nx)
 
         output = -input*elm2
     end function
@@ -98,11 +99,11 @@ contains
         use legendre, only: legendre_inv
         use fourier, only: fourier_inv
 
-        complex, intent(in) :: vorm(mx,nx)
+        complex(p), intent(in) :: vorm(mx,nx)
         integer, intent(in) :: kcos
 
-        real :: vorg(ix,il)
-        real :: vorm_r(2*mx,nx)
+        real(p) :: vorg(ix,il)
+        real(p) :: vorm_r(2*mx,nx)
 
         vorm_r = reshape(transfer(vorm, vorm_r), (/ 2*mx, nx /))
         vorg = fourier_inv(legendre_inv(vorm_r), kcos)
@@ -112,17 +113,17 @@ contains
         use legendre, only: legendre_dir
         use fourier, only: fourier_dir
 
-        real, intent(in) :: vorg(ix,il)
-        complex :: vorm(mx,nx)
-        real :: vorm_r(2*mx,nx)
+        real(p), intent(in) :: vorg(ix,il)
+        complex(p) :: vorm(mx,nx)
+        real(p) :: vorm_r(2*mx,nx)
 
         vorm_r = legendre_dir(fourier_dir(vorg))
         vorm = reshape(transfer(vorm_r, vorm), (/ mx, nx /))
     end function
 
     subroutine grad(psi,psdx,psdy)
-        complex, dimension(mx,nx), intent(inout) :: psi
-        complex, dimension(mx,nx), intent(inout) :: psdx, psdy
+        complex(p), dimension(mx,nx), intent(inout) :: psi
+        complex(p), dimension(mx,nx), intent(inout) :: psdx, psdy
 
         integer :: n, m
 
@@ -143,9 +144,9 @@ contains
     end
 
     subroutine vds(ucosm,vcosm,vorm,divm)
-        complex, dimension(mx,nx) :: ucosm, vcosm
-        complex, dimension(mx,nx), intent(inout) :: vorm, divm
-        complex, dimension(mx,nx) :: zc, zp
+        complex(p), dimension(mx,nx) :: ucosm, vcosm
+        complex(p), dimension(mx,nx), intent(inout) :: vorm, divm
+        complex(p), dimension(mx,nx) :: zc, zp
 
         integer :: n, m
 
@@ -170,9 +171,9 @@ contains
     end
 
     subroutine uvspec(vorm,divm,ucosm,vcosm)
-        complex, dimension(mx,nx), intent(in) :: vorm,divm
-        complex, dimension(mx,nx), intent(inout) :: ucosm,vcosm
-        complex, dimension(mx,nx) :: zc,zp
+        complex(p), dimension(mx,nx), intent(in) :: vorm,divm
+        complex(p), dimension(mx,nx), intent(inout) :: ucosm,vcosm
+        complex(p), dimension(mx,nx) :: zc,zp
 
         integer :: n, m
 
@@ -197,12 +198,12 @@ contains
     subroutine vdspec(ug,vg,vorm,divm,kcos)
         use geometry, only: cosgr, cosgr2
 
-        real, intent(in) :: ug(ix,il), vg(ix,il)
-        complex, intent(out) :: vorm(mx,nx), divm(mx,nx)
+        real(p), intent(in) :: ug(ix,il), vg(ix,il)
+        complex(p), intent(out) :: vorm(mx,nx), divm(mx,nx)
         integer, intent(in) :: kcos
         integer :: i, j
-        real :: ug1(ix,il), vg1(ix,il)
-        complex :: specu(mx,nx), specv(mx,nx)
+        real(p) :: ug1(ix,il), vg1(ix,il)
+        complex(p) :: specu(mx,nx), specv(mx,nx)
 
         if (kcos.eq.2) then
             do j=1,il
@@ -226,7 +227,7 @@ contains
     end
 
     subroutine trunct(vor)
-        complex, intent(inout) :: vor(mx,nx)
+        complex(p), intent(inout) :: vor(mx,nx)
 
         vor = vor * trfilt
     end

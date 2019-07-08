@@ -3,6 +3,7 @@
 !  Convection is modelled using a simplified version of the Tiedke (1993)
 !  mass-flux convection scheme.
 module convection
+    use types, only: p
     use params
 
     implicit none
@@ -11,14 +12,14 @@ module convection
     public get_convection_tendencies
 
     ! Constants for convection
-    real, parameter :: psmin  = 0.8 !! Minimum (normalised) surface pressure for the occurrence of
-                                    !! convection
-    real, parameter :: trcnv  = 6.0 !! Time of relaxation (in hours) towards reference state
-    real, parameter :: rhbl   = 0.9 !! Relative humidity threshold in the boundary layer
-    real, parameter :: rhil   = 0.7 !! Relative humidity threshold in intermeduate layers for
-                                    !! secondary mass flux
-    real, parameter :: entmax = 0.5 !! Maximum entrainment as a fraction of cloud-base mass flux
-    real, parameter :: smf    = 0.8 !! Ratio between secondary and primary mass flux at cloud-base
+    real(p), parameter :: psmin  = 0.8 !! Minimum (normalised) surface pressure for the occurrence
+                                       !! of convection
+    real(p), parameter :: trcnv  = 6.0 !! Time of relaxation (in hours) towards reference state
+    real(p), parameter :: rhbl   = 0.9 !! Relative humidity threshold in the boundary layer
+    real(p), parameter :: rhil   = 0.7 !! Relative humidity threshold in intermeduate layers for
+                                       !! secondary mass flux
+    real(p), parameter :: entmax = 0.5 !! Maximum entrainment as a fraction of cloud-base mass flux
+    real(p), parameter :: smf    = 0.8 !! Ratio between secondary and primary mass flux at cloud-base
 
 contains
     !> Compute convective fluxes of dry static energy and moisture using a
@@ -27,22 +28,22 @@ contains
         use physical_constants, only: p0, alhc, alhs, wvi, grav
         use geometry, only: fsg, dhs
 
-        real, intent(in) :: psa(ix,il)      !! Normalised surface pressure [p/p0]
-        real, intent(in) :: se(ix,il,kx)    !! Dry static energy [c_p.T + g.z]
-        real, intent(in) :: qa(ix,il,kx)    !! Specific humidity [g/kg]
-        real, intent(in) :: qsat(ix,il,kx)  !! Saturation specific humidity [g/kg]
-        integer, intent(out) :: itop(ix,il) !! Top of convection (layer index)
-        real, intent(out) :: cbmf(ix,il)    !! Cloud-base mass flux
-        real, intent(out) :: precnv(ix,il)  !! Convective precipitation [g/(m^2 s)]
-        real, intent(out) :: dfse(ix,il,kx) !! Net flux of dry static energy into each atmospheric
-                                            !! layer
-        real, intent(out) :: dfqa(ix,il,kx) !! Net flux of specific humidity into each atmospheric
-                                            !! layer
+        real(p), intent(in)  :: psa(ix,il)     !! Normalised surface pressure [p/p0]
+        real(p), intent(in)  :: se(ix,il,kx)   !! Dry static energy [c_p.T + g.z]
+        real(p), intent(in)  :: qa(ix,il,kx)   !! Specific humidity [g/kg]
+        real(p), intent(in)  :: qsat(ix,il,kx) !! Saturation specific humidity [g/kg]
+        integer, intent(out) :: itop(ix,il)    !! Top of convection (layer index)
+        real(p), intent(out) :: cbmf(ix,il)    !! Cloud-base mass flux
+        real(p), intent(out) :: precnv(ix,il)  !! Convective precipitation [g/(m^2 s)]
+        real(p), intent(out) :: dfse(ix,il,kx) !! Net flux of dry static energy into each
+                                               !! atmospheric layer
+        real(p), intent(out) :: dfqa(ix,il,kx) !! Net flux of specific humidity into each
+                                               !! atmospheric layer
 
         integer :: i, j, k, k1, nl1, nlp
-        real :: qdif(ix,il)
-        real :: entr(2:kx-1), delq, enmass, fdq, fds, fm0, fmass, fpsa, fqmax
-        real :: fsq, fuq, fus, qb, qmax, qsatb, rdps, sb, sentr
+        real(p) :: qdif(ix,il)
+        real(p) :: entr(2:kx-1), delq, enmass, fdq, fds, fm0, fmass, fpsa, fqmax
+        real(p) :: fsq, fuq, fus, qb, qmax, qsatb, rdps, sb, sentr
 
         ! 1. Initialization of output and workspace arrays
         nl1 = kx - 1
@@ -169,16 +170,16 @@ contains
     subroutine diagnose_convection(psa, se, qa, qsat, itop, qdif)
         use physical_constants, only: alhc, wvi
 
-        real, intent(in) :: psa(ix,il)      !! Normalised surface pressure [p/p0]
-        real, intent(in) :: se(ix,il,kx)    !! Dry static energy [c_p.T + g.z]
-        real, intent(in) :: qa(ix,il,kx)    !! Specific humidity [g/kg]
-        real, intent(in) :: qsat(ix,il,kx)  !! Saturation specific humidity [g/kg]
-        integer, intent(out) :: itop(ix,il) !! Top of convection (layer index)
-        real, intent(out) :: qdif(ix,il)    !! Excess humidity in convective gridboxes
+        real(p), intent(in)  :: psa(ix,il)     !! Normalised surface pressure [p/p0]
+        real(p), intent(in)  :: se(ix,il,kx)   !! Dry static energy [c_p.T + g.z]
+        real(p), intent(in)  :: qa(ix,il,kx)   !! Specific humidity [g/kg]
+        real(p), intent(in)  :: qsat(ix,il,kx) !! Saturation specific humidity [g/kg]
+        integer, intent(out) :: itop(ix,il)    !! Top of convection (layer index)
+        real(p), intent(out) :: qdif(ix,il)    !! Excess humidity in convective gridboxes
 
         integer :: i, j, k, ktop1, ktop2, nl1, nlp
-        real :: mss(ix,il,2:kx), mse0, mse1, mss0, mss2, msthr
-        real :: qthr0, qthr1, rlhc
+        real(p) :: mss(ix,il,2:kx), mse0, mse1, mss0, mss2, msthr
+        real(p) :: qthr0, qthr1, rlhc
         logical :: lqthr
 
         nl1 = kx - 1

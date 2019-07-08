@@ -2,6 +2,7 @@
 !  date: 01/05/2019
 !  For keeping track of the model's date and time.
 module date
+    use types, only: p
     implicit none
 
     private
@@ -24,8 +25,8 @@ module date
     type(datetime)     :: start_datetime !! The start datetime
     type(datetime)     :: end_datetime   !! The end datetime
     integer            :: imont1         !! The month used for computing seasonal forcing fields
-    real               :: tmonth         !! The fraction of the current month elapsed
-    real               :: tyear          !! The fraction of the current year elapsed
+    real(p)            :: tmonth         !! The fraction of the current month elapsed
+    real(p)            :: tyear          !! The fraction of the current year elapsed
     integer            :: isst0          !! Initial month of SST anomalies
     integer            :: ndaycal(12,2)  !! The model calendar
     integer, parameter :: ncal = 365     !! The number of days in a year

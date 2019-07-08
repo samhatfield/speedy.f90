@@ -2,6 +2,8 @@
 !  date: 04/07/2019
 !  For storing and initializing model parameters.
 module params
+    use types, only: p
+
     implicit none
 
     private
@@ -25,13 +27,14 @@ module params
                                        !! tracer)
 
     ! Time stepping parameters
-    integer, parameter :: nsteps = 36           !! Number of time steps in one day
-    real, parameter    :: delt = 86400.0/nsteps !! Time step in seconds
-    real, parameter    :: rob = 0.05            !! Damping factor in Robert time filter
-    real, parameter    :: wil = 0.53            !! Parameter of Williams filter
-    real, parameter    :: alph = 0.5            !! Coefficient for semi-implicit computations
-                                                !! 0 -> forward step for gravity wave terms,
-                                                !! 1 -> backward implicit, 0.5 -> centered implicit
+    integer, parameter :: nsteps = 36              !! Number of time steps in one day
+    real(p), parameter    :: delt = 86400.0/nsteps !! Time step in seconds
+    real(p), parameter    :: rob = 0.05            !! Damping factor in Robert time filter
+    real(p), parameter    :: wil = 0.53            !! Parameter of Williams filter
+    real(p), parameter    :: alph = 0.5            !! Coefficient for semi-implicit computations
+                                                   !! 0 -> forward step for gravity wave terms,
+                                                   !! 1 -> backward implicit, 0.5 -> centered
+                                                   !! implicit
 
     ! Physics parameters
     integer, parameter :: iseasc = 1        !! Seasonal cycle flag (0=no, 1=yes)

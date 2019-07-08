@@ -13,6 +13,7 @@
 !  $$P = -\frac{1}{g} \sum_{k=2}^N \Delta p \frac{\partial q}{\partial t}.$$
 
 module large_scale_condensation
+    use types, only: p
     use params
 
     implicit none
@@ -21,10 +22,10 @@ module large_scale_condensation
     public get_large_scale_condensation_tendencies
 
     ! Constants for large-scale condensation
-    real, parameter :: trlsc  = 4.0  !! Relaxation time (in hours) for specific humidity
-    real, parameter :: rhlsc  = 0.9  !! Maximum relative humidity threshold (at sigma=1)
-    real, parameter :: drhlsc = 0.1  !! Vertical range of relative humidity threshold
-    real, parameter :: rhblsc = 0.95 !! Relative humidity threshold for boundary layer
+    real(p), parameter :: trlsc  = 4.0  !! Relaxation time (in hours) for specific humidity
+    real(p), parameter :: rhlsc  = 0.9  !! Maximum relative humidity threshold (at sigma=1)
+    real(p), parameter :: drhlsc = 0.1  !! Vertical range of relative humidity threshold
+    real(p), parameter :: rhblsc = 0.95 !! Relative humidity threshold for boundary layer
 
 contains
     !> Compute large-scale condensation and associated tendencies of temperature
@@ -33,19 +34,19 @@ contains
         use physical_constants, only: p0, cp, alhc, alhs, grav
         use geometry, only: fsg, dhs
 
-        real, intent(in) :: psa(ix,il)        !! Normalised surface pressure [p/p0]
-        real, intent(in) :: qa(ix,il,kx)      !! Specific humidity [g/kg]
-        real, intent(in) :: qsat(ix,il,kx)    !! Saturation specific humidity [g/kg]
-        integer, intent(inout) :: itop(ix,il) !! Cloud top diagnosed from precipitation due to
-                                              !! convection and large-scale condensation
-        real, intent(out) :: precls(ix,il)    !! Precipitation due to large-scale condensation
-        real, intent(out) :: dtlsc(ix,il,kx)  !! Temperature tendency due to large-scale
-                                              !! condensation
-        real, intent(out) :: dqlsc(ix,il,kx)  !! Specific humidity tendency due to large-scale
-                                              !! condensation
+        real(p), intent(in) :: psa(ix,il)       !! Normalised surface pressure [p/p0]
+        real(p), intent(in) :: qa(ix,il,kx)     !! Specific humidity [g/kg]
+        real(p), intent(in) :: qsat(ix,il,kx)   !! Saturation specific humidity [g/kg]
+        integer, intent(inout) :: itop(ix,il)   !! Cloud top diagnosed from precipitation due to
+                                                !! convection and large-scale condensation
+        real(p), intent(out) :: precls(ix,il)   !! Precipitation due to large-scale condensation
+        real(p), intent(out) :: dtlsc(ix,il,kx) !! Temperature tendency due to large-scale
+                                                !! condensation
+        real(p), intent(out) :: dqlsc(ix,il,kx) !! Specific humidity tendency due to large-scale
+                                                !! condensation
 
         integer :: i, j, k
-        real :: psa2(ix,il), dqa, dqmax, pfact, prg, qsmax, rhref, rtlsc, sig2, tfact
+        real(p) :: psa2(ix,il), dqa, dqmax, pfact, prg, qsmax, rhref, rtlsc, sig2, tfact
 
         ! 1. Initialization
         qsmax = 10.0

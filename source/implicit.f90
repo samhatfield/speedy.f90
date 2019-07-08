@@ -2,6 +2,7 @@
 !  date: 08/05/2019
 !  For initializing and performing implicit computations.
 module implicit
+    use types, only: p
     use params
 
     implicit none
@@ -10,14 +11,14 @@ module implicit
     public initialize_implicit, implicit_terms
     public tref, tref2, tref3
 
-    real, dimension(kx) :: tref  ! Temperature profile for semi-implicit scheme
-    real, dimension(kx) :: tref1 ! Gas constant * tref
-    real, dimension(kx) :: tref2 ! akap * tref
-    real, dimension(kx) :: tref3 ! Full sigma-levels * tref
+    real(p), dimension(kx) :: tref  ! Temperature profile for semi-implicit scheme
+    real(p), dimension(kx) :: tref1 ! Gas constant * tref
+    real(p), dimension(kx) :: tref2 ! akap * tref
+    real(p), dimension(kx) :: tref3 ! Full sigma-levels * tref
 
-    real, dimension(kx,kx) :: xa, xb, xc, xd, xe
-    real, dimension(kx,kx,mx+nx+1) :: xf, xj
-    real :: dhsx(kx), elz(mx,nx)
+    real(p), dimension(kx,kx) :: xa, xb, xc, xd, xe
+    real(p), dimension(kx,kx,mx+nx+1) :: xf, xj
+    real(p) :: dhsx(kx), elz(mx,nx)
 
 contains
     !> Initialize constants for implicit computation of horizontal diffusion and
@@ -39,11 +40,11 @@ contains
         use horizontal_diffusion, only: dmp, dmpd, dmps, dmp1, dmp1d, dmp1s
         use matrix_inversion, only: inv
 
-        real, intent(in) :: dt !! Time step
+        real(p), intent(in) :: dt !! Time step
 
-        real :: dsum(kx), ya(kx,kx)
+        real(p) :: dsum(kx), ya(kx,kx)
         integer :: indx(kx), m, n, k, k1, k2, l
-        real :: rgam, xi, xxi, xxx
+        real(p) :: rgam, xi, xxi, xxx
 
         ! 1. Constants for backwards implicit biharmonic diffusion
         do m=1,mx
@@ -165,11 +166,11 @@ contains
 
     !> Correct tendencies for implicit gravity wave model
     subroutine implicit_terms(divdt,tdt,psdt)
-        complex, intent(inout) :: divdt(mx,nx,kx) !! Divergence tendency
-        complex, intent(inout) :: tdt(mx,nx,kx)   !! Temperature tendency
-        complex, intent(inout) :: psdt(mx,nx)     !! log(surface pressure) tendency
+        complex(p), intent(inout) :: divdt(mx,nx,kx) !! Divergence tendency
+        complex(p), intent(inout) :: tdt(mx,nx,kx)   !! Temperature tendency
+        complex(p), intent(inout) :: psdt(mx,nx)     !! log(surface pressure) tendency
 
-        complex ::  ye(mx,nx,kx), yf(mx,nx,kx)
+        complex(p) ::  ye(mx,nx,kx), yf(mx,nx,kx)
         integer :: k1, k, m, n
 
         ye(:,:,:) = (0.0, 0.0)

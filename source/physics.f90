@@ -1,4 +1,5 @@
 module physics
+    use types, only: p
     use params
 
     implicit none
@@ -58,27 +59,27 @@ contains
         use humidity, only: spec_hum_to_rel_hum
         use spectral, only: spec_to_grid, uvspec
 
-        complex, intent(in) :: vor(mx,nx,kx) !! Vorticity
-        complex, intent(in) :: div(mx,nx,kx) !! Divergence
-        complex, intent(in) :: t(mx,nx,kx)   !! Temperature
-        complex, intent(in) :: q(mx,nx,kx)   !! Specific Humidity
-        complex, intent(in) :: phi(mx,nx,kx) !! Geopotential
-        complex, intent(in) :: psl(mx,nx)    !! ln(Surface pressure)
+        complex(p), intent(in) :: vor(mx,nx,kx) !! Vorticity
+        complex(p), intent(in) :: div(mx,nx,kx) !! Divergence
+        complex(p), intent(in) :: t(mx,nx,kx)   !! Temperature
+        complex(p), intent(in) :: q(mx,nx,kx)   !! Specific Humidity
+        complex(p), intent(in) :: phi(mx,nx,kx) !! Geopotential
+        complex(p), intent(in) :: psl(mx,nx)    !! ln(Surface pressure)
 
-        real, intent(inout) :: utend(ix,il,kx) !! Zonal velocity tendency
-        real, intent(inout) :: vtend(ix,il,kx) !! Meridional velocity tendency
-        real, intent(inout) :: ttend(ix,il,kx) !! Temperature tendency
-        real, intent(inout) :: qtend(ix,il,kx) !! Specific humidity tendency
+        real(p), intent(inout) :: utend(ix,il,kx) !! Zonal velocity tendency
+        real(p), intent(inout) :: vtend(ix,il,kx) !! Meridional velocity tendency
+        real(p), intent(inout) :: ttend(ix,il,kx) !! Temperature tendency
+        real(p), intent(inout) :: qtend(ix,il,kx) !! Specific humidity tendency
 
-        complex, dimension(mx,nx) :: ucos, vcos
-        real, dimension(ix,il) :: pslg, rps, gse
-        real, dimension(ix,il,kx) :: ug, vg, tg, qg, phig, utend_dyn, vtend_dyn, ttend_dyn, qtend_dyn
-        real, dimension(ix,il,kx) :: se, rh, qsat
-        real, dimension(ix,il) :: psg, ts, tskin, u0, v0, t0, cloudc, clstr, cltop, prtop
-        real, dimension(ix,il,kx) :: tt_cnv, qt_cnv, tt_lsc, qt_lsc, tt_rsw, tt_rlw, ut_pbl, vt_pbl,&
+        complex(p), dimension(mx,nx) :: ucos, vcos
+        real(p), dimension(ix,il) :: pslg, rps, gse
+        real(p), dimension(ix,il,kx) :: ug, vg, tg, qg, phig, utend_dyn, vtend_dyn, ttend_dyn, qtend_dyn
+        real(p), dimension(ix,il,kx) :: se, rh, qsat
+        real(p), dimension(ix,il) :: psg, ts, tskin, u0, v0, t0, cloudc, clstr, cltop, prtop
+        real(p), dimension(ix,il,kx) :: tt_cnv, qt_cnv, tt_lsc, qt_lsc, tt_rsw, tt_rlw, ut_pbl, vt_pbl,&
             & tt_pbl, qt_pbl
         integer :: iptop(ix,il), icltop(ix,il,2), icnv(ix,il), i, j, k
-        real :: sppt_pattern(ix,il,kx)
+        real(p) :: sppt_pattern(ix,il,kx)
 
         ! Keep a copy of the original (dynamics only) tendencies
         utend_dyn = utend

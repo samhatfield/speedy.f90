@@ -2,6 +2,7 @@
 !  date: 08/05/2019
 !  For performing input and output.
 module input_output
+    use types, only: p, sp
     use netcdf
     use params
 
@@ -24,8 +25,8 @@ contains
         character(len=*), intent(in) :: field_name !! The field to read
 
         integer :: ncid, varid
-        real(4), dimension(ix,il) :: raw_input
-        real, dimension(ix,il) :: field
+        real(sp), dimension(ix,il) :: raw_input
+        real(p), dimension(ix,il)  :: field
 
         ! Open boundary file, read variable and then close
         call check(nf90_open(file_name, nf90_nowrite, ncid))
@@ -46,8 +47,8 @@ contains
         integer, intent(in)          :: month      !! The month to read
 
         integer :: ncid, varid
-        real(4), dimension(ix,il,12) :: raw_input
-        real, dimension(ix,il) :: field
+        real(sp), dimension(ix,il,12) :: raw_input
+        real(p), dimension(ix,il)     :: field
 
         ! Open boundary file, read variable and then close
         call check(nf90_open(file_name, nf90_nowrite, ncid))
@@ -76,8 +77,8 @@ contains
                                                    !! months
 
         integer :: ncid, varid
-        real(4), dimension(ix,il,length) :: raw_input
-        real, dimension(ix,il) :: field
+        real(sp), dimension(ix,il,length) :: raw_input
+        real(p), dimension(ix,il)         :: field
 
         ! Open boundary file, read variable and then close
         call check(nf90_open(file_name, nf90_nowrite, ncid))
@@ -98,18 +99,18 @@ contains
         use spectral, only: spec_to_grid, uvspec
 
         integer, intent(in) :: timestep           !! The time step that is being written
-        complex, intent(in) :: vor(mx,nx,kx,2)    !! Vorticity
-        complex, intent(in) :: div(mx,nx,kx,2)    !! Divergence
-        complex, intent(in) :: t(mx,nx,kx,2)      !! Temperature
-        complex, intent(in) :: ps(mx,nx,2)        !! log(normalized surface pressure)
-        complex, intent(in) :: tr(mx,nx,kx,2,ntr) !! Tracers
-        complex, intent(in) :: phi(mx,nx,kx)      !! Geopotential
+        complex(p), intent(in) :: vor(mx,nx,kx,2)    !! Vorticity
+        complex(p), intent(in) :: div(mx,nx,kx,2)    !! Divergence
+        complex(p), intent(in) :: t(mx,nx,kx,2)      !! Temperature
+        complex(p), intent(in) :: ps(mx,nx,2)        !! log(normalized surface pressure)
+        complex(p), intent(in) :: tr(mx,nx,kx,2,ntr) !! Tracers
+        complex(p), intent(in) :: phi(mx,nx,kx)      !! Geopotential
 
-        complex, dimension(mx,nx) :: ucos, vcos
-        real, dimension(ix,il,kx) :: u_grid, v_grid, t_grid, q_grid, phi_grid
-        real, dimension(ix,il) :: ps_grid
-        real(4), dimension(ix,il,kx) :: u_out, v_out, t_out, q_out, phi_out
-        real(4), dimension(ix,il) :: ps_out
+        complex(p), dimension(mx,nx)     :: ucos, vcos
+        real(p), dimension(ix,il,kx)  :: u_grid, v_grid, t_grid, q_grid, phi_grid
+        real(p), dimension(ix,il)     :: ps_grid
+        real(sp), dimension(ix,il,kx) :: u_out, v_out, t_out, q_out, phi_out
+        real(sp), dimension(ix,il)    :: ps_out
         character(len=15) :: file_name = 'yyyymmddhhmm.nc'
         character(len=32) :: time_template = 'hours since yyyy-mm-dd hh:mm:0.0'
         integer :: k, ncid
@@ -174,7 +175,7 @@ contains
         call check(nf90_enddef(ncid))
 
         ! Write dimensions to file
-        call check(nf90_put_var(ncid, timevar, timestep*24.0/real(nsteps,4),               (/ 1 /)))
+        call check(nf90_put_var(ncid, timevar, timestep*24.0/real(nsteps,sp),               (/ 1 /)))
         call check(nf90_put_var(ncid, lonvar, (/ (3.75*k, k = 0, ix-1) /),                 (/ 1 /)))
         call check(nf90_put_var(ncid, latvar, (/ (radang(k)*90.0/asin(1.0), k = 1, il) /), (/ 1 /)))
         call check(nf90_put_var(ncid, levvar, (/ (fsg(k), k = 1, 8) /),                    (/ 1 /)))
@@ -197,12 +198,12 @@ contains
             & model_datetime%hour,'/',model_datetime%minute
 
         ! Preprocess output variables
-        u_out = real(u_grid, 4)
-        v_out = real(v_grid, 4)
-        t_out = real(t_grid, 4)
-        q_out = real(q_grid*1.0e-3, 4) ! kg/kg
-        phi_out = real(phi_grid/grav, 4)   ! m
-        ps_out = real(p0*exp(ps_grid), 4)! Pa
+        u_out = real(u_grid, sp)
+        v_out = real(v_grid, sp)
+        t_out = real(t_grid, sp)
+        q_out = real(q_grid*1.0e-3, sp) ! kg/kg
+        phi_out = real(phi_grid/grav, sp)   ! m
+        ps_out = real(p0*exp(ps_grid), sp)! Pa
 
         ! Write prognostic variables to file
         call check(nf90_put_var(ncid, uvar, u_out, (/ 1, 1, 1, 1 /)))
