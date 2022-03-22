@@ -39,6 +39,7 @@ contains
         use diagnostics, only: check_diagnostics
         use spectral, only: grid_to_spec, trunct
         use input_output, only: output
+        use geopotential, only: get_geopotential
 
         complex(p) :: surfs(mx,nx)
         real(p) :: surfg(ix,il)
@@ -117,6 +118,9 @@ contains
 
         ! Print diagnostics from initial conditions
         call check_diagnostics(vor(:,:,:,1), div(:,:,:,1), t(:,:,:,1), 0)
+
+        ! Geopotential is just a diagnostic variable so we need to compute it here
+        phi = get_geopotential(t, phis)
 
         ! Write initial data
         call output(0, vor, div, t, ps, tr, phi)
