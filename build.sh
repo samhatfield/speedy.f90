@@ -31,9 +31,9 @@ cp $SRC/$MAKEFILE .
 $MAKE -f $MAKEFILE -s clean
 echo 'Compiling SPEEDY'
 if [ "$1" = "--profile" ]; then
-    $MAKE -f $MAKEFILE -s profile || { echo "Compilation failed"; exit 1; }
+    $MAKE -f $MAKEFILE -s -e profile || { echo "Compilation failed"; exit 1; }
 else
-    $MAKE -f $MAKEFILE -s || { echo "Compilation failed"; exit 1; }
+    $MAKE -f $MAKEFILE -s -e || { echo "Compilation failed"; exit 1; }
 fi
 
 rm *.f90 *.o $MAKEFILE *.mod
