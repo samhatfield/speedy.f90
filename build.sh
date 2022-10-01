@@ -28,7 +28,7 @@ cp $SRC/*.f90    .
 cp $SRC/$MAKEFILE .
 
 # Compile SPEEDY and delete source files
-gmake -f $MAKEFILE -s clean
+$MAKE -f $MAKEFILE -s clean
 echo 'Compiling SPEEDY'
 if [ "$1" = "--profile" ]; then
     $MAKE -f $MAKEFILE -s profile || { echo "Compilation failed"; exit 1; }
