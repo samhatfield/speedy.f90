@@ -12,7 +12,7 @@ default : base_target
 profile : base_target
 
 # Base compiler options (always used)
-BASE=-fconvert=swap -Wall
+BASE=-fconvert=swap -Wall -fdefault-real-8
 
 # Optimisation flags (disabled for debugging, profiling etc.)
 OPT=-Ofast
