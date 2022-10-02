@@ -9,7 +9,7 @@ module input_output
     implicit none
 
     private
-    public output, load_boundary_file
+    public output, load_boundary_file, load_init_file
 
     !> Interface for reading boundary files.
     interface load_boundary_file
@@ -90,6 +90,27 @@ contains
         ! Fix undefined values
         where (field <= -999) field = 0.0
     end
+
+    function load_init_file(file_name, field_name) result(field)
+        character(len=*), intent(in) :: file_name  !! The NetCDF file to read from
+        character(len=*), intent(in) :: field_name !! The field to read
+
+        integer :: ncid, varid
+        real(sp), dimension(ix,il,kx) :: raw_input
+        real(p), dimension(ix,il,kx)  :: field
+! debug
+        ! Open boundary file, read variable and then close
+        call check(nf90_open(file_name, nf90_nowrite, ncid))
+        call check(nf90_inq_varid(ncid, field_name, varid))
+        if (trim(adjustl(field_name))/="ps") then
+            call check(nf90_get_var(ncid, varid, raw_input, start = (/ 1, 1, 1 /), count =  (/ ix, il, kx /)))
+            field(:,:,:) = raw_input(:,:,:)
+        else
+            call check(nf90_get_var(ncid, varid, raw_input(:,:,1), start = (/ 1, 1 /), count =  (/ ix, il /)))
+            field(:,:,1) = raw_input(:,:,1)
+        end if
+        call check(nf90_close(ncid))
+    end function
 
     !> Writes a snapshot of all prognostic variables to a NetCDF file.
     subroutine output(timestep, vor, div, t, ps, tr, phi)
