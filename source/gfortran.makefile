@@ -12,10 +12,13 @@ default : base_target
 profile : base_target
 
 # Base compiler options (always used)
-BASE=-fconvert=swap -Wall -fdefault-real-8
+BASE=-fconvert=swap -Wall -fdefault-real-8 -fmax-stack-var-size=524280
 
 # Optimisation flags (disabled for debugging, profiling etc.)
 OPT=-Ofast
+
+# Options for old source
+STD=-std=legacy
 
 # # Location of NetCDF module (netcdf.mod)
 INC=-I$(NETCDF)/include
@@ -64,6 +67,9 @@ FILES= \
 
 %.o: %.f90
 	$(FC) $(COMPOPTS) -c $< $(INC)
+
+fftpack.o : fftpack.f90
+	$(FC) $(COMPOPTS) $(STD) -c $< $(INC)
 
 base_target: $(FILES) speedy.o
 	$(FC) $(COMPOPTS) $(FILES) speedy.o -o speedy $(LIB)
