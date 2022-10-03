@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Define directory names
 ROOT=`pwd`

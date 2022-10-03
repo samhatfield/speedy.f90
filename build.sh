@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Check that NetCDF variable is set
 if [ -z "$NETCDF" ]; then
@@ -7,8 +7,11 @@ if [ -z "$NETCDF" ]; then
     exit 1
 fi
 
+#
+MAKE=$(uname -a | awk '$1~"BSD"{print "g"}')make
+
 # Name of makefile
-MAKE=gfortran.makefile
+MAKEFILE=gfortran.makefile
 
 # Define directory names
 ROOT=`pwd`
@@ -22,15 +25,15 @@ cd $BIN
 
 # Copy source files
 cp $SRC/*.f90    .
-cp $SRC/$MAKE .
+cp $SRC/$MAKEFILE .
 
 # Compile SPEEDY and delete source files
-make -f $MAKE -s clean
+$MAKE -f $MAKEFILE -s clean
 echo 'Compiling SPEEDY'
 if [ "$1" = "--profile" ]; then
-    make -f $MAKE -s profile || { echo "Compilation failed"; exit 1; }
+    $MAKE -f $MAKEFILE -s -e profile || { echo "Compilation failed"; exit 1; }
 else
-    make -f $MAKE -s || { echo "Compilation failed"; exit 1; }
+    $MAKE -f $MAKEFILE -s -e || { echo "Compilation failed"; exit 1; }
 fi
 
-rm *.f90 *.o $MAKE *.mod
+rm *.f90 *.o $MAKEFILE *.mod

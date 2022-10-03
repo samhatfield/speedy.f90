@@ -23,11 +23,19 @@ module prognostics
     complex(p) :: phi(mx,nx,kx) !! Atmospheric geopotential
     complex(p) :: phis(mx,nx)   !! Surface geopotential
 
+    character(len=*), parameter :: initfile = "init.nc" !! Restart file
+
 contains
     !> Initializes all spectral variables starting from either a reference
     !  atmosphere or a restart file.
     subroutine initialize_prognostics
-        call initialize_from_rest_state
+        logical :: init_file_exists
+        inquire(file=initfile, exist=init_file_exists)
+        if (init_file_exists) then
+            call initialize_from_file
+        else
+            call initialize_from_rest_state
+        end if
     end subroutine
 
     !> Initializes all spectral variables starting from a reference atmosphere.
@@ -114,6 +122,74 @@ contains
         ! Specific humidity at tropospheric levels
         do k = 3, kx
             tr(:,:,k,1,1) = surfs*fsg(k)**qexp
+        end do
+
+        ! Print diagnostics from initial conditions
+        call check_diagnostics(vor(:,:,:,1), div(:,:,:,1), t(:,:,:,1), 0)
+
+        ! Geopotential is just a diagnostic variable so we need to compute it here
+        phi = get_geopotential(t, phis)
+
+        ! Write initial data
+        call output(0, vor, div, t, ps, tr, phi)
+    end subroutine
+
+    !> Initializes all spectral variables from a file.
+    subroutine initialize_from_file
+        use input_output, only: load_init_file
+        use physical_constants, only: p0
+        use boundaries, only: phis0
+        use diagnostics, only: check_diagnostics
+        use spectral, only: grid_to_spec, trunct, vds
+        use geometry, only: coa
+        use input_output, only: output
+        use geopotential, only: get_geopotential
+
+        complex(p), dimension(mx,nx) :: ucosm, vcosm
+        real(p), dimension(ix,il,kx) :: u_grid, v_grid, s_grid
+        integer :: j, k
+
+        ! 1. Compute spectral surface geopotential
+        phis = grid_to_spec(phis0)
+
+        ! 2. Start from init.nc
+        write (*,'(A)') 'Starting from file'
+
+        ! 2.1 Set vorticity, divergence
+        vor(:,:,:,1) = (0.0, 0.0)
+        div(:,:,:,1) = (0.0, 0.0)
+        tr(:,:,:,1,:) = (0.0, 0.0)
+
+        u_grid = load_init_file(initfile, "u")
+        v_grid = load_init_file(initfile, "v")
+
+        do j = 1, il
+            u_grid(:,j,:) = u_grid(:,j,:) * coa(j)
+            v_grid(:,j,:) = v_grid(:,j,:) * coa(j)
+        end do
+        do k = 1, kx
+            ucosm(:,:) = grid_to_spec(u_grid(:,:,k))
+            vcosm(:,:) = grid_to_spec(v_grid(:,:,k))
+            call vds(ucosm(:,:),vcosm(:,:),vor(:,:,k,1),div(:,:,k,1))
+        end do
+
+        ! 2.2 Set temperature :
+        t(:,:,:,1) = (0.0, 0.0)
+        s_grid = load_init_file(initfile, "t")
+        do k = 1, kx
+            t(:,:,k,1) = grid_to_spec(s_grid(:,:,k))
+        end do
+
+        ! 2.3 Set log(ps)
+        s_grid = load_init_file(initfile, "ps")
+        ps(:,:,1) = grid_to_spec(log(s_grid(:,:,1)/p0))
+        if (ix == iy*4) call trunct(ps)
+
+        ! 2.4 Set specific humidity in g/kg
+        ! Specific humidity
+        s_grid = load_init_file(initfile, "q")
+        do k = 1, kx
+            tr(:,:,k,1,1) = grid_to_spec(s_grid(:,:,k) * 1.0e3)
         end do
 
         ! Print diagnostics from initial conditions
